@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+        #btnHldr{
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        span.sup{
+            vertical-align: super;
+            font-size:70%;
+        }
+        div.exprContnr input{
+            width:20px!important;
+        }
+        #opt2, #opt3{
+            display:none;
+        }
+        #opt2{
+            width:127px;
+        }
+        #dvAnswer{
+            border-width:2px;
+            border-style:solid;
+            border-color:black;
+            border-radius: 5px;
+            width:170px;
+            height:30px;
+        }
+
+        div#customExprModal div.btn-toolbar, div#customExprModal gm-keyboard{
+            display:none !important;
+        }
+
+        /*#customExprModal div.modal-content{
+            width: 90%;
+        }*/
+
+        div.exprContnr input{
+            display:inline-block;
+            width:50px !important;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour-standalone.min.js"></script>
+    <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
+</head>
+<title>Happy Math</title>
+<script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
+
+<body class="container">
+<div>
+    <h1>Happy Math<h1>
+        <h4>Solve as many equations as you can before time runs out</h4>
+
+        <div id='gm-div' style="margin: 20px; height: 400px"></div>
+        <div id="equation" padding = "50px 50px 50px 50px"></div>
+
+
+        <form action="#" method="post">
+            Minutes: <input type="text" id="mns" name="mns" value="0" size="3" maxlength="3" /> &nbsp; &nbsp; Seconds: <input type="text" id="scs" name="scs" value="0" size="2" maxlength="2" /><br/>
+            <p id="btnHldr">
+                <input type="button" class="btn btn-primary" id="btnct" value="START" />
+                <input type="button" class="btn btn-info" id="btnCustomExpr" data-toggle="modal" data-target="#customExprModal" value="Custom Expression"></input>
+            </p>
+        </form>
+        Countdown Timer: &nbsp; <span id="showmns">00</span>:<span id="showscs">00</span>
+
+
+
+
+
+        <!--
+        <label id="timeLeft">Timer about to start...</label><br>
+        -->
+        <br/><label for="score" id="totalScore">Total Score : 0</label>
+        <div id = "history"></div>
+        <script>
+            var canvas;
+            var expectedValue = 1;
+            var totalScore = 0;
+            var eqList = new Array();
+            var eqHistory = {};
+            var pastEq = "";
+            var checkPause = -1; // if -1 pause the script
+            /*var seconds_left = 15;*/
+            var min = 1;
+            var sec = 15;
+			
+			//var gameStatus = 0;
+            loadGM(initCanvas, { version: '0.12.6' });
+            function initCanvas() {
+                canvas = new gmath.Canvas('#gm-div', {use_toolbar: false, vertical_scroll: false });
+                canvas2 = new gmath.Canvas('#gm-div2');
+                //canvas.model.createElement('derivation', { eq: '2x+1=3', pos: { x: 'center', y: 50 }});
+                /*
+                 generateRandomExp();
+                 /*startTimer();*/
+                canvas.model.on('el_changed', function(evt) {
+                    //console.log(evt.last_eq);
+                    eqHistory[pastEq].push(evt.last_eq);
+                    if (evt.last_eq.startsWith("x="+expectedValue))
+                    {
+                        totalScore += 10;
+                        eqList.push(pastEq);
+                        canvas.showHint('Success :)' + totalScore);
+                        generateRandomExp();
+                        var scoreLabel = document.getElementById("totalScore");
+                        scoreLabel.innerHTML = "Total Score : "+totalScore;
+                    }
+
+                });
+            }
+
+            function generateRandomExp(){
+                //create random constants for equation
+                a = Math.floor((Math.random() * 10) + 1);
+                b = Math.floor((Math.random() * 10) + 1);
+                c = Math.floor((Math.random() * 10) + 1);
+
+                str = ""
+                eq1 = str+a+"x+"+b+"="+c
+
+                //clear canvas
+                while(canvas.model.elements().length > 0){
+                    canvas.model.removeElement(canvas.model.elements()[0]);
+                }
+
+                expectedValue = ((c - b) / a);
+                expectedValue = Math.round(expectedValue * 1000) / 1000;
+                //console.log ("Next Eq : "+eq1+" Expected Result : " +expectedValue);
+
+                //place new equation on canvas
+                canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
+                pastEq = eq1;
+                eqHistory[pastEq]=[];
+            }
+            $(function () {
+                // Instance the tour
+                var tour = new Tour({
+                    name: 'TourOne',
+                    steps: [
+                        {
+                            element: "#gm-div",
+                            title: "Equation",
+                            smartPlacement: true,
+                            backdrop: true,
+                            content: "This is your equation which you have to solve"
+                        },
+                        {
+                            element: "#btnct",
+                            title: "start",
+                            smartPlacement: true,
+                            backdrop: true,
+                            content: "Click here to start, pause and resume"
+                        },
+                        {
+                            element: "#btnCustomExpr",
+                            title: "Custom Expression Evaluator",
+                            smartPlacement: true,
+                            backdrop: true,
+                            content: "Click here to build and solve your own expressions"
+                        },
+                        {
+                            element: "#timeLeft",
+                            title: "Timer",
+                            smartPlacement: true,
+                            backdrop: true,
+                            content: "Timer for the Game"
+                        },
+                        {
+                            element: "#totalScore",
+                            title: "Game Score",
+                            smartPlacement: true,
+                            backdrop: true,
+                            content: "Your Game Score will be displayed here"
+                        }
+                    ]
+                });
+                // Initialize the tour
+                tour.init();
+                // Start the tour
+                tour.restart();
+            });
+
+
+            var optChosen = "1";
+            function loadExprFormat(e){
+                var dvAns = document.getElementById("dvAnswer");
+                dvAns.innerHTML = " ";
+                var opt1 = document.getElementById("opt1");
+                var opt2 = document.getElementById("opt2");
+                var opt3 = document.getElementById("opt3");
+                switch(e.value){
+                    case "1": opt1.style.display="block";
+                        opt2.style.display="none";
+                        opt3.style.display="none";
+                        break;
+                    case "2": opt1.style.display="none";
+                        opt2.style.display="block";
+                        opt3.style.display="none";
+                        break;
+                    case "3": opt1.style.display="none";
+                        opt2.style.display="none";
+                        opt3.style.display="block";
+                        break;
+                }
+                optChosen = e.value;
+            }
+            function calculate(){
+                //alert("in calculate");
+                var dvAns = document.getElementById("dvAnswer");
+                var x1 = 0, x2 = 0;
+                var finalString1 = "", finalString2 = "";
+                //alert(optChosen);
+                switch(optChosen){
+                    case "2":
+                        var a = document.getElementById("opt2inp1").value;
+                        var b = document.getElementById("opt2inp2").value;
+                        x1 = (a+b) * (a+b);
+                        finalString1 = x1+"";
+                        break;
+                    case "3":
+                        var a = document.getElementById("opt3inp1").value;
+                        var b = document.getElementById("opt3inp2").value;
+                        x1 = (a+b) * (a+b) * (a+b);
+                        finalString1 = x1+"";
+                        break;
+                    case "":
+                    case "0":
+                    case "1":
+                    default:
+                        var a = document.getElementById("opt1inp1").value;
+                        var b = document.getElementById("opt1inp2").value;
+                        var c = document.getElementById("opt1inp3").value;
+                        x1 = (c-b)/a;
+                        break;
+                }
+                dvAns.innerHTML = x1;
+            }
+            function addToCanvas(){
+                switch(optChosen){
+                    case "3":
+                        var a = document.getElementById("opt3inp1").value;
+                        var b = document.getElementById("opt3inp2").value;
+                        finalString1 = ""+a+"^3"+"3*"+a+"^2*3+"+a+"*"+b+"^2+"+b+"^3";
+                        finalString2 = "("+a+"+"+b+")^3";
+                        break;
+                    case "2":
+                        var a = document.getElementById("opt2inp1").value;
+                        var b = document.getElementById("opt2inp2").value;
+                        finalString1 = ""+a+"^2+2*"+a+"*"+b+"+"+b+"^2";
+                        finalString2 = "("+a+"+"+b+")^2";
+                        break;
+                    case "":
+                    case "0":
+                    case "1":
+                    default:
+                        var a = document.getElementById("opt1inp1").value;
+                        var b = document.getElementById("opt1inp2").value;
+                        var c = document.getElementById("opt1inp3").value;
+                        x1 = (c-b)/a;
+                        finalString1 = ""+a+"x+"+b+"="+c;
+                        finalString2 = "";
+                        break;
+                }
+                canvas2.model.reset();
+                canvas2.model.createElement('derivation', { eq: finalString1, pos: { x: 'center', y: 50 } });
+                canvas2.model.createElement('derivation', { eq: finalString2, pos: { x: 'center', y: 150 } });
+                //console.log("Added to canvas2");
+            }
+        </script>
+
+        <script>
+            /*// <![CDATA[*/
+            function MainTimer(obnm){
+                // http://coursesweb.net/javascript/
+                
+                var minutes =0;  // minutes
+                var seconds =0;  // seconds
+                var startchr =0;  // used to control when to read data from form, and script finished
+				
+				var isGameStarted = false;
+				var isGameRunning = false;
+
+                //get html elms.
+                var el_showmns = document.getElementById('showmns');
+                var el_showscs = document.getElementById('showscs');
+                var el_mns = document.getElementById('mns');
+                var el_scs = document.getElementById('scs');
+                var el_btnct = document.getElementById('btnct');
+                /*var el_btnct_res = document.getElementById('btnct_res');
+                 var el_btnct_end = document.getElementById('btnct_end');*/
+                //to start/pause/resume Countdown Timer
+                function startPauseCT(){
+                    if(parseInt(el_mns.value) >0 || parseInt(el_scs.value)>0 ){
+                       
+                        if(!isGameStarted && !isGameRunning){ //Start and set next click as Pause
+							isGameStarted = true;
+							isGameRunning = true;
+                            document.getElementById("gm-div").style.display = 'block';
+                            el_btnct.value ='PAUSE';
+                            //window[obnm].countdownTimer();
+							setTimeout(obnm +'.countdownTimer()', 1000);
+                            var scoreLabel = document.getElementById("totalScore");
+                            scoreLabel.innerHTML = "Total Score : 0";
+                            generateRandomExp();
+                        }
+                         //happens after clicking pause
+						  else if(isGameStarted && isGameRunning){
+							document.getElementById("gm-div").style.display = 'none';
+							el_btnct.value ='RESUME';
+							isGameStarted = true;
+							isGameRunning = false;
+							
+						  }
+			  
+					  //Game is paused, we need to resume. This happens after clicking resume
+					  else if(isGameStarted && !isGameRunning){
+						
+							document.getElementById("gm-div").style.display = 'block';
+							el_btnct.value ='PAUSE';
+							isGameStarted = true;
+							isGameRunning = true;
+							window[obnm].countdownTimer();
+							
+					  }
+					  else {
+						console.log("Canvas corrupted. Please reload");
+					  
+						
+					}
+                    }
+                }
+                // HERE YOU CAN ADD TO EXECUTE JavaScript instructions WHEN COUNTDOWN TIMER REACHES TO 0
+
+                this.countdownTimer = function(){
+                    // if $startchr is 0, and form fields exists, gets data for minutes and seconds, and sets $startchr to 1
+					
+					
+					
+                    if(startchr == 0 && el_mns && el_scs) {
+                        // makes sure the script uses integer numbers
+                        minutes = parseInt(el_mns.value);
+                        seconds = parseInt(el_scs.value);
+                        // if data not a number, sets the value to 0
+                        if(isNaN(minutes)) minutes = 0;
+                        if(isNaN(seconds)) seconds = 0;
+                        // rewrite data in form fields to be sure that the fields for minutes and seconds contain integer number
+                        el_mns.value = minutes;
+                        el_scs.value = seconds;
+                        startchr = 1;
+                    }
+
+                    if(startchr == 1 && isGameRunning){
+                        // decrease seconds, and decrease minutes if seconds reach to 0
+                        seconds--;
+                        if(seconds < 0){
+                            if(minutes > 0) {
+                                seconds = 59;
+                                minutes--;
+                            }else{
+							
+							    
+                    
+                                minutes = 0;  // minutes
+                                seconds = 0;  // seconds
+
+                                isGameStarted = false;
+								isGameRunning = false;
+				
+								el_btnct.value = 'START'
+								el_mns.value = 0;
+								el_scs.value = 0;
+							
+                                //clear canvas
+                                while(canvas.model.elements().length > 0){
+                                    canvas.model.removeElement(canvas.model.elements()[0]);
+                                }
+
+                                var finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
+                                for(var i = 0 ; i < eqList.length ; i++){
+                                    //console.log("Past Eq : "+eqList[i]);
+                                    finishText += eqList[i] + "<br />";
+                                }
+                                /*finishText += "Your total score is "+totalScore;*/
+                                $("#totalScore").html(finishText);
+
+                                //add finish image
+                                //canvas.model.createElement('image',{src : 'download.png' });
+                                var historyText="This is the order of steps in which equations were solved.<br />";
+                                for(var equ in eqHistory){
+                                    if(eqHistory[equ].length>0){
+                                        historyText += "<strong>"+equ +"</strong><br >"
+                                        for(var k = 0; k < eqHistory[equ].length; k++)
+                                            historyText +=  eqHistory[equ][k]+ "<br />";
+                                    }
+                                }
+                                $("#history").html(historyText);
+                            }
+                        }
+                        setTimeout(obnm +'.countdownTimer()', 1000); //auto-calls this function after 1 seccond
+                        // display the time in page
+                        el_showmns.innerHTML = minutes;
+                        el_showscs.innerHTML = seconds;
+                    }
+
+                }
+                //set event to button that starts the Countdown Timer
+                if(el_btnct) el_btnct.addEventListener('click', startPauseCT);
+                
+            }
+            //set object of CountdownTimer class
+            var obCT = new MainTimer('obCT');
+           
+        </script>
+
+        <div class="container">
+            <!-- Modal -->
+            <div class="modal fade" id="customExprModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Custom Expression Evaluator</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id='gm-div2' style="margin: 20px; height: 400px"></div>
+                            <p>Choose expression and enter numeric values using the options below to find x:</p>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <select id="slctEqtin" class="selectpicker pull-right  form-control" onchange="loadExprFormat(this);">
+                                            <option value="1">ax+b=c</option>
+                                            <option value="2">(a+b)<span class="sup">2</span></option>
+                                            <option value="3">(a+b)<span class="sup">3</span></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 exprContnr">
+                                        <!--			<div class="exprContnr">-->
+                                        <div id="opt1"><span><input id="opt1inp1" type="text" class="form-control">x+<input id="opt1inp2" type="text" class="form-control"></input>=<input id="opt1inp3" type="text" class="form-control"></input></span></div>
+                                        <div id="opt2"><span>(<input id="opt2inp1" type="text" class="form-control"></input>+<input id="opt2inp2" type="text" class="form-control"></input>)<span class="sup">2</span></span></div>
+                                        <div id="opt3"><span>(<input id="opt3inp1" type="text" class="form-control"></input>+<input id="opt3inp2" type="text" class="form-control"></input>)<span class="sup">3</span></span></div>
+                                        <!--			</div>-->
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <button class="btn btn-default pull-left"  onclick="addToCanvas();">Add to canvas</button>
+                                        <button class="btn btn-default pull-right"  onclick="calculate();">Calculate</button>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div id="dvAnswer" class="pull-left"></div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label id="timeLeft"></label><br/>
+            <label id="score"></label>
+        </div>
+</body>
+</html>
