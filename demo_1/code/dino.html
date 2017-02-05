@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <title>Save Dino Eggs</title>
+  <style type="text/css">
+  /*body{
+    height:480px;
+  }*/
+  
+  div#dvGMCanvas{
+    float:left;
+    width:30%;
+  }
+
+  div#dvGame{
+    width:70%;
+    float:right;
+    border:1px solid black;
+  }
+  </style>
+  <script type="text/javascript">
+      //create new element of the type specified with additional params
+      //example: var newDiv = newElem("div", "")
+      function newElem(eType, expr) {
+          var element = document.createElement(eType);
+          element.appendChild(document.createTextNode(expr));
+          return element;
+      }
+      
+      // global array to hold all rocks
+      var rocks = [];
+      
+      function newRock(equation){
+         return newElem("div", equation);
+      }
+    
+      function AddRock(){
+        var equation = "1+2";
+        var newRockDiv = newRock(equation);
+        
+        jQuery.data(newRockdiv, "_rock", {
+          type: rock,
+          ttl: 10
+        });
+        $("#dvGame").text( jQuery.data(newRockdiv, "_rock" ).type);
+        
+        rocks.push(rock);
+      }
+
+  </script>
+  
+</head>
+<body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+<div class="row">
+    <div id="dvGMCanvas" class="col-xs-6">
+      <button id="javascript:AddRock();">Add Rock</button>
+    </div>
+    <div id="dvGame" class="col-xs-6"></div>
+</div>  
+
+<div >
+  
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
