@@ -1,89 +1,225 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<style>
-canvas {
-    border: 1px solid #d3d3d3;
-    background-color: #f1f1f1;
-}
-</style>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Save Dino Eggs</title>
+	<style type="text/css">
+		/*body{
+			height:480px;
+		}*/
+		canvas {
+			border: 1px solid #d3d3d3;
+			background-color: #f1f1f1;
+		}
+		div#dvGMCanvas{
+			float:left;
+			width:30%;
+		}
+
+		div#dvGame{
+			width:70%;
+			float:right;
+			border:1px solid black;
+		}
+	</style>  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript">
+		var iteration = 0;
+		var isGameStarted = false;
+		var _y = 150;
+		var g_timeout = 200;
+		var g_eggs = [];  // global array to hold all eggs
+		var g_rocks = [];	// global array to hold all rocks -- for future use, not required at present
+		var g_levelNum = new RegExp('[\?&]lvl=([^]*)').exec(window.location.href);
+
+		var locations = [];
+
+		if (g_levelNum==null){
+			g_levelNum = 1;
+		}
+
+		function updateGameArea() {
+			myGameArea.clear();
+			
+			for(var i=0; i<g_eggs.length; i++){
+				g_eggs[i].paint();
+			}
+
+			for(var i=0; i<g_rocks.length; i++){
+				g_rocks[i].y += 2.5;
+				g_rocks[i].update();
+				g_rocks[i].hitBottom();
+			}
+		}
+
+		var myGameArea = {
+			canvas : document.createElement("canvas"),
+			start : function() {
+				this.canvas.width = 960;
+				this.canvas.height = 540;
+				this.context = this.canvas.getContext("2d");
+				//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+				$("#dvGame").append(this.canvas);
+				this.interval = setInterval(updateGameArea, 20);
+			},
+			clear : function() {
+				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			}
+		}
+
+		function rock(width, height, color, x, y) {
+			this.width = width;
+			this.height = height;
+			this.x = x;
+			this.y = y;    
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+
+			this.update = function(){
+				ctx = myGameArea.context;
+				ctx.fillStyle = color;
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+			}
+
+			var rockbottom = myGameArea.canvas.height - this.height;
+			this.hitBottom = function() {
+				var rockbottom = myGameArea.canvas.height - this.height;
+				if (this.y > rockbottom) {
+					this.y = rockbottom;
+					//this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+				}
+			}
+		}
+
+
+		function dino(width, height, color, x, y) {
+			this.width = width;
+			this.height = height;
+			this.x = x;
+			this.y = y;    
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+
+			this.move = function(newX, newY){
+				ctx = myGameArea.context;
+				ctx.fillStyle = color;
+				var nextPos = getNextPos();
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+			}
+
+			
+			this.hitBottom = function() {
+				var rockbottom = myGameArea.canvas.height - this.height;
+				if (this.y > rockbottom) {
+					this.y = rockbottom;
+					//this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+				}
+			}
+		}
+
+
+		function egg(width, height, color, x, y) {
+			this.width = width;
+			this.height = height;
+			this.x = x;
+			this.y = y;    
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+
+			this.paint = function(){
+				ctx = myGameArea.context;
+				ctx.fillStyle = color;
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+			};
+		}
+
+		function dinoLocation(_x, _y) {
+			this.width = 20;
+			this.height = 20;
+			this.x = _x;
+			this.y = _y;    
+			
+			this.paint = function(){
+				ctx = myGameArea.context;
+				ctx.fillStyle = "blue";
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+			}
+		}
+
+		function setDinoLocations(numLoc){
+			/*var gameDim = myGameArea.getBoundingClientRect();
+			var maxTop = (gameDim.bottom-gameDim.top)/2;
+			var maxLeft = (gameDim.right-gameDim.left)/2;
+
+			for(var i=0;i<numLoc-1;i++){
+
+			}*/
+
+		}
+
+		function CreateEggs(numEggs){
+			var colors = ["red", "green", "blue"];
+			var w = 100, h = 50, x = 50, y = 490;
+			for(var i=0; i<numEggs; i++){
+				var _egg = new egg(w, h, colors[i%numEggs], x, y);
+				x = x+200;
+				g_eggs.push(_egg);
+			}
+		}
+
+		function AddRock(rockType, _x, _y){
+			var w = 100, h = 50, c = "";
+			switch(rockType){
+				case "normal": c = "gray"; break;
+				case "urgent": c = "red"; break;
+			}
+
+			var _rock = new rock(w,h,c,_x,_y);//width, height, color, x and y coordinates
+			g_rocks.push(_rock);
+			//alert(g_rocks);
+		}
+
+		function CreateRocks(numRocks){
+			var _y = 200, _x = 50;
+			for(var i=0; i<numRocks; i++){
+				AddRock("normal",_x, _y);
+				_x = _x+200;
+			}
+		}
+
+		function startGame() {
+			if(isGameStarted == false){
+				myGameArea.start();
+				isGameStarted = true;
+			}
+			
+			g_eggs = [];
+			g_rocks = [];
+			//setup board
+			CreateEggs(3);
+			
+			setDinoLocations(g_levelNum+1);
+			CreateRocks(g_levelNum+2);
+			setInterval(function(){
+				while(g_eggs && g_timeout>0){
+					g_timeout--;
+					_y += 100;
+				}
+			}, 300);
+		}
+	</script>
 </head>
-<body onload="startGame()">
-<script>
-
-function startGame() {
-    myGameArea.start();
-    rock1 = new component(100, 50, "grey", 50, 120);
-    rock2 = new component(100, 50, "grey", 250, 120);
-    rock3 = new component(100, 50, "grey", 450, 120);
-
-    egg1 = new component(100, 50, "red", 50, 490);
-    egg2 = new component(100, 50, "green", 250, 490);
-    egg3 = new component(100, 50, "blue", 450, 490);
-
-}
-
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = 960;
-        this.canvas.height = 540;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-
-        this.interval = setInterval(updateGameArea, 20);
-    },
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-    
-}
-
-function component(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;    
-    ctx = myGameArea.context;
-    ctx.fillStyle = color;
-    this.update = function(){
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-
-  var rockbottom = myGameArea.canvas.height - this.height;
-    this.hitBottom = function() {
-        var rockbottom = myGameArea.canvas.height - this.height;
-        if (this.y > rockbottom) {
-            this.y = rockbottom;
-          //  this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-        }
-    }
-}
-
-function updateGameArea() {
-    myGameArea.clear();
-     rock1.y += 2.5;
-     rock2.y += 2;
-     rock3.y += 2.25;
-
-     rock1.hitBottom();
-     rock2.hitBottom();
-     rock3.hitBottom();
-
-     egg1.update();
-     egg2.update();
-     egg3.update();
-     rock1.update();
-     rock2.update();
-     rock3.update();
-
-}
-</script>
-
-<p>We have created a game area! (or at least an empty canvas)</p>
-
+<body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<div class="row">
+    <div id="dvGMCanvas" class="col-xs-6">
+		<button id = "btnStart" onclick="javascript:startGame();">Start Game</button>
+    </div>
+    <div id="dvGame" class="col-xs-6">
+	</div>
+</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
