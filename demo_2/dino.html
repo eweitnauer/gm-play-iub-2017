@@ -124,11 +124,7 @@
 						    	console.log(rock.x,rock.x + rock.width,rock.y,rock.y + rock.height);
 						        if (y_clicked > rock.y && y_clicked < rock.y + rock.height 
 						            && x_clicked > rock.x && x_clicked < rock.x + rock.width) {
-						        	//clear canvas
-                                	while(canvas.model.elements().length > 0){
-                                    canvas.model.removeElement(canvas.model.elements()[0]);
-                                	}
-						            canvas.model.createElement('derivation', { eq: rock.equation, pos: { x: 'center', y: 50 }});
+						        	createNewExpression(rock);
 						        }
 						    }//); 
 
@@ -300,6 +296,7 @@
             var totalScore = 0;
             var eqList = new Array();
             var eqHistory = {};
+            var eq_details = {};
             var pastEq = "";
             var checkPause = -1; // if -1 pause the script
             /*var seconds_left = 15;*/
@@ -318,17 +315,30 @@
                 canvas.model.on('el_changed', function(evt) {
                     //console.log(evt.last_eq);
                     eqHistory[pastEq].push(evt.last_eq);
-                    if (evt.last_eq.startsWith("x="+expectedValue))
+                    console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+                    if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
                     {
                         totalScore += 10;
                         eqList.push(pastEq);
                         canvas.showHint('Success :)' + totalScore);
-                        generateRandomExp();
+                        //generateRandomExp();
                         var scoreLabel = document.getElementById("totalScore");
                         scoreLabel.innerHTML = "Total Score : "+totalScore;
+                        clearGMCanvas();
                     }
 
                 });
+            }
+            function clearGMCanvas(){
+            	//clear canvas
+            	console.log("clearing canvas");
+            	while(canvas.model.elements().length > 0){
+                	canvas.model.removeElement(canvas.model.elements()[0]);
+            	}
+            }
+            function createNewExpression(rock){
+            	clearGMCanvas();
+				canvas.model.createElement('derivation', { eq: rock.equation, pos: { x: 'center', y: 50 }});
             }
 
             function generateRandomExp(){
@@ -341,9 +351,9 @@
                 eq1 = str+a+"x+"+b+"="+c
 
                 //clear canvas
-                while(canvas.model.elements().length > 0){
-                    canvas.model.removeElement(canvas.model.elements()[0]);
-                }
+                //while(canvas.model.elements().length > 0){
+                //    canvas.model.removeElement(canvas.model.elements()[0]);
+                //}
 
                 expectedValue = ((c - b) / a);
                 expectedValue = Math.round(expectedValue * 1000) / 1000;
@@ -353,6 +363,7 @@
                 //canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
                 pastEq = eq1;
                 eqHistory[pastEq]=[];
+                eq_details[eq1]=expectedValue;
                 return eq1;
             }
             $(function () {
