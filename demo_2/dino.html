@@ -400,7 +400,7 @@
                     if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
                     {
                         totalScore += 10;
-                        eqList.push(pastEq);
+                        eqList.push(g_rocks[current_rock_id].equation);
                         canvas.showHint('Success :)' + totalScore);
                         //generateRandomExp();
                         var scoreLabel = document.getElementById("totalScore");
