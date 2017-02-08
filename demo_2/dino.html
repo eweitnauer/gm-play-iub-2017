@@ -109,7 +109,34 @@
 				this.context = this.canvas.getContext("2d");
 				//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 				$("#dvGame").append(this.canvas);
-				this.interval = setInterval(updateGameArea, 20);
+
+				// Add event listener for `click` events.
+				this.canvas.addEventListener('click', function(event) {
+					var x_clicked =  event.pageX - document.getElementById("dvGame").getBoundingClientRect().left - this.offsetLeft;
+					var y_clicked = event.pageY - this.offsetTop;
+					    // Collision detection between clicked offset and element.
+					    	console.log("check each rock");
+						    //g_rocks.forEach(function(rock) {
+						    for(var i=0;i<g_rocks.length;i++){
+						    	var rock = g_rocks[i];
+						    	console.log(event.pageX,event.pageY);
+						    	console.log(x_clicked,y_clicked);
+						    	console.log(rock.x,rock.x + rock.width,rock.y,rock.y + rock.height);
+						        if (y_clicked > rock.y && y_clicked < rock.y + rock.height 
+						            && x_clicked > rock.x && x_clicked < rock.x + rock.width) {
+						        	//clear canvas
+                                	while(canvas.model.elements().length > 0){
+                                    canvas.model.removeElement(canvas.model.elements()[0]);
+                                	}
+						            canvas.model.createElement('derivation', { eq: rock.equation, pos: { x: 'center', y: 50 }});
+						        }
+						    }//); 
+
+					canvas.model.createElement('derivation', { eq: rock, pos: { x: 'center', y: 50 }});
+
+				 }, false);
+
+				this.interval = setInterval(updateGameArea, 100);
 			},
 			clear : function() {
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -120,7 +147,8 @@
 			this.width = width;
 			this.height = height;
 			this.x = x;
-			this.y = y;    
+			this.y = y;
+			this.equation = generateRandomExp();    
 			ctx = myGameArea.context;
 			ctx.fillStyle = color;
 
@@ -128,6 +156,9 @@
 				ctx = myGameArea.context;
 				ctx.fillStyle = color;
 				ctx.fillRect(this.x, this.y, this.width, this.height);
+				ctx.font = "20px Arial";
+				ctx.fillStyle = "black";
+				ctx.fillText(this.equation,this.x+20,this.y+20);
 			}
 
 			var rockbottom = myGameArea.canvas.height - this.height;
@@ -319,9 +350,10 @@
                 //console.log ("Next Eq : "+eq1+" Expected Result : " +expectedValue);
 
                 //place new equation on canvas
-                canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
+                //canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
                 pastEq = eq1;
                 eqHistory[pastEq]=[];
+                return eq1;
             }
             $(function () {
                 // Instance the tour
