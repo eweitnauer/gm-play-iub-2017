@@ -107,10 +107,13 @@
 
       //Display rocks
       if(isGameRunning){
-          g_rocks.forEach(function(_rock){
-				    _rock.y += 2.5;
+          g_rocks.forEach(function(_rock,i){
+          			if(i!=current_rock_id){
+				    	_rock.y += 2.5;
+					}
 				    _rock.update();
 				    _rock.hitBottom();
+
 			    });
       }
       if(g_dinoPos){
@@ -158,7 +161,7 @@
 
 				 }, false);
 
-				this.interval = setInterval(updateGameArea, 100);
+				this.interval = setInterval(updateGameArea, 150);
 			},
 			clear : function() {
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -407,7 +410,7 @@
 						g_dino.move();
 						//remove rock from rocks array
 						g_rocks.splice(current_rock_id,1);
-
+						current_rock_id = null;
                     }
 
                 });
