@@ -5,33 +5,33 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Save Dino Eggs</title>
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour-standalone.min.js"></script>
-	<style type="text/css">
-		/*body{
-			height:480px;
-		}*/
-		canvas {
-			border: 1px solid #d3d3d3;
-			background-color: #f1f1f1;
-		}
-		div#dvGMCanvas{
-			float:left;
-			width:30%;
-		}
+    <style type="text/css">
+        /*body{
+            height:480px;
+        }*/
+        canvas {
+            border: 1px solid #d3d3d3;
+            background-color: #f1f1f1;
+        }
+        div#dvGMCanvas{
+            float:left;
+            width:30%;
+        }
 
-		div#dvGame{
-			width:70%;
-			float:right;
-			border:1px solid black;
-		}
-	</style>  
+        div#dvGame{
+            width:70%;
+            float:right;
+            border:1px solid black;
+        }
+    </style>  
 
-	<style type="text/css">
+    <style type="text/css">
         #btnHldr{
             padding-top:20px;
             padding-bottom:20px;
@@ -71,6 +71,7 @@
             width:50px !important;
         }
     </style>
+
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 	<script type="text/javascript">
 		var iteration = 0;
@@ -94,12 +95,14 @@
 				g_eggs[i].paint();
 			}
 
-			for(var i=0; i<g_rocks.length; i++){
-				g_rocks[i].y += 2.5;
-				g_rocks[i].update();
-				g_rocks[i].hitBottom();
-			}
-		}
+            if(isGameRunning){
+                 for(var i=0; i<g_rocks.length; i++){
+                   g_rocks[i].y += 2.5;
+                   g_rocks[i].update();
+                   g_rocks[i].hitBottom();
+            }
+        }
+        }
 
 		var myGameArea = {
 			canvas : document.createElement("canvas"),
@@ -156,18 +159,35 @@
 				ctx.fillStyle = "black";
 				ctx.fillText(this.equation,this.x+20,this.y+20);
 			}
-
+      var egg_broke = false;
 			var rockbottom = myGameArea.canvas.height - this.height;
 			this.hitBottom = function() {
 				var rockbottom = myGameArea.canvas.height - this.height;
 				if (this.y > rockbottom) {
 					this.y = rockbottom;
+          var xPosition = this.x;
+                    for(var i = 0; i < g_eggs.length; i++){
+                        if(g_eggs[i].x == xPosition){
+                            g_eggs.splice(i, 1);
+                            egg_broke = true;
+                            console.log(g_eggs);
+                        }
+                    }
+                    if(egg_broke)
+                       {
+
+                        addSound('beep2.mp3');
+                        egg_broke = false;
+                       }  
 					//this.gravitySpeed = -(this.gravitySpeed * this.bounce);
 				}
 			}
 		}
 
-
+        function addSound(sound_file){
+            var win = new Audio(sound_file);
+            win.play();
+        }
 		function dino(width, height, color, x, y) {
 			this.width = width;
 			this.height = height;
@@ -256,9 +276,9 @@
 		}
 
 		function CreateRocks(numRocks){
-			var _y = 200, _x = 50;
+			var _y = 200, _x = 50;//_y to y1(liping)
 			for(var i=0; i<numRocks; i++){
-				AddRock("normal",_x, _y);
+				AddRock("normal",_x, _y + (i * 50));
 				_x = _x+200;
 			}
 		}
@@ -280,12 +300,12 @@
 				
 				setDinoLocations(g_levelNum+1);
 				CreateRocks(g_levelNum+2);
-				setInterval(function(){
+				/*setInterval(function(){
 					while(g_eggs && g_timeout>0){
 						g_timeout--;
 						_y += 100;
 					}
-				}, 300);
+				}, 300);*/
 			}
 		}
 	</script>
@@ -302,8 +322,8 @@
             /*var seconds_left = 15;*/
             var min = 1;
             var sec = 15;
-			
-			//var gameStatus = 0;
+            
+            //var gameStatus = 0;
             loadGM(initCanvas, { version: '0.12.6' });
             function initCanvas() {
                 canvas = new gmath.Canvas('#gm-div', {use_toolbar: false, vertical_scroll: false });
@@ -407,7 +427,7 @@
                             content: "Your Game Score will be displayed here"
                         }
                     ]/*,
-					onEnd: function (tour) {startGame();}*/
+                    onEnd: function (tour) {startGame();}*/
                 });
                 // Initialize the tour
                 tour.init();
@@ -507,8 +527,8 @@
 
 <div class="row">
     <div id="dvGMCanvas" class="col-xs-6">
-		<!--<button id = "btnStart" onclick="javascript:startGame();">Start Game</button>-->
-		<div>
+        <!--<button id = "btnStart" onclick="javascript:startGame();">Start Game</button>-->
+        <div>
         <div id='gm-div' style="margin: 20px; height: 400px"></div>
         <div id="equation" padding = "50px 50px 50px 50px"></div>
 
@@ -552,11 +572,11 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-sm-6 exprContnr">
-                                        <!--			<div class="exprContnr">-->
+                                        <!--            <div class="exprContnr">-->
                                         <div id="opt1"><span><input id="opt1inp1" type="text" class="form-control">x+<input id="opt1inp2" type="text" class="form-control"></input>=<input id="opt1inp3" type="text" class="form-control"></input></span></div>
                                         <div id="opt2"><span>(<input id="opt2inp1" type="text" class="form-control"></input>+<input id="opt2inp2" type="text" class="form-control"></input>)<span class="sup">2</span></span></div>
                                         <div id="opt3"><span>(<input id="opt3inp1" type="text" class="form-control"></input>+<input id="opt3inp2" type="text" class="form-control"></input>)<span class="sup">3</span></span></div>
-                                        <!--			</div>-->
+                                        <!--            </div>-->
                                     </div>
                                 </div>
                                 <div class="row">
@@ -577,13 +597,49 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="gameOverModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Game Over</h4>
+                        </div>
+                        <div class="modal-body">
+                        
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                       <label for="score" id="gameOverScore">Total Score : 0</label>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                         <label for="score" id="equationSolved">Total Score : 0</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <label id="timeLeft"></label><br/>
             <label id="score"></label>
         </div>
     </div>
 </div>
 <div id="dvGame" class="col-xs-6">
-	</div>
+    </div>
 
         <script>
             /*// <![CDATA[*/
@@ -593,9 +649,9 @@
                 var minutes =0;  // minutes
                 var seconds =0;  // seconds
                 var startchr =0;  // used to control when to read data from form, and script finished
-				
-				var isGameStarted = false;
-				var isGameRunning = false;
+                
+               isGameStarted = false;
+                 isGameRunning = false;
 
                 //get html elms.
                 var el_showmns = document.getElementById('showmns');
@@ -607,51 +663,52 @@
                  var el_btnct_end = document.getElementById('btnct_end');*/
                 //to start/pause/resume Countdown Timer
                 function startPauseCT(){
-					//startGame();
+                    //startGame();
                     if(parseInt(el_mns.value) >0 || parseInt(el_scs.value)>0 ){
                        
                         if(!isGameStarted && !isGameRunning){ //Start and set next click as Pause
-							isGameStarted = true;
-							isGameRunning = true;
+                            isGameStarted = true;
+                            isGameRunning = true;
                             document.getElementById("gm-div").style.display = 'block';
                             el_btnct.value ='PAUSE';
                             //window[obnm].countdownTimer();
-							setTimeout(obnm +'.countdownTimer()', 1000);
+                            setTimeout(obnm +'.countdownTimer()', 1000);
                             var scoreLabel = document.getElementById("totalScore");
                             scoreLabel.innerHTML = "Total Score : 0";
                             generateRandomExp();
                         }
                          //happens after clicking pause
-						  else if(isGameStarted && isGameRunning){
-							document.getElementById("gm-div").style.display = 'none';
-							el_btnct.value ='RESUME';
-							isGameStarted = true;
-							isGameRunning = false;
-							
-						  }
-			  
-					  //Game is paused, we need to resume. This happens after clicking resume
-					  else if(isGameStarted && !isGameRunning){
-						
-							document.getElementById("gm-div").style.display = 'block';
-							el_btnct.value ='PAUSE';
-							isGameStarted = true;
-							isGameRunning = true;
-							window[obnm].countdownTimer();
-							
-					  }
-					  else {
-						console.log("Canvas corrupted. Please reload");	
-					}
+                          else if(isGameStarted && isGameRunning){
+                            document.getElementById("gm-div").style.display = 'none';
+                            el_btnct.value ='RESUME';
+                            isGameStarted = true;
+                            isGameRunning = false;
+                            updateGameArea();
+                            
+                          }
+              
+                      //Game is paused, we need to resume. This happens after clicking resume
+                      else if(isGameStarted && !isGameRunning){
+                        
+                            document.getElementById("gm-div").style.display = 'block';
+                            el_btnct.value ='PAUSE';
+                            isGameStarted = true;
+                            isGameRunning = true;
+                            window[obnm].countdownTimer();
+                            
+                      }
+                      else {
+                        console.log("Canvas corrupted. Please reload"); 
+                    }
                     }
                 }
                 // HERE YOU CAN ADD TO EXECUTE JavaScript instructions WHEN COUNTDOWN TIMER REACHES TO 0
 
                 this.countdownTimer = function(){
                     // if $startchr is 0, and form fields exists, gets data for minutes and seconds, and sets $startchr to 1
-					
-					
-					
+                    
+                    
+                    
                     if(startchr == 0 && el_mns && el_scs) {
                         // makes sure the script uses integer numbers
                         minutes = parseInt(el_mns.value);
@@ -673,16 +730,19 @@
                                 seconds = 59;
                                 minutes--;
                             }else{
+                                addSound('Fanfare-sound.mp3');
                                 minutes = 0;  // minutes
                                 seconds = 0;  // seconds
 
+
+
                                 isGameStarted = false;
-								isGameRunning = false;
-				
-								el_btnct.value = 'START'
-								el_mns.value = 0;
-								el_scs.value = 0;
-							
+                                isGameRunning = false;
+                
+                                el_btnct.value = 'START'
+                                el_mns.value = 0;
+                                el_scs.value = 0;
+                            
                                 //clear canvas
                                 while(canvas.model.elements().length > 0){
                                     canvas.model.removeElement(canvas.model.elements()[0]);
@@ -694,7 +754,8 @@
                                     finishText += eqList[i] + "<br />";
                                 }
                                 /*finishText += "Your total score is "+totalScore;*/
-                                $("#totalScore").html(finishText);
+                                $("#equationSolved").html(finishText);
+                                $("#gameOverScore").html(totalScore);
 
                                 //add finish image
                                 //canvas.model.createElement('image',{src : 'download.png' });
@@ -707,6 +768,7 @@
                                     }
                                 }
                                 $("#history").html(historyText);
+                                $('#gameOverModal').modal('show');
                             }
                         }
                         setTimeout(obnm +'.countdownTimer()', 1000); //auto-calls this function after 1 seccond
@@ -723,7 +785,7 @@
             //set object of CountdownTimer class
             var obCT = new MainTimer('obCT');
            $("#btnct").click(function(){startGame();});
-		   //startGame();
+           //startGame();
         </script>
 </body>
 </html>
