@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"     >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Save Dino Eggs</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour-standalone.min.js"></script>
+    <style type="text/css">
+        /*body{
+            height:480px;
+        }*/
+        canvas {
+            border: 1px solid #d3d3d3;
+            background-color: #f1f1f1;
+        }
+        div#dvGMCanvas{
+            float:left;
+            width:30%;
+        }
+
+        div#dvGame{
+            width:70%;
+            float:right;
+            border:1px solid black;
+        }
+    </style>  
+
+    <style type="text/css">
+        #btnHldr{
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        span.sup{
+            vertical-align: super;
+            font-size:70%;
+        }
+        div.exprContnr input{
+            width:20px!important;
+        }
+        #opt2, #opt3{
+            display:none;
+        }
+        #opt2{
+            width:127px;
+        }
+        #dvAnswer{
+            border-width:2px;
+            border-style:solid;
+            border-color:black;
+            border-radius: 5px;
+            width:170px;
+            height:30px;
+        }
+
+        div#customExprModal div.btn-toolbar, div#customExprModal gm-keyboard{
+            display:none !important;
+        }
+
+        /*#customExprModal div.modal-content{
+            width: 90%;
+        }*/
+
+        div.exprContnr input{
+            display:inline-block;
+            width:50px !important;
+        }
+    </style>
+
+	  <script type="text/javascript">
+        function getRandomRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    </script>
+
+	<script type="text/javascript">
+		var iteration = 0;
+		var isGameStarted = false;
+		var _y = 150;
+		var g_timeout = 200;
+		var g_eggs = [];  // global array to hold all eggs
+		var g_rocks = [];	// global array to hold all rocks -- for future use, not required at present
+		var g_levelNum = new RegExp('[\?&]lvl=([^]*)').exec(window.location.href);
+
+		var g_dinoPos = [];
+        var g_curr_pos = 0;//holds dino's current position = i in g_dino_pos[i]
+    	var current_rock_id = null;
+        var g_dino = null;
+		if (g_levelNum==null){
+			g_levelNum = 1;
+		}
+
+		//main game loop
+		function updateGameArea() {
+			//clear context every time before painting the changes
+            myGameArea.clear();
+			
+            //Display eggs
+			g_eggs.forEach(function(_egg){
+				_egg.paint();
+			});
+
+      //Display rocks
+        if(isGameRunning){
+          g_rocks.forEach(function(_rock,i){
+          			if(i!=current_rock_id){
+				    	_rock.y += 2.5;
+					}
+				    _rock.update();
+				    _rock.hitBottom();
+
+			    });
+      }
+      if(g_dinoPos){
+                g_dinoPos.forEach(function(_dinoPosition){
+                    _dinoPosition.placeOnCanvas();
+                });
+      }
+
+      g_dino.paint();
+      if(g_dino.hasSavedEgg == false /*&& condition needed for equation solved*/){  //dino hasnt saved eggs yet and equation is solved
+            g_dino.move();               
+      }
+ }
+
+    // The Canvas holder
+		var myGameArea = {
+			canvas : document.createElement("canvas"),
+			start : function() {
+				this.canvas.width = 960;
+				this.canvas.height = 540;
+				this.context = this.canvas.getContext("2d");
+				//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+				$("#dvGame").append(this.canvas);
+
+				// Add event listener for `click` events.
+				this.canvas.addEventListener('click', function(event) {
+					var x_clicked =  event.pageX - document.getElementById("dvGame").getBoundingClientRect().left - this.offsetLeft;
+					var y_clicked = event.pageY - this.offsetTop;
+					    // Collision detection between clicked offset and element.
+					    	console.log("check each rock");
+						    //g_rocks.forEach(function(rock) {
+						    for(var i=0;i<g_rocks.length;i++){
+						    	var rock = g_rocks[i];
+						    	console.log(event.pageX,event.pageY);
+						    	console.log(x_clicked,y_clicked);
+						    	console.log(rock.x,rock.x + rock.width,rock.y,rock.y + rock.height);
+						        if (y_clicked > rock.y && y_clicked < rock.y + rock.height 
+						            && x_clicked > rock.x && x_clicked < rock.x + rock.width) {
+						        	createNewExpression(rock);
+						        	current_rock_id = i;
+						        }
+						    }//); 
+
+					canvas.model.createElement('derivation', { eq: rock, pos: { x: 'center', y: 50 }});
+
+				 }, false);
+
+				this.interval = setInterval(updateGameArea, 150);
+			},
+			clear : function() {
+				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			}
+		}
+
+		function rock(width, height, color, x, y) {
+			this.width = width;
+			this.height = height;
+			this.x = x;
+			this.y = y;
+			this.equation = generateRandomExp();    
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+
+			this.update = function(){
+				ctx = myGameArea.context;
+				ctx.fillStyle = color;
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+				ctx.font = "20px Arial";
+				ctx.fillStyle = "black";
+				ctx.fillText(this.equation,this.x+20,this.y+20);
+			}
+            var egg_broke = false;
+        	var rockbottom = myGameArea.canvas.height - this.height;//commented? shree
+        	this.hitBottom = function() {
+        	var rockbottom = myGameArea.canvas.height - this.height;
+        	if (this.y > rockbottom) {
+        		this.y = rockbottom;
+                var xPosition = this.x;
+                for(var i = 0; i < g_eggs.length; i++){
+                    if(g_eggs[i].x == xPosition){
+                        g_eggs.splice(i, 1);
+                        egg_broke = true;
+                        console.log(g_eggs);
+                    }
+                }
+                if(egg_broke)
+                {
+                    addSound('beep2.mp3');
+                    egg_broke = false;
+                }  
+        			//this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+        	}
+        }
+    }
+
+    function addSound(sound_file){
+        var win = new Audio(sound_file);
+        win.play();
+    }
+
+	function dino() {
+		this.width = 40;
+		this.height = 40;
+		if(g_dinoPos){
+            var _dinoPos = g_dinoPos[0];
+            if(_dinoPos){
+                this.x = _dinoPos.x;
+                this.y = _dinoPos.y;
+            }
+        }
+
+        this.paint = function(){
+            ctx = myGameArea.context;
+            ctx.fillStyle = "red";
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }			
+
+		this.move = function(newX, newY){
+			ctx = myGameArea.context;
+			ctx.fillStyle = "red";
+			
+            /*if(g_curr_pos >= g_dinoPos.length)
+                return null;*/
+            g_curr_pos++;
+            if(g_curr_pos<g_dinoPos.length){
+                var nextPosXY = g_dinoPos[g_curr_pos];
+                if(nextPosXY){
+                    this.x= nextPosXY.x;
+                    this.y= nextPosXY.y;
+                }
+            }
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+		}
+
+		
+		this.hasSavedEgg = function(){
+
+            //if dino is at the last position, level complete
+            if(g_curr_pos==g_dinoPos.length-1){
+                if(this.x == g_curr_pos.x && this.y == g_curr_pos.y){
+                    console.log("saved egg!");
+                    return true;
+                }
+            }
+            return false;
+        }
+	}
+
+
+	function egg(width, height, color, x, y) {
+		this.width = width;
+		this.height = height;
+		this.x = x;
+		this.y = y;    
+		ctx = myGameArea.context;
+		ctx.fillStyle = color;
+
+		this.paint = function(){
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+		};
+	}
+
+    //function used only for testing, to be deleted before release
+    function testMoveDino(){
+        if(g_dino){
+            g_dino.move();
+        }
+    }
+
+    //An object to store x y coordinates {X, Y}
+    function dinoPosition(_x, _y) {
+			this.x = _x;
+			this.y = _y;    
+			this.width = 20;
+			this.height = 20;
+
+      this.placeOnCanvas = function(){
+				ctx = myGameArea.context;
+				ctx.fillStyle = "Purple";
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+			}
+	}
+
+    // funtion to be used during game board setup
+    function InitDinoPositions(numLoc){
+		var gameDim = myGameArea.canvas.getBoundingClientRect();
+		var limitTop = (gameDim.bottom-gameDim.top) - (gameDim.bottom-gameDim.top)/2;
+		var limitLeft = (gameDim.right-gameDim.left) - (gameDim.right-gameDim.left)/3;
+
+		for(var i=0; i<numLoc; i++){
+            var _pos = new dinoPosition(getRandomRange(limitLeft, gameDim.right), getRandomRange(limitTop, gameDim.bottom));
+            _pos.placeOnCanvas();
+            g_dinoPos.push(_pos);
+		}
+	}
+
+	function CreateEggs(numEggs){
+		var colors = ["red", "green", "blue"];
+		var w = 100, h = 50, x = 50, y = 490;
+		for(var i=0; i<numEggs; i++){
+			var _egg = new egg(w, h, colors[i%numEggs], x, y);
+			x = x+200;
+			g_eggs.push(_egg);
+		}
+	}
+
+	function AddRock(rockType, _x, _y){
+		var w = 100, h = 50, c = "";
+		switch(rockType){
+			case "normal": c = "gray"; break;
+			case "urgent": c = "red"; break;
+		}
+
+		var _rock = new rock(w,h,c,_x,_y);//width, height, color, x and y coordinates
+		g_rocks.push(_rock);
+		//alert(g_rocks);
+	}
+
+	function CreateRocks(numRocks){
+		var _y = 200, _x = 50;
+		for(var i=0; i<numRocks; i++){
+			AddRock("normal",_x, _y + (i * 50));
+			_x = _x+200;
+		}
+	}
+
+	function startGame() {
+		var _mins = $("#mns").val;
+		var _scs = $("#scs").val;
+
+		if(_mins||_scs){
+			//if(isGameStarted == false){
+				myGameArea.start();
+				//isGameStarted = true;
+			//}
+			
+    //reset game board and clear variables
+			g_eggs = [];
+			g_rocks = [];
+
+			//setup board
+			CreateEggs(3);
+			CreateRocks(g_levelNum+2);
+			InitDinoPositions(g_levelNum+10);
+			g_dino = new dino();
+			/*setInterval(function(){
+				while(g_eggs && g_timeout>0){
+					g_timeout--;
+					_y += 100;
+				}
+			}, 300);*/
+		}
+	}
+	</script>
+
+    <script type="text/javascript">
+    var canvas;
+    var expectedValue = 1;
+    var totalScore = 0;
+    var eqList = new Array();
+    var eqHistory = {};
+    var pastEq = "";
+    var checkPause = -1; // if -1 pause the script
+    /*var seconds_left = 15;*/
+    var min = 1;
+    var sec = 15;
+    
+    //var gameStatus = 0;
+    loadGM(initCanvas, { version: '0.12.6' });
+    function initCanvas() {
+        canvas = new gmath.Canvas('#gm-div', {use_toolbar: false, vertical_scroll: false });
+        canvas2 = new gmath.Canvas('#gm-div2');
+        /*
+         generateRandomExp();
+         /*startTimer();*/
+        canvas.model.on('el_changed', function(evt) {
+            //console.log(evt.last_eq);
+            eqHistory[pastEq].push(evt.last_eq);
+            console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+			
+			// condition to check if equation is solved
+            if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
+            {
+                totalScore += 10;
+                eqList.push(g_rocks[current_rock_id].equation);
+                canvas.showHint('Success :)' + totalScore);
+                //generateRandomExp();
+                var scoreLabel = document.getElementById("totalScore");
+                scoreLabel.innerHTML = "Total Score : "+totalScore;
+                clearGMCanvas();
+				
+				g_dino.move();
+				//remove rock from rocks array
+				g_rocks.splice(current_rock_id,1);
+				current_rock_id = null;
+            }
+
+        });
+    }
+    function clearGMCanvas(){
+    	//clear canvas
+    	console.log("clearing canvas");
+    	while(canvas.model.elements().length > 0){
+        	canvas.model.removeElement(canvas.model.elements()[0]);
+    	}
+    }
+    function createNewExpression(rock){
+    	clearGMCanvas();
+		canvas.model.createElement('derivation', { eq: rock.equation, pos: { x: 'center', y: 50 }});
+    }
+
+    function generateRandomExp(){
+        //create random constants for equation
+        a = Math.floor((Math.random() * 10) + 1);
+        b = Math.floor((Math.random() * 10) + 1);
+        c = Math.floor((Math.random() * 10) + 1);
+
+        str = "";
+        eq1 = str+a+"x+"+b+"="+c;
+
+        //clear canvas
+        //while(canvas.model.elements().length > 0){
+        //    canvas.model.removeElement(canvas.model.elements()[0]);
+        //}
+
+        expectedValue = ((c - b) / a);
+        expectedValue = Math.round(expectedValue * 1000) / 1000;
+        //console.log ("Next Eq : "+eq1+" Expected Result : " +expectedValue);
+
+        //place new equation on canvas
+        //canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
+        pastEq = eq1;
+        eqHistory[pastEq]=[];
+        return eq1;
+    }
+    $(function () {
+        // Instance the tour
+        var tour = new Tour({
+            name: 'TourOne',
+            steps: [
+                {
+                    element: "#gm-div",
+                    title: "Equation",
+                    smartPlacement: true,
+                    backdrop: true,
+                    content: "This is your equation which you have to solve"
+                },
+                {
+                    element: "#btnct",
+                    title: "start",
+                    smartPlacement: true,
+                    backdrop: true,
+                    content: "Click here to start, pause and resume"
+                },
+                {
+                    element: "#btnCustomExpr",
+                    title: "Custom Expression Evaluator",
+                    smartPlacement: true,
+                    backdrop: true,
+                    content: "Click here to build and solve your own expressions"
+                },
+                {
+                    element: "#timeLeft",
+                    title: "Timer",
+                    smartPlacement: true,
+                    backdrop: true,
+                    content: "Timer for the Game"
+                },
+                {
+                    element: "#totalScore",
+                    title: "Game Score",
+                    smartPlacement: true,
+                    backdrop: true,
+                    content: "Your Game Score will be displayed here"
+                }
+            ]/*,
+            onEnd: function (tour) {startGame();}*/
+        });
+        // Initialize the tour
+        tour.init();
+        // Start the tour
+        tour.restart();
+    });
+
+
+    var optChosen = "1";
+    function loadExprFormat(e){
+        var dvAns = document.getElementById("dvAnswer");
+        dvAns.innerHTML = " ";
+        var opt1 = document.getElementById("opt1");
+        var opt2 = document.getElementById("opt2");
+        var opt3 = document.getElementById("opt3");
+        switch(e.value){
+            case "1": opt1.style.display="block";
+                opt2.style.display="none";
+                opt3.style.display="none";
+                break;
+            case "2": opt1.style.display="none";
+                opt2.style.display="block";
+                opt3.style.display="none";
+                break;
+            case "3": opt1.style.display="none";
+                opt2.style.display="none";
+                opt3.style.display="block";
+                break;
+        }
+        optChosen = e.value;
+    }
+    function calculate(){
+        //alert("in calculate");
+        var dvAns = document.getElementById("dvAnswer");
+        var x1 = 0, x2 = 0;
+        var finalString1 = "", finalString2 = "";
+        //alert(optChosen);
+        switch(optChosen){
+            case "2":
+                var a = document.getElementById("opt2inp1").value;
+                var b = document.getElementById("opt2inp2").value;
+                x1 = (a+b) * (a+b);
+                finalString1 = x1+"";
+                break;
+            case "3":
+                var a = document.getElementById("opt3inp1").value;
+                var b = document.getElementById("opt3inp2").value;
+                x1 = (a+b) * (a+b) * (a+b);
+                finalString1 = x1+"";
+                break;
+            case "":
+            case "0":
+            case "1":
+            default:
+                var a = document.getElementById("opt1inp1").value;
+                var b = document.getElementById("opt1inp2").value;
+                var c = document.getElementById("opt1inp3").value;
+                x1 = (c-b)/a;
+                break;
+        }
+        dvAns.innerHTML = x1;
+    }
+    function addToCanvas(){
+        switch(optChosen){
+            case "3":
+                var a = document.getElementById("opt3inp1").value;
+                var b = document.getElementById("opt3inp2").value;
+                finalString1 = ""+a+"^3"+"3*"+a+"^2*3+"+a+"*"+b+"^2+"+b+"^3";
+                finalString2 = "("+a+"+"+b+")^3";
+                break;
+            case "2":
+                var a = document.getElementById("opt2inp1").value;
+                var b = document.getElementById("opt2inp2").value;
+                finalString1 = ""+a+"^2+2*"+a+"*"+b+"+"+b+"^2";
+                finalString2 = "("+a+"+"+b+")^2";
+                break;
+            case "":
+            case "0":
+            case "1":
+            default:
+                var a = document.getElementById("opt1inp1").value;
+                var b = document.getElementById("opt1inp2").value;
+                var c = document.getElementById("opt1inp3").value;
+                x1 = (c-b)/a;
+                finalString1 = ""+a+"x+"+b+"="+c;
+                finalString2 = "";
+                break;
+        }
+        canvas2.model.reset();
+        canvas2.model.createElement('derivation', { eq: finalString1, pos: { x: 'center', y: 50 } });
+        canvas2.model.createElement('derivation', { eq: finalString2, pos: { x: 'center', y: 150 } });
+        //console.log("Added to canvas2");
+    }
+</script>
+</head>
+<body>
+
+<div class="row">
+    <div id="dvGMCanvas" class="col-xs-6">
+        <!--<button id = "btnStart" onclick="javascript:startGame();">Start Game</button>-->
+        <div>
+        <div id='gm-div' style="margin: 20px; height: 400px"></div>
+        <div id="equation" padding = "50px 50px 50px 50px"></div>
+
+        <form action="#" method="post">
+            Minutes: <input type="text" id="mns" name="mns" value="0" size="3" maxlength="3" /> &nbsp; &nbsp; Seconds: <input type="text" id="scs" name="scs" value="0" size="2" maxlength="2" /><br/>
+            <p id="btnHldr">
+                <input type="button" class="btn btn-primary" id="btnct" value="START" />
+                <!--<input type="button" class="btn btn-primary" id="btnct" value="Move Dino" onclick="javascript:testMoveDino();"/>-->
+            </p>
+        </form>
+        Countdown Timer: &nbsp; <span id="showmns">00</span>:<span id="showscs">00</span>
+
+        <!--
+        <label id="timeLeft">Timer about to start...</label><br>
+        -->
+        <br/><label for="score" id="totalScore">Total Score : 0</label>
+        <div id = "history"></div>
+
+
+        <div class="container">
+            <!-- Modal -->
+            <div class="modal fade" id="gameOverModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Game Over</h4>
+                        </div>
+                        <div class="modal-body">
+                        
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                       <label for="score" id="gameOverScore">Total Score : 0</label>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                         <label for="score" id="equationSolved">Total Score : 0</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label id="timeLeft"></label><br/>
+            <label id="score"></label>
+        </div>
+    </div>
+</div>
+<div id="dvGame" class="col-xs-6">
+    </div>
+
+        <script>
+            /*// <![CDATA[*/
+            function MainTimer(obnm){
+                // http://coursesweb.net/javascript/
+                
+                var minutes =0;  // minutes
+                var seconds =0;  // seconds
+                var startchr =0;  // used to control when to read data from form, and script finished
+                
+               isGameStarted = false;
+                 isGameRunning = false;
+
+                //get html elms.
+                var el_showmns = document.getElementById('showmns');
+                var el_showscs = document.getElementById('showscs');
+                var el_mns = document.getElementById('mns');
+                var el_scs = document.getElementById('scs');
+                var el_btnct = document.getElementById('btnct');
+                /*var el_btnct_res = document.getElementById('btnct_res');
+                 var el_btnct_end = document.getElementById('btnct_end');*/
+                //to start/pause/resume Countdown Timer
+                function startPauseCT(){
+                    //startGame();
+                    if(parseInt(el_mns.value) >0 || parseInt(el_scs.value)>0 ){
+                       
+                        if(!isGameStarted && !isGameRunning){ //Start and set next click as Pause
+                            isGameStarted = true;
+                            isGameRunning = true;
+                            document.getElementById("gm-div").style.display = 'block';
+                            el_btnct.value ='PAUSE';
+                            //window[obnm].countdownTimer();
+                            setTimeout(obnm +'.countdownTimer()', 1000);
+                            var scoreLabel = document.getElementById("totalScore");
+                            scoreLabel.innerHTML = "Total Score : 0";
+                            generateRandomExp();
+                        }
+                         //happens after clicking pause
+                          else if(isGameStarted && isGameRunning){
+                            document.getElementById("gm-div").style.display = 'none';
+                            el_btnct.value ='RESUME';
+                            isGameStarted = true;
+                            isGameRunning = false;
+                            updateGameArea();
+                            
+                          }
+              
+                      //Game is paused, we need to resume. This happens after clicking resume
+                      else if(isGameStarted && !isGameRunning){
+                        
+                            document.getElementById("gm-div").style.display = 'block';
+                            el_btnct.value ='PAUSE';
+                            isGameStarted = true;
+                            isGameRunning = true;
+                            window[obnm].countdownTimer();
+                            
+                      }
+                      else {
+                        console.log("Canvas corrupted. Please reload"); 
+                    }
+                    }
+                }
+                // HERE YOU CAN ADD TO EXECUTE JavaScript instructions WHEN COUNTDOWN TIMER REACHES TO 0
+
+                this.countdownTimer = function(){
+                    // if $startchr is 0, and form fields exists, gets data for minutes and seconds, and sets $startchr to 1
+                    
+                    
+                    
+                    if(startchr == 0 && el_mns && el_scs) {
+                        // makes sure the script uses integer numbers
+                        minutes = parseInt(el_mns.value);
+                        seconds = parseInt(el_scs.value);
+                        // if data not a number, sets the value to 0
+                        if(isNaN(minutes)) minutes = 0;
+                        if(isNaN(seconds)) seconds = 0;
+                        // rewrite data in form fields to be sure that the fields for minutes and seconds contain integer number
+                        el_mns.value = minutes;
+                        el_scs.value = seconds;
+                        startchr = 1;
+                    }
+
+                    if(startchr == 1 && isGameRunning){
+                        // decrease seconds, and decrease minutes if seconds reach to 0
+                        seconds--;
+                        if(seconds < 0){
+                            if(minutes > 0) {
+                                seconds = 59;
+                                minutes--;
+                            }else{
+                                addSound('Fanfare-sound.mp3');
+                                minutes = 0;  // minutes
+                                seconds = 0;  // seconds
+
+
+
+                                isGameStarted = false;
+                                isGameRunning = false;
+                
+                                el_btnct.value = 'START'
+                                el_mns.value = 0;
+                                el_scs.value = 0;
+                            
+                                //clear canvas
+                                while(canvas.model.elements().length > 0){
+                                    canvas.model.removeElement(canvas.model.elements()[0]);
+                                }
+
+                                var finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
+                                for(var i = 0 ; i < eqList.length ; i++){
+                                    //console.log("Past Eq : "+eqList[i]);
+                                    finishText += eqList[i] + "<br />";
+                                }
+                                /*finishText += "Your total score is "+totalScore;*/
+                                $("#equationSolved").html(finishText);
+                                $("#gameOverScore").html(totalScore);
+
+                                //add finish image
+                                //canvas.model.createElement('image',{src : 'download.png' });
+                                var historyText="This is the order of steps in which equations were solved.<br />";
+                                for(var equ in eqHistory){
+                                    if(eqHistory[equ].length>0){
+                                        historyText += "<strong>"+equ +"</strong><br >"
+                                        for(var k = 0; k < eqHistory[equ].length; k++)
+                                            historyText +=  eqHistory[equ][k]+ "<br />";
+                                    }
+                                }
+                                $("#history").html(historyText);
+                                $('#gameOverModal').modal('show');
+                            }
+                        }
+                        setTimeout(obnm +'.countdownTimer()', 1000); //auto-calls this function after 1 seccond
+                        // display the time in page
+                        el_showmns.innerHTML = minutes;
+                        el_showscs.innerHTML = seconds;
+                    }
+
+                }
+                //set event to button that starts the Countdown Timer
+                if(el_btnct) el_btnct.addEventListener('click', startPauseCT);
+                
+            }
+            //set object of CountdownTimer class
+            var obCT = new MainTimer('obCT');
+           $("#btnct").click(function(){startGame();});
+           //startGame();
+        </script>
+</body>
+</html>
