@@ -21,41 +21,6 @@ if (g_levelNum == null){
 	g_levelNum = 1;
 }
 
-//main game loop
-function updateGameArea() {
-		
-	//clear context every time before painting the changes
-	myGameArea.clear();
-	
-	//Display eggs
-	g_eggs.forEach(function(_egg){
-		_egg.paint();
-	});
-
-    //Display rocks
-	if(controlButtonState == -1/*isGameRunning*/){
-		g_rocks.forEach(function(_rock,i){
-			if(i!=current_rock_id){
-				_rock.y += 2.5;
-			}
-			_rock.update();
-			_rock.hitBottom();
-		});
-    }
-	
-	
-	if(g_dinoPos){
-		g_dinoPos.forEach(function(_dinoPosition){
-			_dinoPosition.placeOnCanvas();
-		});
-    }
-
-	g_dino.paint();
-	if(g_dino.hasSavedEgg == false /*&& condition needed for equation solved*/)
-	{  //dino hasnt saved eggs yet and equation is solved
-		g_dino.move();               
-	}
-}
 
 // The Canvas holder
 var myGameArea = {
@@ -106,6 +71,47 @@ clear : function() {
 	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 }
+
+//main game loop
+function updateGameArea() {
+	
+	if(g_controlButtonState == -1){
+		return;
+	}
+		
+	//clear context every time before painting the changes
+	myGameArea.clear();
+	
+	//Display eggs
+	g_eggs.forEach(function(_egg){
+		_egg.paint();
+	});
+
+    //Display rocks
+	if(g_controlButtonState == 1){
+		g_rocks.forEach(function(_rock,i){
+			if(i!=current_rock_id){
+				_rock.y += 2.5;
+			}
+			_rock.update();
+			_rock.hitBottom();
+		});
+    }
+	
+	
+	if(g_dinoPos){
+		g_dinoPos.forEach(function(_dinoPosition){
+			_dinoPosition.placeOnCanvas();
+		});
+    }
+
+	g_dino.paint();
+	if(g_dino.hasSavedEgg == false /*&& condition needed for equation solved*/)
+	{  //dino hasnt saved eggs yet and equation is solved
+		g_dino.move();               
+	}
+}
+
 
 function rock(width, height, color, x, y) {
 	this.width = width;
@@ -284,8 +290,10 @@ function CreateRocks(numRocks){
 }
 
 function startGame() {
-	var _mins = $("#mns").val;
-	var _scs = $("#scs").val;
+	var _mins = $("#minutesText").val;
+	var _scs = $("#secondsText").val;
+	
+	console.log("Start game called");
 
 	if(_mins||_scs){
 		//if(isGameStarted == false){

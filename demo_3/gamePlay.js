@@ -1,13 +1,13 @@
 /*// <![CDATA[*/
+var g_controlButtonState = -1; //This means we have to pause the game
+var g_canvasState = 0;
 function MainTimer(obnm){
 	// http://coursesweb.net/javascript/
 
 	var minutes = 0;  // minutes
 	var seconds = 0;  // seconds
 	var startchr = 0;  // used to control when to read data from form, and script finished
-
-	/*isGameStarted = false;
-	isGameRunning = false;*/
+	
 
 	//get html elms.
 	var showMinutesSpan = document.getElementById('showMinutesSpan');
@@ -16,53 +16,31 @@ function MainTimer(obnm){
 	var secondsText = document.getElementById('secondsText');
 	var startPauseBtn = document.getElementById('startPauseButton');
 	var restartBtn = document.getElementById('restartButton');
-	var controlButtonState = -1; //This means we have to pause the game
+	
 	var endct =0;  // it is set to 1 when script starts
 	
 	//to start/pause/resume Countdown Timer
 	function startPauseClickListener(){
 		//startGame();
 		if(parseInt(minutesText.value) > 0 || parseInt(secondsText.value)> 0 || endct == 1){
-			controlButtonState *= -1;
+			g_controlButtonState *= -1;
 		   
-			if(controlButtonState == 1/*!isGameStarted && !isGameRunning*/){ //Start and set next click as Pause
-				/*isGameStarted = true;
-				isGameRunning = true;*/
-				
-				console.log("Testing buttons - one")
+			if(g_controlButtonState == 1){ //Start and set next click as Pause
 				document.getElementById("gm-div").style.display = 'block';
-				startPauseBtn.value ='PAUSE';
-				
-				/*setTimeout(obnm +'.countdownTimer()', 1000);*/
+				console.log("Button clicked*********");
+				//document.getElementById("dvGame").style.display = 'block';
+				startPauseBtn.value ='PAUSE';	
+				setTimeout(obnm +'.countdownTimer()', 1000);
 				var scoreLabel = document.getElementById("totalScore");
 				scoreLabel.innerHTML = "Total Score : 0";
-				generateRandomExp();
-				window[obnm].countdownTimer();
 			}
 			 //happens after clicking pause
-			  else /*if(isGameStarted && isGameRunning)*/{
-				console.log("Testing buttons - two")
+			  else {
 				document.getElementById("gm-div").style.display = 'none';
-				startPauseBtn.value ='RESUME';
-				/*isGameStarted = true;
-				isGameRunning = false;*/
-				updateGameArea();
-				
+				//document.getElementById("dvGame").style.display = 'none';
+				//g_canvasState = document.getElementById("dvGame").save();
+				startPauseBtn.value ='RESUME';	
 			  }
-
-		  //Game is paused, we need to resume. This happens after clicking resume
-		 /* else if(isGameStarted && !isGameRunning){
-			
-				document.getElementById("gm-div").style.display = 'block';
-				startPauseBtn.value ='PAUSE';
-				isGameStarted = true;
-				isGameRunning = true;
-				window[obnm].countdownTimer();
-				
-		  }
-		  else {
-			console.log("Canvas corrupted. Please reload"); 
-			}*/
 		}
 	}
 	
@@ -70,7 +48,6 @@ function MainTimer(obnm){
 	// HERE YOU CAN ADD TO EXECUTE JavaScript instructions WHEN COUNTDOWN TIMER REACHES TO 0
   function endCT(){
     // HERE ADD YOUR CODE
-
     return false;
   }
 // HERE YOU CAN ADD TO EXECUTE JavaScript instructions WHEN COUNTDOWN TIMER REACHES TO 0
@@ -94,15 +71,15 @@ this.countdownTimer = function(){
 	if(minutes >0 || seconds >0) endct =1;  //to can call endCT() at the ending
 
 	// if minutes and seconds are 0, call endCT()
-    if(minutes==0 && seconds==0 && endct ==1){
+    if(minutes == 0 && seconds == 0 /*&& endct ==1*/){
       startchr =0;
-      controlButtonState = -1;
-      endct =0;
+      g_controlButtonState = -1;
+      //endct =0;
       startPauseBtn.value ='START';
-      endCT();
+      //endCT();
     }
 
-	else if(startchr == 1 && controlButtonState == 1/*isGameRunning*/){
+	else if(startchr == 1 && g_controlButtonState == 1){
 		// decrease seconds, and decrease minutes if seconds reach to 0
 		seconds--;
 		if(seconds < 0){
@@ -113,11 +90,6 @@ this.countdownTimer = function(){
 				addSound('Fanfare-sound.mp3');
 				minutes = 0;  // minutes
 				seconds = 0;  // seconds
-
-
-
-				/*isGameStarted = false;
-				isGameRunning = false;*/
 
 				startPauseBtn.value = 'START'
 				minutesText.value = 0;
@@ -162,10 +134,14 @@ this.countdownTimer = function(){
 if(startPauseBtn) startPauseBtn.addEventListener('click', startPauseClickListener);
 
 //restart Countdown Timer from the initial values
-if(restartBtn) restartBtn.addEventListener('click', function(){ startchr =0; if(controlButtonState ==-1) startPauseClickListener(); });
+if(restartBtn) restartBtn.addEventListener('click', function(){ startchr =0; if(g_controlButtonState ==-1) startPauseClickListener(); });
 
 }
 //set object of CountdownTimer class
 var obCT = new MainTimer('obCT');
-//$("#startPauseBtn").click(function(){startGame();});
+
+$("#startPauseButton").click(function(){
+	startGame();
+	
+	});
 //startGame();
