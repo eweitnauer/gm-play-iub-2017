@@ -28,13 +28,13 @@
         <div id="equation" padding = "50px 50px 50px 50px"></div>
 
         <form action="#" method="post">
-            Minutes: <input type="text" id="mns" name="mns" value="0" size="3" maxlength="3" /> &nbsp; &nbsp; Seconds: <input type="text" id="scs" name="scs" value="0" size="2" maxlength="2" /><br/>
+            Minutes: <input type="text" id="minutesText" name="mns" value="0" size="3" maxlength="3" /> &nbsp; &nbsp; Seconds: <input type="text" id="secondsText" name="scs" value="0" size="2" maxlength="2" /><br/>
             <p id="btnHldr">
-                <input type="button" class="btn btn-primary" id="btnct" value="START" />
-                <!--<input type="button" class="btn btn-primary" id="btnct" value="Move Dino" onclick="javascript:testMoveDino();"/>-->
+                <input type="button" class="btn btn-primary" id="startPauseButton" value="START" />
+				<input type="button" class="btn btn-primary" id="restartButton" value="RESTART" />
             </p>
         </form>
-        Countdown Timer: &nbsp; <span id="showmns">00</span>:<span id="showscs">00</span>
+        Countdown Timer: &nbsp; <span id="showMinutesSpan">00</span>:<span id="showSecondsSpan">00</span>
 
         <!--
         <label id="timeLeft">Timer about to start...</label><br>

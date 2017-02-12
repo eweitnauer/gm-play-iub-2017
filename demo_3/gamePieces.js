@@ -10,14 +10,12 @@ var g_eggs = [];  // global array to hold all eggs
 var g_rocks = [];	// global array to hold all rocks -- for future use, not required at present
 
 var g_levelNum = new RegExp('[\?&]lvl=([^]*)').exec(window.location.href);
-
-//Is global dino pos array needed?
 var g_dinoPos = [];
 
 var g_curr_pos = 0;//holds dino's current position = i in g_dino_pos[i]
 var current_rock_id = null;
 
-//What is g_dino ?
+
 var g_dino = null;
 if (g_levelNum == null){
 	g_levelNum = 1;
@@ -35,7 +33,7 @@ function updateGameArea() {
 	});
 
     //Display rocks
-	if(isGameRunning){
+	if(controlButtonState == -1/*isGameRunning*/){
 		g_rocks.forEach(function(_rock,i){
 			if(i!=current_rock_id){
 				_rock.y += 2.5;
