@@ -92,7 +92,7 @@ this.countdownTimer = function(){
       endct =0;
       startPauseBtn.value ='START';
       endCT();
-	  			addSound('Fanfare-sound.mp3');
+	  			addSound('winningMusic.mp3');
 				minutes = 0;  // minutes
 				seconds = 0;  // seconds
 
