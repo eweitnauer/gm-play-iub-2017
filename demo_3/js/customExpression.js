@@ -29,6 +29,7 @@ function initCanvas() {
 			//remove rock from rocks array
 			g_rocks.splice(current_rock_id,1);
 			current_rock_id = null;
+			addSound('sounds/eggCrackingMusic.mp3');
 		}
 		/*if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
 		{

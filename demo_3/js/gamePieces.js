@@ -105,8 +105,9 @@ function updateGameArea() {
 			if(i!=current_rock_id){
 				_rock.y += 2.5;
 			}
+			_rock.hitEgg();
 			_rock.update();
-			_rock.hitBottom();
+			
 		});
     }
 	
@@ -164,24 +165,27 @@ function rock(width, height, color, x, y, rockID) {
 		ctx.fillStyle = "white";
 		ctx.fillText(this.parsedEquation,this.x + 20,this.y + 20);
 	}
-	var egg_broke = false;
+	var eggWiggle = false;
 	var rockbottom = myGameArea.canvas.height - this.height;//commented? shree
-	this.hitBottom = function() {
-		var rockbottom = myGameArea.canvas.height - this.height;
-		if (this.y > rockbottom) {
-			this.y = rockbottom;
+	
+	//function to check whether the rock collided with an egg
+	this.hitEgg = function() {
+		var rockbottom = myGameArea.canvas.height - 100;
+		
+		if (this.y + this.height > rockbottom) {
+			//this.y = rockbottom;
 			var xPosition = this.x;
 			for(var i = 0; i < g_eggs.length; i++){
 				if(g_eggs[i].x == xPosition){
-					g_eggs.splice(i, 1);
-					egg_broke = true;
-					console.log(g_eggs);
+					//g_eggs.splice(i, 1);
+					eggWiggle = true;
+					//console.log(g_eggs);
 				}
 			}
-			if(egg_broke)
+			if(eggWiggle)
 			{
-				addSound('sounds/eggCrackingMusic.mp3');
-				egg_broke = false;
+				addSound('sounds/eggScreamMusic.mp3');
+				eggWiggle = false;
 				
 				//remove the rock which touched ground
 				var indexToRemove = g_rocks.indexOf(this);

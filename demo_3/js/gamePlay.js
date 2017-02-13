@@ -92,21 +92,29 @@ this.countdownTimer = function(){
       endct =0;
       startPauseBtn.value ='START';
       endCT();
-	  			addSound('sounds/winningMusic.mp3');
+	  			
 				minutes = 0;  // minutes
 				seconds = 0;  // seconds
-
 				startPauseBtn.value = 'START'
+				
+				var finishText = "";
+				if(totalScore > 0){
+					addSound('sounds/winningMusic.mp3');
+					finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
+					for(var i = 0 ; i < eqList.length ; i++){
+						finishText += eqList[i] + "<br />";
+					}
+				}else{
+					addSound('sounds/losingMusic.mp3');
+					finishText = "You lost. Have another go !!";
+				}
+				
+				
 				minutesText.value = 0;
 				secondsText.value = 0;
 				
-				var finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
-				for(var i = 0 ; i < eqList.length ; i++){
-					finishText += eqList[i] + "<br />";
-				}
-				
 				$("#equationSolved").html(finishText);
-				$("#gameOverScore").html(totalScore);
+				$("#gameOverScore").html("Total Score : " +totalScore);
 				g_isGameInProgress = false;
 				$('#gameOverModal').modal('show');
     }
