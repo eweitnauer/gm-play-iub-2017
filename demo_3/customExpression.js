@@ -1,46 +1,38 @@
-    var canvas;
-    var expectedValue = 1;
-    var totalScore = 0;
-    var eqList = new Array();
-    var eqHistory = {};
-    var pastEq = "";
-    var checkPause = -1; // if -1 pause the script
-    /*var seconds_left = 15;*/
-    var min = 1;
-    var sec = 15;
-    
-    //var gameStatus = 0;
-    loadGM(initCanvas, { version: '0.12.6' });
-    function initCanvas() {
-        canvas = new gmath.Canvas('#gm-div', {use_toolbar: false, vertical_scroll: false });
-        canvas2 = new gmath.Canvas('#gm-div2');
-        /*
-         generateRandomExp();
-         /*startTimer();*/
-        canvas.model.on('el_changed', function(evt) {
-            //console.log(evt.last_eq);
-            eqHistory[pastEq].push(evt.last_eq);
-            console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
-			
-			// condition to check if equation is solved
-            if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
-            {
-                totalScore += 10;
-                eqList.push(g_rocks[current_rock_id].equation);
-                canvas.showHint('Success :)' + totalScore);
-                //generateRandomExp();
-                var scoreLabel = document.getElementById("totalScore");
-                scoreLabel.innerHTML = "Total Score : "+totalScore;
-                clearGMCanvas();
-				
-				g_dino.move();
-				//remove rock from rocks array
-				g_rocks.splice(current_rock_id,1);
-				current_rock_id = null;
-            }
+var canvas;
+var expectedValue = 1;
+var totalScore = 0;
+var eqList = new Array();
+var checkPause = -1; // if -1 pause the script
+/*var seconds_left = 15;*/
+var min = 1;
+var sec = 15;
 
-        });
-    }
+//var gameStatus = 0;
+loadGM(initCanvas, { version: '0.12.6' });
+function initCanvas() {
+        canvas = new gmath.Canvas('#gm-div', {use_toolbar: false, vertical_scroll: false });
+        canvas.model.on('el_changed', function(evt) {
+		console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+		console.log("equ CHANGED.......");
+		// condition to check if equation is solved
+		if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
+		{
+			totalScore += 10;
+			eqList.push(g_rocks[current_rock_id].equation);
+			canvas.showHint('Success :)' + totalScore);
+			//generateRandomExp();
+			var scoreLabel = document.getElementById("totalScore");
+			scoreLabel.innerHTML = "Total Score : "+totalScore;
+			clearGMCanvas();
+			
+			g_dino.move();
+			//remove rock from rocks array
+			g_rocks.splice(current_rock_id,1);
+			current_rock_id = null;
+		}
+
+	});
+}
     function clearGMCanvas(){
     	//clear canvas
     	console.log("clearing canvas");
@@ -73,8 +65,7 @@
 
         //place new equation on canvas
         //canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
-        pastEq = eq1;
-        eqHistory[pastEq]=[];
+        
         return eq1;
     }
     $(function () {
@@ -93,18 +84,11 @@
                     content: "This is your equation which you have to solve"
                 },
                 {
-                    element: "#btnct",
+                    element: "#startPauseButton",
                     title: "start",
                     smartPlacement: true,
                     backdrop: true,
                     content: "Click here to start, pause and resume"
-                },
-                {
-                    element: "#btnCustomExpr",
-                    title: "Custom Expression Evaluator",
-                    smartPlacement: true,
-                    backdrop: true,
-                    content: "Click here to build and solve your own expressions"
                 },
                 {
                     element: "#timeLeft",

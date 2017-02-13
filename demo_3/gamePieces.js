@@ -10,54 +10,17 @@ var g_eggs = [];  // global array to hold all eggs
 var g_rocks = [];	// global array to hold all rocks -- for future use, not required at present
 
 var g_levelNum = new RegExp('[\?&]lvl=([^]*)').exec(window.location.href);
-
-//Is global dino pos array needed?
 var g_dinoPos = [];
 
 var g_curr_pos = 0;//holds dino's current position = i in g_dino_pos[i]
 var current_rock_id = null;
 
-//What is g_dino ?
+
 var g_dino = null;
 if (g_levelNum == null){
 	g_levelNum = 1;
 }
 
-//main game loop
-function updateGameArea() {
-		
-	//clear context every time before painting the changes
-	myGameArea.clear();
-	
-	//Display eggs
-	g_eggs.forEach(function(_egg){
-		_egg.paint();
-	});
-
-    //Display rocks
-	if(isGameRunning){
-		g_rocks.forEach(function(_rock,i){
-			if(i!=current_rock_id){
-				_rock.y += 2.5;
-			}
-			_rock.update();
-			_rock.hitBottom();
-		});
-    }
-	
-	
-	if(g_dinoPos){
-		g_dinoPos.forEach(function(_dinoPosition){
-			_dinoPosition.placeOnCanvas();
-		});
-    }
-
-	g_dino.paint();
-	if(g_dino.hasSavedEgg == false /*&& condition needed for equation solved*/)
-	{  //dino hasnt saved eggs yet and equation is solved
-		g_dino.move();               
-	}
-}
 
 // The Canvas holder
 var myGameArea = {
@@ -108,6 +71,47 @@ clear : function() {
 	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 }
+
+//main game loop
+function updateGameArea() {
+	
+	if(g_controlButtonState == -1){
+		return;
+	}
+		
+	//clear context every time before painting the changes
+	myGameArea.clear();
+	
+	//Display eggs
+	g_eggs.forEach(function(_egg){
+		_egg.paint();
+	});
+
+    //Display rocks
+	if(g_controlButtonState == 1){
+		g_rocks.forEach(function(_rock,i){
+			if(i!=current_rock_id){
+				_rock.y += 2.5;
+			}
+			_rock.update();
+			_rock.hitBottom();
+		});
+    }
+	
+	
+	if(g_dinoPos){
+		g_dinoPos.forEach(function(_dinoPosition){
+			_dinoPosition.placeOnCanvas();
+		});
+    }
+
+	g_dino.paint();
+	if(g_dino.hasSavedEgg == false /*&& condition needed for equation solved*/)
+	{  //dino hasnt saved eggs yet and equation is solved
+		g_dino.move();               
+	}
+}
+
 
 function rock(width, height, color, x, y) {
 	this.width = width;
@@ -286,16 +290,17 @@ function CreateRocks(numRocks){
 }
 
 function startGame() {
-	var _mins = $("#mns").val;
-	var _scs = $("#scs").val;
-
-	if(_mins||_scs){
-		//if(isGameStarted == false){
-			myGameArea.start();
-			//isGameStarted = true;
-		//}
+	var _mins = $("#minutesText").val;
+	var _scs = $("#secondsText").val;
+	
 		
-        //reset game board and clear variables
+	if(_mins||_scs){
+		totalScore = 0;
+		eqList = new Array();
+	
+		myGameArea.start();
+			
+		//reset game board and clear variables
 		g_eggs = [];
 		g_rocks = [];
 
@@ -304,11 +309,8 @@ function startGame() {
 		CreateRocks(g_levelNum+2);
 		InitDinoPositions(g_levelNum+10);
 		g_dino = new dino();
-		/*setInterval(function(){
-			while(g_eggs && g_timeout>0){
-				g_timeout--;
-				_y += 100;
-			}
-		}, 300);*/
 	}
+
+
+	
 }
