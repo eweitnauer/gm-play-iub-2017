@@ -37,6 +37,8 @@ function MainTimer(obnm){
 				document.getElementById("dvGame").style.display = 'block';*/
 				document.getElementById("gm-div").disabled = false;
 				document.getElementById("dvGame").disabled = false;
+				$("div#dvGame").css("filter","blur(0px)");
+                                $("div#gm-div").css("filter","blur(0px)");
 				startPauseBtn.value ='PAUSE';	
 				setTimeout(obnm +'.countdownTimer()', 1000);
 				var scoreLabel = document.getElementById("totalScore");
@@ -46,6 +48,11 @@ function MainTimer(obnm){
 			  else {
 				document.getElementById("gm-div").disabled = true;
 				document.getElementById("dvGame").disabled = true;
+				$("div#dvGame").css("filter","blur(5px)");
+                                $("div#gm-div").css("filter","blur(14px)");	
+                		BootstrapDialog.alert('Game Paused. Press OK to resume', function(){
+                    			$("#startPauseButton").click();
+                		});				  
 				//g_canvasState = document.getElementById("dvGame").save();
 				startPauseBtn.value ='RESUME';	
 			  }
