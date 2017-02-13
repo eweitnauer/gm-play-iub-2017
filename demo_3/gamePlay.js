@@ -84,6 +84,23 @@ this.countdownTimer = function(){
       endct =0;
       startPauseBtn.value ='START';
       endCT();
+	  			addSound('Fanfare-sound.mp3');
+				minutes = 0;  // minutes
+				seconds = 0;  // seconds
+
+				startPauseBtn.value = 'START'
+				minutesText.value = 0;
+				secondsText.value = 0;
+				
+				var finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
+				for(var i = 0 ; i < eqList.length ; i++){
+					finishText += eqList[i] + "<br />";
+				}
+				
+				$("#equationSolved").html(finishText);
+				$("#gameOverScore").html(totalScore);
+				g_isGameInProgress = false;
+				$('#gameOverModal').modal('show');
     }
 
 	else if(startchr == 1 && g_controlButtonState == 1){
@@ -94,40 +111,7 @@ this.countdownTimer = function(){
 				seconds = 59;
 				minutes--;
 			}else{
-				addSound('Fanfare-sound.mp3');
-				minutes = 0;  // minutes
-				seconds = 0;  // seconds
-
-				startPauseBtn.value = 'START'
-				minutesText.value = 0;
-				secondsText.value = 0;
-			
-				//clear canvas
-				while(canvas.model.elements().length > 0){
-					canvas.model.removeElement(canvas.model.elements()[0]);
-				}
-
-				var finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
-				for(var i = 0 ; i < eqList.length ; i++){
-					//console.log("Past Eq : "+eqList[i]);
-					finishText += eqList[i] + "<br />";
-				}
-				/*finishText += "Your total score is "+totalScore;*/
-				$("#equationSolved").html(finishText);
-				$("#gameOverScore").html(totalScore);
-				g_isGameInProgress = false;
-				//add finish image
-				//canvas.model.createElement('image',{src : 'download.png' });
-				var historyText="This is the order of steps in which equations were solved.<br />";
-				for(var equ in eqHistory){
-					if(eqHistory[equ].length>0){
-						historyText += "<strong>"+equ +"</strong><br >"
-						for(var k = 0; k < eqHistory[equ].length; k++)
-							historyText +=  eqHistory[equ][k]+ "<br />";
-					}
-				}
-				$("#history").html(historyText);
-				$('#gameOverModal').modal('show');
+				
 			}
 		}
 		setTimeout(obnm +'.countdownTimer()', 1000); //auto-calls this function after 1 seccond

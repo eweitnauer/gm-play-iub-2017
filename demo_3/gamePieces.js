@@ -292,8 +292,11 @@ function CreateRocks(numRocks){
 function startGame() {
 	var _mins = $("#minutesText").val;
 	var _scs = $("#secondsText").val;
+	
 		
 	if(_mins||_scs){
+		totalScore = 0;
+		eqList = new Array();
 	
 		myGameArea.start();
 			
