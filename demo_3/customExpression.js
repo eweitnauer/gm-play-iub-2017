@@ -111,7 +111,8 @@ function initCanvas() {
         tour.init();
         // Start the tour
         tour.restart();
-    });
+    }});
+	
 
 
     var optChosen = "1";
