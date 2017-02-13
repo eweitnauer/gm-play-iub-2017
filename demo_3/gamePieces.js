@@ -201,13 +201,13 @@ function dino() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}			
 
-	this.move = function(newX, newY){
+	/*this.move = function(newX, newY){
 		ctx = myGameArea.context;
-		ctx.fillStyle = "red";
+		ctx.fillStyle = "red";*/
 		
 		/*if(g_curr_pos >= g_dinoPos.length)
 			return null;*/
-		g_curr_pos++;
+		/*g_curr_pos++;
 		if(g_curr_pos < g_dinoPos.length){
 			var nextPosXY = g_dinoPos[g_curr_pos];
 			if(nextPosXY){
@@ -216,7 +216,7 @@ function dino() {
 			}
 		}
 		ctx.fillRect(this.x, this.y, this.width, this.height);
-	}
+	}*/
 
 	
 	this.hasSavedEgg = function(){
@@ -249,14 +249,14 @@ function egg(width, height, color, x, y) {
 }
 
 //function used only for testing, to be deleted before release
-function testMoveDino(){
+/*function testMoveDino(){
 	if(g_dino){
 		g_dino.move();
 	}
-}
+}*/
 
 //An object to store x y coordinates {X, Y}
-function dinoPosition(_x, _y) {
+/*function dinoPosition(_x, _y) {
 	this.x = _x;
 	this.y = _y;    
 	this.width = 20;
@@ -267,10 +267,10 @@ function dinoPosition(_x, _y) {
 		ctx.fillStyle = "Purple";
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
-}
+}*/
 
 // funtion to be used during game board setup
-function InitDinoPositions(numLoc){
+/*function InitDinoPositions(numLoc){
 	var gameDim = myGameArea.canvas.getBoundingClientRect();
 	var limitTop = (gameDim.bottom-gameDim.top) - (gameDim.bottom-gameDim.top)/2;
 	var limitLeft = (gameDim.right-gameDim.left) - (gameDim.right-gameDim.left)/3;
@@ -280,7 +280,7 @@ function InitDinoPositions(numLoc){
 		_pos.placeOnCanvas();
 		g_dinoPos.push(_pos);
 	}
-}
+}*/
 
 function CreateEggs(numEggs){
 	var colors = ["red", "green", "blue"];
@@ -330,7 +330,7 @@ function startGame() {
 		//setup board
 		CreateEggs(3);
 		CreateRocks(g_levelNum+2);
-		InitDinoPositions(g_levelNum+10);
+		//InitDinoPositions(g_levelNum+10);
 		g_dino = new dino();
 	}
 
