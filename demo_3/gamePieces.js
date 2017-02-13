@@ -104,17 +104,17 @@ function updateGameArea() {
     }
 	
 	
-	if(g_dinoPos){
+	/*if(g_dinoPos){
 		g_dinoPos.forEach(function(_dinoPosition){
 			_dinoPosition.placeOnCanvas();
 		});
-    }
+    }*/
 
 	g_dino.paint();
-	if(g_dino.hasSavedEgg == false /*&& condition needed for equation solved*/)
+	/*if(g_dino.hasSavedEgg == false) // && condition needed for equation solved
 	{  //dino hasnt saved eggs yet and equation is solved
 		g_dino.move();               
-	}
+	}*/
 	
 	
 	
