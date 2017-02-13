@@ -25,7 +25,7 @@ function initCanvas() {
 			scoreLabel.innerHTML = "Total Score : "+totalScore;
 			clearGMCanvas();
 			
-			g_dino.move();
+			//g_dino.move();
 			//remove rock from rocks array
 			g_rocks.splice(current_rock_id,1);
 			current_rock_id = null;
