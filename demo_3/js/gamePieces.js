@@ -125,12 +125,12 @@ function updateGameArea() {
 	
 	
 	
-	
-	myGameArea.context.font = "20px Arial";
+	//This code shows the expression to match on Canvas.
+	/*myGameArea.context.font = "20px Arial";
 	myGameArea.context.fillStyle = "black";
 	
 	//Need to check the args in this
-	myGameArea.context.fillText(g_parsedExprSolution, 600,400);
+	myGameArea.context.fillText(g_parsedExprSolution, 600,400);*/
 }
 
 
@@ -162,8 +162,6 @@ function rock(width, height, color, x, y, rockID) {
 		ctx.drawImage(this.img, this.x, this.y, this.width,this.height);
 		ctx.font = "20px Arial";
 		ctx.fillStyle = "white";
-		
-		//Need to check the args in this
 		ctx.fillText(this.parsedEquation,this.x + 20,this.y + 20);
 	}
 	var egg_broke = false;
@@ -201,20 +199,29 @@ function addSound(sound_file){
 }
 
 function dino() {
-	this.width = 40;
-	this.height = 40;
-	if(g_dinoPos){
+	this.width = 340;
+	this.height = 250;
+	this.x = 600;
+	this.y = 300;
+	
+	//Remove below code after checking with Harsha
+	/*if(g_dinoPos){
 		var _dinoPos = g_dinoPos[0];
 		if(_dinoPos){
 			this.x = _dinoPos.x;
 			this.y = _dinoPos.y;
 		}
-	}
+	}*/
+	
+	this.img = new Image();
+	this.img.src = "images/placardDino.png";
 
 	this.paint = function(){
 		ctx = myGameArea.context;
-		ctx.fillStyle = "red";
-		ctx.fillRect(this.x, this.y, this.width, this.height);
+		ctx.drawImage(this.img, this.x, this.y, this.width,this.height);
+		ctx.font = "20px Arial";
+		ctx.fillStyle = "white";
+		ctx.fillText(g_parsedExprSolution,this.x + 20,this.y + 75);
 	}			
 
 	/*this.move = function(newX, newY){
