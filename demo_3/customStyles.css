@@ -1,0 +1,56 @@
+/*body{
+            height:480px;
+        }*/
+canvas {
+    border: 1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+div#dvGMCanvas{
+    float:left;
+    width:30%;
+}
+
+div#dvGame{
+    width:70%;
+    float:right;
+    border:1px solid black;
+}
+
+#btnHldr{
+    padding-top:20px;
+    padding-bottom:20px;
+}
+span.sup{
+    vertical-align: super;
+    font-size:70%;
+}
+div.exprContnr input{
+    width:20px!important;
+}
+#opt2, #opt3{
+    display:none;
+}
+#opt2{
+    width:127px;
+}
+#dvAnswer{
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    border-radius: 5px;
+    width:170px;
+    height:30px;
+}
+
+div#customExprModal div.btn-toolbar, div#customExprModal gm-keyboard{
+    display:none !important;
+}
+
+/*#customExprModal div.modal-content{
+    width: 90%;
+}*/
+
+div.exprContnr input{
+    display:inline-block;
+    width:50px !important;
+}
