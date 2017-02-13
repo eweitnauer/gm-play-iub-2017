@@ -292,16 +292,12 @@ function CreateRocks(numRocks){
 function startGame() {
 	var _mins = $("#minutesText").val;
 	var _scs = $("#secondsText").val;
-	
-	console.log("Start game called");
-
-	if(_mins||_scs){
-		//if(isGameStarted == false){
-			myGameArea.start();
-			//isGameStarted = true;
-		//}
 		
-        //reset game board and clear variables
+	if(_mins||_scs){
+	
+		myGameArea.start();
+			
+		//reset game board and clear variables
 		g_eggs = [];
 		g_rocks = [];
 
@@ -310,11 +306,8 @@ function startGame() {
 		CreateRocks(g_levelNum+2);
 		InitDinoPositions(g_levelNum+10);
 		g_dino = new dino();
-		/*setInterval(function(){
-			while(g_eggs && g_timeout>0){
-				g_timeout--;
-				_y += 100;
-			}
-		}, 300);*/
 	}
+
+
+	
 }

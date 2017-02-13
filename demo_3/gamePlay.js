@@ -1,6 +1,7 @@
 /*// <![CDATA[*/
 var g_controlButtonState = -1; //This means we have to pause the game
 var g_canvasState = 0;
+var g_isGameInProgress = false;
 function MainTimer(obnm){
 	// http://coursesweb.net/javascript/
 
@@ -17,27 +18,33 @@ function MainTimer(obnm){
 	var startPauseBtn = document.getElementById('startPauseButton');
 	var restartBtn = document.getElementById('restartButton');
 	
-	var endct =0;  // it is set to 1 when script starts
+	var endct = 0;  // it is set to 1 when script starts
 	
 	//to start/pause/resume Countdown Timer
 	function startPauseClickListener(){
 		//startGame();
 		if(parseInt(minutesText.value) > 0 || parseInt(secondsText.value)> 0 || endct == 1){
+			if(!g_isGameInProgress){
+				g_isGameInProgress = true;
+				startGame();				
+			}
+			
 			g_controlButtonState *= -1;
 		   
 			if(g_controlButtonState == 1){ //Start and set next click as Pause
+			
+			    
 				document.getElementById("gm-div").style.display = 'block';
-				console.log("Button clicked*********");
-				//document.getElementById("dvGame").style.display = 'block';
+				document.getElementById("dvGame").style.display = 'block';
 				startPauseBtn.value ='PAUSE';	
 				setTimeout(obnm +'.countdownTimer()', 1000);
 				var scoreLabel = document.getElementById("totalScore");
-				scoreLabel.innerHTML = "Total Score : 0";
+				scoreLabel.innerHTML = "Total Score : 0";	
 			}
 			 //happens after clicking pause
 			  else {
 				document.getElementById("gm-div").style.display = 'none';
-				//document.getElementById("dvGame").style.display = 'none';
+				document.getElementById("dvGame").style.display = 'none';
 				//g_canvasState = document.getElementById("dvGame").save();
 				startPauseBtn.value ='RESUME';	
 			  }
@@ -71,12 +78,12 @@ this.countdownTimer = function(){
 	if(minutes >0 || seconds >0) endct =1;  //to can call endCT() at the ending
 
 	// if minutes and seconds are 0, call endCT()
-    if(minutes == 0 && seconds == 0 /*&& endct ==1*/){
+    if(minutes == 0 && seconds == 0 && endct ==1){
       startchr =0;
       g_controlButtonState = -1;
-      //endct =0;
+      endct =0;
       startPauseBtn.value ='START';
-      //endCT();
+      endCT();
     }
 
 	else if(startchr == 1 && g_controlButtonState == 1){
@@ -108,7 +115,7 @@ this.countdownTimer = function(){
 				/*finishText += "Your total score is "+totalScore;*/
 				$("#equationSolved").html(finishText);
 				$("#gameOverScore").html(totalScore);
-
+				g_isGameInProgress = false;
 				//add finish image
 				//canvas.model.createElement('image',{src : 'download.png' });
 				var historyText="This is the order of steps in which equations were solved.<br />";
@@ -134,14 +141,17 @@ this.countdownTimer = function(){
 if(startPauseBtn) startPauseBtn.addEventListener('click', startPauseClickListener);
 
 //restart Countdown Timer from the initial values
-if(restartBtn) restartBtn.addEventListener('click', function(){ startchr =0; if(g_controlButtonState ==-1) startPauseClickListener(); });
+if(restartBtn) restartBtn.addEventListener('click', function(){ 
+startchr = 0; 
+
+	g_isGameInProgress = false;
+	g_controlButtonState = -1;
+	startPauseClickListener(); 
+	
+	
+});
 
 }
 //set object of CountdownTimer class
 var obCT = new MainTimer('obCT');
 
-$("#startPauseButton").click(function(){
-	startGame();
-	
-	});
-//startGame();
