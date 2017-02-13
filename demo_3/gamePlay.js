@@ -22,7 +22,6 @@ function MainTimer(obnm){
 	
 	//to start/pause/resume Countdown Timer
 	function startPauseClickListener(){
-		//startGame();
 		if(parseInt(minutesText.value) > 0 || parseInt(secondsText.value)> 0 || endct == 1){
 			if(!g_isGameInProgress){
 				g_isGameInProgress = true;

@@ -12,10 +12,25 @@ loadGM(initCanvas, { version: '0.12.6' });
 function initCanvas() {
         canvas = new gmath.Canvas('#gm-div', {use_toolbar: false, vertical_scroll: false });
         canvas.model.on('el_changed', function(evt) {
-		console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
-		console.log("equ CHANGED.......");
+		/*console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+		console.log("equ CHANGED.......");*/
+		console.log("equ CHANGED......."+evt.last_eq);
 		// condition to check if equation is solved
-		if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
+		if (evt.last_eq == g_matchExprSolution){
+			totalScore += 10;
+			eqList.push(g_rocks[current_rock_id].parsedEquation);
+			canvas.showHint('Success :)' + totalScore);
+			//generateRandomExp();
+			var scoreLabel = document.getElementById("totalScore");
+			scoreLabel.innerHTML = "Total Score : "+totalScore;
+			clearGMCanvas();
+			
+			g_dino.move();
+			//remove rock from rocks array
+			g_rocks.splice(current_rock_id,1);
+			current_rock_id = null;
+		}
+		/*if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
 		{
 			totalScore += 10;
 			eqList.push(g_rocks[current_rock_id].equation);
@@ -29,7 +44,7 @@ function initCanvas() {
 			//remove rock from rocks array
 			g_rocks.splice(current_rock_id,1);
 			current_rock_id = null;
-		}
+		}*/
 
 	});
 }
@@ -53,19 +68,8 @@ function initCanvas() {
 
         str = "";
         eq1 = str+a+"x+"+b+"="+c;
-
-        //clear canvas
-        //while(canvas.model.elements().length > 0){
-        //    canvas.model.removeElement(canvas.model.elements()[0]);
-        //}
-
         expectedValue = ((c - b) / a);
-        expectedValue = Math.round(expectedValue * 1000) / 1000;
-        //console.log ("Next Eq : "+eq1+" Expected Result : " +expectedValue);
-
-        //place new equation on canvas
-        //canvas.model.createElement('derivation', { eq: eq1, pos: { x: 'center', y: 50 }});
-        
+        expectedValue = Math.round(expectedValue * 1000) / 1000;        
         return eq1;
     }
     $(function () {
@@ -198,5 +202,4 @@ function initCanvas() {
         canvas2.model.reset();
         canvas2.model.createElement('derivation', { eq: finalString1, pos: { x: 'center', y: 50 } });
         canvas2.model.createElement('derivation', { eq: finalString2, pos: { x: 'center', y: 150 } });
-        //console.log("Added to canvas2");
     }

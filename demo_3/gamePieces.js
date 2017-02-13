@@ -15,6 +15,9 @@ var g_dinoPos = [];
 var g_curr_pos = 0;//holds dino's current position = i in g_dino_pos[i]
 var current_rock_id = null;
 
+//Solution for match expression (Level 1)
+var g_matchExprSolution = g_problems[0][0];
+var g_parsedExprSolution = g_matchExprSolution.replace(/\*/g, "");
 
 var g_dino = null;
 if (g_levelNum == null){
@@ -86,6 +89,8 @@ function updateGameArea() {
 	g_eggs.forEach(function(_egg){
 		_egg.paint();
 	});
+	
+	
 
     //Display rocks
 	if(g_controlButtonState == 1){
@@ -110,6 +115,15 @@ function updateGameArea() {
 	{  //dino hasnt saved eggs yet and equation is solved
 		g_dino.move();               
 	}
+	
+	
+	
+	
+	myGameArea.context.font = "20px Arial";
+	myGameArea.context.fillStyle = "black";
+	
+	//Need to check the args in this
+	myGameArea.context.fillText(g_parsedExprSolution, 600,400);
 }
 
 
@@ -118,7 +132,16 @@ function rock(width, height, color, x, y) {
 	this.height = height;
 	this.x = x;
 	this.y = y;
-	this.equation = generateRandomExp();    
+	
+	//Below line is used for getting linear equations on rock of form ax +b = c
+	//this.equation = generateRandomExp();  
+
+    //function for supporting match expression on rock
+	//Enhance this to choose correct expressions for higher levels by refactoring
+    var indexToChoose = getRandomRange(1, g_problems[0].length - 1);
+	this.equation =  g_problems[0][indexToChoose];
+	this.parsedEquation = this.equation.replace(/\*/g, "");
+	
 	ctx = myGameArea.context;
 	ctx.fillStyle = color;
 
@@ -130,7 +153,7 @@ function rock(width, height, color, x, y) {
 		ctx.fillStyle = "black";
 		
 		//Need to check the args in this
-		ctx.fillText(this.equation,this.x + 20,this.y + 20);
+		ctx.fillText(this.parsedEquation,this.x + 20,this.y + 20);
 	}
 	var egg_broke = false;
 	var rockbottom = myGameArea.canvas.height - this.height;//commented? shree
