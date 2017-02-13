@@ -179,7 +179,7 @@ function rock(width, height, color, x, y, rockID) {
 			}
 			if(egg_broke)
 			{
-				addSound('beep2.mp3');
+				addSound('eggCrackingMusic.mp3');
 				egg_broke = false;
 				
 				//remove the rock which touched ground
