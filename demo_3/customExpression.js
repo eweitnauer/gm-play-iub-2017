@@ -79,6 +79,9 @@
     }
     $(function () {
         // Instance the tour
+	if(typeof(sessionStorage.setVisit)=='undefined' || sessionStorage.setVisit==''){
+        sessionStorage.setVisit='yes';
+		
         var tour = new Tour({
             name: 'TourOne',
             steps: [
