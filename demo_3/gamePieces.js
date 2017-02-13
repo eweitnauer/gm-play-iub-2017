@@ -81,6 +81,13 @@ function updateGameArea() {
 	if(g_controlButtonState == -1){
 		return;
 	}
+	
+	//game over if rocks are used up - either solved or hit bottom
+	if(g_rocks.length <= 0){
+		
+	}
+	
+
 		
 	//clear context every time before painting the changes
 	myGameArea.clear();
@@ -127,11 +134,12 @@ function updateGameArea() {
 }
 
 
-function rock(width, height, color, x, y) {
+function rock(width, height, color, x, y, rockID) {
 	this.width = width;
 	this.height = height;
 	this.x = x;
 	this.y = y;
+	this.rockID = rockID;
 	
 	//Below line is used for getting linear equations on rock of form ax +b = c
 	//this.equation = generateRandomExp();  
@@ -173,6 +181,11 @@ function rock(width, height, color, x, y) {
 			{
 				addSound('beep2.mp3');
 				egg_broke = false;
+				
+				//remove the rock which touched ground
+				var indexToRemove = g_rocks.indexOf(this);
+				console.log(indexToRemove);
+				g_rocks.splice(indexToRemove, 1);
 			}  
 			//this.gravitySpeed = -(this.gravitySpeed * this.bounce);
 		}
@@ -292,22 +305,22 @@ function CreateEggs(numEggs){
 	}
 }
 
-function AddRock(rockType, _x, _y){
+function AddRock(rockType, _x, _y, rockID){
 	var w = 100, h = 50, c = "";
 	switch(rockType){
 		case "normal": c = "gray"; break;
 		case "urgent": c = "red"; break;
 	}
 
-	var _rock = new rock(w,h,c,_x,_y);//width, height, color, x and y coordinates
+	var _rock = new rock(w,h,c,_x,_y, rockID);//width, height, color, x and y coordinates
 	g_rocks.push(_rock);
 	//alert(g_rocks);
 }
 
 function CreateRocks(numRocks){
 	var _y = 200, _x = 50;
-	for(var i=0; i<numRocks; i++){
-		AddRock("normal",_x, _y + (i * 50));
+	for(var i=0; i < numRocks; i++){
+		AddRock("normal",_x, _y + (i * 50), 101 + i);
 		_x = _x+200;
 	}
 }
