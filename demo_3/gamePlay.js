@@ -34,8 +34,10 @@ function MainTimer(obnm){
 			if(g_controlButtonState == 1){ //Start and set next click as Pause
 			
 			    
-				document.getElementById("gm-div").style.display = 'block';
-				document.getElementById("dvGame").style.display = 'block';
+				/*document.getElementById("gm-div").style.display = 'block';
+				document.getElementById("dvGame").style.display = 'block';*/
+				document.getElementById("gm-div").disabled = false;
+				document.getElementById("dvGame").disabled = false;
 				startPauseBtn.value ='PAUSE';	
 				setTimeout(obnm +'.countdownTimer()', 1000);
 				var scoreLabel = document.getElementById("totalScore");
@@ -43,8 +45,8 @@ function MainTimer(obnm){
 			}
 			 //happens after clicking pause
 			  else {
-				document.getElementById("gm-div").style.display = 'none';
-				document.getElementById("dvGame").style.display = 'none';
+				document.getElementById("gm-div").disabled = true;
+				document.getElementById("dvGame").disabled = true;
 				//g_canvasState = document.getElementById("dvGame").save();
 				startPauseBtn.value ='RESUME';	
 			  }
