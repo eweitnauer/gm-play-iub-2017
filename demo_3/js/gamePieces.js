@@ -106,11 +106,16 @@ function updateGameArea() {
 	
 	//display message that the player has won
 	if(g_hasPlayerWon==true){
+		alert("won");
 		addSound('sounds/winningMusic.mp3');
 		finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
 		for(var i = 0 ; i < eqList.length ; i++){
 			finishText += eqList[i] + "<br />";
 		}
+		minutes=0;
+		seconds=0;
+		g_rocks = [];
+		//g_eggs = [];
 		return;
 	}
 

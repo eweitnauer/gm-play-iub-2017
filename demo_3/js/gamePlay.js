@@ -100,13 +100,13 @@ function MainTimer(obnm){
 			seconds = 0;  // seconds
 			startPauseBtn.value = 'START'
 
-			if(g_eggs.length>0)
+			/*if(g_eggs.length>0)
 				g_hasPlayerWon = false;
 			else{
 				if(g_rocks.length>0)
 					totalScore += g_rocks.length;
 				g_hasPlayerWon = true;
-			}
+			}*/
 
 			//successful level completion
 			var finishText = "";
@@ -120,6 +120,7 @@ function MainTimer(obnm){
 			}
 			//unsuccessful level over
 			else{
+				alert("lost");
 				addSound('sounds/losingMusic.mp3');
 				finishText = "You lost. Have another go !!";
 			}
