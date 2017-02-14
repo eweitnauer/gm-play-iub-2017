@@ -1,10 +1,12 @@
+f
+//Test
 function getRandomRange(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 var iteration = 0;
 var isGameStarted = false;
-var _y = 150; 
+var _y = 150;
 var g_timeout = 200;
 var g_eggs = [];  // global array to hold all eggs
 var g_rocks = [];	// global array to hold all rocks -- for future use, not required at present
@@ -39,34 +41,34 @@ start  : function() {
 	this.canvas.addEventListener('click', function(event) {
 		var x_clicked =  event.pageX - document.getElementById("dvGame").getBoundingClientRect().left - this.offsetLeft;
 		var y_clicked = event.pageY - this.offsetTop;
-		
+
 		// Collision detection between clicked offset and element.
 		console.log("check each rock");
-		
+
 		//g_rocks.forEach(function(rock) {
 		for(var i = 0;i < g_rocks.length; i++){
 			var rock = g_rocks[i];
 			console.log(event.pageX,event.pageY);
 			console.log(x_clicked,y_clicked);
 			console.log(rock.x,rock.x + rock.width,rock.y,rock.y + rock.height);
-			
-			if (y_clicked > rock.y && y_clicked < rock.y + rock.height 
+
+			if (y_clicked > rock.y && y_clicked < rock.y + rock.height
 				&& x_clicked > rock.x && x_clicked < rock.x + rock.width) {
-					
+
 				//What does this mean ? Is this for loading the selected rock expression on Canvas ?
 				createNewExpression(rock);
 				current_rock_id = i;
 			}
-		}//); 
+		}//);
 
-		
+
 		//Are we creating the expression even if user has not selected any rock ?
 		//Can the rock ever be null ?
 		canvas.model.createElement('derivation', { eq: rock, pos: { x: 'center', y: 50 }});
 
 	 }, false);
 
-	 
+
 	//I hope the interval is for the complete game ? Not each rock selection?
 	this.interval = setInterval(updateGameArea, 150);
 	},
@@ -77,27 +79,27 @@ clear : function() {
 
 //main game loop
 function updateGameArea() {
-	
+
 	if(g_controlButtonState == -1){
 		return;
 	}
-	
+
 	//game over if rocks are used up - either solved or hit bottom
 	if(g_rocks.length <= 0){
-		
-	}
-	
 
-		
+	}
+
+
+
 	//clear context every time before painting the changes
 	myGameArea.clear();
-	
+
 	//Display eggs
 	g_eggs.forEach(function(_egg){
 		_egg.paint();
 	});
-	
-	
+
+
 
     //Display rocks
 	if(g_controlButtonState == 1){
@@ -107,11 +109,11 @@ function updateGameArea() {
 			}
 			_rock.hitEgg();
 			_rock.update();
-			
+
 		});
     }
-	
-	
+
+
 	/*if(g_dinoPos){
 		g_dinoPos.forEach(function(_dinoPosition){
 			_dinoPosition.placeOnCanvas();
@@ -121,15 +123,15 @@ function updateGameArea() {
 	g_dino.paint();
 	/*if(g_dino.hasSavedEgg == false) // && condition needed for equation solved
 	{  //dino hasnt saved eggs yet and equation is solved
-		g_dino.move();               
+		g_dino.move();
 	}*/
-	
-	
-	
+
+
+
 	//This code shows the expression to match on Canvas.
 	/*myGameArea.context.font = "20px Arial";
 	myGameArea.context.fillStyle = "black";
-	
+
 	//Need to check the args in this
 	myGameArea.context.fillText(g_parsedExprSolution, 600,400);*/
 }
@@ -143,16 +145,16 @@ function rock(width, height, color, x, y, rockID) {
 	this.rockID = rockID;
 	this.img = new Image();
 	this.img.src = "images/rock.png";
-	
+
 	//Below line is used for getting linear equations on rock of form ax +b = c
-	//this.equation = generateRandomExp();  
+	//this.equation = generateRandomExp();
 
     //function for supporting match expression on rock
 	//Enhance this to choose correct expressions for higher levels by refactoring
     var indexToChoose = getRandomRange(1, g_problems[0].length - 1);
 	this.equation =  g_problems[0][indexToChoose];
 	this.parsedEquation = this.equation.replace(/\*/g, "");
-	
+
 	ctx = myGameArea.context;
 	ctx.fillStyle = color;
 
@@ -167,11 +169,11 @@ function rock(width, height, color, x, y, rockID) {
 	}
 	var eggWiggle = false;
 	var rockbottom = myGameArea.canvas.height - this.height;//commented? shree
-	
+
 	//function to check whether the rock collided with an egg
 	this.hitEgg = function() {
 		var rockbottom = myGameArea.canvas.height - 100;
-		
+
 		if (this.y + this.height > rockbottom) {
 			//this.y = rockbottom;
 			var xPosition = this.x;
@@ -186,12 +188,12 @@ function rock(width, height, color, x, y, rockID) {
 			{
 				addSound('sounds/eggScreamMusic.mp3');
 				eggWiggle = false;
-				
+
 				//remove the rock which touched ground
 				var indexToRemove = g_rocks.indexOf(this);
 				console.log(indexToRemove);
 				g_rocks.splice(indexToRemove, 1);
-			}  
+			}
 			//this.gravitySpeed = -(this.gravitySpeed * this.bounce);
 		}
 	}
@@ -207,7 +209,7 @@ function dino() {
 	this.height = 250;
 	this.x = 600;
 	this.y = 300;
-	
+
 	//Remove below code after checking with Harsha
 	/*if(g_dinoPos){
 		var _dinoPos = g_dinoPos[0];
@@ -216,7 +218,7 @@ function dino() {
 			this.y = _dinoPos.y;
 		}
 	}*/
-	
+
 	this.img = new Image();
 	this.img.src = "images/placardDino.png";
 
@@ -226,12 +228,12 @@ function dino() {
 		ctx.font = "20px Arial";
 		ctx.fillStyle = "white";
 		ctx.fillText(g_parsedExprSolution,this.x + 20,this.y + 75);
-	}			
+	}
 
 	/*this.move = function(newX, newY){
 		ctx = myGameArea.context;
 		ctx.fillStyle = "red";*/
-		
+
 		/*if(g_curr_pos >= g_dinoPos.length)
 			return null;*/
 		/*g_curr_pos++;
@@ -245,7 +247,7 @@ function dino() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}*/
 
-	
+
 	this.hasSavedEgg = function(){
 
 		//if dino is at the last position, level complete
@@ -264,7 +266,7 @@ function egg(width, height, color, x, y) {
 	this.width = width;
 	this.height = height;
 	this.x = x;
-	this.y = y;  
+	this.y = y;
 	this.img = new Image();
 	this.img.src = "images/egg.png";
 	ctx = myGameArea.context;
@@ -286,7 +288,7 @@ function egg(width, height, color, x, y) {
 //An object to store x y coordinates {X, Y}
 /*function dinoPosition(_x, _y) {
 	this.x = _x;
-	this.y = _y;    
+	this.y = _y;
 	this.width = 20;
 	this.height = 20;
 
@@ -343,14 +345,14 @@ function CreateRocks(numRocks){
 function startGame() {
 	var _mins = $("#minutesText").val;
 	var _scs = $("#secondsText").val;
-	
-		
+
+
 	if(_mins||_scs){
 		totalScore = 0;
 		eqList = new Array();
-	
+
 		myGameArea.start();
-			
+
 		//reset game board and clear variables
 		g_eggs = [];
 		g_rocks = [];
@@ -363,5 +365,5 @@ function startGame() {
 	}
 
 
-	
+
 }
