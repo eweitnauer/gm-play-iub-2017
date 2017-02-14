@@ -1,13 +1,9 @@
-function getRandomRange(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 var iteration = 0;
 var isGameStarted = false;
 var _y = 150; 
 var g_timeout = 200;
 var g_eggs = [];  // global array to hold all eggs
-var g_rocks = [];	// global array to hold all rocks -- for future use, not required at present
+var g_rocks = [];	// global array to hold all rocks
 
 var g_levelNum = new RegExp('[\?&]lvl=([^]*)').exec(window.location.href);
 var g_dinoPos = [];
@@ -24,6 +20,10 @@ if (g_levelNum == null){
 	g_levelNum = 1;
 }
 
+// random range generator
+function getRandomRange(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 // The Canvas holder
 var myGameArea = {
@@ -68,7 +68,7 @@ start  : function() {
 
 	 
 	//I hope the interval is for the complete game ? Not each rock selection?
-	this.interval = setInterval(updateGameArea, 150);
+	this.interval = setInterval(updateGameArea, 1000);
 	},
 clear : function() {
 	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -82,11 +82,37 @@ function updateGameArea() {
 		return;
 	}
 	
-	//game over if rocks are used up - either solved or hit bottom
-	if(g_rocks.length <= 0){
-		
+	//game over conditions
+	if(g_eggs.length>0){
+		if(g_rocks.length==0){
+			totalScore += g_eggs.length;
+			totalScore += minutes*60 + seconds;
+			g_hasPlayerWon = true;
+		}
+		else{
+			g_hasPlayerWon = false;//game in progress
+		}
+	}
+	else{
+		if(g_rocks.length>0){
+			totalScore += g_rocks.length;
+			totalScore += minutes*60 + seconds;
+		}
+		else{
+			totalScore += minutes*60 + seconds;
+		}
+		g_hasPlayerWon = true;		
 	}
 	
+	//display message that the player has won
+	if(g_hasPlayerWon==true){
+		addSound('sounds/winningMusic.mp3');
+		finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
+		for(var i = 0 ; i < eqList.length ; i++){
+			finishText += eqList[i] + "<br />";
+		}
+		return;
+	}
 
 		
 	//clear context every time before painting the changes
@@ -245,8 +271,7 @@ function dino() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}*/
 
-	
-	this.hasSavedEgg = function(){
+	/*this.hasSavedEgg = function(){
 
 		//if dino is at the last position, level complete
 		if(g_curr_pos==g_dinoPos.length-1){
@@ -256,7 +281,7 @@ function dino() {
 			}
 		}
 		return false;
-	}
+	}*/
 }
 
 
@@ -272,7 +297,7 @@ function egg(width, height, color, x, y) {
 
 	this.paint = function(){
 		ctx = myGameArea.context;
-		ctx.drawImage(this.img, this.x, this.y, this.width,this.height);
+		ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
 	};
 }
 
@@ -360,8 +385,5 @@ function startGame() {
 		CreateRocks(g_levelNum+2);
 		//InitDinoPositions(g_levelNum+10);
 		g_dino = new dino();
-	}
-
-
-	
+	}	
 }
