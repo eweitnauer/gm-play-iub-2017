@@ -20,6 +20,12 @@ var g_matchExprSolution = g_problems[0][0];
 var g_parsedExprSolution = g_matchExprSolution.replace(/\*/g, "");
 
 var g_dino = null;
+
+const HAPPY = 0;
+const CRYING = 1;
+const HATCHING = 2;
+const RUNNING = 3;
+
 if (g_levelNum == null){
 	g_levelNum = 1;
 }
@@ -179,6 +185,7 @@ function rock(width, height, color, x, y, rockID) {
 				if(g_eggs[i].x == xPosition){
 					//g_eggs.splice(i, 1);
 					eggWiggle = true;
+					g_eggs[i].animMode = CRYING;
 					//console.log(g_eggs);
 				}
 			}
@@ -266,13 +273,56 @@ function egg(width, height, color, x, y) {
 	this.x = x;
 	this.y = y;  
 	this.img = new Image();
-	this.img.src = "images/egg.png";
+	this.img.src = "images/happy.png";
+	this.frames = 8;
 	ctx = myGameArea.context;
 	ctx.fillStyle = color;
 
+	this.animMode = HAPPY;
+	this.eggAnimCounter =0; // rate of change in this variable in the paint method decides speed of animation
+	
 	this.paint = function(){
 		ctx = myGameArea.context;
-		ctx.drawImage(this.img, this.x, this.y, this.width,this.height);
+		if(this.animMode===HAPPY){
+			this.img.src = "images/happy.png";
+			ctx.drawImage(this.img,this.x, this.y, this.width,this.height);
+		}
+		else if (this.animMode ===CRYING){
+			this.img.src = "images/cry.png";
+			this.eggAnimCounter++;
+			var egg_crying_mod = Math.floor(this.eggAnimCounter)%this.frames;
+			console.log(egg_crying_mod);
+			if (egg_crying_mod >= 5){ // after certain time change mode back to happy
+				this.eggAnimCounter=0;
+				this.animMode=HAPPY;
+			}
+			ctx.drawImage(this.img,this.x, this.y, this.width,this.height);
+		}
+		else if(this.animMode===HATCHING){
+			this.img.src = "images/egg_spritesheet.png";
+			var frameWidth = this.img.width/8;//8 images in the egg spritesheet
+			var frameHeight = this.img.height;
+
+			this.eggAnimCounter+=0.2;
+			var egg_cracking_mod = Math.floor(this.eggAnimCounter)%this.frames;//egg spritesheet frames: 0,1,2,3,4,5,6,7;
+			if (egg_cracking_mod >= 7){// after certain time change mode back to running
+				this.eggAnimCounter=0;
+				this.animMode=RUNNING;
+			}
+			ctx.drawImage(this.img,egg_cracking_mod*frameWidth,0,frameWidth,frameHeight, this.x, this.y, this.width,this.height);
+		}
+		else if(this.animMode===RUNNING){
+			this.img.src="images/running.png";
+			var frameWidth = this.img.width/9;//8 images in the spritesheet
+			var frameHeight = this.img.height/8;
+			this.frames = 9;
+			this.x+=20;
+
+			this.eggAnimCounter+=10;
+			var egg_cracking_mod = Math.floor(this.eggAnimCounter)%this.frames;//1,2,3,4,5,6,7;
+			ctx.drawImage(this.img,egg_cracking_mod*frameWidth,0,frameWidth,frameHeight, this.x, this.y+10, this.width,this.height-10);//shift running sprite 10px down
+		}
+
 	};
 }
 

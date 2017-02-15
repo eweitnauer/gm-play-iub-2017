@@ -30,6 +30,10 @@ function initCanvas() {
 			g_rocks.splice(current_rock_id,1);
 			current_rock_id = null;
 			addSound('sounds/eggCrackingMusic.mp3');
+
+            //Test code:animate first egg
+            console.log("animating first egg");
+            g_eggs[0].animMode=HATCHING;
 		}
 		/*if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
 		{
