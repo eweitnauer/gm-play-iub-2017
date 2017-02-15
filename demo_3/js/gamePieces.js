@@ -106,7 +106,7 @@ function updateGameArea() {
 	
 	//display message that the player has won
 	if(g_hasPlayerWon==true){
-		alert("won");
+		//alert("won");
 		addSound('sounds/winningMusic.mp3');
 		finishText = "Good job !!! You solved "+eqList.length+" equations in 15 seconds.<br />";
 		for(var i = 0 ; i < eqList.length ; i++){
