@@ -26,14 +26,22 @@ function initCanvas() {
 			clearGMCanvas();
 			
 			//g_dino.move();
+
+            //find egg right below the rock to hatch
+            g_eggs.forEach(function(_egg){
+                if(_egg.x==g_rocks[current_rock_id].x){
+                    //Test code:animate first egg
+                    console.log("animate egg");
+                    _egg.animMode=HATCHING;
+                }
+            
+            });
+
 			//remove rock from rocks array
 			g_rocks.splice(current_rock_id,1);
 			current_rock_id = null;
 			addSound('sounds/eggCrackingMusic.mp3');
 
-            //Test code:animate first egg
-            console.log("animating first egg");
-            g_eggs[0].animMode=HATCHING;
 		}
 		/*if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))
 		{
