@@ -33,10 +33,10 @@ function getRandomRange(min, max) {
 
 // The Canvas holder
 var myGameArea = {
-canvas : document.createElement("canvas"),
+canvas : document.getElementById("canvas-world"),//document.createElement("canvas"),
 start  : function() {
-	this.canvas.width = 960;
-	this.canvas.height = 540;
+	/*this.canvas.width = 960;
+	this.canvas.height = 540;*/
 	this.context = this.canvas.getContext("2d");
 	//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 	$("#dvGame").append(this.canvas);
