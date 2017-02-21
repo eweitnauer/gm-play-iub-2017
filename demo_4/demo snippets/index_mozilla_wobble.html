@@ -3,7 +3,7 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Phaser - Eggs Demo</title>
-    <script src="//cdn.jsdelivr.net/phaser/2.4.2/phaser.min.js"></script>
+    <script src="phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -19,7 +19,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 
 function preload() {
 
-    game.load.spritesheet('ball', 'assets/wobble.png');
+    game.load.spritesheet('ball', '../assets/wobble.png');
 
 }
 

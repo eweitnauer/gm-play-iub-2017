@@ -3,7 +3,7 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Phaser - Rocks Demo</title>
-    <script src="//cdn.jsdelivr.net/phaser/2.4.2/phaser.min.js"></script>
+    <script src="phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -18,11 +18,11 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
 
 function preload() {
-    game.load.image('rock', 'assets/rock.png');
-    game.load.image('ground', 'assets/platform.png');
+    game.load.image('rock', '../assets/rock.png');
+    game.load.image('ground', '../assets/platform.png');
     
     //change width of frame later
-    game.load.spritesheet('egg', 'assets/egg_spritesheet.png',103,126);
+    game.load.spritesheet('egg', '../assets/egg_spritesheet.png',103,126);
 }
     
 var rock;

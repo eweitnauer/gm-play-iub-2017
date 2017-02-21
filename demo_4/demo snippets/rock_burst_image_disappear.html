@@ -3,7 +3,7 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Phaser - Rocks Demo</title>
-    <script src="//cdn.jsdelivr.net/phaser/2.4.2/phaser.min.js"></script>
+    <script src="phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -20,9 +20,9 @@ var emitter;
 var rock;
 function preload() {
   
-    game.load.image('diamond', 'assets/diamond.png');
+    game.load.image('diamond', '../assets/diamond.png');
    
-    game.load.image('rock', 'assets/rock_fragment.png');
+    game.load.image('rock', '../assets/rock_fragment.png');
 }
 
 function create() {
