@@ -1,0 +1,159 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Eggs Demo</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.2.2/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+
+function preload() {
+    
+    /*game.load.image('sky', 'assets/sky.png');
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);*/
+    game.load.image('ball', 'assets/shinyball.png');
+
+}
+
+function create() {
+
+  // we need to add margin to the world, so the camera can move
+  /*var margin = 50;
+  // and set the world's bounds according to the given margin
+  var x = -margin;
+  var y = -margin;
+  var w = game.world.width + margin * 2;
+  var h = game.world.height + margin * 2;
+    
+  // it's not necessary to increase height, we do it to keep uniformity
+  game.world.setBounds(x, y, w, h);
+  
+  // we make sure camera is at position (0,0)
+  game.world.camera.position.set(0);
+  
+ 
+  //  A simple background for our game
+  game.add.sprite(0, 0, 'sky');
+
+  game.add.sprite(100, 100, 'dude', 0);
+  game.add.sprite(500, 100, 'dude', 0);
+  game.add.sprite(100, 400, 'dude', 0);
+  game.add.sprite(500, 400, 'dude', 0);
+  
+  // this is where the magic happens
+  //addQuake();*/
+    
+    //	Create our BitmapData object at a size of 32x64
+	bmd = game.add.bitmapData(32, 64);
+
+    //  And apply it to 100 randomly positioned sprites
+    /*for (var i = 0; i < 100; i++)
+    {
+        game.add.sprite(game.world.randomX, game.world.randomY, bmd);
+    }*/
+
+    game.add.sprite(300, 400, bmd);
+    //  Populate the wave with some data
+	waveData = game.math.sinCosGenerator(32, 8, 8, 2);
+
+  
+}
+    
+var bmd;
+
+var waveSize = 8;
+var wavePixelChunk = 40;
+var waveData;
+var waveDataCounter;
+
+function addQuake(){
+  // define the camera offset for the quake
+  var rumbleOffset = 10;
+  
+  // we need to move according to the camera's current position
+  var properties = {
+    y: game.camera.y - rumbleOffset
+  };
+  
+  // we make it a relly fast movement
+  var duration = 100;
+    
+  // because it will repeat
+  var repeat = 4;
+    
+  // we use bounce in-out to soften it a little bit
+  var ease = Phaser.Easing.Bounce.InOut;
+  var autoStart = false;
+  // a little delay because we will run it indefinitely
+  var delay = 1000;
+  // we want to go back to the original position
+  var yoyo = true;
+  
+  var quake = game.add.tween(game.camera)
+    .to(properties, duration, ease, autoStart, delay, 4, yoyo);
+  
+  // we're using this line for the example to run indefinitely
+  quake.onComplete.addOnce(addQuake);
+  
+  // let the earthquake begins
+  quake.start();
+}
+
+
+    
+function update() {
+    
+    //	Clear the BitmapData
+	bmd.cls();
+
+	updateWobblyBall();
+}
+    
+function updateWobblyBall() {
+
+	var s = 0;
+	var copyRect = { x: 0, y: 0, w: wavePixelChunk, h: 32 };
+	var copyPoint = { x: 0, y: 0 };
+
+	for (var y = 0; y < 32; y += wavePixelChunk)
+	{
+		copyPoint.y = y;
+		copyPoint.x = waveSize + (waveSize / 2) + waveData.sin[s];
+
+		bmd.context.drawImage(game.cache.getImage('ball'), copyRect.x, copyRect.y, copyRect.w, copyRect.h, copyPoint.x, copyPoint.y, copyRect.w, copyRect.h);
+			
+		copyRect.y += wavePixelChunk;
+			
+		s++;
+	}
+
+	//	Now all the pixel data has been redrawn we render it to the BitmapData object.
+	//	In CANVAS mode this doesn't do anything, but on WebGL it pushes the new texture to the GPU.
+	//	If your game is exclusively running under Canvas you can safely ignore this step.
+	bmd.render();
+
+	//	Cycle through the wave data - this is what causes the image to "undulate"
+	Phaser.ArrayUtils.rotate(waveData.sin);
+	
+	waveDataCounter++;
+	
+	if (waveDataCounter === waveData.length)
+	{
+		waveDataCounter = 0;
+	}
+
+}
+
+</script>
+
+</body>
+</html>
