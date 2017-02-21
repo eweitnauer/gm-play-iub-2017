@@ -1,0 +1,60 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Eggs Demo</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.4.2/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+//https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_breakout_game_Phaser/Animations_and_tweens
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    game.load.spritesheet('ball', 'assets/wobble.png');
+
+}
+
+var ball;
+function create() {
+    ball = game.add.sprite(50, 250, 'ball');
+    //ball.animations.add('wobble', [0,1,0,2,0,1,0,2,0], 24);
+    //ball.animations.play('wobble');
+    
+    var wobble = ball.animations.add('wobble');
+    ball.animations.play('wobble', 30, true);
+    
+    
+    /*var frames;	
+    var i;	
+    var xam;	
+    /* [0,1,2,...,21] */	
+    /*frames = [];	
+    for (i=0;i<22;i++)	{		
+        frames.push(i);	
+    }	
+    xam = game.add.sprite(game.world.centerX, game.world.centerY, 'ball');	
+    xam.anchor.setTo(0.5, 0.5);	
+    xam.animations.add('loop',frames,15,true,true);
+    xam.animations.play('loop');*/
+	
+}
+
+function update() {
+
+	
+
+}
+</script>
+
+</body>
+</html>
+
