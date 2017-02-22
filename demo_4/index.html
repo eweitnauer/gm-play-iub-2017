@@ -16,17 +16,16 @@
 
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+var g_eggs = [];  // global array to hold all eggs
+var g_rocks = [];	// global array to hold all rocks
+var g_hitCount = [];
 
+    
 function egg(x, y) {
 	this.x = x;
 	this.y = y;
     this.hitCounter = 0; 
 	
-    this.sprite = game.add.sprite(32,game.world.height-150, 'egg');
-    game.physics.arcade.enable(this.sprite);
-    this.sprite.body.bounce.y = 0.2;
-    this.sprite.body.gravity.y = 300;
-    this.sprite.body.collideWorldBounds = true;
     
 }
     
@@ -52,56 +51,47 @@ function create() {
    ground.scale.setTo(2,2);
    ground.body.immovable = true;
     
-
-   rock = game.add.sprite(20,40,'rock');
-   game.physics.arcade.enable(rock);
-   rock.body.gravity.y = 50;
-   rock.body.collideWorldBounds = true;
-   rock.scale.x = 0.15;
-   rock.scale.y = 0.15;
     
+   CreateRocks(1);
    //add text
    rock.inputEnabled = true;
    var style = { font: "14px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
 
-    text = game.add.text(0, 0, "text on a sprite", style);
+    text = game.add.text(0, 0, "Equation", style);
     text.anchor.set(0.5);
     
-    egg1 = new egg(50,50);
-    var hatch = egg1.sprite.animations.add('hatch');
-
-    //  And this starts the animation playing by using its key ("walk")
-    //  30 is the frame rate (30fps)
-    //  true means it will loop when it finishes
-    
-    //To be called when rock hitsthe egg
-   // 
-    
+    CreateEggs(1);
+ 
+   
 }
 
 function update() {
 
-    var hitPlatform = game.physics.arcade.collide(egg1.sprite,platforms);
+    var hitPlatform = game.physics.arcade.collide(egg,platforms);
     game.physics.arcade.collide(rock,platforms);
-    game.physics.arcade.overlap(egg1.sprite,rock,hatchEgg,null,this,egg1);
+    game.physics.arcade.overlap(egg,rock,hatchEgg,null,this);
     text.x = Math.floor(rock.x + rock.width / 2);
     text.y = Math.floor(rock.y + rock.height / 2);
 
 }
 
-function hatchEgg(eggSprite,rock,egg){
+function hatchEgg(eggSprite,rock){
+
+    //to update this variable once we have an array of hits
+    var hitEggIndex = g_eggs.indexOf(eggSprite);
     
-    console.log(egg);
-    var hits = egg.hitCounter++;
+    var hits = ++g_hitCount[hitEggIndex];
     
     destroyObject(rock);
     destroyObject(text);
+    if(hits!=3)
+        CreateRocks(1);
     switch(hits){
-        case 1 : eggSprite.tint = 0xff00ff;
+        case 1 : eggSprite.tint = 0x00ff00;
                 break;
         case 2 : eggSprite.tint = 0xff0000;
                 break
-        case 3 :   egg1.sprite.animations.play('hatch', 2, false);
+        case 3 :   eggSprite.animations.play('hatch', 2, false);
                 break;
             
     }
@@ -114,6 +104,38 @@ function destroyObject(obj) {
 
 }
 
+function CreateEggs(numEggs){
+	
+	var w = 60, h = 100, x = 50, y = 440;
+	for(var i=0; i<numEggs; i++){
+        egg = game.add.sprite(32,game.world.height-150, 'egg');
+        game.physics.arcade.enable(egg);
+        egg.body.bounce.y = 0.2;
+        egg.body.gravity.y = 300;
+        egg.body.collideWorldBounds = true;
+//		x = x+200;
+        egg.animations.add('hatch');
+		g_eggs.push(egg);
+        g_hitCount.push(0);
+        
+	}
+}
+
+function CreateRocks(numRocks){
+	var _y = 200, _x = 50;
+	for(var i=0; i < numRocks; i++){
+        
+        
+        rock = game.add.sprite(20,40,'rock');
+        game.physics.arcade.enable(rock);
+        rock.body.gravity.y = 50;
+        rock.body.collideWorldBounds = true;
+        rock.scale.x = 0.15;
+        rock.scale.y = 0.15;
+        g_rocks.push(rock);
+     
+	}
+}
 </script>
 
 </body>
