@@ -5,6 +5,7 @@
 	<title>Phaser - Rocks Demo</title>
     <script src="demo%20snippets/phaser.js"></script>
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
+    <script src = "js/graspableMathLogic.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -42,6 +43,7 @@ function preload() {
     
     game.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
     game.load.image('star', 'assets/star.png');
+    game.load.image('dinoMom', 'assets/dinoMom.png');
     game.load.image('sky', 'assets/sky.png');
 }
     
@@ -51,6 +53,8 @@ var egg1;
 var hatchling; //hatchling
 var score = 0;
 var scoreText;
+var expressionTextStyle;
+var text;
 function create() {
    game.add.sprite(0, 0, 'sky');
    game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -59,20 +63,20 @@ function create() {
    var ground = platforms.create(0, game.world.height - 64, 'ground');
    ground.scale.setTo(2,2);
    ground.body.immovable = true;
-    
-    
+
    CreateRocks(1);
+   expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
+   
    //add text
    rock.inputEnabled = true;
-   var style = { font: "14px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
+   
 
-    text = game.add.text(0, 0, "Equation", style);
-    text.anchor.set(0.5);
     
     CreateEggs(1);   
    
-   
-    star = game.add.sprite(600,game.world.centerY,'star');
+   //The dino mom
+    star = game.add.sprite(600,game.world.height-150,'dinoMom');
+    star.scale.setTo(0.2, 0.2);
     
     //  The score
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
@@ -110,10 +114,7 @@ function hatchEgg(eggSprite,rock){
                 eggSprite.animations.play('wiggle');
                 break
         case 3 :  eggSprite.animations.play('hatch', 2, false);
-                 //  Add and update the score
-                score += 10;
-                scoreText.text = 'Score: ' + score;
-                break;
+                 break;
             
     }
     
@@ -145,11 +146,11 @@ function rockBurst() {
 function runToMom(){
     var hatchling = game.add.sprite(32,game.world.height-150, 'hatchling');
     hatchling.anchor.setTo(0.5, 0.5);
-    hatchling.scale.setTo(2, 2);
+    //hatchling.scale.setTo(2, 2);
     hatchling.animations.add('run');
     hatchling.animations.play('run', 10, true); 
     // params are: properties to tween, time in ms, easing and auto-start tweenthis.
-    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.centerY}, 3000, Phaser.Easing.Quadratic.InOut, true);
+    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-150}, 3000, Phaser.Easing.Quadratic.InOut, true);
     runningDinoTween.onComplete.addOnce(stopDino, this,hatchling);  
 
 }
@@ -160,15 +161,13 @@ function stopDino(hatchling){
 }
 
 function destroyObject(obj) {
-
     obj.destroy();
-
 }
 
 function CreateEggs(numEggs){
 	
 	var w = 60, h = 100, x = 50, y = 440;
-	for(var i=0; i<numEggs; i++){
+	for(var i = 0; i < numEggs; i++){
         egg = game.add.sprite(32,game.world.height-150, 'egg','egg1.png');
         game.physics.arcade.enable(egg);
         egg.body.bounce.y = 0.2;
@@ -194,10 +193,13 @@ function CreateRocks(numRocks){
         
         rock = game.add.sprite(20,40,'rock');
         game.physics.arcade.enable(rock);
-        rock.body.gravity.y = 50;
+        rock.body.gravity.y = 5;
         rock.body.collideWorldBounds = true;
         rock.scale.x = 0.15;
         rock.scale.y = 0.15;
+        expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
+        text = game.add.text(0, 0, getMatchEquationOnRock(), expressionTextStyle);
+        text.anchor.set(0.5);
         g_rocks.push(rock);
      
 	}
@@ -219,7 +221,24 @@ function initCanvas() {
     canvas1.model.createElement('derivation', { eq: '2x+1=3', pos: { x: 'center', y: 50 } });
     
     canvas2 = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-    canvas2.model.createElement('derivation', { eq: '5x+7=4', pos: { x: 'center', y: 50 } });
+    canvas2.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 'center', y: 50 } });
+    
+    
+    canvas2.model.on('el_changed', function(evt) {
+		
+		if (evt.last_eq == g_equation){
+			
+            console.log("Solved");
+			rockBurst();
+            CreateRocks(1);
+            //  Add and update the score
+            score += 10;
+            scoreText.text = 'Score: ' + score;
+			
+			
+			
+		}
+	});
 }
     
 </script>
