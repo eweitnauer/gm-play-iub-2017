@@ -3,7 +3,7 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Phaser - Rocks Demo</title>
-    <script src="//cdn.jsdelivr.net/phaser/2.4.2/phaser.min.js"></script>
+    <script src="demo%20snippets/phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -11,6 +11,111 @@
     </style>
 </head>
 <body>
+
+<script type="text/javascript">
+
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+
+function egg(x, y) {
+	this.x = x;
+	this.y = y;
+    this.hitCounter = 0; 
+	
+    this.sprite = game.add.sprite(32,game.world.height-150, 'egg');
+    game.physics.arcade.enable(this.sprite);
+    this.sprite.body.bounce.y = 0.2;
+    this.sprite.body.gravity.y = 300;
+    this.sprite.body.collideWorldBounds = true;
+    
+}
+    
+function preload() {
+    game.load.image('rock', 'assets/rock.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('fragment', 'assets/rock_fragment.png');
+    
+    //change width of frame later
+    game.load.spritesheet('egg', 'assets/egg_spritesheet.png',103,126);
+}
+    
+var rock;
+var platforms;
+var egg1;
+
+function create() {
+    
+   game.physics.startSystem(Phaser.Physics.ARCADE);
+   platforms = game.add.group();
+   platforms.enableBody = true;
+   var ground = platforms.create(0, game.world.height - 64, 'ground');
+   ground.scale.setTo(2,2);
+   ground.body.immovable = true;
+    
+
+   rock = game.add.sprite(20,40,'rock');
+   game.physics.arcade.enable(rock);
+   rock.body.gravity.y = 50;
+   rock.body.collideWorldBounds = true;
+   rock.scale.x = 0.15;
+   rock.scale.y = 0.15;
+    
+   //add text
+   rock.inputEnabled = true;
+   var style = { font: "14px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
+
+    text = game.add.text(0, 0, "text on a sprite", style);
+    text.anchor.set(0.5);
+    
+    egg1 = new egg(50,50);
+    var hatch = egg1.sprite.animations.add('hatch');
+
+    //  And this starts the animation playing by using its key ("walk")
+    //  30 is the frame rate (30fps)
+    //  true means it will loop when it finishes
+    
+    //To be called when rock hitsthe egg
+   // 
+    
+}
+
+function update() {
+
+    var hitPlatform = game.physics.arcade.collide(egg1.sprite,platforms);
+    game.physics.arcade.collide(rock,platforms);
+    game.physics.arcade.overlap(egg1.sprite,rock,hatchEgg,null,this,egg1);
+    text.x = Math.floor(rock.x + rock.width / 2);
+    text.y = Math.floor(rock.y + rock.height / 2);
+
+}
+
+function hatchEgg(eggSprite,rock,egg){
+    
+    console.log(egg);
+    var hits = egg.hitCounter++;
+    
+    destroyObject(rock);
+    destroyObject(text);
+    switch(hits){
+        case 1 : eggSprite.tint = 0xff00ff;
+                break;
+        case 2 : eggSprite.tint = 0xff0000;
+                break
+        case 3 :   egg1.sprite.animations.play('hatch', 2, false);
+                break;
+            
+    }
+    
+}
+
+function destroyObject(obj) {
+
+    obj.destroy();
+
+}
+
+</script>
+
 </body>
 </html>
 

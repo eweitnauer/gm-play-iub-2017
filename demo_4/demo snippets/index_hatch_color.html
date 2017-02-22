@@ -24,7 +24,7 @@ function preload() {
     //  blank frames at the end, so we tell the loader how many to load
 
    
-    game.load.spritesheet('egg', '../assets/egg_spritesheet.png', 100, 125);
+    game.load.spritesheet('egg', '../assets/egg_spritesheet.png', 103, 126);
     game.load.image('egg_color', '../assets/egg.png');
   
 }
@@ -43,7 +43,7 @@ function create() {
     //  And this starts the animation playing by using its key ("walk")
     //  30 is the frame rate (30fps)
     //  true means it will loop when it finishes
-    egg.animations.play('hatch', 8, true);
+    egg.animations.play('hatch', 2, false);
     
     
     var egg_color = game.add.sprite(40, 50, 'egg_color');
