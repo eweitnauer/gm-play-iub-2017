@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
 	<title>Phaser - Rocks Demo</title>
     <script src="demo%20snippets/phaser.js"></script>
+    <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -15,12 +16,12 @@
 <script type="text/javascript">
 
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-div', { preload: preload, create: create, update: update});
 var g_eggs = [];  // global array to hold all eggs
 var g_rocks = [];	// global array to hold all rocks
 var g_hitCount = [];
 
-    
+
 function egg(x, y) {
 	this.x = x;
 	this.y = y;
@@ -36,14 +37,21 @@ function preload() {
     
     //change width of frame later
     game.load.spritesheet('egg', 'assets/egg_spritesheet.png',103,126);
+    
+    
+    game.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
+    game.load.image('star', 'assets/star.png');
+    game.load.image('sky', 'assets/sky.png');
 }
     
 var rock;
 var platforms;
 var egg1;
-
+var hatchling; //hatchling
+var score = 0;
+var scoreText;
 function create() {
-    
+   game.add.sprite(0, 0, 'sky');
    game.physics.startSystem(Phaser.Physics.ARCADE);
    platforms = game.add.group();
    platforms.enableBody = true;
@@ -60,8 +68,15 @@ function create() {
     text = game.add.text(0, 0, "Equation", style);
     text.anchor.set(0.5);
     
-    CreateEggs(1);
- 
+    CreateEggs(1);   
+   
+   
+    star = game.add.sprite(600,game.world.centerY,'star');
+    
+    //  The score
+    scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    
+   
    
 }
 
@@ -82,8 +97,8 @@ function hatchEgg(eggSprite,rock){
     
     var hits = ++g_hitCount[hitEggIndex];
     
-    destroyObject(rock);
-    destroyObject(text);
+    rockBurst();
+
     if(hits!=3)
         CreateRocks(1);
     switch(hits){
@@ -91,11 +106,55 @@ function hatchEgg(eggSprite,rock){
                 break;
         case 2 : eggSprite.tint = 0xff0000;
                 break
-        case 3 :   eggSprite.animations.play('hatch', 2, false);
+        case 3 :  eggSprite.animations.play('hatch', 2, false);
+                 //  Add and update the score
+                score += 10;
+                scoreText.text = 'Score: ' + score;
+                runToMom();
                 break;
             
     }
     
+}
+    
+function rockBurst() {
+    
+     //burst emitter for rocks
+    var rock_emitter = game.add.emitter(0, 0, 100);
+
+    rock_emitter.makeParticles('star');
+    rock_emitter.gravity = 0;
+
+    rock_emitter.x = rock.x;
+    rock_emitter.y = rock.y;
+    
+    //explode / milliseconds before particle disappear/ doesn't matter/ number of particles emitted at a time
+    rock_emitter.start(true, 2000, null, 5);
+    
+    destroyObject(rock);
+    destroyObject(text);
+    
+    //  And 2 seconds later we'll destroy the emitter
+    game.time.events.add(2000, destroyObject, this, rock_emitter);
+    
+
+}
+    
+function runToMom(){
+    var hatchling = game.add.sprite(32,game.world.height-150, 'hatchling');
+    hatchling.anchor.setTo(0.5, 0.5);
+    hatchling.scale.setTo(2, 2);
+    hatchling.animations.add('run');
+    hatchling.animations.play('run', 10, true); 
+    // params are: properties to tween, time in ms, easing and auto-start tweenthis.
+    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.centerY}, 3000, Phaser.Easing.Quadratic.InOut, true);
+    runningDinoTween.onComplete.addOnce(stopDino, this,hatchling);  
+
+}
+    
+function stopDino(hatchling){
+    //  This method will reset the frame to frame 1 after stopping
+    hatchling.animations.stop(null, true);
 }
 
 function destroyObject(obj) {
@@ -115,8 +174,16 @@ function CreateEggs(numEggs){
         egg.body.collideWorldBounds = true;
 //		x = x+200;
         egg.animations.add('hatch');
+        
+        //Bad hardcoding
+        if(i == 0){
+           // egg.animations.currentAnim.OnComplete.add(runToMom);
+        }
+        
 		g_eggs.push(egg);
         g_hitCount.push(0);
+        
+        
         
 	}
 }
@@ -136,7 +203,29 @@ function CreateRocks(numRocks){
      
 	}
 }
+    
+ 
+
+    
+    
+//GM Code
+loadGM(initCanvas, { version: '0.12.6' });
+function initCanvas() {
+    canvas1 = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
+    canvas1.model.createElement('derivation', { eq: '2x+1=3', pos: { x: 'center', y: 50 } });
+    
+    canvas2 = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
+    canvas2.model.createElement('derivation', { eq: '5x+7=4', pos: { x: 'center', y: 50 } });
+}
+    
 </script>
+
+
+<div id='game-div'></div>
+<div class = 'row'>
+<div id='gmath1-div' class="col-sm-4" ></div>
+<div id='gmath2-div' class="col-sm-4" ></div>
+</div>
 
 </body>
 </html>
