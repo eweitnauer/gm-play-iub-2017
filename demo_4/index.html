@@ -48,6 +48,9 @@ function preload() {
     
     game.load.spritesheet('button', 'assets/button.png', 120, 40);
     
+    //background music
+    game.load.audio('bg_music',['assets/bg_music.mp3']);
+    
 }
     
 var rock;
@@ -59,6 +62,7 @@ var scoreText;
 var expressionTextStyle;
 var text;
 var playing;
+var music;
 function create() {
    game.add.sprite(0, 0, 'sky');
    game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -86,6 +90,9 @@ function create() {
     startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
     startButton.anchor.set(0.5);
    
+    //music 
+    music = game.add.audio('bg_music');
+    
 }
 
 function startGame() {
@@ -96,6 +103,7 @@ function startGame() {
     //add text
     rock.inputEnabled = true;
     playing = true;
+    music.play();
 }
     
 
