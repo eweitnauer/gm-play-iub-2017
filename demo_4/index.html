@@ -45,6 +45,9 @@ function preload() {
     game.load.image('star', 'assets/star.png');
     game.load.image('dinoMom', 'assets/dinoMom.png');
     game.load.image('sky', 'assets/sky.png');
+    
+    game.load.spritesheet('button', 'assets/button.png', 120, 40);
+    
 }
     
 var rock;
@@ -55,6 +58,7 @@ var score = 0;
 var scoreText;
 var expressionTextStyle;
 var text;
+var playing;
 function create() {
    game.add.sprite(0, 0, 'sky');
    game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -64,11 +68,7 @@ function create() {
    ground.scale.setTo(2,2);
    ground.body.immovable = true;
 
-   CreateRocks(1);
-   expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
-   
-   //add text
-   rock.inputEnabled = true;
+  
    
 
     
@@ -82,16 +82,33 @@ function create() {
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     
    
+    //start button
+    startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
+    startButton.anchor.set(0.5);
    
 }
+
+function startGame() {
+    startButton.destroy();
+    CreateRocks(1);
+    expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
+   
+    //add text
+    rock.inputEnabled = true;
+    playing = true;
+}
+    
 
 function update() {
 
     var hitPlatform = game.physics.arcade.collide(egg,platforms);
     game.physics.arcade.collide(rock,platforms);
     game.physics.arcade.overlap(egg,rock,hatchEgg,null,this);
-    text.x = Math.floor(rock.x + rock.width / 2);
-    text.y = Math.floor(rock.y + rock.height / 2);
+    if(playing){
+        text.x = Math.floor(rock.x + rock.width / 2);
+        text.y = Math.floor(rock.y + rock.height / 2);
+    }
+    
 
 }
 
