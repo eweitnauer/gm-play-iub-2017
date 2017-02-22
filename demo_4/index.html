@@ -36,7 +36,8 @@ function preload() {
     game.load.image('fragment', 'assets/rock_fragment.png');
     
     //change width of frame later
-    game.load.spritesheet('egg', 'assets/egg_spritesheet.png',103,126);
+    //game.load.spritesheet('egg', 'assets/egg_spritesheet.png',103,126);
+    game.load.atlasJSONHash('egg', 'assets/eggSpritesheet.png','assets/eggSpritesheet.json');
     
     
     game.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
@@ -103,14 +104,15 @@ function hatchEgg(eggSprite,rock){
         CreateRocks(1);
     switch(hits){
         case 1 : eggSprite.tint = 0x00ff00;
+                eggSprite.animations.play('wiggle');
                 break;
         case 2 : eggSprite.tint = 0xff0000;
+                eggSprite.animations.play('wiggle');
                 break
         case 3 :  eggSprite.animations.play('hatch', 2, false);
                  //  Add and update the score
                 score += 10;
                 scoreText.text = 'Score: ' + score;
-                runToMom();
                 break;
             
     }
@@ -167,18 +169,15 @@ function CreateEggs(numEggs){
 	
 	var w = 60, h = 100, x = 50, y = 440;
 	for(var i=0; i<numEggs; i++){
-        egg = game.add.sprite(32,game.world.height-150, 'egg');
+        egg = game.add.sprite(32,game.world.height-150, 'egg','egg1.png');
         game.physics.arcade.enable(egg);
         egg.body.bounce.y = 0.2;
         egg.body.gravity.y = 300;
         egg.body.collideWorldBounds = true;
 //		x = x+200;
-        egg.animations.add('hatch');
-        
-        //Bad hardcoding
-        if(i == 0){
-           // egg.animations.currentAnim.OnComplete.add(runToMom);
-        }
+        var hatchAnimation = egg.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
+        egg.animations.add('wiggle',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
+        hatchAnimation.onComplete.add(hatchAnimationStopped, this);
         
 		g_eggs.push(egg);
         g_hitCount.push(0);
@@ -204,7 +203,12 @@ function CreateRocks(numRocks){
 	}
 }
     
- 
+function hatchAnimationStopped(eggSprite, animation) {
+
+    eggSprite.kill();
+    runToMom();
+
+} 
 
     
     
