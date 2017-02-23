@@ -43,7 +43,8 @@ function preload() {
     
     game.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
     game.load.image('star', 'assets/star.png');
-    game.load.image('dinoMom', 'assets/dinoMom.png');
+//    game.load.image('dinoMom', 'assets/dinoMom.png');
+    game.load.atlasJSONHash('dino', 'assets/dino.png','assets/dino.json');
     game.load.image('sky', 'assets/sky.png');
     
     game.load.spritesheet('button', 'assets/button.png', 120, 40);
@@ -73,14 +74,17 @@ function create() {
    ground.body.immovable = true;
 
   
-   
+   var dino = game.add.sprite(600,game.world.height-150, 'dino');
+    var move = dino.animations.add('move',['2.png','3.png','4.png','5.png'],24,true);
+    dino.animations.play('move', 10, true);
+    game.add.tween(dino).to({y: 300}, 2400, Phaser.Easing.Bounce.InOut, true);
 
     
     CreateEggs(1);   
    
    //The dino mom
-    star = game.add.sprite(600,game.world.height-150,'dinoMom');
-    star.scale.setTo(0.2, 0.2);
+//    star = game.add.sprite(600,game.world.height-150,'dinoMom');
+//    star.scale.setTo(0.2, 0.2);
     
     //  The score
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
