@@ -22,15 +22,7 @@ var g_eggs = [];  // global array to hold all eggs
 var g_rocks = [];	// global array to hold all rocks
 var g_hitCount = [];
 
-
-function egg(x, y) {
-	this.x = x;
-	this.y = y;
-    this.hitCounter = 0; 
-	
-    
-}
-    
+ 
 function preload() {
     game.load.image('rock', 'assets/rock.png');
     game.load.image('ground', 'assets/platform.png');
@@ -242,34 +234,90 @@ function hatchAnimationStopped(eggSprite, animation) {
 } 
 
     
-    
+var eqList = new Array();
+var numEqSolved = 1;
 //GM Code
 loadGM(initCanvas, { version: '0.12.6' });
 function initCanvas() {
+    
+    //Canvas1 is for Equation Solving
+    //Canvas2 is for Pattern Matching
     canvas1 = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
-    canvas1.model.createElement('derivation', { eq: '2x+1=3', pos: { x: 'center', y: 50 } });
-    
     canvas2 = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-    canvas2.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 'center', y: 50 } });
+    canvas2.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 200, y: 50 } });
     
+    showHide(document.getElementById('gmath1-div'));
     
     canvas2.model.on('el_changed', function(evt) {
 		
 		if (evt.last_eq == g_equation){
-			
+			numEqSolved++;
             console.log("Solved");
 			rockBurst();
             CreateRocks(1);
             //  Add and update the score
             score += 10;
             scoreText.text = 'Score: ' + score;
-			
-			
-			
+            
+            //This condition should be changed to condition for Rock waves
+            if(numEqSolved % 3 == 0){
+                clearGMCanvas();
+                rock.visible =false;
+                text.visible =false;
+                rock.body.gravity.y = 0;
+                canvas1.model.createElement('derivation', { eq: generateRandomExp(), pos: { x: 100, y: 50 } });
+                showHide(document.getElementById('gmath1-div'));
+				showHide(document.getElementById('gmath2-div'));
+            }
 		}
 	});
+    
+    canvas1.model.on('el_changed', function(evt) {
+         console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+	    // condition to check if equation is solved
+        if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
+            score += 50;
+            scoreText.text = 'Score: ' + score;
+		   // canvas1.showHint('Well Done!)' +score);
+            setTimeout(showHide(document.getElementById('gmath1-div')), 3000);
+            setTimeout(showHide(document.getElementById('gmath2-div')), 3000);
+            rock.body.gravity.y = 5;
+            rock.visible =true;
+            text.visible =true;
+        }
+    });
 }
     
+    
+function showHide(x) {
+   if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+    
+ function clearGMCanvas(){
+   	//clear canvas
+   	console.log("clearing canvas");
+   	while(canvas1.model.elements().length > 0){
+    canvas1.model.removeElement(canvas1.model.elements()[0]); }
+}
+
+ function generateRandomExp(){
+    //create random constants for equation
+    a = Math.floor((Math.random() * 10) + 1);
+    b = Math.floor((Math.random() * 10) + 1);
+    c = Math.floor((Math.random() * 10) + 1);
+
+    str = "";
+    eq1 = str+a+"x+"+b+"="+c;
+
+    expectedValue = ((c - b) / a);
+    expectedValue = Math.round(expectedValue * 1000) / 1000;
+
+    return eq1;
+}    
 </script>
 
 
