@@ -44,3 +44,18 @@ function createEggEquation(){
         equation = str+a+"x+"+b+"="+c;   
         return equation;
 }
+   
+function showHide(x) {
+   if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+    
+ function clearGMCanvas(){
+   	//clear canvas
+   	console.log("clearing canvas");
+   	while(solveEqCanvas.model.elements().length > 0){
+    solveEqCanvas.model.removeElement(solveEqCanvas.model.elements()[0]); }
+}
