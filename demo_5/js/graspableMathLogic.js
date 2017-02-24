@@ -21,6 +21,7 @@ var g_equation;
 var g_parsedEquation;
 
 
+
 // random range generator
 function getRandomRange(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -31,4 +32,15 @@ function getMatchEquationOnRock(){
     g_equation =  g_problems[0][indexToChoose];
     g_parsedEquation = g_equation.replace(/\*/g, "");
     return g_parsedEquation;
+}
+
+function createEggEquation(){
+        //create random constants for equation
+        a = Math.floor((Math.random() * 10) + 1);
+        b = Math.floor((Math.random() * 10) + 1);
+        c = Math.floor((Math.random() * 10) + 1);
+
+        str = "";
+        equation = str+a+"x+"+b+"="+c;   
+        return equation;
 }

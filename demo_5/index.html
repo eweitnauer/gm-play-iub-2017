@@ -55,13 +55,17 @@ var hatchling; //hatchling
 var score = 0;
 var scoreText;
 var expressionTextStyle;
-var text;
+var rockText;
 var playing;
 var music;
+
+var eggText;
+var eggEquation;
 var gameOverText;
 var scoreBase = 20;
 var starNumber = 0;
 var starPostion = 0;
+
 function create() {
    game.add.sprite(0, 0, 'sky');
    game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -101,10 +105,8 @@ function startGame() {
     startButton.destroy();
     CreateRocks(1);
     expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
-   
-    //add text
-    rock.inputEnabled = true;
     playing = true;
+    eggText.visible = true;
     music.play();
 }
     
@@ -140,8 +142,11 @@ function update() {
     game.physics.arcade.collide(rock,platforms);
     game.physics.arcade.overlap(egg,rock,hatchEgg,null,this);
     if(playing){
-        text.x = Math.floor(rock.x + rock.width / 2);
-        text.y = Math.floor(rock.y + rock.height / 2);
+        rockText.x = Math.floor(rock.x + rock.width / 2);
+        rockText.y = Math.floor(rock.y + rock.height / 2);
+        
+        eggText.x = Math.floor(egg.x + egg.width / 2);
+        eggText.y = Math.floor(egg.y + egg.height / 2);
     }
     
 
@@ -187,7 +192,7 @@ function rockBurst() {
     rock_emitter.start(true, 2000, null, 5);
     
     destroyObject(rock);
-    destroyObject(text);
+    destroyObject(rockText);
     
     //  And 2 seconds later we'll destroy the emitter
     game.time.events.add(2000, destroyObject, this, rock_emitter);
@@ -226,23 +231,34 @@ function CreateEggs(numEggs){
         egg.body.gravity.y = 300;
         egg.body.collideWorldBounds = true;
 //		x = x+200;
+        
+        eggEquation = createEggEquation();
+        expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
+        eggText = game.add.text(0, 0, eggEquation , expressionTextStyle);
+        eggText.anchor.set(0.5);
+        eggText.visible = false;
+        
         var hatchAnimation = egg.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
         egg.animations.add('wiggle',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
         hatchAnimation.onComplete.add(hatchAnimationStopped, this);
         
-		g_eggs.push(egg);
+		   g_eggs.push(egg);
         g_hitCount.push(0);
         
-        
-        
+        //make the egg selectable
+        egg.inputEnabled = true;
+        egg.events.onInputDown.add(populateEggGMCanvas, this);
 	}
+}
+    
+function populateEggGMCanvas(){
+    console.log("Populate Egg GM Canvas");
+    canvas1.model.createElement('derivation', { eq: eggEquation, pos: { x: 'center', y: 50 } });
 }
 
 function CreateRocks(numRocks){
 	var _y = 200, _x = 50;
-	for(var i=0; i < numRocks; i++){
-        
-        
+	for(var i=0; i < numRocks; i++){       
         rock = game.add.sprite(20,40,'rock');
         game.physics.arcade.enable(rock);
         rock.body.gravity.y = 5;
@@ -250,16 +266,16 @@ function CreateRocks(numRocks){
         rock.scale.x = 0.15;
         rock.scale.y = 0.15;
         expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
-        text = game.add.text(0, 0, getMatchEquationOnRock(), expressionTextStyle);
-        text.anchor.set(0.5);
+        rockText = game.add.text(0, 0, getMatchEquationOnRock(), expressionTextStyle);
+        rockText.anchor.set(0.5);
         g_rocks.push(rock);
      
 	}
 }
     
 function hatchAnimationStopped(eggSprite, animation) {
-
     eggSprite.kill();
+    destroyObject(eggText);
     runToMom();
      gameOver();
 
@@ -283,12 +299,30 @@ function initCanvas() {
     canvas2.model.on('el_changed', function(evt) {
 		
 		if (evt.last_eq == g_equation){
-			numEqSolved++;
+
+
+			      numEqSolved++;
             console.log("Solved");
-			rockBurst();
+
+			      rockBurst();
             CreateRocks(1);
             //  Add and update the score
             score += 10;
+
+            scoreText.text = 'Score: ' + score;			
+			
+		}
+	});
+    
+    canvas1.model.on('el_changed', function(evt) {
+		
+		if (evt.last_eq.startsWith("x=") /*&& !isNaN(evt.last_eq.slice(2))*/){
+			//hatch egg
+            egg.animations.play('hatch', 2, false);
+            
+            //  Add and update the score
+            score += 50;
+            
             scoreText.text = 'Score: ' + score;
             
             //This condition should be changed to condition for Rock waves
@@ -297,10 +331,11 @@ function initCanvas() {
                 rock.visible =false;
                 text.visible =false;
                 rock.body.gravity.y = 0;
-                canvas1.model.createElement('derivation', { eq: generateRandomExp(), pos: { x: 100, y: 50 } });
+                //canvas1.model.createElement('derivation', { eq: generateRandomExp(), pos: { x: 100, y: 50 } });
                 showHide(document.getElementById('gmath1-div'));
-				showHide(document.getElementById('gmath2-div'));
+				        showHide(document.getElementById('gmath2-div'));
             }
+
 		}
 	});
     
@@ -336,20 +371,7 @@ function showHide(x) {
     canvas1.model.removeElement(canvas1.model.elements()[0]); }
 }
 
- function generateRandomExp(){
-    //create random constants for equation
-    a = Math.floor((Math.random() * 10) + 1);
-    b = Math.floor((Math.random() * 10) + 1);
-    c = Math.floor((Math.random() * 10) + 1);
-
-    str = "";
-    eq1 = str+a+"x+"+b+"="+c;
-
-    expectedValue = ((c - b) / a);
-    expectedValue = Math.round(expectedValue * 1000) / 1000;
-
-    return eq1;
-}    
+ 
 </script>
 
 
