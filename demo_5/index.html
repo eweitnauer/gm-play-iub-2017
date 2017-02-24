@@ -116,6 +116,7 @@ function gameOver() {
     endStar();
     restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
     restartButton.anchor.set(0.5);
+    music.stop();
 }
     
 function restartGame(){
@@ -299,16 +300,12 @@ function initCanvas() {
     canvas2.model.on('el_changed', function(evt) {
 		
 		if (evt.last_eq == g_equation){
-
-
-			      numEqSolved++;
+            numEqSolved++;
             console.log("Solved");
-
-			      rockBurst();
+            rockBurst();
             CreateRocks(1);
-            //  Add and update the score
+            //Add and update the score
             score += 10;
-
             scoreText.text = 'Score: ' + score;			
 			
 		}
@@ -327,13 +324,14 @@ function initCanvas() {
             
             //This condition should be changed to condition for Rock waves
             if(numEqSolved % 3 == 0){
+                console.log("Attempting to clear canvas");
                 clearGMCanvas();
                 rock.visible =false;
                 text.visible =false;
                 rock.body.gravity.y = 0;
                 //canvas1.model.createElement('derivation', { eq: generateRandomExp(), pos: { x: 100, y: 50 } });
                 showHide(document.getElementById('gmath1-div'));
-				        showHide(document.getElementById('gmath2-div'));
+				showHide(document.getElementById('gmath2-div'));
             }
 
 		}
