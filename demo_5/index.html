@@ -44,6 +44,8 @@ function preload() {
     //background music
     game.load.audio('bg_music',['assets/bg_music.mp3']);
     
+    game.load.image('restart', 'assets/restart.png');
+    
 }
     
 var rock;
@@ -56,6 +58,10 @@ var expressionTextStyle;
 var text;
 var playing;
 var music;
+var gameOverText;
+var scoreBase = 20;
+var starNumber = 0;
+var starPostion = 0;
 function create() {
    game.add.sprite(0, 0, 'sky');
    game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -102,6 +108,31 @@ function startGame() {
     music.play();
 }
     
+function gameOver() {
+    scoreText.destroy();
+    gameOverText = game.add.text( game.world.width*0.5, game.world.height*0.5 - 40, 'Game is over!!! Score:' + score, { fontSize: '22px', fill: '#000' });
+    endStar();
+    restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
+    restartButton.anchor.set(0.5);
+}
+    
+function restartGame(){
+    console.log("game restart");
+    game.state.restart();
+}
+    
+function endStar() {
+    while (score > 0){
+       game.add.sprite(game.world.width*0.5 + starPostion, game.world.height*0.5 - 80, 'star');
+        starPostion = starPostion + 20;
+        score = score - scoreBase; 
+        starNumber++;
+        if (starNumber == 5){
+            break;
+        }
+    }
+}
+
 
 function update() {
 
@@ -230,6 +261,7 @@ function hatchAnimationStopped(eggSprite, animation) {
 
     eggSprite.kill();
     runToMom();
+     gameOver();
 
 } 
 
