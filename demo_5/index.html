@@ -7,8 +7,11 @@
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
     <script src = "js/graspableMathLogic.js"></script>
     <style type="text/css">
-        body {
-            margin: 0;
+        canvas {
+            margin: auto;
+        }
+        #game-div{
+            background-color: grey;
         }
     </style>
 </head>
@@ -260,7 +263,7 @@ function CreateEggs(numEggs){
     
 function populateEggGMCanvas(){
     console.log("Populate Egg GM Canvas");
-    solveEqCanvas.model.createElement('derivation', { eq: eggEquation, pos: { x: 'center', y: 50 } });
+    solveEqCanvas.model.createElement('derivation', { eq: eggEquation, pos: {x: 550, y: 10 } });
 }
 
 function CreateRocks(numRocks){
@@ -290,7 +293,7 @@ function hatchAnimationStopped(eggSprite, animation) {
 
     
 var eqList = new Array();
-var numEqSolved = 1;
+var numExpMatched = 1;
 //GM Code
 loadGM(initCanvas, { version: '0.12.6' });
 function initCanvas() {
@@ -299,27 +302,27 @@ function initCanvas() {
     //Canvas2 is for Pattern Matching
     solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
     matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 200, y: 50 } });
+    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 550, y: 10 } });
     
     showHide(document.getElementById('gmath1-div'));
     
     matchExpCanvas.model.on('el_changed', function(evt) {
 		
 		if (evt.last_eq == g_equation){
-            numEqSolved++;
+            numExpMatched++;
             console.log("Solved");
             rockBurst();
             CreateRocks(1);
             //Add and update the score
             score += 10;
             scoreText.text = 'Score: ' + score;			
-			if(numEqSolved % 3 == 0){
+			if(numExpMatched % 3 == 0){
                 console.log("Attempting to clear canvas");
                 clearGMCanvas();
                 rock.visible =false;
                 rockText.visible =false;
                 rock.body.gravity.y = 0;
-                //canvas1.model.createElement('derivation', { eq: generateRandomExp(), pos: { x: 100, y: 50 } });
+                //canvas1.model.createElement('derivation', { eq: generateRandomExp(), pos: { x: 100, y: 10 } });
                 showHide(document.getElementById('gmath1-div'));
 				showHide(document.getElementById('gmath2-div'));
             }
