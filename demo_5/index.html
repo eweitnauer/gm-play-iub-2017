@@ -7,8 +7,45 @@
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
     <script src = "js/graspableMathLogic.js"></script>
     <style type="text/css">
-        body {
-            margin: 0;
+        body{
+            background-color:lightgreen;
+            background-image:url('assets/canvas-bkgd.png');
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+        canvas {
+            margin: auto;
+        }
+        #game-div{
+            background-image:url('assets/bodybkgd.jpg');
+            background-size:800px 600px;
+        }
+        
+/*        div#gmath1-div > div.gm-canvas{
+            background-color: antiquewhite;
+            width:0px;
+            height:0px;
+        }
+        
+        div#gmath2-div > div.gm-canvas{
+            background-color: chocolate;
+            width:0px;
+            height:0px;
+        }
+  */      
+        div#canvas-container {
+            background-color: rgba(0, 255, 0, 0.2);
+        }
+        
+        div.dino-gmcanvas{
+            background-image: url('assets/canvas-bkgd.png');
+        }
+        
+        div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{
+            background-color:transparent !important;
+        }
+        div.canvas-element circle{
+            display:none;
         }
     </style>
 </head>
@@ -63,7 +100,7 @@ var music;
 
 
 var gameOverText;
-var scoreBase = 20;
+var scoreBase = 50;
 var starNumber = 0;
 var starPostion = 0;
     
@@ -152,7 +189,15 @@ function startGame() {
     
 function gameOver() {
     playing = false;
+    rock.visible =false;
+    rockText.visible =false;
+    rock.destroy();
+    rockText.destroy(); 
     scoreText.destroy();
+    clearGMCanvas(solveEqCanvas);
+    console.log("cleared sovleqacanvas!!!!!!!!!!!!!!!!!");
+    clearGMCanvas(matchExpCanvas);
+    console.log("cleared mathchecanvas.....................");
     gameOverText = game.add.text( game.world.width*0.5, game.world.height*0.5 - 40, 'Game is over!!! Score:' + score, { fontSize: '22px', fill: '#000' });
     endStar();
     restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
@@ -174,6 +219,13 @@ function endStar() {
         if (starNumber == 5){
             break;
         }
+    }
+    var greyStar = 5 - starNumber;
+    while(greyStar > 0){
+        var star1 =  game.add.sprite(game.world.width*0.5 + starPostion, game.world.height*0.5 - 80, 'star');
+        star1.tint= 0x232323;
+        starPostion = starPostion + 20;
+        greyStar--;
     }
 }
 
@@ -222,11 +274,8 @@ function hitEgg(rock, egg_tt){
     var hitEggIndex = eggsGroup.getIndex(egg_tt);    
     var hits = ++g_hitCount[hitEggIndex];   
     rockBurst(rock);
-    if(rocksGroup.countLiving() == 0){
-        console.log("Hit egg");
-        clearGMCanvas(matchExpCanvas);
-        //showHide(document.getElementById('gmath1-div'));
-        //showHide(document.getElementById('gmath2-div'));
+    if(rocksGroup.countLiving() == 0){    
+        clearGMCanvas(matchExpCanvas);    
     }
     switch(hits){
         case 1 : egg_tt.tint = 0x00ff00;
@@ -239,7 +288,6 @@ function hitEgg(rock, egg_tt){
                  break;
             
     }
-        
 
 }
     
@@ -271,6 +319,7 @@ function rockBurst(rock) {
 
 }
     
+
 function runToMom(egg_x){
     var hatchling = game.add.sprite(egg_x,game.world.height-150, 'hatchling');
     hatchling.anchor.setTo(0.5, 0.5);
@@ -278,7 +327,7 @@ function runToMom(egg_x){
     hatchling.animations.add('run');
     hatchling.animations.play('run', 10, true); 
     // params are: properties to tween, time in ms, easing and auto-start tweenthis.
-    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-150}, 3000, Phaser.Easing.Quadratic.InOut, true);
+    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-100}, 3000, Phaser.Easing.Quadratic.InOut, true);
     runningDinoTween.onComplete.addOnce(stopDino, this,hatchling);  
 
 }
@@ -315,9 +364,12 @@ function CreateEggs(numEggs){
         egg.body.collideWorldBounds = true;
         
         var hatchAnimation = egg.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
+//        gameOver();
         egg.animations.add('wiggle',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
         hatchAnimation.onComplete.add(hatchAnimationStopped, this);
+
         egg_x += 120;
+
         g_hitCount.push(0);
         
         //place equation on egg
@@ -335,8 +387,6 @@ function CreateEggs(numEggs){
     }
 
 }
-
-    
 
 function populateSolveEqCanvas(selectedEgg){ 
     currentEggIndex = eggsGroup.getIndex(selectedEgg);
@@ -382,10 +432,10 @@ function hatchAnimationStopped(eggSprite, animation) {
     var egg_x = eggSprite.x;
     //kill the egg 
     eggSprite.kill();
+
     destroyObject(g_eggTextArray[eggIndex]);
     runToMom(egg_x);
     //gameOver();
-
 } 
 
 //the input here is equation with stars
@@ -401,7 +451,9 @@ function matchEquationOnRocks(equation){
 
     
 var eqList = new Array();
-var numEqSolved = 1;
+var numExpMatched = 1;
+var numEqsolved = 0;
+  
 //GM Code
 loadGM(initCanvas, { version: '0.12.6' });
 function initCanvas() {
@@ -410,14 +462,16 @@ function initCanvas() {
     //Canvas2 is for Pattern Matching
     solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
     matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 200, y: 50 } });
+    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
     
     //disabling the solveEq canvas
     //showHide(document.getElementById('gmath1-div'));
     
     matchExpCanvas.model.on('el_changed', function(evt) {
+
+		
 		var lastEq = evt.last_eq;
-        var index = matchEquationOnRocks(lastEq);
+    var index = matchEquationOnRocks(lastEq);
         
 		if (index != -1) {
             numEqSolved++;
@@ -431,8 +485,7 @@ function initCanvas() {
 			if(rocksGroup.countLiving() == 0){
                 console.log("Solved equation");
                 clearGMCanvas(matchExpCanvas);  
-                //showHide(document.getElementById('gmath1-div'));
-				//showHide(document.getElementById('gmath2-div'));
+                
             }
 
 		}
@@ -445,7 +498,9 @@ function initCanvas() {
 	    // condition to check if equation is solved
         if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
             score += 50;
+            numEqsolved++;
             scoreText.text = 'Score: ' + score;
+
             var egg = eggsGroup.children[currentEggIndex];
             egg.animations.play('hatch', 2, false);
         
@@ -478,11 +533,12 @@ function makeAllRocksAlive(){
 </script>
 
 
-<div id='game-div'></div>
-<div class = 'row'>
-<div id='gmath1-div' class="col-sm-4" ></div>
-<div id='gmath2-div' class="col-sm-4" ></div>
-</div>
+<div id='game-div'></div>   
+    
+<div id='gmath1-div'></div>
+<div id='gmath2-div'></div>
+    
+
 
 </body>
 </html>
