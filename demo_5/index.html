@@ -112,7 +112,15 @@ function startGame() {
     
 function gameOver() {
     playing = false;
+    rock.visible =false;
+    rockText.visible =false;
+    rock.destroy();
+    rockText.destroy(); 
     scoreText.destroy();
+    clearGMCanvas(solveEqCanvas);
+    console.log("cleared sovleqacanvas!!!!!!!!!!!!!!!!!");
+    clearGMCanvas(matchExpCanvas);
+    console.log("cleared mathchecanvas.....................");
     gameOverText = game.add.text( game.world.width*0.5, game.world.height*0.5 - 40, 'Game is over!!! Score:' + score, { fontSize: '22px', fill: '#000' });
     endStar();
     restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
@@ -180,6 +188,9 @@ function hatchEgg(eggSprite,rock){
                  break;
             
     }
+    if(hits == 3) {
+        gameOver();
+    }
     
 }
     
@@ -246,10 +257,11 @@ function CreateEggs(numEggs){
         eggText.visible = false;
         
         var hatchAnimation = egg.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
+//        gameOver();
         egg.animations.add('wiggle',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
         hatchAnimation.onComplete.add(hatchAnimationStopped, this);
         
-		   g_eggs.push(egg);
+        g_eggs.push(egg);
         g_hitCount.push(0);
         
         //make the egg selectable
@@ -268,7 +280,7 @@ function CreateRocks(numRocks){
 	for(var i=0; i < numRocks; i++){       
         rock = game.add.sprite(20,40,'rock');
         game.physics.arcade.enable(rock);
-        rock.body.gravity.y = 5;
+        rock.body.gravity.y = 10;
         rock.body.collideWorldBounds = true;
         rock.scale.x = 0.15;
         rock.scale.y = 0.15;
@@ -284,13 +296,13 @@ function hatchAnimationStopped(eggSprite, animation) {
     eggSprite.kill();
     destroyObject(eggText);
     runToMom();
-    gameOver();
+
 
 } 
-
     
 var eqList = new Array();
-var numEqSolved = 1;
+var numMatchSolved = 0;
+var numEqsolved = 0;
 //GM Code
 loadGM(initCanvas, { version: '0.12.6' });
 function initCanvas() {
@@ -306,16 +318,16 @@ function initCanvas() {
     matchExpCanvas.model.on('el_changed', function(evt) {
 		
 		if (evt.last_eq == g_equation){
-            numEqSolved++;
+            numMatchSolved++;
             console.log("Solved");
             rockBurst();
             CreateRocks(1);
             //Add and update the score
             score += 10;
             scoreText.text = 'Score: ' + score;			
-			if(numEqSolved % 3 == 0){
+			if(numMatchSolved % 1 == 0){
                 console.log("Attempting to clear canvas");
-                clearGMCanvas();
+                clearGMCanvas(solveEqCanvas);
                 rock.visible =false;
                 rockText.visible =false;
                 rock.body.gravity.y = 0;
@@ -334,14 +346,22 @@ function initCanvas() {
 	    // condition to check if equation is solved
         if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
             score += 50;
+            numEqsolved++;
             scoreText.text = 'Score: ' + score;
+            
             egg.animations.play('hatch', 2, false);
-            setTimeout(showHide(document.getElementById('gmath1-div')), 3000);
-            setTimeout(showHide(document.getElementById('gmath2-div')), 3000);
+//            setTimeout(showHide(document.getElementById('gmath1-div')), 3000);
+//            setTimeout(showHide(document.getElementById('gmath2-div')), 3000);
+            showHide(document.getElementById('gmath2-div'));
+            showHide(document.getElementById('gmath1-div'));
+            if(numEqsolved == 1) {
+                gameOver();
+            }            
             rock.body.gravity.y = 5;
             rock.visible =true;
-            rockText.visible =true;
-        }
+            rockText.visible =true;   
+            }
+            
     });
 }
     

@@ -59,3 +59,10 @@ function showHide(x) {
    	while(solveEqCanvas.model.elements().length > 0){
     solveEqCanvas.model.removeElement(solveEqCanvas.model.elements()[0]); }
 }
+
+function clearMatchCanvas(){
+   	//clear canvas
+   	console.log("clearing canvas Match Canvas");
+   	while(matchExpCanvas.model.elements().length > 0){
+    solveEqCanvas.model.removeElement(matchExpCanvas.model.elements()[0]); }
+}
