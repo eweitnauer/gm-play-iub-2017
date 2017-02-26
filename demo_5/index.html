@@ -62,7 +62,7 @@ var music;
 var eggText;
 var eggEquation;
 var gameOverText;
-var scoreBase = 20;
+var scoreBase = 50;
 var starNumber = 0;
 var starPostion = 0;
 
@@ -142,6 +142,13 @@ function endStar() {
         if (starNumber == 5){
             break;
         }
+    }
+    var greyStar = 5 - starNumber;
+    while(greyStar > 0){
+        var star1 =  game.add.sprite(game.world.width*0.5 + starPostion, game.world.height*0.5 - 80, 'star');
+        star1.tint= 0x232323;
+        starPostion = starPostion + 20;
+        greyStar--;
     }
 }
 
@@ -280,7 +287,7 @@ function CreateRocks(numRocks){
 	for(var i=0; i < numRocks; i++){       
         rock = game.add.sprite(20,40,'rock');
         game.physics.arcade.enable(rock);
-        rock.body.gravity.y = 10;
+        rock.body.gravity.y = 400;
         rock.body.collideWorldBounds = true;
         rock.scale.x = 0.15;
         rock.scale.y = 0.15;
@@ -350,10 +357,8 @@ function initCanvas() {
             scoreText.text = 'Score: ' + score;
             
             egg.animations.play('hatch', 2, false);
-//            setTimeout(showHide(document.getElementById('gmath1-div')), 3000);
-//            setTimeout(showHide(document.getElementById('gmath2-div')), 3000);
-            showHide(document.getElementById('gmath2-div'));
-            showHide(document.getElementById('gmath1-div'));
+            setTimeout(showHide(document.getElementById('gmath1-div')), 3000);
+            setTimeout(showHide(document.getElementById('gmath2-div')), 3000);
             if(numEqsolved == 1) {
                 gameOver();
             }            
