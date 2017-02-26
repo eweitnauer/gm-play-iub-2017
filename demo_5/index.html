@@ -7,11 +7,45 @@
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
     <script src = "js/graspableMathLogic.js"></script>
     <style type="text/css">
+        body{
+            background-color:lightgreen;
+            background-image:url('assets/canvas-bkgd.png');
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
         canvas {
             margin: auto;
         }
         #game-div{
-            background-color: grey;
+            background-image:url('assets/bodybkgd.jpg');
+            background-size:800px 600px;
+        }
+        
+/*        div#gmath1-div > div.gm-canvas{
+            background-color: antiquewhite;
+            width:0px;
+            height:0px;
+        }
+        
+        div#gmath2-div > div.gm-canvas{
+            background-color: chocolate;
+            width:0px;
+            height:0px;
+        }
+  */      
+        div#canvas-container {
+            background-color: rgba(0, 255, 0, 0.2);
+        }
+        
+        div.dino-gmcanvas{
+            background-image: url('assets/canvas-bkgd.png');
+        }
+        
+        div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{
+            background-color:transparent !important;
+        }
+        div.canvas-element circle{
+            display:none;
         }
     </style>
 </head>
@@ -210,13 +244,13 @@ function rockBurst() {
 }
     
 function runToMom(){
-    var hatchling = game.add.sprite(32,game.world.height-150, 'hatchling');
+    var hatchling = game.add.sprite(32,game.world.height-100, 'hatchling');
     hatchling.anchor.setTo(0.5, 0.5);
     //hatchling.scale.setTo(2, 2);
     hatchling.animations.add('run');
     hatchling.animations.play('run', 10, true); 
     // params are: properties to tween, time in ms, easing and auto-start tweenthis.
-    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-150}, 3000, Phaser.Easing.Quadratic.InOut, true);
+    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-100}, 3000, Phaser.Easing.Quadratic.InOut, true);
     runningDinoTween.onComplete.addOnce(stopDino, this,hatchling);  
 
 }
@@ -302,7 +336,7 @@ function initCanvas() {
     //Canvas2 is for Pattern Matching
     solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
     matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: 550, y: 10 } });
+    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
     
     showHide(document.getElementById('gmath1-div'));
     
@@ -354,11 +388,12 @@ function initCanvas() {
 </script>
 
 
-<div id='game-div'></div>
-<div class = 'row'>
-<div id='gmath1-div' class="col-sm-4" ></div>
-<div id='gmath2-div' class="col-sm-4" ></div>
-</div>
+<div id='game-div'></div>   
+    
+<div id='gmath1-div'></div>
+<div id='gmath2-div'></div>
+    
+
 
 </body>
 </html>
