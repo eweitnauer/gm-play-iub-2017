@@ -14,6 +14,23 @@ var g_problems = [
     , 'x*(n+m)'
     ]
 ];
+var g_parsedProblems = [
+    [
+      'mx+nx'
+    , 'mx+xn'
+    , 'nx+mx'
+    , 'nx+xm'
+    , 'xn+mx'
+    , 'xn+xm'
+    , 'xm+nx'
+    , 'xm+xn'
+    , '(m+n)x'
+    , 'x(m+n)'
+    , '(n+m)x'
+    , 'x(n+m)'
+    ]
+];
+
 
 var g_canvasExpression = g_problems[0][0];
 var g_parsedCanvasExpression = g_canvasExpression.replace(/\*/g, "");
@@ -53,9 +70,9 @@ function showHide(x) {
     }
 }
     
- function clearGMCanvas(){
+ function clearGMCanvas(canvasObj){
    	//clear canvas
    	console.log("clearing canvas");
-   	while(solveEqCanvas.model.elements().length > 0){
-    solveEqCanvas.model.removeElement(solveEqCanvas.model.elements()[0]); }
+   	while(canvasObj.model.elements().length > 0){
+    canvasObj.model.removeElement(canvasObj.model.elements()[0]); }
 }
