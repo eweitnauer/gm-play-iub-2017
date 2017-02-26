@@ -452,7 +452,6 @@ function matchEquationOnRocks(equation){
     
 var eqList = new Array();
 var numExpMatched = 1;
-var numEqsolved = 0;
   
 //GM Code
 loadGM(initCanvas, { version: '0.12.6' });
@@ -474,7 +473,7 @@ function initCanvas() {
     var index = matchEquationOnRocks(lastEq);
         
 		if (index != -1) {
-            numEqSolved++;
+            
             rockBurst(rocksGroup.children[index]);
             //CreateRocks(1);
             //Add and update the score
@@ -498,7 +497,6 @@ function initCanvas() {
 	    // condition to check if equation is solved
         if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
             score += 50;
-            numEqsolved++;
             scoreText.text = 'Score: ' + score;
 
             var egg = eggsGroup.children[currentEggIndex];
