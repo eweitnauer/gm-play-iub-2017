@@ -224,9 +224,7 @@ function gameOver() {
     }*/
     scoreText.destroy();
     clearGMCanvas(solveEqCanvas);
-    console.log("cleared sovleqacanvas!!!!!!!!!!!!!!!!!");
     clearGMCanvas(matchExpCanvas);
-    console.log("cleared mathchecanvas.....................");
     gameOverText = game.add.text( game.world.width*0.5, game.world.height*0.5 - 40, 'Game is over!!! Score:' + score, { fontSize: '22px', fill: '#000' });
     endStar();
     restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
@@ -315,8 +313,7 @@ function hitEgg(rock, egg_tt){
     }
     egg_tt.animations.play('wiggle');
     switch(hits){
-        case 1 : egg_tt.tint = 0x00ff00;
-                
+        case 1 : egg_tt.tint = 0x00ff00; 
                 break;
         case 2 : egg_tt.tint = 0xff0000;
                 break
@@ -362,8 +359,12 @@ function rockBurst(rock) {
 }
     
 
-function runToMom(egg_x){
+function runToMom(egg_x, isSad){
     var hatchling = game.add.sprite(egg_x,game.world.height-100, 'hatchling');
+    if(isSad){
+        hatchling.tint = 0xff0000;
+    }
+    
     hatchling.anchor.setTo(0.5, 0.5);
     //hatchling.scale.setTo(2, 2);
     hatchling.animations.add('run');
@@ -371,12 +372,24 @@ function runToMom(egg_x){
     // params are: properties to tween, time in ms, easing and auto-start tweenthis.
     var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-100}, 3000, Phaser.Easing.Quadratic.InOut, true);
     runningDinoTween.onComplete.addOnce(stopDino, this,hatchling);  
+    
+    
+    //jumpingTween.onComplete.addOnce(stopDino, this,hatchling);
+    
+    if(eggsGroup.countLiving() == 0){
+        gameOver();            
+    }else{
+        makeAllRocksAlive();
+    }
 
 }
     
 function stopDino(hatchling){
     //  This method will reset the frame to frame 1 after stopping
     hatchling.animations.stop(null, true);
+    
+    //to(properties, duration, ease, autoStart, delay, repeat, yoyo) 
+    var jumpingTween = game.add.tween(hatchling).to({x: 600,y : game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);
 }
 
 function destroyObject(obj) {
@@ -472,13 +485,12 @@ function hatchAnimationStopped(eggSprite, animation) {
     var egg_x = eggSprite.x;
     //kill the egg 
     eggSprite.kill();
-
     destroyObject(g_eggTextArray[eggIndex]);
-    runToMom(egg_x);
-    if(eggsGroup.countLiving() == 0){
-        gameOver();
-               
+    var isSad = false;
+    if(g_hitCount[eggIndex] > 2){
+        isSad = true;
     }
+    runToMom(egg_x, isSad);
 } 
 
 //the input here is equation with stars
@@ -525,10 +537,7 @@ function initCanvas() {
             //Add and update the score
             score += 10;
             scoreText.text = 'Score: ' + score;		
-            console.log("Rocks Living");
-            console.log(rocksGroup.countLiving());
 			if(rocksGroup.countLiving() == 0){
-                console.log("Solved equation");
                 clearGMCanvas(matchExpCanvas);  
                 
             }
@@ -549,7 +558,7 @@ function initCanvas() {
             egg.animations.play('hatch', 2, false);
             
             g_rockTextArray = [];
-            makeAllRocksAlive();
+            //makeAllRocksAlive();
             clearGMCanvas(solveEqCanvas);
             clearGMCanvas(matchExpCanvas);
             matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
