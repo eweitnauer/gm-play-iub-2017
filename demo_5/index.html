@@ -133,9 +133,7 @@ function create() {
    
     //music 
     music = game.add.audio('bg_music');
-    CreateEggs(3); 
-    
-    
+    CreateEggs(4); 
     
 }
 
@@ -172,7 +170,8 @@ function releaseRock(){
 
 function startGame() {
     startButton.destroy(); 
-    CreateRocks(2); 
+    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+    CreateRocks(7); 
     releaseRock(); 
     playing = true;
     music.play();
@@ -183,7 +182,7 @@ function gameOver() {
     scoreText.destroy();
     clearGMCanvas(solveEqCanvas);
     clearGMCanvas(matchExpCanvas);
-    gameOverText = game.add.text( game.world.width*0.5, game.world.height*0.5 - 40, 'Game is over!!! Score:' + score, { fontSize: '22px', fill: '#000' });
+    gameOverText = game.add.text( game.world.width*0.5 - 50, game.world.height*0.5 - 40, 'Score:' + score, { fontSize: '22px', fill: '#000' });
     endStar();
     restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
     restartButton.anchor.set(0.5);
@@ -197,7 +196,7 @@ function restartGame(){
     
 function endStar() {
     while (score > 0){
-       game.add.sprite(game.world.width*0.5 + starPostion, game.world.height*0.5 - 80, 'star');
+       game.add.sprite(game.world.width*0.5 - 50 + starPostion, game.world.height*0.5 - 80, 'star');
         starPostion = starPostion + 20;
         score = score - scoreBase; 
         starNumber++;
@@ -207,7 +206,7 @@ function endStar() {
     }
     var greyStar = 5 - starNumber;
     while(greyStar > 0){
-        var star1 =  game.add.sprite(game.world.width*0.5 + starPostion, game.world.height*0.5 - 80, 'star');
+        var star1 =  game.add.sprite(game.world.width*0.5 - 50 + starPostion, game.world.height*0.5 - 80, 'star');
         star1.tint= 0x232323;
         starPostion = starPostion + 20;
         greyStar--;
@@ -251,15 +250,9 @@ function update() {
         
         //check if the rocks are falling:
         if(rocksGroup.countLiving() != 0){    
-            //clearGMCanvas(matchExpCanvas);    //try this out
-            //this.game.input.disabled = true;
-            //console.log("yeah the rocks are living");
-            //eggsGroup.enableBody = false;
-            
             this.game.input.enabled = false;
         }
         else{
-            //console.log("no the rocks are dead");
             this.game.input.enabled = true;
         }
     }
@@ -489,7 +482,6 @@ function initCanvas() {
     //matchExpCanvas is for Pattern Matching
     solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
     matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
     
     
     //clearGMCanvas(solveEqCanvas);
@@ -537,13 +529,15 @@ function initCanvas() {
             
             scoreText.text = 'Score: ' + score;
 
-           var egg = eggsGroup.children[currentEggIndex];
+            var egg = eggsGroup.children[currentEggIndex];
             egg.animations.play('hatch', 2, false);
             
             g_rockTextArray = [];
             clearGMCanvas(solveEqCanvas);
             clearGMCanvas(matchExpCanvas);
-            matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+            if(eggsGroup.countLiving() > 1){
+                matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+            }
             currentEggIndex = -1;
             
         }
