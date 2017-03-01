@@ -63,31 +63,23 @@ var currentEggIndex = -1;
 var g_x_start = 32;
 var g_x_end = 400;
 var g_destroyedRocksSet = new Set();
+var g_rock_gravity = 5;
     
  
 function preload() {
     game.load.image('rock', 'assets/rock.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('fragment', 'assets/rock_fragment.png');
-    
-    //change width of frame later
-    //game.load.spritesheet('egg', 'assets/egg_spritesheet.png',103,126);
-    game.load.atlasJSONHash('egg', 'assets/eggSpritesheet.png','assets/eggSpritesheet.json');
-    
-    
+    game.load.atlasJSONHash('egg', 'assets/eggSpritesheet.png','assets/eggSpritesheet.json'); 
     game.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
     game.load.image('star', 'assets/star.png');
-//    game.load.image('dinoMom', 'assets/dinoMom.png');
     game.load.atlasJSONHash('dino', 'assets/dino.png','assets/dino.json');
-    game.load.image('sky', 'assets/sky.png');
-    
+    game.load.image('sky', 'assets/sky.png'); 
     game.load.spritesheet('button', 'assets/button.png', 120, 40);
     
     //background music
     game.load.audio('bg_music',['assets/bg_music.mp3']);
-    
-    game.load.image('restart', 'assets/restart.png');
-    
+    game.load.image('restart', 'assets/restart.png');  
 }
     
 var platforms;
@@ -141,7 +133,6 @@ function create() {
    
     //music 
     music = game.add.audio('bg_music');
-    
     CreateEggs(3); 
     
     
@@ -158,13 +149,9 @@ function releaseRock(){
             isRockVisible = rocksGroup.children[index].visible;
         }
         
-        
         var rock = rocksGroup.children[index];
-        //var rock = rocksGroup.children[currentRockChild];
         rock.visible = true;
-        //g_rockTextArray[currentRockChild].visible = true;
-        rock.body.gravity.y = 100;
-        
+        rock.body.gravity.y = g_rock_gravity;
         
         //place equation on rock
         var equation = getMatchEquationOnRock();
@@ -185,7 +172,7 @@ function releaseRock(){
 
 function startGame() {
     startButton.destroy(); 
-    CreateRocks(4); 
+    CreateRocks(2); 
     releaseRock(); 
     playing = true;
     music.play();
@@ -244,8 +231,6 @@ function update() {
             releaseRock();
         }
         
-        /*rockText.x = Math.floor(rock.x + rock.width / 2);
-        rockText.y = Math.floor(rock.y + rock.height / 2);*/
         //update egg equation on the egg
         for(i = 0 ; i < eggsGroup.children.length ; i++){
             g_eggTextArray[i].x = Math.floor(eggsGroup.children[i].x + eggsGroup.children[i].width / 2);
@@ -412,6 +397,7 @@ function populateSolveEqCanvas(selectedEgg){
     currentEggIndex = eggsGroup.getIndex(selectedEgg);
     if(currentEggIndex != -1){
         clearGMCanvas(solveEqCanvas);
+        clearGMCanvas(matchExpCanvas);
         solveEqCanvas.model.createElement('derivation', { eq: g_eggTextArray[currentEggIndex].text, pos: { x: 'center', y: 50 } });
     }
 }
@@ -446,7 +432,6 @@ function hatchAnimationStopped(eggSprite, animation) {
     //remove the value from hit counter
     var eggIndex = eggsGroup.getIndex(eggSprite);
     
-    
     //get x position for egg to hatch
     var egg_x = eggSprite.x;
     //kill the egg 
@@ -461,16 +446,19 @@ function hatchAnimationStopped(eggSprite, animation) {
 
 //the input here is equation with stars
 function matchEquationOnRocks(equation){
+    var matchedEqIndexArray = [];
     var parsedEq = equation.replace(/\*/g, "");
     
     for(var i = 0 ; i < g_rockTextArray.length ; i++){
         if(g_rockTextArray[i] != undefined && g_rockTextArray[i] != null){
             if(g_rockTextArray[i].text == parsedEq){
-                return i;
+                //return i;
+                matchedEqIndexArray.push(i);
             }
         }
     }
-    return -1;
+    //return -1;
+    return matchedEqIndexArray;
 }
 
     
@@ -488,23 +476,21 @@ function initCanvas() {
     matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
     
     //disabling the solveEq canvas
-    //showHide(document.getElementById('gmath1-div'));
-    
-    matchExpCanvas.model.on('el_changed', function(evt) {
-
-		
-		var lastEq = evt.last_eq;
-    var index = matchEquationOnRocks(lastEq);
+    matchExpCanvas.model.on('el_changed', function(evt) {	
+    var lastEq = evt.last_eq;
+    var matchedEqIndexArray = matchEquationOnRocks(lastEq);
         
-		if (index != -1) {
-            
-            rockBurst(rocksGroup.children[index]);
-            //Add and update the score
-            score += 10;
-            scoreText.text = 'Score: ' + score;		
-			if(rocksGroup.countLiving() == 0){
-                clearGMCanvas(matchExpCanvas);  
+		if (matchedEqIndexArray.length > 0 && rocksGroup.countLiving() > 0) {
+            console.log("Mathced")
+            for(j = 0; j < matchedEqIndexArray.length ; j++){
+                rockBurst(rocksGroup.children[matchedEqIndexArray[j]]);
+                //Add and update the score
+                score += 10;
+                scoreText.text = 'Score: ' + score;
                 
+            }            		
+			if(rocksGroup.countLiving() == 0){
+                clearGMCanvas(matchExpCanvas); 
             }
 
 		}
