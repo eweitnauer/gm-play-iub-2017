@@ -459,6 +459,7 @@ function hatchAnimationStopped(eggSprite, animation) {
     runToMom(egg_x, isSad);
 } 
 
+
 //the input here is equation with stars
 function matchEquationOnRocks(equation){
     var matchedEqIndexArray = [];
@@ -520,10 +521,23 @@ function initCanvas() {
          console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
 	    //condition to check if equation is solved
         if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
-            score += 50;
+            if (g_hitCount[currentEggIndex] == 0) {
+                score += 50;
+                console.log("hit 0 meands + 50" );
+            } else if (g_hitCount[currentEggIndex]==1){
+                score += 30;
+                 console.log("hit 1 meands + 30" );
+            } else if (g_hitCount[currentEggIndex]==2){
+                 score += 20;
+                 console.log("hit 2 meands + 20" );
+            } else {
+                score += 10;
+                console.log("hit more meands + 10");
+            }
+            
             scoreText.text = 'Score: ' + score;
 
-            var egg = eggsGroup.children[currentEggIndex];
+           var egg = eggsGroup.children[currentEggIndex];
             egg.animations.play('hatch', 2, false);
             
             g_rockTextArray = [];
