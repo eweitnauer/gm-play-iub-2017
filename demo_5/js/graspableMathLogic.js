@@ -14,30 +14,13 @@ var g_problems = [
     , 'x*(n+m)'
     ]
 ];
-var g_parsedProblems = [
-    [
-      'mx+nx'
-    , 'mx+xn'
-    , 'nx+mx'
-    , 'nx+xm'
-    , 'xn+mx'
-    , 'xn+xm'
-    , 'xm+nx'
-    , 'xm+xn'
-    , '(m+n)x'
-    , 'x(m+n)'
-    , '(n+m)x'
-    , 'x(n+m)'
-    ]
-];
+
 
 
 var g_canvasExpression = g_problems[0][0];
 var g_parsedCanvasExpression = g_canvasExpression.replace(/\*/g, "");
 var g_equation;
 var g_parsedEquation;
-
-
 
 // random range generator
 function getRandomRange(min, max) {
@@ -61,16 +44,8 @@ function createEggEquation(){
         equation = str+a+"x+"+b+"="+c;   
         return equation;
 }
-   
-function showHide(x) {
-   if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
-}
     
- function clearGMCanvas(canvasObj){
+function clearGMCanvas(canvasObj){
    	//clear canvas
    	console.log("clearing canvas");
    	while(canvasObj.model.elements().length > 0){
