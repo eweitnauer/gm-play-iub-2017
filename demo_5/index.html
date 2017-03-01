@@ -263,6 +263,20 @@ function update() {
                
             }
         }
+        
+        //check if the rocks are falling:
+        if(rocksGroup.countLiving() != 0){    
+            //clearGMCanvas(matchExpCanvas);    //try this out
+            //this.game.input.disabled = true;
+            //console.log("yeah the rocks are living");
+            //eggsGroup.enableBody = false;
+            
+            this.game.input.enabled = false;
+        }
+        else{
+            //console.log("no the rocks are dead");
+            this.game.input.enabled = true;
+        }
     }
 
 }
@@ -413,7 +427,8 @@ function populateSolveEqCanvas(selectedEgg){
     if(currentEggIndex != -1){
         clearGMCanvas(solveEqCanvas);
         solveEqCanvas.model.createElement('derivation', { eq: g_eggTextArray[currentEggIndex].text, pos: { x: 'center', y: 50 } });
-    }
+    }    
+    //clearGMCanvas(matchExpCanvas);
 }
 
     
@@ -486,6 +501,9 @@ function initCanvas() {
     solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
     matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
     matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+    
+    
+    //clearGMCanvas(solveEqCanvas);
     
     //disabling the solveEq canvas
     //showHide(document.getElementById('gmath1-div'));
