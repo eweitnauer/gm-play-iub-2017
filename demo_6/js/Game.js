@@ -49,11 +49,7 @@ DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
 DinoEggs.Game.prototype.constructor = DinoEggs.Game;
 
 DinoEggs.Game.prototype = {
-    dummy:function(){
-        console.log("dummy");
-        console.log("dummy");
-        console.log("dummy");
-    },
+
     create:function(){
         //set world dimensions
         //this.game.world.setBounds(0, 0, 1920, 1920);
