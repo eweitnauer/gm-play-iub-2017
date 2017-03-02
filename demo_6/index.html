@@ -1,0 +1,592 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Rocks Demo</title>
+    <script src="js/phaser.js"></script>
+    <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
+    <script src = "js/graspableMathLogic.js"></script>
+    <style type="text/css">
+        body{
+            background-color:lightgreen;
+            background-image:url('assets/canvas-bkgd.png');
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+        canvas {
+            margin: auto;
+        }
+        #game-div{
+            background-image:url('assets/bodybkgd.jpg');
+            background-size:800px 600px;
+        }
+        
+/*        div#gmath1-div > div.gm-canvas{
+            background-color: antiquewhite;
+            width:0px;
+            height:0px;
+        }
+        
+        div#gmath2-div > div.gm-canvas{
+            background-color: chocolate;
+            width:0px;
+            height:0px;
+        }
+  */      
+        div#canvas-container {
+            background-color: rgba(0, 255, 0, 0.2);
+        }
+        
+        div.dino-gmcanvas{
+            background-image: url('assets/canvas-bkgd.png');
+        }
+        
+        div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{
+            background-color:transparent !important;
+        }
+        div.canvas-element circle{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-div', { preload: preload, create: create, update: update});
+
+var g_hitCount = [];
+var g_eggTextArray = [];
+var g_rockTextArray = [];
+var currentEggIndex = -1;
+var g_x_start = 32;
+var g_x_end = 400;
+var g_destroyedRocksSet = new Set();
+var g_rock_gravity = 5;
+    
+ 
+function preload() {
+    game.load.image('rock', 'assets/rock.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('fragment', 'assets/rock_fragment.png');
+    game.load.atlasJSONHash('egg', 'assets/eggSpritesheet.png','assets/eggSpritesheet.json'); 
+    game.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
+    game.load.image('star', 'assets/star.png');
+    game.load.atlasJSONHash('dino', 'assets/dino.png','assets/dino.json');
+    game.load.image('sky', 'assets/sky.png'); 
+    game.load.spritesheet('button', 'assets/button.png', 120, 40);
+    
+    //background music
+    game.load.audio('bg_music',['assets/bg_music.mp3']);
+    game.load.image('restart', 'assets/restart.png');  
+}
+    
+var platforms;
+var hatchling; //hatchling
+var score = 0;
+var scoreText;
+var expressionTextStyle;
+var playing;
+var music;
+
+
+var gameOverText;
+var scoreBase = 50;
+var starNumber = 0;
+var starPostion = 0;
+    
+    
+//Testing group feature
+var eggsGroup;
+    
+var rocksGroup;
+var currentRockChild = 0;
+var isRocksRemaining = true;
+var rockTimer = 0;
+var total = 0;
+
+
+function create() {
+   game.add.sprite(0, 0, 'sky');
+   game.physics.startSystem(Phaser.Physics.ARCADE);
+   platforms = game.add.group();
+   platforms.enableBody = true;
+   var ground = platforms.create(0, game.world.height - 64, 'ground');
+   ground.scale.setTo(2,2);
+   ground.body.immovable = true;
+
+    //Dino mom  
+    var dino = game.add.sprite(600,game.world.height-150, 'dino');
+    var move = dino.animations.add('move',['2.png','3.png','4.png','5.png'],24,true);
+    dino.animations.play('move', 10, true);
+    game.add.tween(dino).to({y: 300}, 2400, Phaser.Easing.Bounce.InOut, true);
+
+     
+    //  The score
+    scoreText = game.add.text(600, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    
+   
+    //start button
+    startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
+    startButton.anchor.set(0.5);
+   
+    //music 
+    music = game.add.audio('bg_music');
+    CreateEggs(4); 
+    
+}
+
+function releaseRock(){
+    if(currentRockChild < rocksGroup.children.length){
+        
+        var index = game.rnd.integerInRange(0,rocksGroup.children.length - 1);
+        var isRockVisible = rocksGroup.children[index].visible;
+        while( isRockVisible || g_destroyedRocksSet.has(index)){
+            index = game.rnd.integerInRange(0,rocksGroup.children.length - 1);
+            isRockVisible = rocksGroup.children[index].visible;
+        }
+        
+        var rock = rocksGroup.children[index];
+        rock.visible = true;
+        rock.body.gravity.y = g_rock_gravity;
+        
+        //place equation on rock
+        var equation = getMatchEquationOnRock();
+        expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: rock.width, align: "center"};
+        var rockText = game.add.text(Math.floor(rock.x + rock.width / 2), Math.floor(rock.y + rock.height / 2), equation, expressionTextStyle);
+        rockText.anchor.set(0.5);
+        
+        g_rockTextArray[index] = rockText;
+        
+        currentRockChild++;
+        
+    }else{
+        isRocksRemaining = false;
+    }
+    total++;
+    rockTimer = game.time.now + 2000; // rock interval for releasing next rock
+}
+
+function startGame() {
+    startButton.destroy(); 
+    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+    CreateRocks(7); 
+    releaseRock(); 
+    playing = true;
+    music.play();
+}
+    
+function gameOver() {
+    playing = false;
+    scoreText.destroy();
+    clearGMCanvas(solveEqCanvas);
+    clearGMCanvas(matchExpCanvas);
+    gameOverText = game.add.text( game.world.width*0.5 - 50, game.world.height*0.5 - 40, 'Score:' + score, { fontSize: '22px', fill: '#000' });
+    endStar();
+    restartButton = game.add.button(game.world.width*0.5, game.world.height*0.5 + 20, 'restart', restartGame, game, 1, 0, 2);
+    restartButton.anchor.set(0.5);
+    music.stop();
+}
+    
+function restartGame(){
+    console.log("Game Restart");
+    game.state.restart();
+}
+    
+function endStar() {
+    while (score > 0){
+       game.add.sprite(game.world.width*0.5 - 50 + starPostion, game.world.height*0.5 - 80, 'star');
+        starPostion = starPostion + 20;
+        score = score - scoreBase; 
+        starNumber++;
+        if (starNumber == 5){
+            break;
+        }
+    }
+    var greyStar = 5 - starNumber;
+    while(greyStar > 0){
+        var star1 =  game.add.sprite(game.world.width*0.5 - 50 + starPostion, game.world.height*0.5 - 80, 'star');
+        star1.tint= 0x232323;
+        starPostion = starPostion + 20;
+        greyStar--;
+    }
+}
+
+
+function update() {
+    game.physics.arcade.collide(eggsGroup, platforms);
+    //game.physics.arcade.collide(rocksGroup, platforms);
+    
+    
+    game.physics.arcade.overlap(rocksGroup, platforms, disappearRockOnGround, null, this);
+    
+    //  Checks to see if the rock overlaps with any of the eggs, if it does call the hitEgg function
+    //game.physics.arcade.overlap(rock, eggsGroup, hitEgg, null, this);
+    game.physics.arcade.overlap(rocksGroup, eggsGroup, hitEgg, null, this);
+    
+    if(playing){
+        if(isRocksRemaining && total < 7 && game.time.now > rockTimer){
+            releaseRock();
+        }
+        
+        //update egg equation on the egg
+        for(i = 0 ; i < eggsGroup.children.length ; i++){
+            g_eggTextArray[i].x = Math.floor(eggsGroup.children[i].x + eggsGroup.children[i].width / 2);
+            g_eggTextArray[i].y = Math.floor(eggsGroup.children[i].y + eggsGroup.children[i].height / 2);
+            g_eggTextArray[i].visible = true;
+        }
+        
+         if(rocksGroup.alive){
+            for(i = 0 ; i < g_rockTextArray.length ; i++){
+                if(g_rockTextArray[i] != undefined){
+                    g_rockTextArray[i].x = Math.floor(rocksGroup.children[i].x + rocksGroup.children[i].width / 2);
+                    g_rockTextArray[i].y = Math.floor(rocksGroup.children[i].y + rocksGroup.children[i].height / 2);
+                }
+                
+               
+            }
+        }
+        
+        //check if the rocks are falling:
+        if(rocksGroup.countLiving() != 0){    
+            this.game.input.enabled = false;
+        }
+        else{
+            this.game.input.enabled = true;
+        }
+    }
+
+}
+    
+function disappearRockOnGround(rock, platform){
+    rockBurst(rock);
+}
+
+
+function hitEgg(rock, egg){
+    
+    //to update this variable once we have an array of hits
+    var hitEggIndex = eggsGroup.getIndex(egg);    
+    var hits = ++g_hitCount[hitEggIndex];   
+    rockBurst(rock);
+    if(rocksGroup.countLiving() == 0){    
+        clearGMCanvas(matchExpCanvas);    
+    }
+    egg.animations.play('wiggle');
+    switch(hits){
+        case 1 : egg.tint = 0x00ff00; 
+                break;
+        case 2 : egg.tint = 0xff0000;
+                var style = {font: "20px Arial", fill: "#ffffff", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
+                g_eggTextArray[hitEggIndex].setStyle(style);
+                break
+        case 3 :  egg.tint = 0x2412ff;
+                 break;
+            
+    }
+
+}
+    
+function rockBurst(rock) {
+    
+    
+     //burst emitter for rocks
+    var rock_emitter = game.add.emitter(0, 0, 100);
+
+    rock_emitter.makeParticles('star');
+    rock_emitter.gravity = 0;
+
+    rock_emitter.x = rock.x;
+    rock_emitter.y = rock.y;
+    
+    //explode / milliseconds before particle disappear/ doesn't matter/ number of particles emitted at a time
+    rock_emitter.start(true, 2000, null, 5);
+    
+    rock.visible = false;
+    
+    var rockIndex = rocksGroup.getIndex(rock);
+    g_rockTextArray[rockIndex].kill();
+    rock.kill();
+    
+    //  And 2 seconds later we'll destroy the emitter
+    game.time.events.add(2000, destroyObject, this, rock_emitter);
+    if(rocksGroup.countLiving() == 0){
+        clearGMCanvas(matchExpCanvas);
+    }
+    
+    g_destroyedRocksSet.add(rockIndex); 
+
+}
+    
+
+function runToMom(egg_x, isSad){
+    var hatchling = game.add.sprite(egg_x,game.world.height-100, 'hatchling');
+    if(isSad){
+        hatchling.tint = 0xff0000;
+    }
+    
+    hatchling.anchor.setTo(0.5, 0.5);
+    hatchling.animations.add('run');
+    hatchling.animations.play('run', 10, true);
+    
+    // params are: properties to tween, time in ms, easing and auto-start tweenthis.
+    var runningDinoTween = game.add.tween(hatchling).to({x: 600, y: game.world.height-100}, 3000, Phaser.Easing.Quadratic.InOut, true);
+    runningDinoTween.onComplete.addOnce(stopDino, this,hatchling);  
+    
+    
+    if(eggsGroup.countLiving() == 0){
+        gameOver();            
+    }else{
+        makeAllRocksAlive();
+    }
+
+}
+    
+function stopDino(hatchling){
+    //  This method will reset the frame to frame 1 after stopping
+    hatchling.animations.stop(null, true);
+    
+    //to(properties, duration, ease, autoStart, delay, repeat, yoyo) 
+    var jumpingTween = game.add.tween(hatchling).to({x: 600,y : game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);
+}
+
+function destroyObject(obj) {
+    if(obj != undefined)
+        obj.destroy();
+}
+
+function CreateEggs(numEggs){
+	
+	 //  Eggs group
+    eggsGroup = game.add.group();
+
+    //  We will enable physics for any egg that is created in this group
+    eggsGroup.enableBody = true;
+    eggsGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    
+    var egg_y = game.world.height - 150;
+    var egg_x_array = linspace(g_x_start,g_x_end,numEggs);
+    //  Here we'll create 4 of them evenly spaced apart
+    for (var i = 0; i < numEggs; i++)
+    {
+        var egg = eggsGroup.create(egg_x_array[i], egg_y, 'egg');
+
+        //  Let gravity do its thing
+        egg.body.gravity.y = 300;
+        egg.body.bounce.y =  0.2; 
+        egg.body.collideWorldBounds = true;
+        
+        var hatchAnimation = egg.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
+        egg.animations.add('wiggle',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
+        hatchAnimation.onComplete.add(hatchAnimationStopped, this);
+
+
+        g_hitCount.push(0);
+        
+        //place equation on egg
+        var equation = createEggEquation();
+        expressionTextStyle = { font: "20px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
+        var eggText = game.add.text(Math.floor(egg.x + egg.width / 2), Math.floor(egg.y + egg.height / 2), equation, expressionTextStyle);
+        eggText.anchor.set(0.5);
+        eggText.visible = false;
+        g_eggTextArray.push(eggText);
+        
+        //add click event to egg
+        egg.inputEnabled = true;
+        egg.events.onInputDown.add(populateSolveEqCanvas, this, egg);
+  
+    }
+
+}
+
+function populateSolveEqCanvas(selectedEgg){ 
+    currentEggIndex = eggsGroup.getIndex(selectedEgg);
+    if(currentEggIndex != -1){
+        clearGMCanvas(solveEqCanvas);
+        clearGMCanvas(matchExpCanvas);
+        solveEqCanvas.model.createElement('derivation', { eq: g_eggTextArray[currentEggIndex].text, pos: { x: 'center', y: 50 } });
+    }    
+    //clearGMCanvas(matchExpCanvas);
+}
+
+    
+function CreateRocks(numRocks){    
+     //  Rocks group
+    rocksGroup = game.add.group();
+    
+    //  We will enable physics for any rock that is created in this group
+    rocksGroup.enableBody = true;
+    rocksGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    
+    var rock_y = 0;
+    var rock_x_array = linspace(g_x_start,g_x_end,numRocks);
+    
+    //  Here we'll create 4 of them evenly spaced apart
+    for (var i = 0; i < numRocks; i++)
+    {
+        var rock = rocksGroup.create(rock_x_array[i], rock_y, 'rock');
+        rock.body.collideWorldBounds = true;
+        rock.scale.setTo(0.15,0.15);
+        rock.visible = false; 
+        g_rockTextArray.push("");
+    }
+
+    
+   
+}
+    
+function hatchAnimationStopped(eggSprite, animation) {
+    //remove the value from hit counter
+    var eggIndex = eggsGroup.getIndex(eggSprite);
+    
+    //get x position for egg to hatch
+    var egg_x = eggSprite.x;
+    //kill the egg 
+    eggSprite.kill();
+    destroyObject(g_eggTextArray[eggIndex]);
+    var isSad = false;
+    if(g_hitCount[eggIndex] > 2){
+        isSad = true;
+    }
+    runToMom(egg_x, isSad);
+} 
+
+
+//the input here is equation with stars
+function matchEquationOnRocks(equation){
+    var matchedEqIndexArray = [];
+    var parsedEq = equation.replace(/\*/g, "");
+    
+    for(var i = 0 ; i < g_rockTextArray.length ; i++){
+        if(g_rockTextArray[i] != undefined && g_rockTextArray[i] != null){
+            if(g_rockTextArray[i].text == parsedEq){
+                //return i;
+                matchedEqIndexArray.push(i);
+            }
+        }
+    }
+    //return -1;
+    return matchedEqIndexArray;
+}
+
+    
+var eqList = new Array();
+var numExpMatched = 1;
+  
+//GM Code
+loadGM(initCanvas, { version: '0.12.6' });
+function initCanvas() {
+    
+    //solveEqCanvas is for Equation Solving
+    //matchExpCanvas is for Pattern Matching
+    solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
+    matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
+    
+    
+    //clearGMCanvas(solveEqCanvas);
+    
+    //disabling the solveEq canvas
+    matchExpCanvas.model.on('el_changed', function(evt) {	
+    var lastEq = evt.last_eq;
+    var matchedEqIndexArray = matchEquationOnRocks(lastEq);
+        
+		if (matchedEqIndexArray.length > 0 && rocksGroup.countLiving() > 0) {
+            console.log("Mathced")
+            for(j = 0; j < matchedEqIndexArray.length ; j++){
+                rockBurst(rocksGroup.children[matchedEqIndexArray[j]]);
+                //Add and update the score
+                score += 10;
+                scoreText.text = 'Score: ' + score;
+                
+            }            		
+			if(rocksGroup.countLiving() == 0){
+                clearGMCanvas(matchExpCanvas); 
+            }
+
+		}
+	});
+    
+  
+    
+    solveEqCanvas.model.on('el_changed', function(evt) {
+         console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+	    //condition to check if equation is solved
+        if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
+            if (g_hitCount[currentEggIndex] == 0) {
+                score += 50;
+                console.log("hit 0 meands + 50" );
+            } else if (g_hitCount[currentEggIndex]==1){
+                score += 30;
+                 console.log("hit 1 meands + 30" );
+            } else if (g_hitCount[currentEggIndex]==2){
+                 score += 20;
+                 console.log("hit 2 meands + 20" );
+            } else {
+                score += 10;
+                console.log("hit more meands + 10");
+            }
+            
+            scoreText.text = 'Score: ' + score;
+
+            var egg = eggsGroup.children[currentEggIndex];
+            egg.animations.play('hatch', 2, false);
+            
+            g_rockTextArray = [];
+            clearGMCanvas(solveEqCanvas);
+            clearGMCanvas(matchExpCanvas);
+            if(eggsGroup.countLiving() > 1){
+                matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+            }
+            currentEggIndex = -1;
+            
+        }
+    });
+}
+    
+function makeAllRocksAlive(){
+    var rock_x_array = linspace(g_x_start,g_x_end,rocksGroup.children.length);
+    for(i = 0 ; i < rocksGroup.children.length; i++){
+        rocksGroup.children[i].reset(rock_x_array[i], 0);
+        rocksGroup.children[i].body.gravity.y = 0;
+        rocksGroup.children[i].visible = false;
+    }
+    rockTimer = 0;
+    total = 0;
+    currentRockChild = 0;
+    isRocksRemaining = true;
+    g_destroyedRocksSet.clear();
+    
+    clearGMCanvas(solveEqCanvas);
+    clearGMCanvas(matchExpCanvas);
+    matchExpCanvas.model.createElement('derivation', { eq: g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+    
+    releaseRock();
+   
+}
+    
+//http://www.numericjs.com/index.php
+function linspace(a,b,n) {
+    if(typeof n === "undefined") n = Math.max(Math.round(b-a)+1,1);
+    if(n<2) { return n===1?[a]:[]; }
+    var i,ret = Array(n);
+    n--;
+    for(i=n;i>=0;i--) { ret[i] = (i*b+(n-i)*a)/n; }
+    return ret;
+}
+ 
+
+ 
+</script>
+
+
+<div id='game-div'></div>   
+    
+<div id='gmath1-div'></div>
+<div id='gmath2-div'></div>
+    
+
+
+</body>
+</html>
+
