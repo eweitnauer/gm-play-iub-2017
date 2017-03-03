@@ -6,13 +6,10 @@ Rock = function (game, x, y, equation) {
     this.game.physics.arcade.enable(this);
     this.body.gravity.y = 50;
     this.body.collideWorldBounds = true;
-    this.scale.x = 0.15;
-    this.scale.y = 0.15;
-    
     this.equ = equation;
     
     //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
-    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equ, { font: "150px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
+    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equ, { font: "25px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
     text.anchor.set(0.5);
     this.addChild(text);    
 
