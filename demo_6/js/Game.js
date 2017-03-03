@@ -71,7 +71,7 @@ DinoEggs.Game.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this._platforms = this.game.add.group();
         this._platforms.enableBody = true;
-        var ground = this._platforms.create(0, this.game.world.height - 200, 'ground');
+        var ground = this._platforms.create(0, this.game.world.height - 64, 'ground');
         ground.scale.setTo(2,6);
         ground.body.immovable = true;
         
@@ -94,7 +94,7 @@ DinoEggs.Game.prototype = {
          
         
         //  The score
-        this.scoreText = this.game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = this.game.add.text(600, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
         
         //music 
         this.music = this.game.add.audio('bg_music');

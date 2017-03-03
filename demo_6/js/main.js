@@ -1,7 +1,7 @@
 // create unique namespace to avoid conflicts with libraries we might be using
 var DinoEggs = DinoEggs || {}; // if objects exists use it, else create a new object
 
-DinoEggs.game = new Phaser.Game(800, 800, Phaser.AUTO, 'game-div');
+DinoEggs.game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-div');
 
 DinoEggs.game.state.add('Boot',new DinoEggs.Boot());
 DinoEggs.game.state.add('Preload',new DinoEggs.Preload());

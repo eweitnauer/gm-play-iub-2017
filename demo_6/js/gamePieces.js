@@ -76,38 +76,3 @@ Egg.prototype.setEquStyle = function(style){
     this.children.forEach(function(c){ c.setStyle(style)});
 }
 
-
-//************************ GM Canvas ****************************
-var g_problems = [
-    [
-      'm*x+n*x'
-    , 'm*x+x*n'
-    , 'n*x+m*x'
-    , 'n*x+x*m'
-    , 'x*n+m*x'
-    , 'x*n+x*m'
-    , 'x*m+n*x'
-    , 'x*m+x*n'
-    , '(m+n)*x'
-    , 'x*(m+n)'
-    , '(n+m)*x'
-    , 'x*(n+m)'
-    ]
-];
-var g_parsedProblems = [
-    [
-      'mx+nx'
-    , 'mx+xn'
-    , 'nx+mx'
-    , 'nx+xm'
-    , 'xn+mx'
-    , 'xn+xm'
-    , 'xm+nx'
-    , 'xm+xn'
-    , '(m+n)x'
-    , 'x(m+n)'
-    , '(n+m)x'
-    , 'x(n+m)'
-    ]
-];
-
