@@ -191,6 +191,7 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){ 
+        this.selectedEgg=selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
@@ -271,12 +272,12 @@ DinoEggs.Game.prototype = {
         var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
         
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
-            this.game.state.start('Game');
+            this.state.start('Game');
         }, this.game, 1, 0, 2);
         restartButton.anchor.set(0.5);
         
         var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'menu', function(){
-            this.game.state.start('MainMenu');
+            this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
         mainMenuButton.anchor.set(0.5);
         this.endStar();
@@ -338,29 +339,14 @@ DinoEggs.Game.prototype = {
 
             }
     },
-    initCanvas: function(){
-        //GM Code
-        
-            //solveEqCanvas is for Equation Solving
-            //matchExpCanvas is for Pattern Matching
-            this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
-            this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
-
-            this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
-            //this.clearGMCanvas(this.solveEqCanvas);
-
-            //disabling the solveEq canvas
-            
-            //!preserve binding
-            var thisObj =this;
-            this.matchExpCanvas.model.on('el_changed', function(evt) {	
-                thisObj.matchEqCheck(evt);
-            });
-
-            this.solveEqCanvas.model.on('el_changed', function(evt) {
-                 console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+    solveEqCheck:function(evt){
+        console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
                 //condition to check if equation is solved
+                console.log("equation being changed");
+                console.log(evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)));
                 if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
+                    console.log("solved");
+                    console.log(this.selectedEgg);
                     if(this.selectedEgg){
                         
                         if (this.selectedEgg.hitCounter == 0) {
@@ -380,7 +366,8 @@ DinoEggs.Game.prototype = {
                         this.scoreText.text = 'Score: ' + this.score;
 
                         this.selectedEgg.animations.play('hatch', 2, false);
-
+                        console.log("clearing canvas");
+                        console.log(this.clearGMCanvas);
                         this.clearGMCanvas(this.solveEqCanvas);
                         this.clearGMCanvas(this.matchExpCanvas);
                         if(this._eggsGroup.countLiving() > 1){
@@ -390,6 +377,28 @@ DinoEggs.Game.prototype = {
                     }
 
                 }
+    },
+    initCanvas: function(){
+        //GM Code
+        
+            //solveEqCanvas is for Equation Solving
+            //matchExpCanvas is for Pattern Matching
+            this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
+            this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
+
+            this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
+            //this.clearGMCanvas(this.solveEqCanvas);
+
+            //disabling the solveEq canvas
+            
+            //!preserve binding
+            var thisObj =this;
+            this.matchExpCanvas.model.on('el_changed', function(evt) {	
+                thisObj.matchEqCheck(evt);
+            });
+            //!preserve binding
+            this.solveEqCanvas.model.on('el_changed', function(evt) {
+                 thisObj.solveEqCheck(evt);
             });
         
 
