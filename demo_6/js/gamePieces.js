@@ -12,7 +12,7 @@ Rock = function (game, x, y, equation) {
     this.equ = equation;
     
     //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
-    var text = this.game.add.text(250,250, this.equ, {font: "150px Arial", fill: "#ffffff"});
+    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equ, { font: "150px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
     text.anchor.set(0.5);
     this.addChild(text);    
 
@@ -24,13 +24,15 @@ Rock.prototype.constructor = Rock;
 Rock.prototype.getEquation = function(){
     return this.equ;
 }
+
+/*
 Rock.prototype.setEquation = function(equation){
     this.equ = equation;
     this.children.forEach(function(c){ this.removeChild(c)})
-    var text = this.game.add.text(250,250, this.equ, {font: "150px Arial", fill: "#ffffff"});
+    var text = this.game.add.text(Math.floor(this.width / 2), Math.floor(this.height / 2), this.equ,{ font: "150px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
     text.anchor.set(0.5);
     this.addChild(text);  
-}
+}*/
 
 //.......................................................
 
@@ -44,7 +46,8 @@ Egg = function (game, x, y, equation) {
     this.body.collideWorldBounds = true;
     
     this.equ = equation;
-    var text = this.game.add.text(50,50, this.equ, {font: "25px Arial", fill: "red"});
+    
+    var text = this.game.add.text(Math.floor(this.width / 2), Math.floor(this.height / 2), this.equ, {font: "20px Arial", fill: "#ff0044",wordWrap: true, wordWrapWidth: this.width, align: "center"});
     text.anchor.set(0.5);
     this.addChild(text);
     
@@ -65,13 +68,14 @@ Egg.prototype.constructor = Egg;
 Egg.prototype.getEquation = function(){
     return this.equ;
 }
-Egg.prototype.setEquation = function(equation){
+
+/*Egg.prototype.setEquation = function(equation){
     this.equ = equation;
     this.children.forEach(function(c){ this.removeChild(c)})
-    var text = this.game.add.text(250,250, this.equ, {font: "150px Arial", fill: "#ffffff"});
+    var text = this.game.add.text(Math.floor(this.x + this.width / 2), Math.floor(this.y + this.height / 2), this.equ, {font: "150px Arial", fill: "#ffffff"});
     text.anchor.set(0.5);
     this.addChild(text);  
-}
+}*/
 Egg.prototype.setEquStyle = function(style){
     this.children.forEach(function(c){ c.setStyle(style)});
 }

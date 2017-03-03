@@ -4,20 +4,18 @@ var DinoEggs = DinoEggs || {};
 DinoEggs.Game = function(){
     Phaser.State.call(this);
     
-    this._eggsGroup =null;
-    this._rocksGroup =null;
-    this._platforms =null;
+    this._eggsGroup = null;
+    this._rocksGroup = null;
+    this._platforms = null;
     this._spawnRockTimer = 0;
     this.g_x_start = 32;
     this.g_x_end = 400;
     this.matchExpCanvas = null;
-    this.solveEqCanvas=null;
-    this.selectedEgg=null;
+    this.solveEqCanvas = null;
+    this.selectedEgg = null;
     
-    this.score=0;
-    this.scoreText=null;
-    //DinoEggs._scoreText = null;
-    //DinoEggs._score = 0;
+    this.score = 0;
+    this.scoreText = null;
     this.g_problems = [
         
         [
@@ -41,8 +39,6 @@ DinoEggs.Game = function(){
     this.g_parsedEquation="";
     
     this.music=null;
-    
-    this.c =["sjkdhjkdh"];
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -94,7 +90,7 @@ DinoEggs.Game.prototype = {
          
         
         //  The score
-        this.scoreText = this.game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = this.game.add.text(600, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
         
         //music 
         this.music = this.game.add.audio('bg_music');
@@ -191,11 +187,10 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){ 
-        this.selectedEgg=selectedEgg;
+        this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
-        //this.clearGMCanvas(this.matchExpCanvas);
     },
     
     startRockWave: function(rockIntervalSec, numRocks){
@@ -219,7 +214,7 @@ DinoEggs.Game.prototype = {
         egg.animations.play('wiggle');
         switch(hits){
             case 1 : egg.tint = 0x00ff00; 
-                break;
+                     break;
             case 2 : egg.tint = 0xff0000;
                     var style = {font: "20px Arial", fill: "#ffffff", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
                     egg.setEquStyle(style);
