@@ -103,7 +103,10 @@ DinoEggs.Game.prototype = {
         
         
         //create rock wave - (rockinterval, number of rocks)
-        this.startRockWave(3,5);
+
+       
+        this.startRockWave(3,8);
+
  
 
         
@@ -147,7 +150,31 @@ DinoEggs.Game.prototype = {
                 if(eggSprite.hitCounter > 2){
                     isSad = true;
                 }
-                this._eggsGroup.remove(eggSprite);        
+                
+                //get score
+                var score = this.calculateScore(eggSprite.hitCounter); 
+                
+                //Add score text here
+                var obtainedScoreText = this.game.add.text(eggSprite.x, eggSprite.y, score, { fontSize: '32px', fill: '#000' });
+                
+                //score animation
+                var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
+                scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
+                
+                //check for any existing black eggs
+                if(eggSprite.hitCounter <= 2){
+                    for (var j = 0; j < this._eggsGroup.length; j++){
+                        if(this._eggsGroup.children[j].hitCounter > 2){
+                            var blackEggScoreText = this.game.add.text(this._eggsGroup.children[j].x, this._eggsGroup.children[j].y, "-10", { fontSize: '32px', fill: '#000' });
+                            var blackEggTween = this.game.add.tween(blackEggScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
+                            //blackEggTweenArray.push(blackEggTween);
+                        blackEggTween.onComplete.addOnce(this.updateScore,this,blackEggScoreText); 
+                        }
+                    }
+                }
+                
+                
+                this._eggsGroup.remove(eggSprite); 
                 this.runToMom(egg_x, isSad);
             }, this);
             
@@ -156,6 +183,17 @@ DinoEggs.Game.prototype = {
             egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
             
             this._eggsGroup.add(egg);
+        }
+    },
+    calculateScore: function(hitCount){
+        if (hitCount == 0) {
+            return "+50";
+        } else if (hitCount == 1){
+            return "+40";
+        } else if (hitCount == 2){
+             return "+30";
+        } else {
+            return "+20";
         }
     },
 
@@ -188,6 +226,24 @@ DinoEggs.Game.prototype = {
         //to(properties, duration, ease, autoStart, delay, repeat, yoyo) 
         var jumpingTween = this.game.add.tween(hatchling).to({x: 600,y : this.game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);
     },
+    updateScore: function(currentScoreText){
+        var scoreString = currentScoreText.text;
+        currentScoreText.destroy();
+        
+        // update the actual score
+        var operation = scoreString.substring(0,1);
+        if(operation == '+'){
+            this.score += parseInt(scoreString.substring(1));
+        }else{
+            this.score -= parseInt(scoreString.substring(1));
+            
+            //do not allow negative scores
+            if(this.score < 0){
+                this.score = 0;
+            }
+        } 
+        this.scoreText.text = 'Score: ' + this.score;
+    },
     
     populateSolveEqCanvas: function(selectedEgg){ 
         this.selectedEgg = selectedEgg;
@@ -199,7 +255,7 @@ DinoEggs.Game.prototype = {
     startRockWave: function(rockIntervalSec, numRocks){
         //get rock positions for 6 rocks
         this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numRocks);
-        console.log(this.rockPositions);
+        //console.log(this.rockPositions);
         this.game.time.events.repeat(Phaser.Timer.SECOND * rockIntervalSec, numRocks, this.spawnRock, this);
     },
     
@@ -222,15 +278,18 @@ DinoEggs.Game.prototype = {
         if(this._rocksGroup.countLiving() == 0){    
             this.clearGMCanvas(this.matchExpCanvas);    
         }
-        egg.animations.play('wiggle');
+       
         switch(hits){
             case 1 : egg.tint = 0x00ff00; 
+                    egg.animations.play('wiggleOnce');
                      break;
             case 2 : egg.tint = 0xff0000;
                     var style = {font: "20px Arial", fill: "#ffffff", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
                     egg.setEquStyle(style);
+                    egg.animations.play('wiggleOnce');
                     break
             case 3 :  egg.tint = 0x2412ff;
+                     egg.animations.play('wiggleContinous');
                      break;
 
         }
@@ -346,34 +405,13 @@ DinoEggs.Game.prototype = {
             }
     },
     solveEqCheck:function(evt){
-        console.log(!isNaN(evt.last_eq.slice(2)),evt.last_eq.slice(2));
+       
                 //condition to check if equation is solved
-                console.log("equation being changed");
-                console.log(evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)));
+                
                 if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
-                    console.log("solved");
-                    console.log(this.selectedEgg);
                     if(this.selectedEgg){
                         
-                        if (this.selectedEgg.hitCounter == 0) {
-                            this.score += 50;
-                            console.log("hit 0 means + 50" );
-                        } else if (this.selectedEgg.hitCounter == 1){
-                            this.score += 30;
-                             console.log("hit 1 means + 30" );
-                        } else if (this.selectedEgg.hitCounter == 2){
-                             this.score += 20;
-                             console.log("hit 2 means + 20" );
-                        } else {
-                            this.score += 10;
-                            console.log("hit more means + 10");
-                        }
-
-                        this.scoreText.text = 'Score: ' + this.score;
-
                         this.selectedEgg.animations.play('hatch', 2, false);
-                        console.log("clearing canvas");
-                        console.log(this.clearGMCanvas);
                         this.clearGMCanvas(this.solveEqCanvas);
                         this.clearGMCanvas(this.matchExpCanvas);
                         if(this._eggsGroup.countLiving() > 1){

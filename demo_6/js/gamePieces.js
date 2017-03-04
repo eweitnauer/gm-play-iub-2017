@@ -55,7 +55,8 @@ Egg = function (game, x, y, equation) {
     //this.events.onInputDown.add(populateSolveEqCanvas, this, this);
     
     this.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
-    this.animations.add('wiggle',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
+    this.animations.add('wiggleOnce',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
+    this.animations.add('wiggleContinous',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,true);
 
 };
 
