@@ -41,6 +41,8 @@ DinoEggs.Game = function(){
     this.music=null;
     
     this.rockPositions =[];
+    
+    this.undoBtn = null;
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -107,8 +109,7 @@ DinoEggs.Game.prototype = {
        
         this.startRockWave(3,8);
 
- 
-
+        
         
         
     },
@@ -390,11 +391,11 @@ DinoEggs.Game.prototype = {
         return matchedEqIndexArray;
     },
     matchEqCheck:function(evt){
+        this.undoBtn.disabled = false;
         var lastEq = evt.last_eq;
         var matchedEqIndexArray = this.matchEquationOnRocks(lastEq);
 
             if (matchedEqIndexArray.length > 0 && this._rocksGroup.countLiving() > 0) {
-                console.log("Matched")
                 for(var j = 0; j < matchedEqIndexArray.length ; j++){
                     this.rockBurst(this._rocksGroup.children[matchedEqIndexArray[j]]);
                     //Add and update the score
@@ -421,7 +422,7 @@ DinoEggs.Game.prototype = {
                 }
     },
     initCanvas: function(){
-        //GM Code
+            //GM Code
         
             //solveEqCanvas is for Equation Solving
             //matchExpCanvas is for Pattern Matching
@@ -429,8 +430,7 @@ DinoEggs.Game.prototype = {
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
 
             this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
-            //this.clearGMCanvas(this.solveEqCanvas);
-
+            
             //disabling the solveEq canvas
             
             //!preserve binding
@@ -443,8 +443,32 @@ DinoEggs.Game.prototype = {
                  thisObj.solveEqCheck(evt);
             });
         
-
+       //Create the search button
+       this.undoBtn = document.createElement("input");
+        
+       //Set the attributes
+       this.undoBtn.setAttribute("type","button");
+       this.undoBtn.setAttribute("value","Undo");
+       this.undoBtn.setAttribute("name","undobtn");
+       this.undoBtn.style.marginLeft = "20px";
+       this.undoBtn.style.marginTop = "20px";
+    
+       var contextRef = this;
+       this.undoBtn.onclick = function(){
+           if(contextRef._rocksGroup.countLiving() > 0){
+               contextRef.matchExpCanvas.controller.undo();
+           }else{
+                contextRef.solveEqCanvas.controller.undo();
+           }
+           
+       };
+        
+       //Add the button to the body
+       document.body.appendChild(this.undoBtn);
+       this.undoBtn.disabled = true;
+        
     },
+    
     clearGMCanvas: function(canvasObj){
         //clear canvas
 
