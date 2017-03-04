@@ -107,7 +107,7 @@ DinoEggs.Game.prototype = {
         //create rock wave - (rockinterval, number of rocks)
 
        
-        this.startRockWave(3,8);
+        this.startRockWave(2,6);
 
         
         
@@ -126,6 +126,18 @@ DinoEggs.Game.prototype = {
         else{
             this.game.input.enabled = true;
         }
+        
+        //render egg equations
+        this._eggsGroup.forEach(function(egg){
+          egg.equationText.x = Math.floor(egg.x + egg.width / 2);
+          egg.equationText.y = Math.floor(egg.y + egg.height / 2);          
+        });
+        
+        //render rock equations
+        this._rocksGroup.forEach(function(rock){
+          rock.equationText.x = Math.floor(rock.x + rock.width / 2);
+          rock.equationText.y = Math.floor(rock.y + rock.height / 2);          
+        });
 
     },
     
@@ -174,7 +186,7 @@ DinoEggs.Game.prototype = {
                     }
                 }
                 
-                
+                eggSprite.equationText.destroy();
                 this._eggsGroup.remove(eggSprite); 
                 this.runToMom(egg_x, isSad);
                 this.clearGMCanvas(this.solveEqCanvas);
@@ -314,7 +326,8 @@ DinoEggs.Game.prototype = {
 
         //explode / milliseconds before particle disappear/ doesn't matter/ number of particles emitted at a time
         rock_emitter.start(true, 2000, null, 5);
-
+        
+        rock.equationText.destroy();
         this._rocksGroup.remove(rock);
 
         //  And 2 seconds later we'll destroy the emitter
@@ -471,7 +484,6 @@ DinoEggs.Game.prototype = {
     
     clearGMCanvas: function(canvasObj){
         //clear canvas
-
         while(canvasObj.model.elements().length > 0){
         canvasObj.model.removeElement(canvasObj.model.elements()[0]); 
      }
