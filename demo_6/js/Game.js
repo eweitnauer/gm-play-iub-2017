@@ -176,6 +176,11 @@ DinoEggs.Game.prototype = {
                 
                 this._eggsGroup.remove(eggSprite); 
                 this.runToMom(egg_x, isSad);
+                this.clearGMCanvas(this.solveEqCanvas);
+                this.clearGMCanvas(this.matchExpCanvas);
+                if(this._eggsGroup.countLiving() > 1){
+                    this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                }
             }, this);
             
             //add click event to egg
@@ -386,7 +391,6 @@ DinoEggs.Game.prototype = {
     },
     matchEqCheck:function(evt){
         var lastEq = evt.last_eq;
-        console.log(this);
         var matchedEqIndexArray = this.matchEquationOnRocks(lastEq);
 
             if (matchedEqIndexArray.length > 0 && this._rocksGroup.countLiving() > 0) {
@@ -406,17 +410,11 @@ DinoEggs.Game.prototype = {
     },
     solveEqCheck:function(evt){
        
-                //condition to check if equation is solved
-                
+                //condition to check if equation is solved  
                 if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
                     if(this.selectedEgg){
                         
                         this.selectedEgg.animations.play('hatch', 2, false);
-                        this.clearGMCanvas(this.solveEqCanvas);
-                        this.clearGMCanvas(this.matchExpCanvas);
-                        if(this._eggsGroup.countLiving() > 1){
-                            this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                        }
                         this.selectedEgg = null;
                     }
 
