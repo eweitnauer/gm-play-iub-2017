@@ -4,7 +4,7 @@ Rock = function (game, x, y, equation) {
     Phaser.Sprite.call(this, game, x, y, 'rock');
     
     this.game.physics.arcade.enable(this);
-    this.body.gravity.y = 50;
+    this.body.velocity.y = 10;
     this.body.collideWorldBounds = true;
     this.equ = equation;
     

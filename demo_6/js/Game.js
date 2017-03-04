@@ -39,6 +39,8 @@ DinoEggs.Game = function(){
     this.g_parsedEquation="";
     
     this.music=null;
+    
+    this.rockPositions =[];
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -75,7 +77,7 @@ DinoEggs.Game.prototype = {
         this.dino = this.game.add.sprite(600,350, 'dino');
         var move = this.dino.animations.add('move',['2.png','3.png','4.png','5.png'],24,true);
         this.dino.animations.play('move', 10, true);
-        this.game.add.tween(this.dino).to({y: 350}, 2400, Phaser.Easing.Bounce.InOut, true);
+        this.game.add.tween(this.dino).to({y: 275}, 2400, Phaser.Easing.Bounce.InOut, true);
         
         //  Rocks group
         this._rocksGroup = this.game.add.group();
@@ -99,8 +101,9 @@ DinoEggs.Game.prototype = {
         //create Eggs
         this.createEggs(4);
         
+        
         //create rock wave - (rockinterval, number of rocks)
-        this.startRockWave(2,6);
+        this.startRockWave(3,5);
  
 
         
@@ -194,13 +197,21 @@ DinoEggs.Game.prototype = {
     },
     
     startRockWave: function(rockIntervalSec, numRocks){
+        //get rock positions for 6 rocks
+        this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numRocks);
+        console.log(this.rockPositions);
         this.game.time.events.repeat(Phaser.Timer.SECOND * rockIntervalSec, numRocks, this.spawnRock, this);
     },
     
     spawnRock: function(){
         console.log("spawnrock");
-        var rock = new Rock(this.game,this.game.world.randomX, 0, this.getMatchEquationOnRock());
-        this._rocksGroup.add(rock);
+        if(this.rockPositions.length>0){
+            var randIndex = Math.floor(Math.random() * this.rockPositions.length);
+            var randposX = this.rockPositions[randIndex];
+            this.rockPositions.splice(randIndex,1);
+            var rock = new Rock(this.game,randposX, 0, this.getMatchEquationOnRock());
+            this._rocksGroup.add(rock);
+        }
     
     },
     
