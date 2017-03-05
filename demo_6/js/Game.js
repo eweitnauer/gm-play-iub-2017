@@ -104,7 +104,7 @@ DinoEggs.Game.prototype = {
         this.createEggs(2);
         
         
-        //create rock wave - (rockinterval, number of rocks)
+        //create rock wave - (rockinterval between consecutive rocks, number of rocks)
 
        
         this.startRockWave(2,2);
@@ -192,6 +192,8 @@ DinoEggs.Game.prototype = {
                 this.clearGMCanvas(this.solveEqCanvas);
                 this.clearGMCanvas(this.matchExpCanvas);
                 if(this._eggsGroup.countLiving() > 0){
+                    document.getElementById("eq-match-div").style.display="block";
+                    document.getElementById("eq-solve-div").style.display="none";
                     this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                     this.startRockWave(2,2);
                 }
@@ -435,8 +437,8 @@ DinoEggs.Game.prototype = {
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
 
-                        document.getElementById("eq-match-div").style.display="block";
-                        document.getElementById("eq-solve-div").style.display="none";
+                        /*document.getElementById("eq-match-div").style.display="block";
+                        document.getElementById("eq-solve-div").style.display="none";*/
                     }
 
                 }
