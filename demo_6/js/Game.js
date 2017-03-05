@@ -101,13 +101,13 @@ DinoEggs.Game.prototype = {
         //this.music.play();
         
         //create Eggs
-        this.createEggs(4);
+        this.createEggs(2);
         
         
         //create rock wave - (rockinterval, number of rocks)
 
        
-        this.startRockWave(2,6);
+        this.startRockWave(2,2);
 
         
         
@@ -191,8 +191,12 @@ DinoEggs.Game.prototype = {
                 this.runToMom(egg_x, isSad);
                 this.clearGMCanvas(this.solveEqCanvas);
                 this.clearGMCanvas(this.matchExpCanvas);
-                if(this._eggsGroup.countLiving() > 1){
+                if(this._eggsGroup.countLiving() > 0){
                     this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                    this.startRockWave(2,2);
+                }
+                else{
+                    //add celebration animation for game over
                 }
             }, this);
             
@@ -230,12 +234,6 @@ DinoEggs.Game.prototype = {
         runningDinoTween.onComplete.addOnce(this.stopDino, this,hatchling);  
 
 
-        if(this._eggsGroup.countLiving() == 0){
-            this.gameOver();            
-        }else{
-            this.startRockWave(2,6);
-        }
-
     },
     stopDino: function(hatchling){
         //  This method will reset the frame to frame 1 after stopping
@@ -243,6 +241,10 @@ DinoEggs.Game.prototype = {
 
         //to(properties, duration, ease, autoStart, delay, repeat, yoyo) 
         var jumpingTween = this.game.add.tween(hatchling).to({x: 600,y : this.game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);
+        if(this._eggsGroup.countLiving() == 0)
+        {
+           this.gameOver();   
+        }
     },
     updateScore: function(currentScoreText){
         var scoreString = currentScoreText.text;
@@ -430,6 +432,7 @@ DinoEggs.Game.prototype = {
                         
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
+
                     }
 
                 }
