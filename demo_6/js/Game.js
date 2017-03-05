@@ -203,7 +203,6 @@ DinoEggs.Game.prototype = {
             //add click event to egg
             egg.inputEnabled = true;
             egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
-            
             this._eggsGroup.add(egg);
         }
     },
@@ -265,7 +264,10 @@ DinoEggs.Game.prototype = {
         this.scoreText.text = 'Score: ' + this.score;
     },
     
-    populateSolveEqCanvas: function(selectedEgg){ 
+    populateSolveEqCanvas: function(selectedEgg){
+        console.log("egg clicked");
+        document.getElementById("eq-solve-div").style.display="block";
+        document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
@@ -433,13 +435,18 @@ DinoEggs.Game.prototype = {
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
 
+                        document.getElementById("eq-match-div").style.display="block";
+                        document.getElementById("eq-solve-div").style.display="none";
                     }
 
                 }
     },
     initCanvas: function(){
-            //GM Code
-        
+
+        //GM Code
+            document.getElementById("eq-match-div").style.display="block";
+            document.getElementById("eq-solve-div").style.display="none";
+
             //solveEqCanvas is for Equation Solving
             //matchExpCanvas is for Pattern Matching
             this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
