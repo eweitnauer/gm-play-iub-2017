@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-	<title>Save Dino Eggs</title>
+	<title>Phaser - Rocks Demo</title>
     <script src="js/phaser.js"></script>
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
     <script src = "js/gamePieces.js"></script>
@@ -14,64 +14,57 @@
     <style type="text/css">
         body{
             background-color:lightgreen;
-            background-image:url('assets/canvas-bkgd.png');
-            background-repeat: no-repeat;
-            background-position: bottom;
+            background-image: url('assets/bodybkgd.jpg');
+            background-size: cover;
         }
+        
         canvas {
             margin: auto;
         }
-        #game-div{
-            background-image:url('assets/bodybkgd.jpg');
-            background-size:800px 600px;
+        
+        div.gm-canvas{
+            border:none !important;
+            background-image:url('assets/canvas-bkgd.png');
+            /*background-size:800px 600px;*/
+            background-repeat:no-repeat;
+            background-position: top;
             z-index: 1;
-        }
-        #gmath1-div,#gmath2-div{
-            z-index: 4;
-        }
-        
-/*        div#gmath1-div > div.gm-canvas{
-            background-color: antiquewhite;
-            width:0px;
-            height:0px;
+            margin-left:40%;
+            width:380px;
+            height:90px;
         }
         
-        div#gmath2-div > div.gm-canvas{
-            background-color: chocolate;
-            width:0px;
-            height:0px;
-        }
-  */      
         div#canvas-container {
             background-color: rgba(0, 255, 0, 0.2);
         }
         
-        div.dino-gmcanvas{
-            background-image: url('assets/canvas-bkgd.png');
+        div.canvas-element{
+            -webkit-transform: none !important;
+            -ms-transform: none !important;
+            transform: none !important;
+            width:400px !important;
         }
         
         div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{
             background-color:transparent !important;
         }
+        
         div.canvas-element circle{
             display:none;
         }
     </style>
 </head>
 <body>
-
-<script type="text/javascript">
- 
-</script>
-
-
-<div id='game-div'></div>   
     
-<div id='gmath1-div'></div>
-<div id='gmath2-div'></div>
-    
-
-
+    <div id='game-div'></div>
+    <div class="row">
+        <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
+            <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:20%"></div>
+        </div>
+        <div id="eq-match-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
+            <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:20%"></div>
+        </div>
+    </div>
+            
 </body>
 </html>
-
