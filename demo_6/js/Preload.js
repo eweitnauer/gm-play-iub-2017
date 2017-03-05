@@ -38,8 +38,7 @@ DinoEggs.Preload.prototype = {
         this.load.audio('bg_music',['assets/bg_music.mp3']);
         this.load.image('restart', 'assets/restart.png');
         this.load.image('menu', 'assets/main_menu.png');
-        
-        
+        this.load.image('board', 'assets/game_board.png');
         
     },
     create:function(){
