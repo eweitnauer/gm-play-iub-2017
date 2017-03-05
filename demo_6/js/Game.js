@@ -41,6 +41,8 @@ DinoEggs.Game = function(){
     this.music=null;
     
     this.rockPositions =[];
+    
+    this.undoBtn = null;
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -99,16 +101,15 @@ DinoEggs.Game.prototype = {
         //this.music.play();
         
         //create Eggs
-        this.createEggs(4);
+        this.createEggs(2);
         
         
         //create rock wave - (rockinterval, number of rocks)
 
        
-        this.startRockWave(3,8);
+        this.startRockWave(2,2);
 
- 
-
+        
         
         
     },
@@ -125,6 +126,18 @@ DinoEggs.Game.prototype = {
         else{
             this.game.input.enabled = true;
         }
+        
+        //render egg equations
+        this._eggsGroup.forEach(function(egg){
+          egg.equationText.x = Math.floor(egg.x + egg.width / 2);
+          egg.equationText.y = Math.floor(egg.y + egg.height / 2);          
+        });
+        
+        //render rock equations
+        this._rocksGroup.forEach(function(rock){
+          rock.equationText.x = Math.floor(rock.x + rock.width / 2);
+          rock.equationText.y = Math.floor(rock.y + rock.height / 2);          
+        });
 
     },
     
@@ -173,13 +186,17 @@ DinoEggs.Game.prototype = {
                     }
                 }
                 
-                
+                eggSprite.equationText.destroy();
                 this._eggsGroup.remove(eggSprite); 
                 this.runToMom(egg_x, isSad);
                 this.clearGMCanvas(this.solveEqCanvas);
                 this.clearGMCanvas(this.matchExpCanvas);
-                if(this._eggsGroup.countLiving() > 1){
+                if(this._eggsGroup.countLiving() > 0){
                     this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                    this.startRockWave(2,2);
+                }
+                else{
+                    //add celebration animation for game over
                 }
             }, this);
             
@@ -216,12 +233,6 @@ DinoEggs.Game.prototype = {
         runningDinoTween.onComplete.addOnce(this.stopDino, this,hatchling);  
 
 
-        if(this._eggsGroup.countLiving() == 0){
-            this.gameOver();            
-        }else{
-            this.startRockWave(2,6);
-        }
-
     },
     stopDino: function(hatchling){
         //  This method will reset the frame to frame 1 after stopping
@@ -229,6 +240,10 @@ DinoEggs.Game.prototype = {
 
         //to(properties, duration, ease, autoStart, delay, repeat, yoyo) 
         var jumpingTween = this.game.add.tween(hatchling).to({x: 600,y : this.game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);
+        if(this._eggsGroup.countLiving() == 0)
+        {
+           this.gameOver();   
+        }
     },
     updateScore: function(currentScoreText){
         var scoreString = currentScoreText.text;
@@ -315,7 +330,8 @@ DinoEggs.Game.prototype = {
 
         //explode / milliseconds before particle disappear/ doesn't matter/ number of particles emitted at a time
         rock_emitter.start(true, 2000, null, 5);
-
+        
+        rock.equationText.destroy();
         this._rocksGroup.remove(rock);
 
         //  And 2 seconds later we'll destroy the emitter
@@ -392,11 +408,11 @@ DinoEggs.Game.prototype = {
         return matchedEqIndexArray;
     },
     matchEqCheck:function(evt){
+        this.undoBtn.disabled = false;
         var lastEq = evt.last_eq;
         var matchedEqIndexArray = this.matchEquationOnRocks(lastEq);
 
             if (matchedEqIndexArray.length > 0 && this._rocksGroup.countLiving() > 0) {
-                console.log("Matched")
                 for(var j = 0; j < matchedEqIndexArray.length ; j++){
                     this.rockBurst(this._rocksGroup.children[matchedEqIndexArray[j]]);
                     //Add and update the score
@@ -418,6 +434,7 @@ DinoEggs.Game.prototype = {
                         
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
+
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
                     }
@@ -425,17 +442,18 @@ DinoEggs.Game.prototype = {
                 }
     },
     initCanvas: function(){
+
         //GM Code
             document.getElementById("eq-match-div").style.display="block";
             document.getElementById("eq-solve-div").style.display="none";
+
             //solveEqCanvas is for Equation Solving
             //matchExpCanvas is for Pattern Matching
             this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
 
             this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
-            //this.clearGMCanvas(this.solveEqCanvas);
-
+            
             //disabling the solveEq canvas
             
             //!preserve binding
@@ -448,11 +466,34 @@ DinoEggs.Game.prototype = {
                  thisObj.solveEqCheck(evt);
             });
         
-
+       //Create the search button
+       this.undoBtn = document.createElement("input");
+        
+       //Set the attributes
+       this.undoBtn.setAttribute("type","button");
+       this.undoBtn.setAttribute("value","Undo");
+       this.undoBtn.setAttribute("name","undobtn");
+       this.undoBtn.style.marginLeft = "20px";
+       this.undoBtn.style.marginTop = "20px";
+    
+       var contextRef = this;
+       this.undoBtn.onclick = function(){
+           if(contextRef._rocksGroup.countLiving() > 0){
+               contextRef.matchExpCanvas.controller.undo();
+           }else{
+                contextRef.solveEqCanvas.controller.undo();
+           }
+           
+       };
+        
+       //Add the button to the body
+       document.body.appendChild(this.undoBtn);
+       this.undoBtn.disabled = true;
+        
     },
+    
     clearGMCanvas: function(canvasObj){
         //clear canvas
-
         while(canvasObj.model.elements().length > 0){
         canvasObj.model.removeElement(canvasObj.model.elements()[0]); 
      }
