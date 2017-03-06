@@ -13,9 +13,11 @@ DinoEggs.Game = function(){
     this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    
+    this.g_numEggs = 20;
     this.score = 0;
     this.scoreText = null;
+    
+    
     this.g_problems = [
         
         [
@@ -63,6 +65,21 @@ DinoEggs.Game.prototype = {
         
         }, { version: '0.12.6' });
         
+        //hatchling positioning
+        //this.hatchlingXLeftLimit = g_x_end + 10;
+        //this.hatchlingXRightLimit = this.hatchlingXLeftLimit + 139; //139 is the width of a single dino hatchling
+        this.hatchlingXRightLimit = 200;
+        this.hatchlingXFinalPos = this.hatchlingXRightLimit;
+        //this.hatchlingXRange = this.hatchlingXRightLimit - this.hatchlingXLeftLimit;
+        this.hatchlingXSpacing = 20;
+        
+        this.hatchlingYUpperLimit = 80;
+        this.hatchlingYLowerLimit = 40;
+        this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
+        this.hatchlingYRange = this.hatchlingYUpperLimit - this.hatchlingYLowerLimit;
+        //this.hatchlingYSpacing = (this.hatchlingYUpperLimit + this.hatchlingYLowerLimit) / this.g_numEggs;
+        this.hatchlingYSpacing = 10;
+        
         
         //background
         this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'sky');
@@ -101,7 +118,7 @@ DinoEggs.Game.prototype = {
         //this.music.play();
         
         //create Eggs
-        this.createEggs(2);
+        this.createEggs(this.g_numEggs);
         
         
         //create rock wave - (rockinterval between consecutive rocks, number of rocks)
@@ -231,7 +248,13 @@ DinoEggs.Game.prototype = {
         hatchling.animations.play('run', 10, true);
 
         // params are: properties to tween, time in ms, easing and auto-start tweenthis.
-        var runningDinoTween = this.game.add.tween(hatchling).to({x: 600, y: this.game.world.height-100}, 3000, Phaser.Easing.Quadratic.InOut, true);
+        var runningDinoTween = this.game.add.tween(hatchling).to({x: this.game.world.width - this.hatchlingXFinalPos, y: this.game.world.height-this.hatchlingYFinalPos}, 3000, Phaser.Easing.Quadratic.InOut, true);
+        
+        this.hatchlingYFinalPos += this.hatchlingYSpacing;
+        if(this.hatchlingYFinalPos >= this.hatchlingYUpperLimit){
+            this.hatchlingXFinalPos += this.hatchlingXSpacing;
+            this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
+        }
         runningDinoTween.onComplete.addOnce(this.stopDino, this,hatchling);  
 
 
@@ -241,7 +264,7 @@ DinoEggs.Game.prototype = {
         hatchling.animations.stop(null, true);
 
         //to(properties, duration, ease, autoStart, delay, repeat, yoyo) 
-        var jumpingTween = this.game.add.tween(hatchling).to({x: 600,y : this.game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);
+        /*var jumpingTween = this.game.add.tween(hatchling).to({x: 600,y : this.game.world.height-110}, 1000, Phaser.Easing.Bounce.InOut, true,0,-1,false);*/
         if(this._eggsGroup.countLiving() == 0)
         {
            this.gameOver();   
