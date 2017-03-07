@@ -8,4 +8,6 @@ DinoEggs.game.state.add('Preload',new DinoEggs.Preload());
 DinoEggs.game.state.add('MainMenu',new DinoEggs.MainMenu());
 DinoEggs.game.state.add('Game', new DinoEggs.Game());
 
+DinoEggs.game.state.add('Level1', new DinoEggs.Level1());
+
 DinoEggs.game.state.start('Boot');

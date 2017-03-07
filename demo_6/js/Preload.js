@@ -39,11 +39,11 @@ DinoEggs.Preload.prototype = {
         this.load.image('restart', 'assets/restart.png');
         this.load.image('menu', 'assets/main_menu.png');
         
-        
+        this.load.image('nextlevel', 'assets/nextlevel.png');
         
     },
     create:function(){
-        this.state.start('MainMenu');
+        this.state.start('Level1');
     }
 }
 
