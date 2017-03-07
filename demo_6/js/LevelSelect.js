@@ -1,22 +1,14 @@
-/* your game’s welcome screen. 
-After the preload state, all the game images are already loaded into the memory, so they can quickly accessed.*/
-//scrolling background and some text.
+// https://github.com/BdR76/phaserlevelselect
 
 var DinoEggs = DinoEggs || {}; 
 
-// -------------------------------------
-// START THE GAME
-// -------------------------------------
-var CANVAS_WIDTH = 800;
-var CANVAS_HEIGHT = 600;
 
-var PLAYER_DATA = null; // just declare as global variable for now
 DinoEggs.LevelSelect = function(){
     "use strict";
     Phaser.State.call(this);
     
-	// define needed variables for LevelSelect
-	this.holdicons = [];
+    DinoEggs.PLAYER_DATA = null;
+	this.levelIcons = [];
 };
 
 DinoEggs.LevelSelect.prototype = Object.create(Phaser.State.prototype);
@@ -26,68 +18,56 @@ DinoEggs.LevelSelect.prototype.constructor = DinoEggs.LevelSelect;
 DinoEggs.LevelSelect.prototype = {
 
 	preload: function() {
-		this.game.load.spritesheet('levelselecticons', 'assets/levelselecticons.png', 96, 96);
-		this.game.load.bitmapFont('font72', 'assets/font72.png', 'assets/font72.xml'); // created with http://kvazars.com/littera/
-		
-		this.initProgressData();
+        //this.game.load.spritesheet('levelselecticons', 'assets/levelselecticons.png', 96, 96);
+		this.game.load.spritesheet('levelIcons', 'assets/level_icons.png', 73.83, 82);		
+		this.initLevelData();
 	},
 
 	create: function() {
 		this.game.stage.backgroundColor = 0x80a0ff;
-		this.game.add.bitmapText(256, 24, 'font72', 'Select a level!', 48);
+        this.game.add.text(256, 24,'Select a level', {font:"48px Arial"});
 
 		this.createLevelIcons();
 		this.animateLevelIcons();
 	},
 
 	update: function() {
-		// nothing to do but wait until player selects a level
-	},
-
-	render: function() {
-		// display some debug info..?
 	},
 	
-	initProgressData: function() {
+	initLevelData: function() {
 
-		// array might be undefined at first time start up
-		if (!PLAYER_DATA) {
-			// retrieve from local storage (to view in Chrome, Ctrl+Shift+J -> Resources -> Local Storage)
-			var str = window.localStorage.getItem('mygame_progress');
-			
-			// error checking, localstorage might not exist yet at first time start up
+		if (!DinoEggs.PLAYER_DATA) {
+			var str = window.localStorage.getItem('DinoGame_Progress');
 			try {
-				PLAYER_DATA = JSON.parse(str);
+				DinoEggs.PLAYER_DATA = JSON.parse(str);
 			} catch(e){
-				PLAYER_DATA = []; //error in the above string(in this case,yes)!
+				DinoEggs.PLAYER_DATA = [];
 			};
-			// error checking just to be sure, if localstorage contains something else then a JSON array (hackers?)
-			if (Object.prototype.toString.call( PLAYER_DATA ) !== '[object Array]' ) {
-				PLAYER_DATA = [];
+			if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
+				DinoEggs.PLAYER_DATA = [];
 			};
 		};
 	},
 
 	createLevelIcons: function() {
-		var levelnr = 0;
+		var levelNumber = 0;
 
 		for (var y=0; y < 3; y++) {
 			for (var x=0; x < 4; x++) {
 				// next level
-				levelnr = levelnr + 1;
+				levelNumber = levelNumber + 1;
 				
 				// check if array not yet initialised
-				if (typeof PLAYER_DATA[levelnr-1] !== 'number') {
-					// value is null or undefined, i.e. array not defined or too short between app upgrades with more levels
-					if (levelnr == 1) {
-						PLAYER_DATA[levelnr-1] = 0; // level 1 should never be locked
+				if (typeof DinoEggs.PLAYER_DATA[levelNumber-1] !== 'number') {
+					if (levelNumber == 1) {
+						DinoEggs.PLAYER_DATA[levelNumber-1] = 0; // level 1 should never be locked
 					} else {
-						PLAYER_DATA[levelnr-1] = -1;
+						DinoEggs.PLAYER_DATA[levelNumber-1] = -1;
 					};
 				};
 
 				// player progress info for this level
-				var playdata = PLAYER_DATA[levelnr-1];
+				var playdata = DinoEggs.PLAYER_DATA[levelNumber-1];
 
 				// decide which icon
 				var isLocked = true; // locked
@@ -96,7 +76,7 @@ DinoEggs.LevelSelect.prototype = {
 				// check if level is unlocked
 				if (playdata > -1) {
 					isLocked = false; // unlocked
-					if (playdata < 4) {stars = playdata;}; // 0..3 stars
+					if (playdata < 4) {stars = playdata;}; // 0 to 3 stars
 				};
 
 				// calculate position on screen
@@ -104,11 +84,11 @@ DinoEggs.LevelSelect.prototype = {
 				var ypos = 120 + (y*128);
 				
 				// create icon
-				this.holdicons[levelnr-1] = this.createLevelIcon(xpos, ypos, levelnr, isLocked, stars);
-				var backicon = this.holdicons[levelnr-1].getAt(0);
+				this.levelIcons[levelNumber-1] = this.createLevelIcon(xpos, ypos, levelNumber, isLocked, stars);
+				var backicon = this.levelIcons[levelNumber-1].getAt(0);
 
-				// keep level nr, used in onclick method
-				backicon.health = levelnr;
+				// keep levelNumber, used in onclick method
+				backicon.health = levelNumber;
 
 				// input handler
 				backicon.inputEnabled = true;
@@ -120,7 +100,7 @@ DinoEggs.LevelSelect.prototype = {
 	// -------------------------------------
 	// Add level icon buttons
 	// -------------------------------------
-	createLevelIcon: function(xpos, ypos, levelnr, isLocked, stars) {
+	createLevelIcon: function(xpos, ypos, levelNumber, isLocked, stars) {
 
 		// create new group
 		var IconGroup = this.game.add.group();
@@ -136,13 +116,13 @@ DinoEggs.LevelSelect.prototype = {
 		if (isLocked == false) {frame = 1};
 		
 		// add background
-		var icon1 = this.game.add.sprite(0, 0, 'levelselecticons', frame);
+		var icon1 = this.game.add.sprite(0, 0, 'levelIcons', frame);
 		IconGroup.add(icon1);
 
 		// add stars, if needed
 		if (isLocked == false) {
-			var txt = this.game.add.bitmapText(24, 16, 'font72', ''+levelnr, 48);
-			var icon2 = this.game.add.sprite(0, 0, 'levelselecticons', (2+stars));
+            var txt = this.game.add.text(24, 16,''+levelNumber, {font:"45px Arial"});
+			var icon2 = this.game.add.sprite(0, 0, 'levelIcons', (2+stars));
 			
 			IconGroup.add(txt);
 			IconGroup.add(icon2);
@@ -154,11 +134,11 @@ DinoEggs.LevelSelect.prototype = {
 	onSpriteDown: function(sprite, pointer) {
 
 		// retrieve the iconlevel
-		var levelnr = sprite.health;
+		var levelNumber = sprite.health;
 
-		if (PLAYER_DATA[levelnr-1] < 0) {
+		if (DinoEggs.PLAYER_DATA[levelNumber-1] < 0) {
 			// indicate it's locked by shaking left/right
-			var IconGroup = this.holdicons[levelnr-1];
+			var IconGroup = this.levelIcons[levelNumber-1];
 			var xpos = IconGroup.xOrg;
 
 			var tween = this.game.add.tween(IconGroup)
@@ -171,13 +151,13 @@ DinoEggs.LevelSelect.prototype = {
 				.start();
 		} else {
 			// simulate button press animation to indicate selection
-			var IconGroup = this.holdicons[levelnr-1];
+			var IconGroup = this.levelIcons[levelNumber-1];
 			var tween = this.game.add.tween(IconGroup.scale)
 				.to({ x: 0.9, y: 0.9}, 100, Phaser.Easing.Linear.None)
 				.to({ x: 1.0, y: 1.0}, 100, Phaser.Easing.Linear.None)
 				.start();
 				
-			// it's a little tricky to pass selected levelnr to callback function, but this works:
+			// it's a little tricky to pass selected levelNumber to callback function, but this works:
 			tween.onComplete.add(function(){this.onLevelSelected(sprite.health);}, this);
 		};
 	},
@@ -185,9 +165,9 @@ DinoEggs.LevelSelect.prototype = {
 	animateLevelIcons: function() {
 
 		// slide all icons into screen
-		for (var i=0; i < this.holdicons.length; i++) {
+		for (var i=0; i < this.levelIcons.length; i++) {
 			// get variables
-			var IconGroup = this.holdicons[i];
+			var IconGroup = this.levelIcons[i];
 			IconGroup.y = IconGroup.y + 600;
 			var y = IconGroup.y;
 
@@ -196,10 +176,13 @@ DinoEggs.LevelSelect.prototype = {
 		};
 	},
 
-	onLevelSelected: function(levelnr) {
-		// pass levelnr variable to 'Game' state
-		//this.game.state.states['game']._levelNumber = levelnr;
-		
-		this.state.start('Game');
+	onLevelSelected: function(levelNumber) {
+		// pass levelNumber variable to 'Game' state
+		//this.game.state.states['game']._levelNumber = levelNumber;
+        console.log(levelNumber);
+        console.log("player data");
+        console.log(DinoEggs.PLAYER_DATA);
+		if(levelNumber==1)
+		  this.state.start('Game');
 	}
 };
