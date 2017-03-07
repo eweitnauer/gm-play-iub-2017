@@ -13,7 +13,7 @@ DinoEggs.Game = function(){
     this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    this.g_numEggs = 20;
+    this.g_numEggs = 1;
     this.score = 0;
     this.scoreText = null;
     
@@ -40,7 +40,7 @@ DinoEggs.Game = function(){
     this.g_equation="";
     this.g_parsedEquation="";
     this.g_rockProducedIndex = 0;
-    this.g_numRocks = 2;
+    this.g_numRocks = 1;
     
     this.music=null;
     
@@ -128,8 +128,26 @@ DinoEggs.Game.prototype = {
        
         this.startRockWave(6,this.g_numRocks);
 
+        //end celebration 
+        this.celebrationEmitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
         
+         //  Here we're passing an array of image keys. It will pick one at random when emitting a new particle.
+         this.celebrationEmitter.makeParticles(['jewel_red', 'jewel_purple', 'jewel_white','jewel_green','jewel_yellow']);
+        this.celebrationEmitter.gravity = 0;
         
+        this.celebrationEmitter.width = 800;
+
+    
+
+     this.celebrationEmitter.minParticleSpeed.set(0, 300);
+    this.celebrationEmitter.maxParticleSpeed.set(0, 400);
+
+    this.celebrationEmitter.setRotation(5, 20);
+   
+    this.celebrationEmitter.setScale(0.5, 0.5, 1, 1);
+    this.celebrationEmitter.gravity = -100;
+   
+       
         
     },
     
@@ -397,6 +415,9 @@ DinoEggs.Game.prototype = {
         mainMenuButton.anchor.set(0.5);
         this.endStar();
         this.music.stop();
+        
+        //add celebration
+         this.celebrationEmitter.start(false, 10000, 100);
     },
     
     endStar: function() {

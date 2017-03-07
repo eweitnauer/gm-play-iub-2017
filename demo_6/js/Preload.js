@@ -39,7 +39,12 @@ DinoEggs.Preload.prototype = {
         this.load.image('restart', 'assets/restart.png');
         this.load.image('menu', 'assets/main_menu.png');
         
-        
+        //celebration particles
+        this.load.image('jewel_red', 'assets/particles/jewel_red.png');
+        this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');
+        this.load.image('jewel_white', 'assets/particles/jewel_white.png');
+        this.load.image('jewel_green', 'assets/particles/jewel_green.png');
+        this.load.image('jewel_yellow', 'assets/particles/jewel_yellow.png');
         
     },
     create:function(){
