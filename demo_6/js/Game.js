@@ -4,6 +4,8 @@ var DinoEggs = DinoEggs || {};
 DinoEggs.Game = function(){
     Phaser.State.call(this);
     
+    this._levelNumber = 1;
+    
     this._eggsGroup = null;
     this._rocksGroup = null;
     this._platforms = null;
@@ -412,6 +414,10 @@ DinoEggs.Game.prototype = {
         this.clearGMCanvas(this.matchExpCanvas);
         var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
         
+        var stars = this.endStar();
+        if (stars>1){
+            this.updatePlayerData(stars);
+        }        
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
             this.state.start('Game');
         }, this.game, 1, 0, 2);
@@ -421,12 +427,29 @@ DinoEggs.Game.prototype = {
             this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
         mainMenuButton.anchor.set(0.5);
-        this.endStar();
+        
         this.music.stop();
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+
     },
+    updatePlayerData: function(stars) {
+		// set number of stars for this level
+		DinoEggs.PLAYER_DATA[this._levelNumber-1] = stars;
+
+		// unlock next level
+		if (this._levelNumber < DinoEggs.PLAYER_DATA.length) {
+			if (DinoEggs.PLAYER_DATA[this._levelNumber] < 0) { // currently locked (=-1)
+				DinoEggs.PLAYER_DATA[this._levelNumber] = 0; // set unlocked, 0 stars
+			}
+		};
+		// and write to local storage
+		window.localStorage.setItem('DinoGame_Progress', JSON.stringify(DinoEggs.PLAYER_DATA));
+        
+        console.log("player data");
+        console.log(DinoEggs.PLAYER_DATA);
+	},   
     
     endStar: function() {
         var starPostion =0;
@@ -437,17 +460,18 @@ DinoEggs.Game.prototype = {
             starPostion = starPostion + 20;
             this.score = this.score - scoreBase; 
             starNumber++;
-            if (starNumber == 5){
+            if (starNumber == 3){
                 break;
             }
         }
-        var greyStar = 5 - starNumber;
+        var greyStar = 3 - starNumber;
         while(greyStar > 0){
             var star1 =  this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
             star1.tint= 0x232323;
             starPostion = starPostion + 20;
             greyStar--;
         }
+        return starNumber;
     },
     
     showBoard: function() {

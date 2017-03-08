@@ -43,7 +43,7 @@ DinoEggs.MainMenu.prototype = {
     startGame:function(){
         
         //this.music.stop();
-        this.state.start('Game');
+        this.state.start('LevelSelect');
         
     } 
 }
