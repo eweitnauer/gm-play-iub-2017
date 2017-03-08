@@ -41,16 +41,18 @@ DinoEggs.Preload.prototype = {
         this.load.image('board', 'assets/game_board.png');
 
         
+
+        this.load.image('nextlevel', 'assets/nextlevel.png');
         //celebration particles
         this.load.image('jewel_red', 'assets/particles/jewel_red.png');
         this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');
         this.load.image('jewel_white', 'assets/particles/jewel_white.png');
         this.load.image('jewel_green', 'assets/particles/jewel_green.png');
         this.load.image('jewel_yellow', 'assets/particles/jewel_yellow.png');
-        
+       
     },
     create:function(){
-        this.state.start('MainMenu');
+        this.state.start('Level1');
     }
 }
 
