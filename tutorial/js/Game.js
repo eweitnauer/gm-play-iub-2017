@@ -4,8 +4,6 @@ var DinoEggs = DinoEggs || {};
 DinoEggs.Game = function(){
     Phaser.State.call(this);
     
-    this._levelNumber = 1;
-    
     this._eggsGroup = null;
     this._rocksGroup = null;
     this._platforms = null;
@@ -15,14 +13,11 @@ DinoEggs.Game = function(){
     this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    this.g_numEggs = 1;
+    this.g_numEggs = 20;
     this.score = 0;
     this.scoreText = null;
-    this.boardText1 = null;
-    this.boardText2 = null;
-    this.board = null;
-
-   
+    
+    
     this.g_problems = [
         
         [
@@ -45,7 +40,7 @@ DinoEggs.Game = function(){
     this.g_equation="";
     this.g_parsedEquation="";
     this.g_rockProducedIndex = 0;
-    this.g_numRocks = 1;
+    this.g_numRocks = 2;
     
     this.music=null;
     
@@ -133,26 +128,8 @@ DinoEggs.Game.prototype = {
        
         this.startRockWave(6,this.g_numRocks);
 
-        //end celebration 
-        this.celebrationEmitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
         
-         //  Here we're passing an array of image keys. It will pick one at random when emitting a new particle.
-         this.celebrationEmitter.makeParticles(['jewel_red', 'jewel_purple', 'jewel_white','jewel_green','jewel_yellow']);
-        this.celebrationEmitter.gravity = 0;
         
-        this.celebrationEmitter.width = 800;
-
-    
-
-     this.celebrationEmitter.minParticleSpeed.set(0, 300);
-    this.celebrationEmitter.maxParticleSpeed.set(0, 400);
-
-    this.celebrationEmitter.setRotation(5, 20);
-   
-    this.celebrationEmitter.setScale(0.5, 0.5, 1, 1);
-    this.celebrationEmitter.gravity = -100;
-   
-       
         
     },
     
@@ -213,7 +190,6 @@ DinoEggs.Game.prototype = {
                 var obtainedScoreText = this.game.add.text(eggSprite.x, eggSprite.y, score, { fontSize: '32px', fill: '#000' });
                 
                 //score animation
-//                this.clearBoard();
                 var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
                 scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
                 
@@ -249,7 +225,6 @@ DinoEggs.Game.prototype = {
             egg.inputEnabled = true;
             egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
             this._eggsGroup.add(egg);
-    
         }
     },
     calculateScore: function(hitCount){
@@ -317,9 +292,6 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
-
-        this.clearBoard();
-        console.log("egg clicked");
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
@@ -414,10 +386,6 @@ DinoEggs.Game.prototype = {
         this.clearGMCanvas(this.matchExpCanvas);
         var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
         
-        var stars = this.endStar();
-        if (stars>1){
-            this.updatePlayerData(stars);
-        }        
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
             this.state.start('Game');
         }, this.game, 1, 0, 2);
@@ -427,29 +395,9 @@ DinoEggs.Game.prototype = {
             this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
         mainMenuButton.anchor.set(0.5);
-        
+        this.endStar();
         this.music.stop();
-        
-        //add celebration
-         this.celebrationEmitter.start(false, 10000, 100);
-
     },
-    updatePlayerData: function(stars) {
-		// set number of stars for this level
-		DinoEggs.PLAYER_DATA[this._levelNumber-1] = stars;
-
-		// unlock next level
-		if (this._levelNumber < DinoEggs.PLAYER_DATA.length) {
-			if (DinoEggs.PLAYER_DATA[this._levelNumber] < 0) { // currently locked (=-1)
-				DinoEggs.PLAYER_DATA[this._levelNumber] = 0; // set unlocked, 0 stars
-			}
-		};
-		// and write to local storage
-		window.localStorage.setItem('DinoGame_Progress', JSON.stringify(DinoEggs.PLAYER_DATA));
-        
-        console.log("player data");
-        console.log(DinoEggs.PLAYER_DATA);
-	},   
     
     endStar: function() {
         var starPostion =0;
@@ -460,31 +408,18 @@ DinoEggs.Game.prototype = {
             starPostion = starPostion + 20;
             this.score = this.score - scoreBase; 
             starNumber++;
-            if (starNumber == 3){
+            if (starNumber == 5){
                 break;
             }
         }
-        var greyStar = 3 - starNumber;
+        var greyStar = 5 - starNumber;
         while(greyStar > 0){
             var star1 =  this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
             star1.tint= 0x232323;
             starPostion = starPostion + 20;
             greyStar--;
         }
-        return starNumber;
     },
-    
-    showBoard: function() {
-        this.board = this.game.add.sprite(490,250,'board');
-        this.boardText1 = this.game.add.text(520,270, 'click egg ', { fontSize: '15px', fill: '#000' });
-        this.boardText2 = this.game.add.text(500,300, 'to solve equation', { fontSize: '15px', fill: '#000' });
-    },
-    
-    clearBoard: function() {
-        this.board.destroy();
-        this.boardText1.destroy();
-        this.boardText2.destroy();
-},
     matchEquationOnRocks: function(equation){
         var matchedEqIndexArray = [];
         var parsedEq = equation.replace(/\*/g, "");
@@ -518,7 +453,6 @@ DinoEggs.Game.prototype = {
                 console.log(this.g_numRocks);
                 if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
                     this.clearGMCanvas(this.matchExpCanvas); 
-                    this.showBoard();
                 }
 
             }
