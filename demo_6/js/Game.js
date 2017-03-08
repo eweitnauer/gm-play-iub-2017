@@ -16,8 +16,11 @@ DinoEggs.Game = function(){
     this.g_numEggs = 1;
     this.score = 0;
     this.scoreText = null;
-    
-    
+    this.boardText1 = null;
+    this.boardText2 = null;
+    this.board = null;
+
+   
     this.g_problems = [
         
         [
@@ -208,6 +211,7 @@ DinoEggs.Game.prototype = {
                 var obtainedScoreText = this.game.add.text(eggSprite.x, eggSprite.y, score, { fontSize: '32px', fill: '#000' });
                 
                 //score animation
+//                this.clearBoard();
                 var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
                 scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
                 
@@ -243,6 +247,7 @@ DinoEggs.Game.prototype = {
             egg.inputEnabled = true;
             egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
             this._eggsGroup.add(egg);
+    
         }
     },
     calculateScore: function(hitCount){
@@ -310,6 +315,9 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
+
+        this.clearBoard();
+        console.log("egg clicked");
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
@@ -441,6 +449,18 @@ DinoEggs.Game.prototype = {
             greyStar--;
         }
     },
+    
+    showBoard: function() {
+        this.board = this.game.add.sprite(490,250,'board');
+        this.boardText1 = this.game.add.text(520,270, 'click egg ', { fontSize: '15px', fill: '#000' });
+        this.boardText2 = this.game.add.text(500,300, 'to solve equation', { fontSize: '15px', fill: '#000' });
+    },
+    
+    clearBoard: function() {
+        this.board.destroy();
+        this.boardText1.destroy();
+        this.boardText2.destroy();
+},
     matchEquationOnRocks: function(equation){
         var matchedEqIndexArray = [];
         var parsedEq = equation.replace(/\*/g, "");
@@ -474,6 +494,7 @@ DinoEggs.Game.prototype = {
                 console.log(this.g_numRocks);
                 if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
                     this.clearGMCanvas(this.matchExpCanvas); 
+                    this.showBoard();
                 }
 
             }
