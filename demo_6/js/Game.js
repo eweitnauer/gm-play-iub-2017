@@ -447,6 +447,10 @@ DinoEggs.Game.prototype = {
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+        var elem = document.getElementById("undo_button");
+        if(elem){
+            elem.parentNode.removeChild(elem);
+        }
 
     },
     updatePlayerData: function(stars) {

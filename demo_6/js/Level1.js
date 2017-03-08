@@ -333,6 +333,10 @@ DinoEggs.Level1.prototype = {
         //this.state.start('MainMenu'); //this.state.start('MainMenu', this._levelScore);
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+        var elem = document.getElementById("undo_button");
+        if(elem){
+            elem.parentNode.removeChild(elem);
+        }
     },
     runToMom: function(egg_x, isSad){
         var hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
