@@ -182,7 +182,9 @@ DinoEggs.LevelSelect.prototype = {
         console.log(levelNumber);
         console.log("player data");
         console.log(DinoEggs.PLAYER_DATA);
-		if(levelNumber==1)
-		  this.state.start('Game');
+		switch(levelNumber){
+            case 1: this.state.start('Level1'); break;
+            case 2: this.state.start('Game'); break;                
+        }
 	}
 };

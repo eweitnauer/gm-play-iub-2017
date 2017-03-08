@@ -4,7 +4,7 @@ var DinoEggs = DinoEggs || {};
 DinoEggs.Game = function(){
     Phaser.State.call(this);
     
-    this._levelNumber = 1;
+    this._levelNumber = 2;
     
     this._eggsGroup = null;
     this._rocksGroup = null;
@@ -15,7 +15,7 @@ DinoEggs.Game = function(){
     this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    this.g_numEggs = 1;
+    this.g_numEggs = 4;
     this.score = 0;
     this.scoreText = null;
     this.boardText1 = null;
@@ -45,7 +45,7 @@ DinoEggs.Game = function(){
     this.g_equation="";
     this.g_parsedEquation="";
     this.g_rockProducedIndex = 0;
-    this.g_numRocks = 1;
+    this.g_numRocks = 4;
     
     this.music=null;
     
@@ -415,7 +415,7 @@ DinoEggs.Game.prototype = {
         var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
         
         var stars = this.endStar();
-        if (stars>1){
+        if (stars>0){
             this.updatePlayerData(stars);
         }        
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
