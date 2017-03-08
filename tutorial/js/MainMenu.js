@@ -5,7 +5,6 @@ After the preload state, all the game images are already loaded into the memory,
 var DinoEggs = DinoEggs || {}; 
 
 DinoEggs.MainMenu = function(){
-    "use strict";
     Phaser.State.call(this);
     
     this.music = null;
@@ -34,6 +33,8 @@ DinoEggs.MainMenu.prototype = {
         this.startButton.anchor.set(0.5);
         
         //TODO: Display other options on menu
+        this.tutorialButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7 +60 , 'tutorial', this.showTutorial, this, 1, 0, 2);
+        this.tutorialButton.anchor.set(0.5);
                 
 
     },
@@ -43,7 +44,14 @@ DinoEggs.MainMenu.prototype = {
     startGame:function(){
         
         //this.music.stop();
-        this.state.start('LevelSelect');
+        this.state.start('Game');
         
-    } 
+    },
+    showTutorial:function(){
+        loadGM(initTutorialPage, {  version: '0.16.1'});
+        $('#tutorialModal').modal('show');
+        //initTutorialPage();
+    }
+    
+    
 }
