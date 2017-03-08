@@ -36,6 +36,9 @@ DinoEggs.MainMenu.prototype = {
         //TODO: Display other options on menu
         this.tutorialButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7 +60 , 'tutorial', this.showTutorial, this, 1, 0, 2);
         this.tutorialButton.anchor.set(0.5);
+        
+        document.getElementById("eq-match-div").style.display="block";
+        document.getElementById("eq-solve-div").style.display="none";
                 
 
     },
