@@ -144,13 +144,16 @@ DinoEggs.Game.prototype = {
 
     
 
-     this.celebrationEmitter.minParticleSpeed.set(0, 300);
-    this.celebrationEmitter.maxParticleSpeed.set(0, 400);
+        this.celebrationEmitter.width = 800;
 
-    this.celebrationEmitter.setRotation(5, 20);
-   
-    this.celebrationEmitter.setScale(0.5, 0.5, 1, 1);
-    this.celebrationEmitter.gravity = -100;
+
+        this.celebrationEmitter.maxParticleScale = 1;
+        this.celebrationEmitter.minParticleScale = 0.5;
+        this.celebrationEmitter.setYSpeed(100, 200);
+        this.celebrationEmitter.gravity = 0;
+        this.celebrationEmitter.width = this.game.world.width * 1.5;
+        this.celebrationEmitter.minRotation = 0;
+        this.celebrationEmitter.maxRotation = 40;
    
        
         
@@ -317,8 +320,8 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
-
-        this.clearBoard();
+        if(this.board)
+            this.clearBoard();
         console.log("egg clicked");
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        

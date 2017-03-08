@@ -50,6 +50,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('jewel_green', 'assets/particles/jewel_green.png');
         this.load.image('jewel_yellow', 'assets/particles/jewel_yellow.png');
        
+        this.load.image('awesome', 'assets/awesome.png');
     },
     create:function(){
         this.state.start('MainMenu');
