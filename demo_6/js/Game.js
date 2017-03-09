@@ -21,6 +21,7 @@ DinoEggs.Game = function(){
     this.boardText1 = null;
     this.boardText2 = null;
     this.board = null;
+    this.matchExpDerivation = null;
 
    
     this.g_problems = [
@@ -168,9 +169,6 @@ DinoEggs.Game.prototype = {
         this._lightningGroup = this.game.add.group();
         this._lightningGroup.enableBody = true;
         this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
-       
-        //global match exp canvas equation (this is temporary work around, delete it later)
-        this.g_currentMatchExp = null;
         
     },
     togglePause:function() {
@@ -264,7 +262,7 @@ DinoEggs.Game.prototype = {
                 if(this._eggsGroup.countLiving() > 0){
                     document.getElementById("eq-match-div").style.display="block";
                     document.getElementById("eq-solve-div").style.display="none";
-                    this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                     this.startRockWave(2,this.g_numRocks);
                 }
                 else{
@@ -543,8 +541,8 @@ DinoEggs.Game.prototype = {
         var matchedEqIndexArray = this.matchEquationOnRocks(lastEq);
 
             if (matchedEqIndexArray.length > 0 && this._rocksGroup.countLiving() > 0) {
-                this.g_currentMatchExp = lastEq.replace(/\*/g, "");
                 for(var j = 0; j < matchedEqIndexArray.length ; j++){
+                    
                     //set the rock velocity to 0
                     this._rocksGroup.children[matchedEqIndexArray[j]].body.velocity.y = 0;
                     
@@ -568,21 +566,14 @@ DinoEggs.Game.prototype = {
         this.game.physics.enable(lightning, Phaser.Physics.ARCADE);
         lightning.body.allowRotation = false;
         this._lightningGroup.add(lightning);
-        
-        
-    
-        //test acceleration instead of tween
-        //Rotate or point towards rock before acceleration
-        //this.game.physics.arcade.accelerateToXY(lightning, rock.x, rock.y);*/   
-        lightning.rotation = this.game.physics.arcade.moveToObject(lightning, rock, 5, 500);
-        //var lightningTween = this.game.add.tween(lightning).to({x: rock.x, y: rock.y}, 3000, Phaser.Easing.Quadratic.InOut, true); 
-        
+        lightning.rotation = this.game.physics.arcade.moveToObject(lightning, rock, 5, 500); 
     },
     lightningStruck:function(lightning, rock){
-        console.log("Lightning struck");
         
+    
+        var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii().replace(/\*/g, "");
         //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
-        if(rock.equationText.text != this.g_currentMatchExp ){
+        if(rock.equationText.text != currentMatchExp){
            return;
         }
         var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { fontSize: '32px', fill: '#000' });
@@ -614,7 +605,7 @@ DinoEggs.Game.prototype = {
     },
     initCanvas: function(){
 
-        //GM Code
+            //GM Code
             document.getElementById("eq-match-div").style.display="block";
             document.getElementById("eq-solve-div").style.display="none";
 
@@ -623,7 +614,7 @@ DinoEggs.Game.prototype = {
             this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
 
-            this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
+            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
             
             //disabling the solveEq canvas
             
