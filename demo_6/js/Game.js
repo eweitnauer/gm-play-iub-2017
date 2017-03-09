@@ -675,8 +675,8 @@ DinoEggs.Game.prototype = {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     getMatchEquationOnRock: function(){
-        //var indexToChoose = this.getRandomRange(1, this.g_problems[0].length - 1);
-        var indexToChoose = 1;
+        var indexToChoose = this.getRandomRange(1, this.g_problems[0].length - 1);
+        //var indexToChoose = 1;
         this.g_equation =  this.g_problems[0][indexToChoose];
         this.g_parsedEquation = this.g_equation.replace(/\*/g, "");
         return this.g_parsedEquation;
