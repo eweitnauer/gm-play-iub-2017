@@ -131,7 +131,7 @@ DinoEggs.Game.prototype = {
         //create rock wave - (rockinterval between consecutive rocks, number of rocks)
 
        
-        this.startRockWave(6,this.g_numRocks);
+        this.startRockWave(2,this.g_numRocks);
 
         //end celebration 
         this.celebrationEmitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
@@ -153,6 +153,8 @@ DinoEggs.Game.prototype = {
         this.celebrationEmitter.maxRotation = 40;
    
        
+        
+        //Awesome text message
         awesome = this.game.add.sprite(0,0, "awesome");
 		awesome.anchor.setTo(0.5,0.5);
         awesome.x=this.game.width/2;
@@ -161,14 +163,30 @@ DinoEggs.Game.prototype = {
         
         //show instructions after 2 seconds
         this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showRockInstructions, this);
+        
+        //lightning group 
+        this._lightningGroup = this.game.add.group();
+        this._lightningGroup.enableBody = true;
+        this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
+       
+        //global match exp canvas equation (this is temporary work around, delete it later)
+        this.g_currentMatchExp = null;
+        
+    },
+    togglePause:function() {
+        this.game.physics.arcade.isPaused = (game.physics.arcade.isPaused) ? false : true;
     },
     showRockInstructions:function(){
-        this.showBoard('Match rock ','expression to burst');
+        this.showBoard('Match rock ','expression to burst it');
     },
     update:function(){
         this.game.physics.arcade.collide(this._eggsGroup, this._platforms);
         this.game.physics.arcade.overlap(this._rocksGroup, this._platforms, this.disappearRockOnGround, null, this);
         this.game.physics.arcade.overlap(this._rocksGroup, this._eggsGroup, this.hitEgg, null, this);
+        
+        //check collision for lightning
+        this.game.physics.arcade.overlap(this._lightningGroup, this._rocksGroup, this.lightningStruck, null, this);
+        
         
         //check if the rocks are falling:
         if(this._rocksGroup.countLiving() != 0){    
@@ -326,12 +344,9 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
-        console.log("populatecanvas");
         if(this.board){
-            console.log("pop canvas clearboard");
             this.clearBoard();
         }
-        console.log("egg clicked");
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
@@ -348,7 +363,6 @@ DinoEggs.Game.prototype = {
     },
     
     spawnRock: function(){
-        console.log("spawnrock");
         if(this.rockPositions.length>0){
             var randIndex = Math.floor(Math.random() * this.rockPositions.length);
             var randposX = this.rockPositions[randIndex];
@@ -379,8 +393,8 @@ DinoEggs.Game.prototype = {
                     break
             case 3 :  egg.tint = 0x2412ff;
                     blackdino_popup = true;
-                    console.log("sad dino board");
-                     this.showBoard('Sad dino wants','Mama.Hatch it ASAP!')
+                   
+                     this.showBoard('Sad dino wants','Mama.Hatch it soon!')
                      egg.animations.play('wiggleContinous');
                      break;
 
@@ -529,24 +543,53 @@ DinoEggs.Game.prototype = {
         var matchedEqIndexArray = this.matchEquationOnRocks(lastEq);
 
             if (matchedEqIndexArray.length > 0 && this._rocksGroup.countLiving() > 0) {
+                this.g_currentMatchExp = lastEq.replace(/\*/g, "");
                 for(var j = 0; j < matchedEqIndexArray.length ; j++){
-                    this.rockBurst(this._rocksGroup.children[matchedEqIndexArray[j]]);
-                    //Add and update the score
-                    this.score += 10;
-                    this.scoreText.text = 'Score: ' + this.score;
-
+                    //set the rock velocity to 0
+                    this._rocksGroup.children[matchedEqIndexArray[j]].body.velocity.y = 0;
+                    
+                    //initiate lightning weapon from match exp canvas towards the rock to burst it open
+                    this.initiateLightningWeaponForRock(this._rocksGroup.children[matchedEqIndexArray[j]]);
+                    
+                    
                 }
-                console.log("Index");
-                console.log(this.g_rockProducedIndex);
-                console.log("Num rocks");
-                console.log(this.g_numRocks);
+                
                 if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
                     this.clearGMCanvas(this.matchExpCanvas); 
-                    console.log("click egg dino board");
-                    this.showBoard('click egg ','to solve equation');
+                    this.showBoard('Click egg ','to solve equation');
                 }
 
             }
+    },
+    initiateLightningWeaponForRock:function(rock){
+        var lightning = this.game.add.sprite(600,350, 'lightning');
+        lightning.scale.setTo(0.1,0.1);
+        this._lightningGroup.add(lightning);
+        
+        //this.lightning.visible = true;
+        
+        //test acceleration instead of tween
+        //Rotate or point towards rock before acceleration
+        //this.game.physics.arcade.accelerateToXY(lightning, rock.x, rock.y);*/   
+        console.log("Tween target");
+        console.log();
+        var lightningTween = this.game.add.tween(lightning).to({x: rock.x, y: rock.y}, 3000, Phaser.Easing.Quadratic.InOut, true); 
+        
+    },
+    lightningStruck:function(lightning, rock){
+        console.log("Lightning struck");
+        
+        //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
+        if(rock.equationText.text != this.g_currentMatchExp ){
+           return;
+        }
+        var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { fontSize: '32px', fill: '#000' });
+        this.rockBurst(rock);
+        this._lightningGroup.remove(lightning);
+
+        //animate and update score 
+        var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
+        scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
     },
     solveEqCheck:function(evt){
        
@@ -563,8 +606,6 @@ DinoEggs.Game.prototype = {
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
 
-                        /*document.getElementById("eq-match-div").style.display="block";
-                        document.getElementById("eq-solve-div").style.display="none";*/
                     }
 
                 }
@@ -634,7 +675,8 @@ DinoEggs.Game.prototype = {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     getMatchEquationOnRock: function(){
-        var indexToChoose = this.getRandomRange(1, this.g_problems[0].length - 1);
+        //var indexToChoose = this.getRandomRange(1, this.g_problems[0].length - 1);
+        var indexToChoose = 1;
         this.g_equation =  this.g_problems[0][indexToChoose];
         this.g_parsedEquation = this.g_equation.replace(/\*/g, "");
         return this.g_parsedEquation;
