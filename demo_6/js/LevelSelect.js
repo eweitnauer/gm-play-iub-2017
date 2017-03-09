@@ -29,6 +29,9 @@ DinoEggs.LevelSelect.prototype = {
 
 		this.createLevelIcons();
 		this.animateLevelIcons();
+        
+        document.getElementById("eq-match-div").style.display="block";
+        document.getElementById("eq-solve-div").style.display="none";
 	},
 
 	update: function() {

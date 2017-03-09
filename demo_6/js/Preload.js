@@ -33,7 +33,7 @@ DinoEggs.Preload.prototype = {
         this.load.atlasJSONHash('dino', 'assets/dino.png','assets/dino.json');
         this.load.image('sky', 'assets/sky.png');
         this.load.spritesheet('button', 'assets/button.png', 120, 40);
-
+        this.load.image('tutorial', 'assets/tutorial.png');
         //background music
         this.load.audio('bg_music',['assets/bg_music.mp3']);
         this.load.image('restart', 'assets/restart.png');
@@ -50,6 +50,8 @@ DinoEggs.Preload.prototype = {
         this.load.image('jewel_green', 'assets/particles/jewel_green.png');
         this.load.image('jewel_yellow', 'assets/particles/jewel_yellow.png');
        
+        this.load.image('awesome', 'assets/awesome.png');
+        this.load.image('rockwave', 'assets/rockwaveTxt.png');
     },
     create:function(){
         this.state.start('MainMenu');

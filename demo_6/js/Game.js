@@ -142,20 +142,29 @@ DinoEggs.Game.prototype = {
         
         this.celebrationEmitter.width = 800;
 
-    
 
-     this.celebrationEmitter.minParticleSpeed.set(0, 300);
-    this.celebrationEmitter.maxParticleSpeed.set(0, 400);
 
-    this.celebrationEmitter.setRotation(5, 20);
-   
-    this.celebrationEmitter.setScale(0.5, 0.5, 1, 1);
-    this.celebrationEmitter.gravity = -100;
+        this.celebrationEmitter.maxParticleScale = 1;
+        this.celebrationEmitter.minParticleScale = 0.5;
+        this.celebrationEmitter.setYSpeed(100, 200);
+        this.celebrationEmitter.gravity = 0;
+        this.celebrationEmitter.width = this.game.world.width * 1.5;
+        this.celebrationEmitter.minRotation = 0;
+        this.celebrationEmitter.maxRotation = 40;
    
        
+        awesome = this.game.add.sprite(0,0, "awesome");
+		awesome.anchor.setTo(0.5,0.5);
+        awesome.x=this.game.width/2;
+        awesome.y=this.game.height/3;
+	    awesome.scale.setTo(0,0);
         
+        //show instructions after 2 seconds
+        this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showRockInstructions, this);
     },
-    
+    showRockInstructions:function(){
+        this.showBoard('Match rock ','expression to burst');
+    },
     update:function(){
         this.game.physics.arcade.collide(this._eggsGroup, this._platforms);
         this.game.physics.arcade.overlap(this._rocksGroup, this._platforms, this.disappearRockOnGround, null, this);
@@ -317,8 +326,11 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
-
-        this.clearBoard();
+        console.log("populatecanvas");
+        if(this.board){
+            console.log("pop canvas clearboard");
+            this.clearBoard();
+        }
         console.log("egg clicked");
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        
@@ -366,6 +378,9 @@ DinoEggs.Game.prototype = {
                     egg.animations.play('wiggleOnce');
                     break
             case 3 :  egg.tint = 0x2412ff;
+                    blackdino_popup = true;
+                    console.log("sad dino board");
+                     this.showBoard('Sad dino wants','Mama.Hatch it ASAP!')
                      egg.animations.play('wiggleContinous');
                      break;
 
@@ -432,6 +447,10 @@ DinoEggs.Game.prototype = {
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+        var elem = document.getElementById("undo_button");
+        if(elem){
+            elem.parentNode.removeChild(elem);
+        }
 
     },
     updatePlayerData: function(stars) {
@@ -474,10 +493,13 @@ DinoEggs.Game.prototype = {
         return starNumber;
     },
     
-    showBoard: function() {
+    showBoard: function(line1,line2) {
+        if(this.board)
+            this.clearBoard();
         this.board = this.game.add.sprite(490,250,'board');
-        this.boardText1 = this.game.add.text(520,270, 'click egg ', { fontSize: '15px', fill: '#000' });
-        this.boardText2 = this.game.add.text(500,300, 'to solve equation', { fontSize: '15px', fill: '#000' });
+        this.board.scale.x= 1.1;
+        this.boardText1 = this.game.add.text(520,270, line1, { fontSize: '15px', fill: '#000' });
+        this.boardText2 = this.game.add.text(500,300, line2, { fontSize: '15px', fill: '#000' });
     },
     
     clearBoard: function() {
@@ -500,6 +522,8 @@ DinoEggs.Game.prototype = {
         return matchedEqIndexArray;
     },
     matchEqCheck:function(evt){
+        if(this.board)
+            this.clearBoard();
         this.undoBtn.disabled = false;
         var lastEq = evt.last_eq;
         var matchedEqIndexArray = this.matchEquationOnRocks(lastEq);
@@ -518,7 +542,8 @@ DinoEggs.Game.prototype = {
                 console.log(this.g_numRocks);
                 if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
                     this.clearGMCanvas(this.matchExpCanvas); 
-                    this.showBoard();
+                    console.log("click egg dino board");
+                    this.showBoard('click egg ','to solve equation');
                 }
 
             }
@@ -528,6 +553,12 @@ DinoEggs.Game.prototype = {
                 //condition to check if equation is solved  
                 if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
                     if(this.selectedEgg){
+                        
+                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
+                        t.onComplete.add(exitTween, this);
+                        function exitTween () {
+                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+                        }
                         
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
