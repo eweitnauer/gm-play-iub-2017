@@ -66,6 +66,18 @@
             fill:white !important;
             stroke:white !important;
         }
+        
+        .modal-dialog{
+            position: relative;
+            display: table;
+            overflow-y: auto;    
+            overflow-x: auto;
+            width: auto;
+            min-width: 400px;   
+        }
+        
+        
+        
     </style>
 </head>
 <body>
@@ -92,10 +104,13 @@
                         </div>
                         <div class="modal-body">
                             <div id='outer'>
-                                <!-- div where all the tutorial pairs will insert their content -->
-                                <div id='inner'></div>
+                                <div id='inner'>
+                                    <div style="width:100%;min-height:600px;">
+                                        <iframe src="gm_tutorial_demo/demo.html" style="width:100%;min-height:600px"></iframe>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="container-fluid">          
+                            <div class="container">          
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
@@ -113,11 +128,11 @@ window.onload = function () {
 }
 
 function init() {
-	if (!tutorial_data) return;
+	//if (!tutorial_data) return;
 
 	var tutorial_pairs = 0
 	  , done_count = 0;
-	tutorial_data.forEach(load);
+	//tutorial_data.forEach(load);
 
 	function load(data) {
 		if (data.events) {
