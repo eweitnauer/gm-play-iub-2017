@@ -8,8 +8,8 @@ g_matchExpressionFormat = [
         , 'y+x'          
     ],
     [
-          'x.y'
-        , 'y.x'          
+          'x*y'
+        , 'y*x'          
     ],
     [
           'x+y+z'
