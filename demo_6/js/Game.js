@@ -562,18 +562,20 @@ DinoEggs.Game.prototype = {
             }
     },
     initiateLightningWeaponForRock:function(rock){
-        var lightning = this.game.add.sprite(600,350, 'lightning');
-        lightning.scale.setTo(0.1,0.1);
+        var lightning = this.game.add.sprite(this.game.world.centerX,600, 'lightning');
+        lightning.scale.setTo(0.2,0.2);
+        lightning.anchor.setTo(0.5, 0.5);
+        this.game.physics.enable(lightning, Phaser.Physics.ARCADE);
+        lightning.body.allowRotation = false;
         this._lightningGroup.add(lightning);
         
-        //this.lightning.visible = true;
         
+    
         //test acceleration instead of tween
         //Rotate or point towards rock before acceleration
         //this.game.physics.arcade.accelerateToXY(lightning, rock.x, rock.y);*/   
-        console.log("Tween target");
-        console.log();
-        var lightningTween = this.game.add.tween(lightning).to({x: rock.x, y: rock.y}, 3000, Phaser.Easing.Quadratic.InOut, true); 
+        lightning.rotation = this.game.physics.arcade.moveToObject(lightning, rock, 5, 500);
+        //var lightningTween = this.game.add.tween(lightning).to({x: rock.x, y: rock.y}, 3000, Phaser.Easing.Quadratic.InOut, true); 
         
     },
     lightningStruck:function(lightning, rock){

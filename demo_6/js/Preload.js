@@ -55,7 +55,6 @@ DinoEggs.Preload.prototype = {
         
         //images for hit rock feature
         this.load.image('lightning', 'assets/lightning.png');
-        this.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
     },
     create:function(){
         this.state.start('MainMenu');
