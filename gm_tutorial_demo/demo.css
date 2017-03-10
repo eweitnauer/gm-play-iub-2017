@@ -4,8 +4,8 @@ body {
 
 #outer {
   margin: auto;
-  margin-bottom: 40px;
-  margin-top: 20px;
+  /*margin-bottom: 40px;
+  margin-top: 20px;*/
   width: 780px;
   padding: 0 10px;
 }
@@ -40,7 +40,7 @@ p.tutorial-instructions {
 }
 
 .tutorial {
-  margin-bottom: 3em;
+  /*margin-bottom: 3em;*/
 }
 
 .tutorial .choice {
@@ -63,7 +63,7 @@ p.tutorial-instructions {
 	background: #eee;
   height: 120px;
 	width: 500px;
-	margin: 20px auto;
+	/*margin: 20px auto;*/
 	position: relative;
 }
 
@@ -73,7 +73,7 @@ p.tutorial-instructions {
   background: #eee;
   height: 240px;    /* size of the canvas */
   width: 500px;
-  margin: 20px auto;
+  /*margin: 20px auto;*/
   position: relative;
 }
 

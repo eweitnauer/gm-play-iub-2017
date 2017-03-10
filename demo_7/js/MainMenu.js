@@ -53,5 +53,7 @@ DinoEggs.MainMenu.prototype = {
     } ,
     showTutorial:function(){
         $('#tutorialModal').modal('show');
+        $('#tFrame').contents().find('.levelTutorial').hide()
+        $('#tFrame').contents().find("#1").show();
     }
 }
