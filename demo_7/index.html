@@ -29,13 +29,17 @@
         div.gm-canvas{
             border:none !important;
             /*background-image:url('assets/canvas-bkgd.png');*/
-            /*background-size:800px 600px;*/
-            background-repeat:no-repeat;
-            background-position: top;
             z-index: 1;
-            margin-left:30%;
+            margin-left:25%;
             width:380px;
             height:90px;
+        }
+        
+        div.row{
+            background-image: url('assets/canvas-bkgd.png');
+            /*background-size:800px 600px;
+            background-repeat:no-repeat;
+            background-position: left bottom;*/
         }
         
         div#canvas-container {
@@ -50,7 +54,8 @@
             margin-left: -90px;
         }
         
-        div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{
+        div.canvas-element{
+        /*div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{*/
             background-color:transparent !important;
         }
         
@@ -61,10 +66,6 @@
             background-color: rgb(33,87,47);
             width: 800px;
             margin: auto;
-        }
-        g text, g line{
-            fill:white !important;
-            stroke:white !important;
         }
         
         .modal-dialog{
@@ -85,10 +86,10 @@
     <div id='game-div'></div>
     <div class="row">
         <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
-            <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:20%"></div>
+            <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
         </div>
         <div id="eq-match-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
-            <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:20%"></div>
+            <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
         </div>
     </div>
     

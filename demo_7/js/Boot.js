@@ -26,6 +26,7 @@ DinoEggs.Boot.prototype = {
     //assets we'll use in the loading screen
     preload:function(){
         //TO-DO: include game logo in
+        this.load.image('gamepreloadbkgd', 'assets/happysky.png');
         this.load.image('preloadBar','assets/preloader.png');
     },
     

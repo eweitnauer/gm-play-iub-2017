@@ -4,7 +4,7 @@ Rock = function (game, x, y, equation) {
     Phaser.Sprite.call(this, game, x, y, 'rock');
     
     this.game.physics.arcade.enable(this);
-    this.body.velocity.y = 25;
+    this.body.velocity.y = 15;
     this.body.collideWorldBounds = true;
     this.equ = equation;
     
@@ -51,7 +51,7 @@ Egg = function (game, x, y, equation) {
     
     this.animations.add('hatch',['egg1.png','egg2.png','egg3.png','egg4.png','egg5.png','egg6.png','egg7.png','egg8.png']);
     this.animations.add('wiggleOnce',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,false);
-    this.animations.add('wiggleContinous',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],24,true);
+    this.animations.add('wiggleContinous',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','wiggle4.png','wiggle5.png','wiggle4.png','egg1.png'],4,true);
 
 };
 

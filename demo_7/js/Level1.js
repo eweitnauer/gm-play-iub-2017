@@ -93,8 +93,8 @@ DinoEggs.Level1.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this._platforms = this.game.add.group();
         this._platforms.enableBody = true;
-        var ground = this._platforms.create(0, this.game.world.height - 64, 'ground');
-        ground.scale.setTo(2,6);
+        var ground = this._platforms.create(0, this.game.world.height - 12, 'ground');
+        ground.scale.setTo(2,4);
         ground.body.immovable = true;
         
         //dino mom

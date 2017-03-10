@@ -95,14 +95,14 @@ DinoEggs.Game.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this._platforms = this.game.add.group();
         this._platforms.enableBody = true;
-        var ground = this._platforms.create(0, this.game.world.height - 64, 'ground');
+        var ground = this._platforms.create(0, this.game.world.height - 12, 'ground');
         ground.scale.setTo(2,6);
         ground.body.immovable = true;
         
         //dino mom
         console.log("instruction clear, dino no animiation");
         this.dino = this.game.add.sprite(567, 275, 'dino');
-        var move = this.dino.animations.add('move',['1.png','2.png','3.png','4.png'],800,true);
+        var move = this.dino.animations.add('move',['1.png','2.png','3.png','4.png'],24,true);
 //        this.dino.animations.play('move', 10, true);
 //        this.game.add.tween(this.dino).to({y: 275}, 2400, Phaser.Easing.Bounce.InOut, true);
         
@@ -386,7 +386,7 @@ DinoEggs.Game.prototype = {
             case 3 :  egg.tint = 0x2412ff;
                     blackdino_popup = true;
                     console.log("sad dino board");
-                     this.showBoard('Sad dino','Please hatch me!')
+                     this.showBoard('Sad dino','Please hatch eggs!')
                      egg.animations.play('wiggleContinous');
                     this.dino.animations.play('move', 10, true);
                      break;

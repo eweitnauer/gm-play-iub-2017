@@ -21,7 +21,7 @@ DinoEggs.MainMenu.prototype = {
 		//this.music.play();
         
         this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'sky');
-        this.background.autoScroll(-20, 0);         //give it speed in x
+//        this.background.autoScroll(-20, 0);         //give it speed in x
         
         //start game text
         var text = "Welcome!";

@@ -16,6 +16,7 @@ DinoEggs.Preload.prototype = {
     preload:function(){
         //TO DO: show logo in loading screen
         //setting up preload bar
+        this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'gamepreloadbkgd');
         this.preloadBar = this.add.sprite(this.game.world.centerX,this.game.world.centerY,'preloadBar');
         this.preloadBar.anchor.setTo(0.5,0.5);
         this.time.advancedTiming = true; // better way of handling game time: Needs review
@@ -25,14 +26,14 @@ DinoEggs.Preload.prototype = {
         
         //load all game assets
         this.load.image('rock', 'assets/rock.png');
-        this.load.image('ground', 'assets/platform.png');
+        this.load.image('ground', 'assets/transparentplatform.png');
         this.load.image('fragment', 'assets/star.png');    
         this.load.atlasJSONHash('egg', 'assets/eggSpritesheet.png','assets/eggSpritesheet.json');
         this.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
         this.load.image('star', 'assets/star.png');
         this.load.atlasJSONHash('dino', 'assets/dino.png','assets/dino.json');
         this.load.image('dino_noAnimation', 'assets/dino_no_ani.png');
-        this.load.image('sky', 'assets/sky.png');
+        this.load.image('sky', 'assets/happysky.png');
         this.load.spritesheet('button', 'assets/button.png', 120, 40);
         this.load.image('tutorial', 'assets/tutorial.png');
         //background music
