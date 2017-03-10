@@ -432,7 +432,8 @@ DinoEggs.Level1.prototype = {
     solveEqCheck:function(evt){
                 this.undoBtn.disabled = false;
                 //condition to check if equation is solved  
-                if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
+                if ((evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))||
+                   (evt.last_eq.endsWith("=x")&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
                         t.onComplete.add(exitTween, this);

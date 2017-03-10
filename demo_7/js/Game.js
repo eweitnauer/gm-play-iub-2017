@@ -132,7 +132,8 @@ DinoEggs.Game.prototype = {
         //create rock wave - (rockinterval between consecutive rocks, number of rocks)
 
        
-        this.startRockWave(6,this.g_numRocks);
+        this.startRockWave(6,this.g_numRocks,this.g_numEggs);
+
 
         //end celebration 
         this.celebrationEmitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
@@ -250,7 +251,7 @@ DinoEggs.Game.prototype = {
                     document.getElementById("eq-match-div").style.display="block";
                     document.getElementById("eq-solve-div").style.display="none";
                     this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                    this.startRockWave(2,this.g_numRocks);
+                    this.startRockWave(2,this.g_numRocks,this.g_numEggs);
                 }
                 else{
                     //add celebration animation for game over
@@ -345,10 +346,10 @@ DinoEggs.Game.prototype = {
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
     },
     
-    startRockWave: function(rockIntervalSec, numRocks){
+    startRockWave: function(rockIntervalSec, numRocks,numEggs){
         this.g_rockProducedIndex = 0;
         //get rock positions for rocks
-        this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numRocks);
+        this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numEggs);
         this.game.time.events.repeat(Phaser.Timer.SECOND * rockIntervalSec, numRocks, this.spawnRock, this);
     },
     
@@ -562,7 +563,8 @@ DinoEggs.Game.prototype = {
     solveEqCheck:function(evt){
        
                 //condition to check if equation is solved  
-                if (evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2))){
+                if ((evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))||
+                   (evt.last_eq.endsWith("=x")&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
                         
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
