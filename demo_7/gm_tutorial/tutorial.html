@@ -1,19 +1,66 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>GM Tutorial Demo</title>
+<title>GM Tutorial</title>
 
 <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="demo.css"/>
-<script src="demo-data.js"></script>
+<link rel="stylesheet" href="tutorial.css"/>
+<script src="tutorial-data.js"></script>
 
 <body>
-<!-- div where we apply styles -->
-<div id='outer'>
-		<!-- div where all the tutorial pairs will insert their content -->
-		<div id='inner'></div>
+<div id="tutorial-container">
+        <!-- div where we apply styles -->
+        <div id ="1" class="levelTutorial">
+            <div id='outer1'>
+                    <div id='inner1'></div>
+            </div>
+        </div>
+        <div id ="2" class="levelTutorial">
+            <div id='outer2'>
+                    <div id='inner2'></div>
+            </div>
+        </div>
+        <div id ="3" class="levelTutorial">
+            <div id='outer3'>
+                    <div id='inner3'></div>
+            </div>
+        </div>
+        <div id ="4" class="levelTutorial">
+            <div id='outer4'>
+                    <div id='inner4'></div>
+            </div>
+        </div>
+        <div id ="5" class="levelTutorial">
+            <div id='outer5'>
+                    <div id='inner5'></div>
+            </div>
+        </div>
+        <div id ="6" class="levelTutorial">
+            <div id='outer6'>
+                    <div id='inner6'></div>
+            </div>
+        </div>
+        <div id ="7" class="levelTutorial">
+            <div id='outer7'>
+                    <div id='inner7'></div>
+            </div>
+        </div>
+        <div id ="8" class="levelTutorial">
+            <div id='outer8'>
+                    <div id='inner8'></div>
+            </div>
+        </div>
+        <div id ="9" class="levelTutorial">
+            <div id='outer9'>
+                    <div id='inner9'></div>
+            </div>
+        </div>
+        <div id ="10" class="levelTutorial">
+            <div id='outer10'>
+                    <div id='inner10'></div>
+            </div>
+        </div>
 </div>
-
 <script>
 
 window.onload = function () {
@@ -25,9 +72,19 @@ function init() {
 
 	var tutorial_pairs = 0
 	  , done_count = 0;
-	tutorial_data.forEach(load);
+	
+    var totalLevels =10;
+    for(var level = 1;level<=totalLevels;level++){
+        if(tutorial_data[level]){
+            for(var problemId in tutorial_data[level]){
+                var problem =tutorial_data[level][problemId];
+                load(problem,level);
+            }
+        }
+    }
 
-	function load(data) {
+
+	function load(data,level) {
 		if (data.events) {
 			/* Some repackaging of the data.
 			*
@@ -51,18 +108,18 @@ function init() {
 
 			// Pass in the query selector of the inner div to the tutorial pair, it will use that as the
 			// container.
-			var pair = new gmath.ui.TutorialPair('#inner', settings);
+			var pair = new gmath.ui.TutorialPair('#inner'+level, settings);
 
 			// The tutorial will emit a "done" event when the gesture has been done successfully.
 			// We'll call our "done" function when that happens (defined below).
-			pair.events.on('done', done);
+			pair.events.on('done', done.call(this,level));
 
 			// We'll compare the number of done events with the number of pairs on the page.
 			tutorial_pairs++;
 		}
 
 		else { // text only
-			var el = document.getElementById('inner');
+			var el = document.getElementById('inner'+level);
 
 			if (data.title) {
 				var title = document.createElement('h2');
@@ -81,12 +138,12 @@ function init() {
 		}
 	}
 
-	function done() {
+	function done(level) {
 		done_count++;
 		if (done_count === tutorial_pairs) {
 			// I'm appending some text to the page, but here you'll be moving on to the next phase of
 			// the game.
-			var el = document.getElementById('inner');
+			var el = document.getElementById('inner'+level);
 			var complete = document.createElement('h2');
 			var complete_content = document.createTextNode("All tutorials complete.");
 			complete.appendChild(complete_content);

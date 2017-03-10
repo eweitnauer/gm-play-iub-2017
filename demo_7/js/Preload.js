@@ -24,6 +24,12 @@ DinoEggs.Preload.prototype = {
         //make a sprite into a loading bar.
         this.load.setPreloadSprite(this.preloadBar);
         
+        this.game.load.spritesheet('levelIcons', 'assets/level_icons.png', 73.83, 82);	
+        this.game.load.image('options', 'assets/options.png');
+        this.game.load.image('tutorial', 'assets/tutorialTxt.png');
+        this.game.load.image('play', 'assets/playTxt.png');
+        this.game.load.image('exit', 'assets/exit.png');
+        
         //load all game assets
         this.load.image('rock', 'assets/rock.png');
         this.load.image('ground', 'assets/transparentplatform.png');

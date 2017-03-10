@@ -17,25 +17,11 @@ DinoEggs.Level1 = function(){
     this.score = 0;
     this.scoreText = null;
     
-    
-    /*this.g_problems = [
-        
-        [
-          'm*x+n*x'
-        , 'm*x+x*n'
-        , 'n*x+m*x'
-        , 'n*x+x*m'
-        , 'x*n+m*x'
-        , 'x*n+x*m'
-        , 'x*m+n*x'
-        , 'x*m+x*n'
-        , '(m+n)*x'
-        , 'x*(m+n)'
-        , '(n+m)*x'
-        , 'x*(n+m)'
-        ]
-    ];*/
-    
+    //------[EGGS] set problem mode according to problem set. 0:match expression, 1: solve equation , 2: simplify expression---------
+    //including two types of problem-formats from simplify expression set
+    this.egg_levelProblemSet = g_simplifyExpressionFormat[0].concat(g_simplifyExpressionFormat[1]);
+    this.egg_problemMode = 2;
+    //--------------------------------------------------------------------
     //this.g_canvasExpression = this.g_problems[0][0];
     //this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
     this.g_equation="";
@@ -449,6 +435,26 @@ DinoEggs.Level1.prototype = {
 
                 }
     },
+    simplifyEqCheck:function(evt){
+        this.undoBtn.disabled = false;
+                //condition to check if equation is solved  
+                if (!isNaN(evt.last_eq)){
+                    if(this.selectedEgg){
+                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
+                        t.onComplete.add(exitTween, this);
+                        function exitTween () {
+                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+                        }
+                        this.selectedEgg.animations.play('hatch', 2, false);
+                        this.selectedEgg = null;
+
+                        /*document.getElementById("eq-match-div").style.display="block";
+                        document.getElementById("eq-solve-div").style.display="none";*/
+                    }
+
+                }
+    },
+
     initCanvas: function(){
 
         //GM Code
@@ -471,7 +477,12 @@ DinoEggs.Level1.prototype = {
             });*/
             //!preserve binding
             this.solveEqCanvas.model.on('el_changed', function(evt) {
-                 thisObj.solveEqCheck(evt);
+                if(thisObj.egg_problemMode==1){
+                    thisObj.solveEqCheck(evt);
+                }
+                else if(thisObj.egg_problemMode==2){
+                    thisObj.simplifyEqCheck(evt);
+                }
             });
         
         //remove button if it already exists
@@ -522,13 +533,16 @@ DinoEggs.Level1.prototype = {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     createEggEquation: function(){
-            //create random constants for equation
-            a = Math.floor((Math.random() * 10) + 1);
-            b = Math.floor((Math.random() * 10) + 1);
-            c = Math.floor((Math.random() * 10) + 1);
-
-            str = "";
-            equation = str+a+"x+"+b+"="+c;   
+            //get random expression format from current level ProblemSet
+            equation_format = this.egg_levelProblemSet[Math.floor(Math.random()*this.egg_levelProblemSet.length)];
+            num_of_coefficients = (equation_format.match(/N/g)||[]).length;
+            console.log(num_of_coefficients);
+            equation = equation_format;
+        
+            for(var i=0;i<num_of_coefficients;i++){
+                equation=equation.replace(/N/, Math.floor((Math.random() * 10) + 1));                
+            }
+   
             return equation;
     },
     //http://www.numericjs.com/index.php

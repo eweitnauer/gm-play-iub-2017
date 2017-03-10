@@ -33,9 +33,6 @@ DinoEggs.MainMenu.prototype = {
         this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'button', this.startGame, this, 1, 0, 2);
         this.startButton.anchor.set(0.5);
         
-        //TODO: Display other options on menu
-        this.tutorialButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7 +60 , 'tutorial', this.showTutorial, this, 1, 0, 2);
-        this.tutorialButton.anchor.set(0.5);
         
         document.getElementById("eq-match-div").style.display="block";
         document.getElementById("eq-solve-div").style.display="none";
@@ -50,8 +47,5 @@ DinoEggs.MainMenu.prototype = {
         //this.music.stop();
         this.state.start('LevelSelect');
         
-    } ,
-    showTutorial:function(){
-        $('#tutorialModal').modal('show');
-    }
+    } 
 }
