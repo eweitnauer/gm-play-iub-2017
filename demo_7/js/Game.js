@@ -38,13 +38,14 @@ DinoEggs.Game = function(){
     this.g_equation="";
     this.g_parsedEquation="";
     this.g_rockProducedIndex = 0;
-    this.g_numRocks = 4;
+    this.g_numRocks = 8;
     
     this.music=null;
     
     this.rockPositions =[];
     
     this.undoBtn = null;
+    
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -424,6 +425,7 @@ DinoEggs.Game.prototype = {
     
     gameOver: function() {    
         //pass the score as a parameter 
+       
         this.scoreText.destroy();
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
@@ -436,7 +438,6 @@ DinoEggs.Game.prototype = {
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
             this.state.start('Game');
         }, this.game, 1, 0, 2);
-        restartButton.anchor.set(0.5);
         
         var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'menu', function(){
             this.state.start('MainMenu');
@@ -451,7 +452,6 @@ DinoEggs.Game.prototype = {
         if(elem){
             elem.parentNode.removeChild(elem);
         }
-
     },
     updatePlayerData: function(stars) {
 		// set number of stars for this level
@@ -631,8 +631,13 @@ DinoEggs.Game.prototype = {
        this.undoBtn.setAttribute("type","button");
        this.undoBtn.setAttribute("value","Undo");
        this.undoBtn.setAttribute("name","undobtn");
-       this.undoBtn.style.marginLeft = "20px";
-       this.undoBtn.style.marginTop = "20px";
+       this.undoBtn.setAttribute("id","undo_button");
+       this.undoBtn.style.postion = "absolute";
+       this.undoBtn.style.top = "0";
+       this.undoBtn.style.marginLeft = "100px";
+      
+        //document.getElementById("undo_button").className = "btn-danger";
+        this.undoBtn.style.cssFloat = "left";
     
        var contextRef = this;
        this.undoBtn.onclick = function(){
@@ -645,8 +650,11 @@ DinoEggs.Game.prototype = {
        };
         
        //Add the button to the body
-       document.body.appendChild(this.undoBtn);
+        document.getElementById("game-div").appendChild(this.undoBtn);
+       
        this.undoBtn.disabled = true;
+        $('#undo_button').addClass('btn-warning');
+        $('#undo_button').addClass('btn-lg');
         
     },
     

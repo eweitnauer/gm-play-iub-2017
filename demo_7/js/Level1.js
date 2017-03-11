@@ -485,38 +485,37 @@ DinoEggs.Level1.prototype = {
                 }
             });
         
-        //remove button if it already exists
-        var elem = document.getElementById("undo_button");
-        if(elem){
-            elem.parentNode.removeChild(elem);
-        }
-        
-       //Create the search button
+     //Create the search button
        this.undoBtn = document.createElement("input");
-        this.undoBtn.setAttribute("id", "undo_button");
+        
        //Set the attributes
        this.undoBtn.setAttribute("type","button");
        this.undoBtn.setAttribute("value","Undo");
        this.undoBtn.setAttribute("name","undobtn");
-       this.undoBtn.style.marginLeft = "20px";
-       this.undoBtn.style.marginTop = "20px";
+       this.undoBtn.setAttribute("id","undo_button");
+       this.undoBtn.style.postion = "absolute";
+       this.undoBtn.style.top = "0";
+       this.undoBtn.style.marginLeft = "100px";
+      
+        //document.getElementById("undo_button").className = "btn-danger";
+        this.undoBtn.style.cssFloat = "left";
     
        var contextRef = this;
        this.undoBtn.onclick = function(){
-           /*if(contextRef._rocksGroup.countLiving() > 0){
+           if(contextRef._rocksGroup.countLiving() > 0){
                contextRef.matchExpCanvas.controller.undo();
-           }*/
-           //else{
-                console.log("undo action");
+           }else{
                 contextRef.solveEqCanvas.controller.undo();
-           //}
+           }
            
        };
         
        //Add the button to the body
-       document.body.appendChild(this.undoBtn);
+        document.getElementById("game-div").appendChild(this.undoBtn);
+       
        this.undoBtn.disabled = true;
-        
+        $('#undo_button').addClass('btn-warning');
+        $('#undo_button').addClass('btn-lg');
     },
     
     clearGMCanvas: function(canvasObj){
