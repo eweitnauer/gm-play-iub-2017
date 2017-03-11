@@ -46,6 +46,8 @@ DinoEggs.Game = function(){
     this.rockPositions =[];
     
     this.undoBtn = null;
+    
+    this.matchExpDerivation = null;
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -252,7 +254,7 @@ DinoEggs.Game.prototype = {
                 if(this._eggsGroup.countLiving() > 0){
                     document.getElementById("eq-match-div").style.display="block";
                     document.getElementById("eq-solve-div").style.display="none";
-                    this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                     this.startRockWave(2,this.g_numRocks,this.g_numEggs);
                 }
                 else{
@@ -542,7 +544,7 @@ DinoEggs.Game.prototype = {
 
             if (matchedEqIndexArray.length > 0 && this._rocksGroup.countLiving() > 0) {
                 for(var j = 0; j < matchedEqIndexArray.length ; j++){
-                    this.rockBurst(this._rocksGroup.children[matchedEqIndexArray[j]]);
+                    //this.rockBurst(this._rocksGroup.children[matchedEqIndexArray[j]]);
                     //Add and update the score
                     //this.score += 10;
                     //this.scoreText.text = 'Score: ' + this.score;
@@ -644,7 +646,7 @@ DinoEggs.Game.prototype = {
             this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
 
-            this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
+            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
             
             //disabling the solveEq canvas
             
