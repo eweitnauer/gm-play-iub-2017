@@ -122,6 +122,11 @@ DinoEggs.Game.prototype = {
         //create Eggs
         this.createEggs(this.g_numEggs);
         
+        rockwave = this.game.add.sprite(0,0, "rockwave");
+		rockwave.anchor.setTo(0.5,0.5);
+        rockwave.x=this.game.width/2;
+        rockwave.y=this.game.height/3;
+	    rockwave.scale.setTo(0,0);
 
         //_________________________________________________________________________
         //create Rocks
@@ -156,6 +161,7 @@ DinoEggs.Game.prototype = {
         awesome.x=this.game.width/2;
         awesome.y=this.game.height/3;
 	    awesome.scale.setTo(0,0);
+        
         
         //lightning group 
          this._lightningGroup = this.game.add.group();
@@ -383,11 +389,19 @@ DinoEggs.Game.prototype = {
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){
         console.log("startingrockwave");
+        var t = this.game.add.tween(rockwave.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
+                        t.onComplete.add(exitTween, this);
+                        function exitTween () {
+                            this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+                        }
+        //this.game.time.events.add(Phaser.Timer.SECOND * 2, this.shakeCamera, this);
         this.g_rockProducedIndex = -1;
         this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numEggs);
         this.game.time.events.repeat(Phaser.Timer.SECOND * rockIntervalSec, numRocks, this.spawnRock, this);
     },
-    
+    shakeCamera: function(){
+      this.game.camera.shake(0.005, 1000);  
+    },
     spawnRock: function(){
         console.log("spawnrock");
         if(this.rocksTospawn){
@@ -456,6 +470,7 @@ DinoEggs.Game.prototype = {
                 this.showBoard('click egg ','to solve equation');
                 this.dino.animations.play('move', 10, true);
                 console.log("show instruction then animiation dino shows");
+                this._eggsGroup.callAll('animations.play', 'animations', 'wiggleOnce');
             }
         }
 
@@ -682,10 +697,10 @@ DinoEggs.Game.prototype = {
                 //condition to check if equation is solved  
                 if (!isNaN(evt.last_eq)){
                     if(this.selectedEgg){
-                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
+                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
                         t.onComplete.add(exitTween, this);
                         function exitTween () {
-                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
                         }
                         this.selectedEgg.animations.play('hatch', 2, false);
                         this.selectedEgg = null;
