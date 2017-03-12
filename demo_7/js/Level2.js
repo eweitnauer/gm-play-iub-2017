@@ -134,7 +134,7 @@ DinoEggs.Level2.prototype = {
         //create Rocks
         this.createRocks(this.g_numRocks);        
         //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
-        this.startRockWave(3,this.g_numRocks,this.g_numEggs);
+        this.startRockWave(6,this.g_numRocks,this.g_numEggs);
         //__________________________________________________________________________
 
 
@@ -264,7 +264,7 @@ DinoEggs.Level2.prototype = {
                 this.clearGMCanvas(this.matchExpCanvas);
                 if(this._eggsGroup.countLiving() > 0){
                     document.getElementById("eq-match-div").style.display="block";
-                    //document.getElementById("eq-solve-div").style.display="none";
+                    document.getElementById("eq-solve-div").style.display="none";
                     this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                     //_________________________________________________________________________
 //                    //create Rocks and start rockwave
@@ -746,7 +746,7 @@ DinoEggs.Level2.prototype = {
 
         //GM Code
             document.getElementById("eq-match-div").style.display="block";
-           // document.getElementById("eq-solve-div").style.display="none";
+            document.getElementById("eq-solve-div").style.display="none";
 
             //solveEqCanvas is for Equation Solving
             //matchExpCanvas is for Pattern Matching

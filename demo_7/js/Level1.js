@@ -232,15 +232,15 @@ DinoEggs.Level1.prototype = {
                 this.runToMom(egg_x, isSad);
                 this.clearGMCanvas(this.solveEqCanvas);
                 //this.clearGMCanvas(this.matchExpCanvas);
-                /*if(this._eggsGroup.countLiving() > 0){
-                    document.getElementById("eq-match-div").style.display="block";
-                    document.getElementById("eq-solve-div").style.display="none";
-                    this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                    this.startRockWave(2,this.g_numRocks);
+                if(this._eggsGroup.countLiving() > 0){
+                    document.getElementById("eq-match-div").style.display="none";
+                    document.getElementById("eq-solve-div").style.display="block";
+                  //  this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                   // this.startRockWave(2,this.g_numRocks);
                 }
                 else{
                     //add celebration animation for game over
-                }*/
+                }
             }, this);
             
             //add click event to egg
@@ -380,7 +380,7 @@ DinoEggs.Level1.prototype = {
         this.clearBoard();
         this.dino.animations.stop(null, true);
         document.getElementById("eq-solve-div").style.display="block";
-     //   document.getElementById("eq-match-div").style.display="none";        
+        document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         //this.clearGMCanvas(this.matchExpCanvas);
@@ -447,7 +447,7 @@ DinoEggs.Level1.prototype = {
                         function exitTween () {
                             this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
                         }
-                        this.selectedEgg.animations.play('hatch', 2, false);
+                        this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
 
                         /*document.getElementById("eq-match-div").style.display="block";
@@ -461,7 +461,7 @@ DinoEggs.Level1.prototype = {
     initCanvas: function(){
 
         //GM Code
-       //     document.getElementById("eq-match-div").style.display="none";
+            document.getElementById("eq-match-div").style.display="none";
             document.getElementById("eq-solve-div").style.display="block";
 
             //solveEqCanvas is for Equation Solving

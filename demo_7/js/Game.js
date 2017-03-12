@@ -132,7 +132,7 @@ DinoEggs.Game.prototype = {
         //create Rocks
         this.createRocks(this.g_numRocks);        
         //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
-        this.startRockWave(3,this.g_numRocks,this.g_numEggs);
+        this.startRockWave(6,this.g_numRocks,this.g_numEggs);
         //__________________________________________________________________________
 
 
@@ -683,7 +683,7 @@ DinoEggs.Game.prototype = {
                             this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
                         }
                         
-                        this.selectedEgg.animations.play('hatch', 2, false);
+                        this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
 
                         /*document.getElementById("eq-match-div").style.display="block";
@@ -702,7 +702,7 @@ DinoEggs.Game.prototype = {
                         function exitTween () {
                             this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
                         }
-                        this.selectedEgg.animations.play('hatch', 2, false);
+                        this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
 
                         /*document.getElementById("eq-match-div").style.display="block";
