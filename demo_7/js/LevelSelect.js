@@ -237,7 +237,8 @@ DinoEggs.LevelSelect.prototype = {
     play_listener: function(){
         switch(this.selectedLevel){
             case 1: this.state.start('Level1'); break;
-            case 2: this.state.start('Game'); break;                
+            case 2: this.state.start('Level2'); break;
+            case 3: this.state.start('Game'); break;
         }
     },
     exit_listener: function(){
