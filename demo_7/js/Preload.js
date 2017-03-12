@@ -24,33 +24,32 @@ DinoEggs.Preload.prototype = {
         //make a sprite into a loading bar.
         this.load.setPreloadSprite(this.preloadBar);
         
-        this.game.load.spritesheet('levelIcons', 'assets/level_icons.png', 73.83, 82);	
+        this.game.load.spritesheet('levelIcons', 'assets/levelIcons/level_icons.png', 73.83, 82);	
         this.game.load.image('options', 'assets/options.png');
-        this.game.load.image('tutorial', 'assets/tutorialTxt.png');
-        this.game.load.image('play', 'assets/playTxt.png');
-        this.game.load.image('exit', 'assets/exit.png');
+        this.game.load.image('tutorial', 'assets/buttons/tutorialTxt.png');
+        this.game.load.image('play', 'assets/buttons/playTxt.png');
+        this.game.load.image('exit', 'assets/buttons/exit.png');
         
         //load all game assets
         this.load.image('rock', 'assets/rock.png');
         this.load.image('ground', 'assets/transparentplatform.png');
         this.load.image('fragment', 'assets/star.png');    
-        this.load.atlasJSONHash('egg', 'assets/eggSpritesheet.png','assets/eggSpritesheet.json');
-        this.load.spritesheet('hatchling', 'assets/hatchling_run.png', 139, 89);
+        this.load.atlasJSONHash('egg', 'assets/eggs/eggsAtlas.png','assets/eggs/eggsAtlas.json');
+        this.load.spritesheet('hatchling', 'assets/hatchling/hatchlingSheet.png', 91, 89);
         this.load.image('star', 'assets/star.png');
-        this.load.atlasJSONHash('dino', 'assets/dino.png','assets/dino.json');
-        this.load.image('dino_noAnimation', 'assets/dino_no_ani.png');
+        this.load.atlasJSONHash('dino', 'assets/dinoMom/dino.png','assets/dinoMom/dino.json');
         this.load.image('sky', 'assets/happysky.png');
-        this.load.spritesheet('button', 'assets/button.png', 120, 40);
-        this.load.image('tutorial', 'assets/tutorial.png');
+        this.load.spritesheet('button', 'assets/buttons/button.png', 120, 40);
+        this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music
         this.load.audio('bg_music',['assets/bg_music.mp3']);
-        this.load.image('restart', 'assets/restart.png');
-        this.load.image('menu', 'assets/main_menu.png');
+        this.load.image('restart', 'assets/buttons/restart.png');
+        this.load.image('menu', 'assets/buttons/main_menu.png');
         this.load.image('board', 'assets/game_board.png');
 
         
 
-        this.load.image('nextlevel', 'assets/nextlevel.png');
+        this.load.image('nextlevel', 'assets/buttons/nextlevel.png');
         //celebration particles
         this.load.image('jewel_red', 'assets/particles/jewel_red.png');
         this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');

@@ -372,7 +372,7 @@ DinoEggs.Game.prototype = {
                     egg.animations.play('wiggleOnce');
                      break;
             case 2 : egg.tint = 0xff0000;
-                    var style = {font: "20px Arial", fill: "#ffffff", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
+                    var style = {font: "20px Arial", fill: "#111111", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
                     egg.setEquStyle(style);
                     egg.animations.play('wiggleOnce');
                     break

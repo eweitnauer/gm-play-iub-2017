@@ -18,7 +18,7 @@ DinoEggs.LevelSelect.prototype = {
 
 	preload: function() {
         //this.game.load.spritesheet('levelselecticons', 'assets/levelselecticons.png', 96, 96);
-		this.game.load.spritesheet('levelIcons', 'assets/level_icons.png', 73.83, 82);		
+		this.game.load.spritesheet('levelIcons', 'assets/levelIcons/level_icons.png', 73.83, 82);		
 		this.initLevelData();
 	},
 
