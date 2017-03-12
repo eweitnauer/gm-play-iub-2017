@@ -38,15 +38,14 @@ DinoEggs.Game = function(){
     this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
     this.g_equation="";
     this.g_parsedEquation="";
-    this.g_rockProducedIndex = 0;
-    this.g_numRocks = 8;
+    this.g_rockProducedIndex = -1;
+    this.g_numRocks = 5;
     
     this.music=null;
     
     this.rockPositions =[];
     
     this.undoBtn = null;
-    
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -105,7 +104,7 @@ DinoEggs.Game.prototype = {
         this._rocksGroup = this.game.add.group();
         this._rocksGroup.enableBody = true;
         this._rocksGroup.physicsBodyType = Phaser.Physics.ARCADE;
-
+        this.rocksTospawn = [];
         
         //  Eggs group
         this._eggsGroup = this.game.add.group();
@@ -123,11 +122,13 @@ DinoEggs.Game.prototype = {
         //create Eggs
         this.createEggs(this.g_numEggs);
         
-        
-        //create rock wave - (rockinterval between consecutive rocks, number of rocks)
 
-       
-        this.startRockWave(6,this.g_numRocks,this.g_numEggs);
+        //_________________________________________________________________________
+        //create Rocks
+        this.createRocks(this.g_numRocks);        
+        //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
+        this.startRockWave(3,this.g_numRocks,this.g_numEggs);
+        //__________________________________________________________________________
 
 
         //end celebration 
@@ -255,7 +256,12 @@ DinoEggs.Game.prototype = {
                     document.getElementById("eq-match-div").style.display="block";
                     document.getElementById("eq-solve-div").style.display="none";
                     this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                    this.startRockWave(2,this.g_numRocks,this.g_numEggs);
+                    //_________________________________________________________________________
+                    //create Rocks and start rockwave
+                    this.createRocks(this.g_numRocks);        
+                    //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
+                    this.startRockWave(6,this.g_numRocks,this.g_numEggs);
+                    //__________________________________________________________________________
                 }
                 else{
                     //add celebration animation for game over
@@ -268,6 +274,31 @@ DinoEggs.Game.prototype = {
             this._eggsGroup.add(egg);
     
         }
+    },
+    createRocks: function(numRocks){
+        //  create rocks
+        console.log("creatting rocks");
+        this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,this.g_numEggs);
+        if(this.rockPositions.length>0){
+            
+            for (var i = 0; i < numRocks; i++){
+                var randIndex = Math.floor(Math.random() * this.rockPositions.length);
+                var randposX = this.rockPositions[randIndex];
+                this.rockPositions.splice(randIndex,1);
+                //place the postionX at the end of array for reuse
+                this.rockPositions.push(randposX);
+                var rock = new Rock(this.game,randposX, 0, this.getMatchEquationOnRock());
+                rock.body.velocity.y = 0;
+                rock.visible = false;
+                rock.equationText.visible = false;
+                this._rocksGroup.add(rock);
+                this.rocksTospawn.push(rock);
+                //this.g_rockProducedIndex++;            
+    
+            }
+        }
+        console.log(this._rocksGroup.children.length+" rocks created");
+
     },
     calculateScore: function(hitCount){
         if (hitCount == 0) {
@@ -351,21 +382,21 @@ DinoEggs.Game.prototype = {
     },
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){
-        this.g_rockProducedIndex = 0;
-        //get rock positions for rocks
+        console.log("startingrockwave");
+        this.g_rockProducedIndex = -1;
         this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numEggs);
         this.game.time.events.repeat(Phaser.Timer.SECOND * rockIntervalSec, numRocks, this.spawnRock, this);
     },
     
     spawnRock: function(){
         console.log("spawnrock");
-        if(this.rockPositions.length>0){
-            var randIndex = Math.floor(Math.random() * this.rockPositions.length);
-            var randposX = this.rockPositions[randIndex];
-            this.rockPositions.splice(randIndex,1);
-            var rock = new Rock(this.game,randposX, 0, this.getMatchEquationOnRock());
-            this._rocksGroup.add(rock);
+        if(this.rocksTospawn){
             this.g_rockProducedIndex++;
+            console.log(this.g_rockProducedIndex);
+            var rock = this.rocksTospawn.pop(0);
+            rock.body.velocity.y = 15;
+            rock.visible = true;
+            rock.equationText.visible=true;
         }
     
     },
@@ -374,7 +405,7 @@ DinoEggs.Game.prototype = {
         var hits = ++egg.hitCounter;
         this.rockBurst(rock);
 
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){    
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
             this.clearGMCanvas(this.matchExpCanvas);    
         }
        
@@ -418,7 +449,7 @@ DinoEggs.Game.prototype = {
         //  And 2 seconds later we'll destroy the emitter
         this.game.time.events.add(2000, this.destroyObject, this, rock_emitter);
         
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){
             this.clearGMCanvas(this.matchExpCanvas);
             if(this._eggsGroup.countLiving()>0){
                 console.log("click egg dino board");
@@ -454,6 +485,7 @@ DinoEggs.Game.prototype = {
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
             this.state.start('Game');
         }, this.game, 1, 0, 2);
+        restartButton.anchor.set(0.5);
         
         var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'menu', function(){
             this.state.start('MainMenu');
@@ -525,18 +557,18 @@ DinoEggs.Game.prototype = {
 },
     
     matchEquationOnRocks: function(equation){
-        var matchedEqRockArray = [];
+        var matchedEqRocks= [];
         var parsedEq = equation.replace(/\*/g, "");
 
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
-            if(this._rocksGroup.children[i].equ == parsedEq){
-                //return i;
-                matchedEqRockArray.push(this._rocksGroup.children[i]);
+            if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
+                //add rock obj to array;
+                matchedEqRocks.push(this._rocksGroup.children[i]);
             }
             
         }
         //return -1;
-        return matchedEqRockArray;
+        return matchedEqRocks;
     },
     matchEqCheck:function(evt){
         if(this.board)
