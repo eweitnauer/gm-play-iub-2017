@@ -10,10 +10,10 @@ DinoEggs.Level1 = function(){
     //this._spawnRockTimer = 0;
     this.g_x_start = 32;
     this.g_x_end = 400;
-    this.matchExpCanvas = null;
+  //  this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    this.g_numEggs = 1;
+    this.g_numEggs = 3;
     this.score = 0;
     this.scoreText = null;
     
@@ -104,7 +104,7 @@ DinoEggs.Level1.prototype = {
         
         //music 
         this.music = this.game.add.audio('bg_music');
-        //this.music.play();
+       this.music.play();
         
         //create Eggs
         this.createEggs(this.g_numEggs);
@@ -297,22 +297,22 @@ DinoEggs.Level1.prototype = {
             this.updatePlayerData(stars);
         }  
         
+         //next level button
+        var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'nextlevel', function(){
+            this.state.start('Level2');
+        }, this.game, 1, 0, 2);
+        nextLevelButton.anchor.set(0.5);
+        
+        
         var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
             this.state.start('Level1');
         }, this.game, 1, 0, 2);
         restartButton.anchor.set(0.5);
         
-        var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'menu', function(){
+        var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 80, 'menu', function(){
             this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
         mainMenuButton.anchor.set(0.5);
-        
-        
-        //next level button
-        var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'nextlevel', function(){
-            this.state.start('Game');
-        }, this.game, 1, 0, 2);
-        nextLevelButton.anchor.set(0.5);
         
         //this.endStar();
         this.music.stop();
@@ -380,7 +380,7 @@ DinoEggs.Level1.prototype = {
         this.clearBoard();
         this.dino.animations.stop(null, true);
         document.getElementById("eq-solve-div").style.display="block";
-        document.getElementById("eq-match-div").style.display="none";        
+     //   document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         //this.clearGMCanvas(this.matchExpCanvas);
@@ -415,26 +415,28 @@ DinoEggs.Level1.prototype = {
         return starNumber;
     },
     
-    solveEqCheck:function(evt){
-                this.undoBtn.disabled = false;
-                //condition to check if equation is solved  
-                if ((evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))||
-                   (evt.last_eq.endsWith("=x")&& !isNaN(evt.last_eq.slice(0,-2)))){
-                    if(this.selectedEgg){
-                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
-                        t.onComplete.add(exitTween, this);
-                        function exitTween () {
-                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
-                        }
-                        this.selectedEgg.animations.play('hatch', 2, false);
-                        this.selectedEgg = null;
-
-                        /*document.getElementById("eq-match-div").style.display="block";
-                        document.getElementById("eq-solve-div").style.display="none";*/
-                    }
-
-                }
-    },
+//    solveEqCheck:function(evt){
+//                this.undoBtn.disabled = false;
+//                //condition to check if equation is solved  
+//                if ((evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))||
+//                   (evt.last_eq.endsWith("=x")&& !isNaN(evt.last_eq.slice(0,-2)))){
+//                    if(this.selectedEgg){
+//                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
+//                        t.onComplete.add(exitTween, this);
+//                        function exitTween () {
+//                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
+//                        }
+//                        this.selectedEgg.animations.play('hatch', 2, false);
+//                        this.selectedEgg = null;
+//
+//                        /*document.getElementById("eq-match-div").style.display="block";
+//                        document.getElementById("eq-solve-div").style.display="none";*/
+//                        
+//                    }
+//
+//                }
+//        
+//    },
     simplifyEqCheck:function(evt){
         this.undoBtn.disabled = false;
                 //condition to check if equation is solved  
@@ -450,6 +452,7 @@ DinoEggs.Level1.prototype = {
 
                         /*document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";*/
+                        this.showBoard();
                     }
 
                 }
@@ -458,7 +461,7 @@ DinoEggs.Level1.prototype = {
     initCanvas: function(){
 
         //GM Code
-            document.getElementById("eq-match-div").style.display="none";
+       //     document.getElementById("eq-match-div").style.display="none";
             document.getElementById("eq-solve-div").style.display="block";
 
             //solveEqCanvas is for Equation Solving
@@ -477,10 +480,10 @@ DinoEggs.Level1.prototype = {
             });*/
             //!preserve binding
             this.solveEqCanvas.model.on('el_changed', function(evt) {
-                if(thisObj.egg_problemMode==1){
-                    thisObj.solveEqCheck(evt);
-                }
-                else if(thisObj.egg_problemMode==2){
+//                if(thisObj.egg_problemMode==1){
+//                    thisObj.solveEqCheck(evt);
+//                }
+                 if(thisObj.egg_problemMode==2){
                     thisObj.simplifyEqCheck(evt);
                 }
             });
@@ -502,10 +505,8 @@ DinoEggs.Level1.prototype = {
     
        var contextRef = this;
        this.undoBtn.onclick = function(){
-           if(contextRef._rocksGroup.countLiving() > 0){
-               contextRef.matchExpCanvas.controller.undo();
-           }else{
-                contextRef.solveEqCanvas.controller.undo();
+           if(contextRef._rocksGroup.countLiving() <= 0){
+              contextRef.solveEqCanvas.controller.undo();
            }
            
        };
@@ -549,6 +550,7 @@ DinoEggs.Level1.prototype = {
         if(n==1){
             return [(a+b)/2];
         }
+
         if(typeof n === "undefined") n = Math.max(Math.round(b-a)+1,1);
         if(n<2) { return n===1?[a]:[]; }
         var i,ret = Array(n);
