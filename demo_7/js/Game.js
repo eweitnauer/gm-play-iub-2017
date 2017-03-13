@@ -4,7 +4,7 @@ var DinoEggs = DinoEggs || {};
 DinoEggs.Game = function(){
     Phaser.State.call(this);
     
-    this._levelNumber = 2;
+    this._levelNumber = 3;
     
     this._eggsGroup = null;
     this._rocksGroup = null;
