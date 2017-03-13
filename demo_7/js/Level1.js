@@ -13,7 +13,7 @@ DinoEggs.Level1 = function(){
   //  this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    this.g_numEggs = 10;
+    this.g_numEggs = 5;
     this.score = 0;
     this.scoreText = null;
     
