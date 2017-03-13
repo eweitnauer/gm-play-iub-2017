@@ -233,6 +233,9 @@ DinoEggs.LevelSelect.prototype = {
         $('#tutorialModal').modal('show');
         $('#tFrame').contents().find('.levelTutorial').hide()
         $('#tFrame').contents().find("#"+this.selectedLevel).show();
+        document.getElementById("tFrame").contentWindow.g_done_count = 0;
+        console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
+
     },
     play_listener: function(){
         switch(this.selectedLevel){

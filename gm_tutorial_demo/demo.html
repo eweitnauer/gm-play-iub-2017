@@ -28,6 +28,7 @@ function init() {
 	tutorial_data.forEach(load);
 
 	function load(data) {
+        console.log(data);
 		if (data.events) {
 			/* Some repackaging of the data.
 			*
@@ -52,7 +53,7 @@ function init() {
 			// Pass in the query selector of the inner div to the tutorial pair, it will use that as the
 			// container.
 			var pair = new gmath.ui.TutorialPair('#inner', settings);
-
+            console.log("pair ",pair)
 			// The tutorial will emit a "done" event when the gesture has been done successfully.
 			// We'll call our "done" function when that happens (defined below).
 			pair.events.on('done', done);
@@ -83,6 +84,7 @@ function init() {
 
 	function done() {
 		done_count++;
+        console.log("done");
 		if (done_count === tutorial_pairs) {
 			// I'm appending some text to the page, but here you'll be moving on to the next phase of
 			// the game.

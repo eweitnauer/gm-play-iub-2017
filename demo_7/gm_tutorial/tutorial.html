@@ -66,12 +66,12 @@
 window.onload = function () {
   loadGM(init, { version: '1.0.3' });
 }
-
+var g_done_count;
 function init() {
 	if (!tutorial_data) return;
 
-	var tutorial_pairs = 0
-	  , done_count = 0;
+	var tutorial_pairs = 0;
+    g_done_count = 0;
 	
     var totalLevels =10;
     for(var level = 1;level<=totalLevels;level++){
@@ -112,7 +112,7 @@ function init() {
 
 			// The tutorial will emit a "done" event when the gesture has been done successfully.
 			// We'll call our "done" function when that happens (defined below).
-			pair.events.on('done', done.call(this,level));
+			pair.events.on('done', done.bind(this,level));
 
 			// We'll compare the number of done events with the number of pairs on the page.
 			tutorial_pairs++;
@@ -139,13 +139,15 @@ function init() {
 	}
 
 	function done(level) {
-		done_count++;
-		if (done_count === tutorial_pairs) {
+		g_done_count++;
+        console.log("done count ",g_done_count);
+		if (g_done_count === tutorial_data[level].length) {
+            console.log("done level")
 			// I'm appending some text to the page, but here you'll be moving on to the next phase of
 			// the game.
 			var el = document.getElementById('inner'+level);
 			var complete = document.createElement('h2');
-			var complete_content = document.createTextNode("All tutorials complete.");
+			var complete_content = document.createTextNode("All tutorials complete. Go ahead and play the game.");
 			complete.appendChild(complete_content);
 			el.appendChild(complete);
 		}
