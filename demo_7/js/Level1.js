@@ -13,7 +13,7 @@ DinoEggs.Level1 = function(){
   //  this.matchExpCanvas = null;
     this.solveEqCanvas = null;
     this.selectedEgg = null;
-    this.g_numEggs = 3;
+    this.g_numEggs = 10;
     this.score = 0;
     this.scoreText = null;
     
@@ -63,10 +63,10 @@ DinoEggs.Level1.prototype = {
         this.hatchlingXRightLimit = 200;
         this.hatchlingXFinalPos = this.hatchlingXRightLimit;
         //this.hatchlingXRange = this.hatchlingXRightLimit - this.hatchlingXLeftLimit;
-        this.hatchlingXSpacing = 20;
+        this.hatchlingXSpacing = 50;
         
-        this.hatchlingYUpperLimit = 80;
-        this.hatchlingYLowerLimit = 40;
+        this.hatchlingYUpperLimit = 40;
+        this.hatchlingYLowerLimit = 80;
         this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
         this.hatchlingYRange = this.hatchlingYUpperLimit - this.hatchlingYLowerLimit;
         //this.hatchlingYSpacing = (this.hatchlingYUpperLimit + this.hatchlingYLowerLimit) / this.g_numEggs;
@@ -347,9 +347,10 @@ DinoEggs.Level1.prototype = {
 
         // params are: properties to tween, time in ms, easing and auto-start tweenthis.
         var runningDinoTween = this.game.add.tween(hatchling).to({x: this.game.world.width - this.hatchlingXFinalPos, y: this.game.world.height-this.hatchlingYFinalPos}, 3000, Phaser.Easing.Quadratic.InOut, true);
-        
-        this.hatchlingYFinalPos += this.hatchlingYSpacing;
-        if(this.hatchlingYFinalPos >= this.hatchlingYUpperLimit){
+        console.log("tween pos",this.game.world.width - this.hatchlingXFinalPos,this.game.world.height-this.hatchlingYFinalPos);
+        console.log(this.hatchlingXFinalPos,this.hatchlingYFinalPos);
+        this.hatchlingYFinalPos -= this.hatchlingYSpacing;
+        if(this.hatchlingYFinalPos <= this.hatchlingYUpperLimit){
             this.hatchlingXFinalPos += this.hatchlingXSpacing;
             this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
         }
