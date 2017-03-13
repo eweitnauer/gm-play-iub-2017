@@ -46,6 +46,8 @@ DinoEggs.Game = function(){
     this.rockPositions =[];
     
     this.undoBtn = null;
+    
+    this.currentCanvasEqu ="";
 
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
@@ -262,6 +264,7 @@ DinoEggs.Game.prototype = {
                     document.getElementById("eq-match-div").style.display="block";
                     document.getElementById("eq-solve-div").style.display="none";
                     this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                    this.currentCanvasEqu = this.g_parsedCanvasExpression;
                     //_________________________________________________________________________
                     //create Rocks and start rockwave
                     this.createRocks(this.g_numRocks);        
@@ -407,7 +410,19 @@ DinoEggs.Game.prototype = {
         if(this.rocksTospawn){
             this.g_rockProducedIndex++;
             console.log(this.g_rockProducedIndex);
-            var rock = this.rocksTospawn.pop(0);
+            var rock = this.rocksTospawn.pop();
+            console.log("current eq ",this.currentCanvasEqu);
+            console.log("rock eq ",rock.getEquation());
+            console.log(rock.getEquation() == this.currentCanvasEqu);
+            //replace rock equation
+            if(rock.getEquation() == this.currentCanvasEqu){
+                console.log("replacing equation");
+                rock.setEquation(this.getMatchEquationOnRock());
+                while(rock.getEquation() == this.currentCanvasEqu){
+                    rock.setEquation(this.getMatchEquationOnRock());
+                }
+            }
+            
             rock.body.velocity.y = 15;
             rock.visible = true;
             rock.equationText.visible=true;
@@ -467,7 +482,7 @@ DinoEggs.Game.prototype = {
             this.clearGMCanvas(this.matchExpCanvas);
             if(this._eggsGroup.countLiving()>0){
                 console.log("click egg dino board");
-                this.showBoard('click egg ','to solve equation');
+                this.showBoard('click egg ','and solve for x');
                 this.dino.animations.play('move', 10, true);
                 console.log("show instruction then animiation dino shows");
                 this._eggsGroup.callAll('animations.play', 'animations', 'wiggleOnce');
@@ -559,10 +574,10 @@ DinoEggs.Game.prototype = {
     showBoard: function(line1,line2) {
         if(this.board)
             this.clearBoard();
-        this.board = this.game.add.sprite(490,250,'board');
-        this.board.scale.x= 1.1;
+        this.board = this.game.add.sprite(500,250,'board');
+        this.board.scale.setTo(0.8,0.7);
         this.boardText1 = this.game.add.text(520,270, line1, { fontSize: '15px', fill: '#000' });
-        this.boardText2 = this.game.add.text(500,300, line2, { fontSize: '15px', fill: '#000' });
+        this.boardText2 = this.game.add.text(510,300, line2, { fontSize: '15px', fill: '#000' });
     },
     
     clearBoard: function() {
@@ -574,7 +589,8 @@ DinoEggs.Game.prototype = {
     matchEquationOnRocks: function(equation){
         var matchedEqRocks= [];
         var parsedEq = equation.replace(/\*/g, "");
-
+        // be careful for expressions with *. Might need to use algebra model instead
+        this.currentCanvasEqu = parsedEq;
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
             if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
                 //add rock obj to array;
@@ -615,7 +631,7 @@ DinoEggs.Game.prototype = {
                 if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
                     this.clearGMCanvas(this.matchExpCanvas); 
                     console.log("click egg dino board");
-                    this.showBoard('click egg ','to solve equation');
+                    this.showBoard('click egg ','and solve for x');
                      this.dino.animations.play('move', 10, true);
                     console.log("show instruction then animiation dino shows");
                 }
@@ -625,7 +641,7 @@ DinoEggs.Game.prototype = {
     initiateLightningWeaponForRock:function(rock){
         
          var lightning = this.game.add.sprite(this.game.world.centerX,600, 'lightning');
-         lightning.scale.setTo(0.2,0.2);
+         //lightning.scale.setTo(0.2,0.2);
          lightning.anchor.setTo(0.5, 0.5);
          this.game.physics.enable(lightning, Phaser.Physics.ARCADE);
          lightning.body.allowRotation = false;
@@ -723,7 +739,7 @@ DinoEggs.Game.prototype = {
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });
 
             this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
-            
+            this.currentCanvasEqu = this.g_parsedCanvasExpression;
             //disabling the solveEq canvas
             
             //!preserve binding

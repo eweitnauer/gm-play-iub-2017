@@ -23,7 +23,13 @@ Rock.prototype.constructor = Rock;
 Rock.prototype.getEquation = function(){
     return this.equ;
 }
-
+Rock.prototype.setEquation = function(equation){
+    this.equ = equation;
+    //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
+    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equ, { font: "25px Comic Sans MS", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
+    text.anchor.set(0.5);
+    this.equationText = text;
+}
 
 
 //.......................................................

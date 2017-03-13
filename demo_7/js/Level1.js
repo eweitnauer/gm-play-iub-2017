@@ -19,7 +19,8 @@ DinoEggs.Level1 = function(){
     
     //------[EGGS] set problem mode according to problem set. 0:match expression, 1: solve equation , 2: simplify expression---------
     //including two types of problem-formats from simplify expression set
-    this.egg_levelProblemSet = g_simplifyExpressionFormat[0].concat(g_simplifyExpressionFormat[1]);
+    //this.egg_levelProblemSet = g_simplifyExpressionFormat[0].concat(g_simplifyExpressionFormat[1]);
+    this.egg_levelProblemSet = g_simplifyExpressionFormat[0];
     this.egg_problemMode = 2;
     //--------------------------------------------------------------------
     //this.g_canvasExpression = this.g_problems[0][0];
@@ -175,15 +176,19 @@ DinoEggs.Level1.prototype = {
         this.dino.animations.play('move', 3, true);
     },
     showBoard: function() {
-        this.board = this.game.add.sprite(470,250,'board');
-        this.boardText1 = this.game.add.text(500,270, 'click egg ', { fontSize: '15px', fill: '#000' });
-        this.boardText2 = this.game.add.text(480,300, 'to solve equation', { fontSize: '15px', fill: '#000' });
+        this.board = this.game.add.sprite(520,170,'board');
+        this.boardText1 = this.game.add.text(this.board.x+10,this.board.y+30, 'HATCH ALL THE EGGS', { fontSize: '15px', fill: '#000' });
+        this.boardText2 = this.game.add.text(this.board.x+10,this.board.y+50, 'click egg and simplify its ', { fontSize: '12px', fill: '#000' });
+        this.boardText3 = this.game.add.text(this.board.x+10,this.board.y+70, 'math expression to hatch', { fontSize: '12px', fill: '#000' });
+        this.boardText4 = this.game.add.text(this.board.x+20,this.board.y+90, 'ex: 1+2+3   =>   6', { fontSize: '12px', fill: '#000' });
     },
     
     clearBoard: function() {
         this.board.destroy();
         this.boardText1.destroy();
         this.boardText2.destroy();
+        this.boardText3.destroy();
+        this.boardText4.destroy();
     },
     
     createEggs: function(numEggs){
@@ -287,6 +292,12 @@ DinoEggs.Level1.prototype = {
     
     gameOver:function(){
         //pass the score as a parameter 
+        
+        if(this.board){
+            //console.log("pop canvas clearboard");
+            this.clearBoard();
+        }
+        
         this.scoreText.destroy();
         this.clearGMCanvas(this.solveEqCanvas);
         // this.clearGMCanvas(this.matchExpCanvas);
