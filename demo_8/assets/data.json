@@ -7,7 +7,10 @@
         "eggLevelProblemSet":0,
         "eggProblemMode": 2,
         "canvasExpression": -1,
-        "isRockFlag": false
+        "isRockFlag": false,
+        "isSimplify": true,
+        "isSolve": false,
+        "isMatch": false
 	},
 
 	"2": {
@@ -18,7 +21,10 @@
         "eggLevelProblemSet":-1,
         "eggProblemMode": -1,
         "canvasExpression": 0,
-        "isRockFlag": true
+        "isRockFlag": true,
+        "isSimplify": false,
+        "isSolve": false,
+        "isMatch": true
 	},
 
 	"3": {
@@ -29,6 +35,9 @@
         "eggLevelProblemSet":0,
         "eggProblemMode": 1,
         "canvasExpression": 0,
-        "isRockFlag": true
+        "isRockFlag": true,
+        "isSimplify": false,
+        "isSolve":true,
+        "isMatch": true
 	}
 }
