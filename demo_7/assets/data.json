@@ -1,0 +1,34 @@
+{
+	"1": {
+		"numRocks": 0,
+		"numEggs": 1,
+        "rockLevelProblemSet":-1,
+        "rockProblemMode": -1,
+        "eggLevelProblemSet":0,
+        "eggProblemMode": 2,
+        "canvasExpression": -1,
+        "isRockFlag": false
+	},
+
+	"2": {
+		"numRocks": 10,
+		"numEggs": 2,
+        "rockLevelProblemSet":3,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":-1,
+        "eggProblemMode": -1,
+        "canvasExpression": 0,
+        "isRockFlag": true
+	},
+
+	"3": {
+		"numRocks": 5,
+		"numEggs": 4,
+        "rockLevelProblemSet":4,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":0,
+        "eggProblemMode": 1,
+        "canvasExpression": 0,
+        "isRockFlag": true
+	}
+}

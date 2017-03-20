@@ -238,11 +238,14 @@ DinoEggs.LevelSelect.prototype = {
 
     },
     play_listener: function(){
+        DinoEggs._selectedLevel = this.selectedLevel;
+        this.state.start('Game');
+        /*
         switch(this.selectedLevel){
             case 1: this.state.start('Level1'); break;
             case 2: this.state.start('Level2'); break;
             case 3: this.state.start('Game'); break;
-        }
+        }*/
     },
     exit_listener: function(){
         this.game.add.tween(optionsGroup.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);

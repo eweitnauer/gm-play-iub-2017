@@ -40,7 +40,6 @@ DinoEggs.Boot.prototype = {
 	    this.scale.minHeight = 170;
 	    this.scale.maxWidth = 800;
 	    this.scale.maxHeight = 600;
-        
         //have the game centered horizontally
 	    //this.scale.pageAlignHorizontally = true;
  

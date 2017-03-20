@@ -61,7 +61,10 @@ DinoEggs.Preload.prototype = {
         this.load.image('rockwave', 'assets/rockwaveTxt.png');
         
         //images for hit rock feature
- +       this.load.image('lightning', 'assets/lightning.png');
+        this.load.image('lightning', 'assets/lightning.png');
+        
+        //json data for levels
+        this.load.text('level', 'assets/data.json');
     },
     create:function(){
         this.state.start('MainMenu');
