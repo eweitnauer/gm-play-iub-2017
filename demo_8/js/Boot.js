@@ -28,6 +28,8 @@ DinoEggs.Boot.prototype = {
         //TO-DO: include game logo in
         this.load.image('gamepreloadbkgd', 'assets/happysky.png');
         this.load.image('preloadBar','assets/preloader.png');
+        //json data for levels
+        this.load.text('level', 'assets/data.json');
     },
     
     create:function(){
@@ -40,7 +42,6 @@ DinoEggs.Boot.prototype = {
 	    this.scale.minHeight = 170;
 	    this.scale.maxWidth = 800;
 	    this.scale.maxHeight = 600;
-        
         //have the game centered horizontally
 	    //this.scale.pageAlignHorizontally = true;
  
@@ -50,6 +51,10 @@ DinoEggs.Boot.prototype = {
 	    //physics system for movement
 	    this.game.physics.startSystem(Phaser.Physics.ARCADE);
         
+        
+        //json for levels parsing
+        DinoEggs.jsonLevelObject = JSON.parse(this.game.cache.getText('level'));
+            
         this.state.start('Preload');
     }
 }

@@ -56,6 +56,7 @@ DinoEggs.Level2.prototype.constructor = DinoEggs.Level2;
 DinoEggs.Level2.prototype = {
 
     create:function(){
+        //console.log("Level Number is:" + DinoEggs._selectedLevel);
         //set world dimensions
         //this.game.world.setBounds(0, 0, 1920, 1920);
         

@@ -36,6 +36,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('fragment', 'assets/star.png');    
         this.load.atlasJSONHash('egg', 'assets/eggs/eggsAtlas.png','assets/eggs/eggsAtlas.json');
         this.load.spritesheet('hatchling', 'assets/hatchling/hatchlingSheet.png', 91, 89);
+        this.load.spritesheet('hatchling_sad', 'assets/hatchling/sadhatchlingSheet.png', 91, 89);
         this.load.image('star', 'assets/star.png');
         this.load.atlasJSONHash('dino', 'assets/dinoMom/dino.png','assets/dinoMom/dino.json');
         this.load.image('sky', 'assets/happysky.png');
@@ -61,7 +62,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('rockwave', 'assets/rockwaveTxt.png');
         
         //images for hit rock feature
- +       this.load.image('lightning', 'assets/lightning.png');
+        this.load.image('lightning', 'assets/lightning.png');
     },
     create:function(){
         this.state.start('MainMenu');
