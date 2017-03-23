@@ -1,43 +1,133 @@
 {
 	"1": {
 		"numRocks": 0,
-		"numEggs": 1,
+		"numEggs": 2,
         "rockLevelProblemSet":-1,
         "rockProblemMode": -1,
         "eggLevelProblemSet":0,
         "eggProblemMode": 2,
         "canvasExpression": -1,
-        "isRockFlag": false,
         "isSimplify": true,
-        "isSolve": false,
-        "isMatch": false
+        "isMatch": false,
+        "velocity" : 0
 	},
 
 	"2": {
-		"numRocks": 10,
+		"numRocks": 5,
 		"numEggs": 2,
-        "rockLevelProblemSet":3,
+        "rockLevelProblemSet":0,
         "rockProblemMode": 0,
         "eggLevelProblemSet":-1,
         "eggProblemMode": -1,
         "canvasExpression": 0,
-        "isRockFlag": true,
         "isSimplify": false,
-        "isSolve": false,
-        "isMatch": true
+        "isMatch": true,
+        "velocity" : 15
 	},
 
 	"3": {
 		"numRocks": 5,
+		"numEggs": 3,
+        "rockLevelProblemSet":1,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":1,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 15
+	},
+    
+	"4": {
+		"numRocks": 7,
+		"numEggs": 3,
+        "rockLevelProblemSet":2,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":2,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	},
+
+	"5": {
+		"numRocks": 8,
+		"numEggs": 4,
+        "rockLevelProblemSet":3,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":3,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	},
+
+	"6": {
+		"numRocks": 8,
 		"numEggs": 4,
         "rockLevelProblemSet":4,
         "rockProblemMode": 0,
-        "eggLevelProblemSet":0,
-        "eggProblemMode": 1,
+        "eggLevelProblemSet":4,
+        "eggProblemMode": 2,
         "canvasExpression": 0,
-        "isRockFlag": true,
-        "isSimplify": false,
-        "isSolve":true,
-        "isMatch": true
-	}
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	},
+
+	"7": {
+		"numRocks": 8,
+		"numEggs": 4,
+        "rockLevelProblemSet":5,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":5,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	},
+
+	"8": {
+		"numRocks": 8,
+		"numEggs": 4,
+        "rockLevelProblemSet":6,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":6,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	},
+
+	"9": {
+		"numRocks": 8,
+		"numEggs": 4,
+        "rockLevelProblemSet":7,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":7,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	},
+
+	"10": {
+		"numRocks": 8,
+		"numEggs": 4,
+        "rockLevelProblemSet":8,
+        "rockProblemMode": 0,
+        "eggLevelProblemSet":8,
+        "eggProblemMode": 2,
+        "canvasExpression": 0,
+        "isSimplify": true,
+        "isMatch": true,
+        "velocity" : 10
+	} 
+    
+    
 }

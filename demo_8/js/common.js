@@ -55,9 +55,9 @@ DinoEggs.Game.prototype = {
         
         //------[ROCKS] set problem mode according to problem set. 0:match expression, 1: solve equation , 2: simplify expression---------
         //including two types of problem-formats from simplify expression set
-        this.isRockFlag = this._jsonData["isRockFlag"];
+        //this.isRockFlag = this._jsonData["isRockFlag"];
         
-        if(this.isRockFlag){
+        if(this._levelNumber != 1){
             this.rock_levelProblemSet = g_matchExpressionFormat[this._jsonData["rockLevelProblemSet"]];
             this.rock_problemMode = this._jsonData["rockProblemMode"];
             this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]];
@@ -144,7 +144,7 @@ DinoEggs.Game.prototype = {
 
         //_________________________________________________________________________
         //create Rocks
-         if(this.isRockFlag){
+         if(this._levelNumber != 1){
             this.createRocks(this.g_numRocks);        
             //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
             this.startRockWave(6,this.g_numRocks,this.g_numEggs);
@@ -365,7 +365,7 @@ DinoEggs.Game.prototype = {
                     this.currentCanvasEqu = this.g_parsedCanvasExpression;
                     //_________________________________________________________________________
                     //create Rocks and start rockwave
-                     if(this.isRockFlag){
+                     if(this._levelNumber != 1){
                         this.createRocks(this.g_numRocks);        
                         //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
                         this.startRockWave(6,this.g_numRocks,this.g_numEggs);
@@ -537,7 +537,8 @@ DinoEggs.Game.prototype = {
                 }
             }
             
-            rock.body.velocity.y = 15;
+            //rock.body.velocity.y = 15;
+            rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
             rock.equationText.visible=true;
         }
@@ -905,7 +906,7 @@ DinoEggs.Game.prototype = {
     },
     initCanvas: function(){
         //solveEqCanvas is for Equation Solving and simplifying            
-        if(this._jsonData["isSimplify"]!=false || this._jsonData["isSolve"] !=false){
+        if(this._jsonData["isSimplify"]!=false){ // || this._jsonData["isSolve"] !=false){
             document.getElementById("eq-match-div").style.display="none";
             document.getElementById("eq-solve-div").style.display="block";
             this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
@@ -956,7 +957,7 @@ DinoEggs.Game.prototype = {
            if(contextRef._rocksGroup.countLiving() > 0){
                contextRef.matchExpCanvas.controller.undo();
            }else{
-               if(this._jsonData["isSimplify"]!=false || this._jsonData["isSolve"] !=false)
+               if(this._jsonData["isSimplify"]!=false)// || this._jsonData["isSolve"] !=false)
                     contextRef.solveEqCanvas.controller.undo();
            }
            
