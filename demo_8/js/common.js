@@ -423,11 +423,14 @@ DinoEggs.Game.prototype = {
     },
 
     runToMom: function(egg_x, isSad){
-        var hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
+        var hatchling = null;
         if(isSad){
-            hatchling.tint = 0xff0000;
+            //hatchling.tint = 0xff0000;
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling_sad');
         }
-
+        else{
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
+        }
         hatchling.anchor.setTo(0.5, 0.5);
         hatchling.animations.add('run');
         hatchling.animations.play('run', 10, true);
@@ -898,7 +901,6 @@ DinoEggs.Game.prototype = {
                         /*document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";*/
                     }
-
                 }
     },
     initCanvas: function(){
