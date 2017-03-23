@@ -361,7 +361,8 @@ DinoEggs.Game.prototype = {
                 if(this._eggsGroup.countLiving() > 0){
                     document.getElementById("eq-match-div").style.display="block";
                     document.getElementById("eq-solve-div").style.display="none";
-                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                    if(this.matchExpCanvas)
+                        this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                     this.currentCanvasEqu = this.g_parsedCanvasExpression;
                     //_________________________________________________________________________
                     //create Rocks and start rockwave
