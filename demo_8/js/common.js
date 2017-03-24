@@ -129,14 +129,13 @@ DinoEggs.Game.prototype = {
         
         //  The score[]
         this.scoreText = this.game.add.text(700, 16, 'Score: 0', { fontSize: '16px', fill: '#000' });
-                  // Number of Remaining Rocks
+        
+        // Number of Remaining Rocks
          if(this._levelNumber != 1){
-                    console.log("Total number of rocks for this level--------"+this.g_numRocks);
-                   
-             console.log("Size of rockGroup for this level--------"+this._rocksGroup.children.length);
-                    console.log("Rocks Produced "+this.g_rockProducedIndex);
-                    this.rocksRemainingText = this.game.add.text(50, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
-                }
+             var barConfig = {x: 230, y: 25};
+             this.myHealthBar = new HealthBar(this.game, barConfig);
+             this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
+         }
     
         
         //music 
@@ -480,6 +479,7 @@ DinoEggs.Game.prototype = {
     },
     updateRocksRemaining: function(){
           this.rocksRemainingText.text = 'Rocks Left: ' +(this.g_numRocks-this.g_rockProducedIndex-1);
+          this.myHealthBar.setPercent(((this.g_numRocks-this.g_rockProducedIndex-1)/this.g_numRocks)*100); 
     },
     updateScore: function(currentScoreText){
         var scoreString = currentScoreText.text;
