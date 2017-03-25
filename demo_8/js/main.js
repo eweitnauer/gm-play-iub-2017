@@ -10,8 +10,8 @@ DinoEggs.game.state.add('LevelSelect', new DinoEggs.LevelSelect());
 
 DinoEggs.game.state.add('Game', new DinoEggs.Game());
 
-DinoEggs.game.state.add('Level1', new DinoEggs.Level1());
-DinoEggs.game.state.add('Level2', new DinoEggs.Level2());
+/*DinoEggs.game.state.add('Level1', new DinoEggs.Level1());
+DinoEggs.game.state.add('Level2', new DinoEggs.Level2());*/
 
 DinoEggs.game.state.add('NextLevel', new DinoEggs.NextLevel());
 

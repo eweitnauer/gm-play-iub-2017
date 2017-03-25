@@ -1,5 +1,5 @@
 //------------------------------------------------------
-Rock = function (game, x, y, equation) {
+Rock = function (game, x, y, equations) {
 
     Phaser.Sprite.call(this, game, x, y, 'rock');
     
@@ -7,14 +7,55 @@ Rock = function (game, x, y, equation) {
     //set velocity in game while spawning rock
     this.body.velocity.y = 15;
     this.body.collideWorldBounds = true;
-    this.equ = equation;
-    
+    this.equ = equations[1];
+    this.equDisplay = equations[0];
     //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
-    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equ, { font: "25px Comic Sans MS", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
+    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equDisplay, { font: "25px Comic Sans MS", fill: "#ffffff", wordWrap: true, wordWrapWidth: this.width, align: "center"});
+    
+    
+    /*var bmd = game.make.bitmapData(400,200);
+    bmd.ctx.beginPath();    
+    bmd.ctx.rect(0,0,400,200);    
+    bmd.ctx.fillStyle = '#FF0000';    
+    bmd.ctx.fill();    
+    bmd.ctx.fillStyle = '#000000';    
+    bmd.ctx.font = '32px Revalia';    
+    bmd.ctx.fillText(Math.random(),40,40);  
+    bmd.x = 0;
+    bmd.y = 0;
+    spr = game.add.sprite(100,100,bmd);    
+    spr.inputEnabled = true;    
+    spr.input.enableDrag();
+    */
+    
+    
+    ////////////////////////////
+    
+    /*var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'render-text', { preload: preload, create: create });var bmd = null;var spr = null;
+    //  The Google WebFont Loader will look for this object, so create it before loading the script.
+    
+    WebFontConfig = {    
+        active: function() { 
+            game.time.events.add(Phaser.Timer.SECOND, createText, this); 
+        },    
+        google: {      
+            families: ['Revalia']    }
+    };
+    
+    function preload() {    
+        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+    }*/
+    ////////////////////////////
+    
+    
+    //var text = null;
+    //create new div
+    //add html4 content to div corresponding to the equation
+    //attach div to this using phaser add div
+    
     text.anchor.set(0.5);
     this.equationText = text;
-    //this.addChild(text);    
-
+    //this.equationText = bmd;
 };
 
 Rock.prototype = Object.create(Phaser.Sprite.prototype);
@@ -23,10 +64,11 @@ Rock.prototype.constructor = Rock;
 Rock.prototype.getEquation = function(){
     return this.equ;
 }
-Rock.prototype.setEquation = function(equation){
-    this.equ = equation;
+Rock.prototype.setEquation = function(equations){
+    this.equ = equations[1];
+    this.equDisplay = equations[0];
     //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
-    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equ, { font: "25px Comic Sans MS", fill: "#ff0044", wordWrap: true, wordWrapWidth: this.width, align: "center"});
+    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equDisplay, { font: "25px Comic Sans MS", fill: "#ffffff", wordWrap: true, wordWrapWidth: this.width, align: "center"});
     text.anchor.set(0.5);
     this.equationText = text;
 }
