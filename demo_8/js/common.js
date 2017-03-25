@@ -44,6 +44,7 @@ DinoEggs.Game.prototype = {
         this._jsonData = DinoEggs.jsonLevelObject[DinoEggs._selectedLevel];
         this.g_numRocks = this._jsonData["numRocks"];
         this.g_numEggs = this._jsonData["numEggs"];
+        this.rocksRemainingText = null;
         
         //------[EGGS] set problem mode according to problem set. 0:match expression, 1: solve equation , 2: simplify expression---------
         //including two types of problem-formats from simplify expression set
@@ -127,8 +128,16 @@ DinoEggs.Game.prototype = {
         this._eggsGroup.physicsBodyType = Phaser.Physics.ARCADE;
          
         
-        //  The score
-        this.scoreText = this.game.add.text(600, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+        //  The score[]
+        this.scoreText = this.game.add.text(700, 16, 'Score: 0', { fontSize: '16px', fill: '#000' });
+        
+        // Number of Remaining Rocks
+         if(this._levelNumber != 1){
+             var barConfig = {x: 230, y: 25};
+             this.myHealthBar = new HealthBar(this.game, barConfig);
+             this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
+         }
+    
         
         //music 
         this.music = this.game.add.audio('bg_music');
@@ -258,7 +267,7 @@ DinoEggs.Game.prototype = {
                 if(eggSprite.hitCounter > 2){
                     isSad = true;
                 }
-                
+              
                 //get score
                 var score = this.calculateScore(eggSprite.hitCounter); 
                 
@@ -395,7 +404,7 @@ DinoEggs.Game.prototype = {
                 this.rockPositions.splice(randIndex,1);
                 //place the postionX at the end of array for reuse
                 this.rockPositions.push(randposX);
-                var rock = new Rock(this.game,randposX, 0, this.getMatchEquationOnRock());
+                var rock = new Rock(this.game,randposX, 50, this.getMatchEquationOnRock());
                 rock.body.velocity.y = 0;
                 rock.visible = false;
                 rock.equationText.visible = false;
@@ -461,6 +470,10 @@ DinoEggs.Game.prototype = {
             }
         }
     },
+    updateRocksRemaining: function(){
+          this.rocksRemainingText.text = 'Rocks Left: ' +(this.g_numRocks-this.g_rockProducedIndex-1);
+          this.myHealthBar.setPercent(((this.g_numRocks-this.g_rockProducedIndex-1)/this.g_numRocks)*100); 
+    },
     updateScore: function(currentScoreText){
         var scoreString = currentScoreText.text;
         currentScoreText.destroy();
@@ -511,7 +524,9 @@ DinoEggs.Game.prototype = {
         //do not spawn any rock if freeze rock power up has been activated
         if(this.rocksTospawn && !this.isPowerupActivated && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
+            this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
+          
             //replace rock equation
             if(rock.getEquation() == this.currentCanvasEqu){
                 rock.setEquation(this.getMatchEquationOnRock());
