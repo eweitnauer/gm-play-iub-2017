@@ -60,7 +60,7 @@ DinoEggs.Game.prototype = {
         if(this._levelNumber != 1){
             this.rock_levelProblemSet = g_matchExpressionFormat[this._jsonData["rockLevelProblemSet"]];
             this.rock_problemMode = this._jsonData["rockProblemMode"];
-            this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]];
+            this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]][0];
             this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
         }
     },
@@ -77,7 +77,7 @@ DinoEggs.Game.prototype = {
         loadGM(function(){
          currentObj.initCanvas();   
         
-        }, { version: '0.12.6' });
+        }, { version: '1.0.4' });
         
         g_countDinoForGameOver = 0;
         //hatchling positioning
@@ -219,6 +219,8 @@ DinoEggs.Game.prototype = {
         this._rocksGroup.forEach(function(rock){
           rock.equationText.x = Math.floor(rock.x + rock.width / 2);
           rock.equationText.y = Math.floor(rock.y + rock.height / 2);          
+            
+            /*rock.equationText.move(Math.floor(rock.x + rock.width / 2), Math.floor(rock.y + rock.height / 2));*/
         });
 
     },
@@ -990,9 +992,11 @@ DinoEggs.Game.prototype = {
     },
     getMatchEquationOnRock: function(){
         var indexToChoose = this.getRandomRange(1, this.rock_levelProblemSet.length - 1);
-        this.g_equation =  this.rock_levelProblemSet[indexToChoose];
+        var equationToDisplay = this.rock_levelProblemSet[indexToChoose][1];
+        var originalEquationAscii = this.rock_levelProblemSet[indexToChoose][0];
+        this.g_equation =  this.rock_levelProblemSet[indexToChoose][1];
         this.g_parsedEquation = this.g_equation.replace(/\*/g, "");
-        return this.g_parsedEquation;
+        return [this.g_parsedEquation, originalEquationAscii];
     },
     createEggEquation: function(){
             //get random expression format from current level ProblemSet
