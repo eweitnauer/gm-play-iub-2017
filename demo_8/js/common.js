@@ -27,11 +27,13 @@ DinoEggs.Game = function(){
     this.rockPositions =[];
     this.undoBtn = null;
     this.currentCanvasEqu ="";
-    
+    this.pauseOrUnpause = false;
+    this.playOrMute = false;
     //power up variables
     this.g_powerupDuration = 20;
     this.isPowerupActivated = false;
     this.powerupID = -1;
+    this.menu = null;
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
 DinoEggs.Game.prototype.constructor = DinoEggs.Game;
@@ -143,6 +145,26 @@ DinoEggs.Game.prototype = {
         this.music = this.game.add.audio('bg_music');
         this.music.play();
         
+        //mute and unmute game
+        this.muteButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 30, 'muteButton', this.muteMusic, this, 2, 1, 0);
+        this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 30, 'Mute', { fontSize: '16px', fill: '#000' });
+        this.muteButton.anchor.set(0.5);
+        
+        //exit to game level
+        this.exitButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 60, 'exitButton', this.exitToMain, this, 2, 1, 0);
+         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 60, 'Exit', { fontSize: '16px', fill: '#000' });
+        this.exitButton.anchor.set(0.5);     
+        
+        // pasue and unpause game
+        this.pauseButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 90, 'pauseButton', this.pauseGame, this, 2, 1, 0);
+         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 90, 'Pause', { fontSize: '16px', fill: '#000' });
+        this.pauseButton.anchor.set(0.5);
+        
+        // restart game
+         this.restartButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 120, 'restartButton', this.restartGame, this, 2, 1, 0);
+         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 120, 'Restart', { fontSize: '16px', fill: '#000' });
+        this.restartButton.anchor.set(0.5);
+        
         //create Eggs
         this.createEggs(this.g_numEggs);
         
@@ -196,6 +218,42 @@ DinoEggs.Game.prototype = {
         this.pterodactyl.scale.setTo(0.2,0.2);
         this.pterodactyl.visible = false;
     },
+    restartGame: function() {
+            this.music.destroy();
+            this.state.start('Game');
+    },
+    
+    muteMusic:function(){
+            if (this.playOrMute == false) {
+                this.music.pause();
+                this.playOrMute =true;
+            } else {
+                this.music.resume();
+                this.playOrMute = false;
+            }
+    },
+    
+    exitToMain:function(){
+            this.music.destroy();
+            this.state.start('LevelSelect');
+    },
+    pauseGame:function() {
+            console.log("game has been paused");
+            this.game.paused = true; 
+            this.menu = this.game.add.button(200, 200, 'resumeButton');
+            this.menu.anchor.setTo(0.5, 0.5);
+            this.game.input.onDown.add(this.unpause, this);
+    },
+    
+    
+        
+    unpause: function() {
+            if(this.game.paused) {
+                console.log("game has been un paused");
+                this.menu.destroy();
+                this.game.paused = false;             
+            }
+    },    
     showRockInstructions:function(){
         this.showBoard('Match rock ','expression to burst');
         this.dino.animations.play('move', 10, true);
