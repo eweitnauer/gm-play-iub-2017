@@ -66,7 +66,8 @@ DinoEggs.Game.prototype = {
             this.rock_levelProblemSet = g_matchExpressionFormat[this._jsonData["rockLevelProblemSet"]];
             this.rock_problemMode = this._jsonData["rockProblemMode"];
             this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]][0];
-            this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
+            //this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
+            this.g_parsedCanvasExpression = this.g_canvasExpression;
         }
     },
 
@@ -241,7 +242,37 @@ DinoEggs.Game.prototype = {
     disappearRockOnGround: function(rock, platform){
         this.rockBurst(rock);
     },
-    
+    getUnicodeNum:function(number, ch){
+        if(ch==='ᴺ'){
+            switch(number){
+                case 1: return '¹';
+                case 2: return '²';
+                case 3: return '³';
+                case 4: return '⁴';
+                case 5: return '⁵';
+                case 6: return '⁶';
+                case 7: return '⁷';
+                case 8: return '⁸';
+                case 9: return '⁹';
+                case 0: return '⁰';
+            }
+        }
+        else if(ch==='ₙ'){
+            switch(number){
+                case 1: return '₁';
+                case 2: return '₂';
+                case 3: return '₃';
+                case 4: return '₄';
+                case 5: return '₅';
+                case 6: return '₆';
+                case 7: return '₇';
+                case 8: return '₈';
+                case 9: return '₉';
+                case 0: return '₀';
+            }
+        }
+        return number;     
+    },
     createEggs: function(numEggs){
         if(this._levelNumber == 2){
             //eggs fall from center of canvas onto ground 
@@ -786,7 +817,8 @@ DinoEggs.Game.prototype = {
     
     matchEquationOnRocks: function(equation){
         var matchedEqRocks= [];
-        var parsedEq = equation.replace(/\*/g, "");
+        //var parsedEq = equation.replace(/\*/g, "");
+        var parsedEq = equation;
         
         //if(this._levelNumber != 2){
             // be careful for expressions with *. Might need to use algebra model instead
@@ -1015,18 +1047,29 @@ DinoEggs.Game.prototype = {
         this.g_parsedEquation = this.g_equation.replace(/\*/g, "");
         return [this.g_parsedEquation, originalEquationAscii];
     },
+    
+    setCharAt:function(str, index, chr) {
+        if(index > str.length-1) return str;
+        return str.substr(0,index) + chr + str.substr(index+1);
+    },
+    
     createEggEquation: function(){
             //get random expression format from current level ProblemSet
-            equation_format = this.egg_levelProblemSet[Math.floor(Math.random()*this.egg_levelProblemSet.length)];
+            var rndm = Math.random();    
+            equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)][0];
+            unicode_equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)][1];
             num_of_coefficients = (equation_format.match(/N/g)||[]).length;
             //console.log(num_of_coefficients);
             equation = equation_format;
-        
+            uequation = unicode_equation_format;
             for(var i=0;i<num_of_coefficients;i++){
-                equation=equation.replace(/N/, Math.floor((Math.random() * 10) + 1));                
+                var indx = equation.indexOf('N');
+                var chr = Math.floor((Math.random() * 10) + 1);
+                equation = this.setCharAt(equation, indx, chr);
+                uequation = this.setCharAt(uequation, indx, this.getUnicodeNum(chr,uequation.charAt(indx)));
             }
    
-            return equation;
+            return [equation, uequation];
     },
     //http://www.numericjs.com/index.php
     linspace: function(a,b,n) {
