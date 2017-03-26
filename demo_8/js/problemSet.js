@@ -116,73 +116,73 @@ g_solveForXEqProblemsFormat = [
      
 g_simplifyExpressionFormat =[
          [
-               'N*N'
-             , 'N+N'
-             , 'N/N'
-             , 'N-N'
+               ['N*N','N*N']
+             , ['N+N','N+N']
+             , ['N/N','ᴺ/ₙ']
+             , ['N-N','N-N']
          ],
          
          [
-               'N+N-N'
-             , 'N-N+N'
-             , 'N*N*N'
-             , 'N+N+N'
-             , 'N-N-N'
+               ['N+N-N','N+N-N']
+             , ['N-N+N','N-N+N']
+             , ['N*N*N','N*N*N']
+             , ['N+N+N','N+N+N']
+             , ['N-N-N','N-N-N']
          ],
          
          [
-               'N*N-N'
-             , 'N+N*N'
-             , 'N*N+N'
-             , 'N*N+N'
-             , 'N*N+N'
+               ['N*N-N','N*N-N']
+             , ['N+N*N','N+N*N']
+             , ['N*N+N','N*N+N']
+             , ['N*N+N','N*N+N']
+             , ['N*N+N','N*N+N']
          ],
         [
-             'N+N/N-N'
-            ,'N-N/N+N'
-            ,'N/N-N'
-            ,'N/N+N'
-            ,'N+N/N+N'
-            ,'N-N/N-N'
+             ['N+N/N-N','N+ᴺ/ₙ-N']
+            ,['N-N/N+N','N-ᴺ/ₙ+N']
+            ,['N/N-N','ᴺ/ₙ-N']
+            ,['N/N+N','ᴺ/ₙ+N']
+            ,['N+N/N+N','N+ᴺ/ₙ+N']
+            ,['N-N/N-N','N-ᴺ/ₙ-N']
         ],
     [
-            'N+N/N-N*N'
-            ,'N-N/N+N/N'
-            ,'N/N-N*N-N'
-            ,'N/N+N/N*N'
-            ,'N+N*N+N-N'
-            ,'N-N/N-N+N'  
+            ['N+N/N-N*N','N+ᴺ/ₙ-N*N']
+            ,['N-N/N+N/N','N-ᴺ/ₙ+ᴺ/ₙ']
+            ,['N/N-N*N-N','ᴺ/ₙ-N*N-N']
+            ,['N/N+N/N*N','ᴺ/ₙ+ᴺ/ₙ*N']
+            ,['N+N*N+N-N','N+N*N+N-N']
+            ,['N-N/N-N+N','N-ᴺ/ₙ-N+N']  
     ],
          [
-               'N*(N+N)'
-             , 'N+(N*N)'
-             , '(N+N)*N'
-             , '(N*N)+N'
-             , 'N*(N-N)'
-             , 'N-(N*N)'
-             , '(N-N)*N'
-             , '(N*N)-N'
+               ['N*(N+N)','N*(N+N)']
+             , ['N+(N*N)','N+(N*N)']
+             , ['(N+N)*N','(N+N)*N']
+             , ['(N*N)+N','(N*N)+N']
+             , ['N*(N-N)','N*(N-N)']
+             , ['N-(N*N)','N-(N*N)']
+             , ['(N-N)*N','(N-N)*N']
+             , ['(N*N)-N','(N*N)-N']
          ],
     
         [
-               'N*(N+N)+N'
-             , 'N*(N+N)-N'
-             , 'N*(N-N)+N'
-             , 'N*(N-N)-N'
-             , 'N+(N+N)*N'
-             , 'N-(N+N)*N'
-             , 'N+(N-N)*N'
-             , 'N-(N-N)*N'
+               ['N*(N+N)+N','N*(N+N)+N']
+             , ['N*(N+N)-N','N*(N+N)-N']
+             , ['N*(N-N)+N','N*(N-N)+N']
+             , ['N*(N-N)-N','N*(N-N)-N']
+             , ['N+(N+N)*N','N+(N+N)*N']
+             , ['N-(N+N)*N','N-(N+N)*N']
+             , ['N+(N-N)*N','N+(N-N)*N']
+             , ['N-(N-N)*N','N-(N-N)*N']
          ],
          [
-               'N/N+N/N'
-             , 'N/N-N/N'
-             , 'N/N*N/N'
+               ['N/N+N/N','ᴺ/ₙ+ᴺ/ₙ']
+             , ['N/N-N/N','ᴺ/ₙ-ᴺ/ₙ']
+             , ['N/N*N/N','ᴺ/ₙ*ᴺ/ₙ']
          ],
          [
-               'N*N/N'
-             , 'N/N*N'
-             , 'N/N*N/N'
-             , 'N/N/N/N'
+               ['N*N/N','N*ᴺ/ₙ']
+             , ['N/N*N','ᴺ/ₙ*N']
+             , ['N/N*N/N','ᴺ/ₙ*ᴺ/ₙ']
+             , ['N/N/N/N','ᴺ/ₙ/ᴺ/ₙ']
          ]
      ]

@@ -65,6 +65,7 @@ Rock.prototype.getEquation = function(){
     return this.equ;
 }
 Rock.prototype.setEquation = function(equations){
+    this.equationText.destroy();
     this.equ = equations[1];
     this.equDisplay = equations[0];
     //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
@@ -77,7 +78,7 @@ Rock.prototype.setEquation = function(equations){
 //.......................................................
 
 //-------------------------------------------------------
-Egg = function (game, x, y, equation) {
+Egg = function (game, x, y, equations) {
 
     Phaser.Sprite.call(this, game, x, y, 'egg');
     this.game.physics.arcade.enable(this);
@@ -85,9 +86,9 @@ Egg = function (game, x, y, equation) {
     this.body.bounce.y =  0.5; 
     this.body.collideWorldBounds = true;
     
-    this.equ = equation;
-    
-    var text = this.game.add.text(Math.floor(this.width / 2), Math.floor(this.height / 2), this.equ, {font: "20px Comic Sans MS", fill: "#111111",wordWrap: true, wordWrapWidth: this.width, align: "center"});
+    this.equ = equations[0];
+    this.equDisplay = equations[1];
+    var text = this.game.add.text(Math.floor(this.width / 2), Math.floor(this.height / 2), this.equDisplay, {font: "20px Comic Sans MS", fill: "#111111",wordWrap: true, wordWrapWidth: this.width, align: "center"});
     text.anchor.set(0.5);
     
     this.equationText = text;
