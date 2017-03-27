@@ -2,6 +2,13 @@ body {
   margin: 0;
 }
 
+div.gm-canvas{
+    width:320px;
+    margin-left:auto;
+}
+/*div.canvas-element{
+    transform: none !important;
+}*/
 #tutorial-container {
   margin: auto;
   margin-bottom: 40px;
@@ -139,4 +146,12 @@ p.tutorial-instructions {
   color: #444;
   font-size: 22px;
   font-style: italic;
+}
+
+div.canvas-element{
+    transform:translate(230px,10px) !important;
+}
+
+div.animation svg g{
+    transform:translate(250px,60px) !important;
 }

@@ -138,6 +138,11 @@ DinoEggs.Game.prototype = {
              this.myHealthBar = new HealthBar(this.game, barConfig);
              this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
          }
+        else{
+            this.rocksRemainingText = "";
+            this.myHealthBar = new HealthBar(this.game, barConfig);
+            this.myHealthBar.setPercent(100);
+        }
     
         
         //music 
@@ -409,8 +414,10 @@ DinoEggs.Game.prototype = {
                     if(this.matchExpCanvas)
                         this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                     this.currentCanvasEqu = this.g_parsedCanvasExpression;
-                    this.createRocks(this.g_numRocks);               
-                    this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
+                    if(this._levelNumber > 1){
+                        this.createRocks(this.g_numRocks);             
+                        this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
+                    }
                 }
                 else{
                     this.isPowerupActivated = false; 
