@@ -232,11 +232,13 @@ DinoEggs.Game.prototype = {
         }
     },
     restartGame: function() {
-            this.music.destroy();
+            //this.music.destroy();
+            this.destructGameObjectsBeforeGameOver();
             this.state.start('Game');
     },
     exitToMain:function(){
-            this.music.destroy();
+            //this.music.destroy();
+            this.destructGameObjectsBeforeGameOver();
             this.state.start('LevelSelect');
     },
     unpause:function(event){
@@ -819,27 +821,13 @@ DinoEggs.Game.prototype = {
     },
     
     gameOver: function() {    
-        //pass the score as a parameter 
-        if(this.board){
-            //console.log("pop canvas clearboard");
-            this.clearBoard();
-        }
         
-        this.scoreText.destroy();
-        if(this._levelNumber!=1){
-            this.rocksRemainingText.destroy();
-            this.myHealthBar.kill();
-        }
-        this.currentLevelText.destroy();
-        if(this.solveEqCanvas)
-            this.clearGMCanvas(this.solveEqCanvas);
+        this.destructGameObjectsBeforeGameOver();
         
-        if(this.matchExpCanvas)
-            this.clearGMCanvas(this.matchExpCanvas);
         var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
         
         var stars = this.endStar();
-        if (stars>0){
+        if (stars > 0){
             this.updatePlayerData(stars);
         }        
         
@@ -864,24 +852,38 @@ DinoEggs.Game.prototype = {
         var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 80, 'menu', function(){
             this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
-        mainMenuButton.anchor.set(0.5);
-        
-        this.music.stop();
+        mainMenuButton.anchor.set(0.5);  
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+    },
+    destructGameObjectsBeforeGameOver : function(){
+        //pass the score as a parameter 
+        if(this.board){
+            this.clearBoard();
+        }
+        
+        this.scoreText.destroy();
+        if(this._levelNumber!=1){
+            this.rocksRemainingText.destroy();
+            this.myHealthBar.kill();
+        }
+        this.currentLevelText.destroy();
+        if(this.solveEqCanvas)
+            this.clearGMCanvas(this.solveEqCanvas);
+        
+        if(this.matchExpCanvas)
+            this.clearGMCanvas(this.matchExpCanvas);
+        
+        this.music.stop();
         var elem = document.getElementById("undo_button");
         if(elem){
             elem.parentNode.removeChild(elem);
         }
         
-        
-      
-            while(this._rocksGroup.countLiving() > 0){
-                console.log("Rocks bursts working in the while loop");
-                this.rockBurst(this._rocksGroup.children[0]);
-            }
-        
+        while(this._rocksGroup.countLiving() > 0){
+            this.rockBurst(this._rocksGroup.children[0]);
+        }
     },
     
     simplifyEqCheck:function(evt){
@@ -1142,18 +1144,16 @@ DinoEggs.Game.prototype = {
        this.undoBtn.style.postion = "absolute";
        this.undoBtn.style.top = "0";
        this.undoBtn.style.marginLeft = "100px";
-      
-        //document.getElementById("undo_button").className = "btn-danger";
-        this.undoBtn.style.cssFloat = "left";
+       this.undoBtn.style.cssFloat = "left";
     
        var contextRef = this;
        this.undoBtn.onclick = function(){
            if(contextRef._rocksGroup.countLiving() > 0){
                contextRef.matchExpCanvas.controller.undo();
            }else{
-               if(this._jsonData["isSimplify"]!=false)// || this._jsonData["isSolve"] !=false)
-                    contextRef.solveEqCanvas.controller.undo();
+                contextRef.solveEqCanvas.controller.undo();
            }
+           
            
        };
         
