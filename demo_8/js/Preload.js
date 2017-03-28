@@ -64,6 +64,12 @@ DinoEggs.Preload.prototype = {
         //images for hit rock feature
         this.load.image('lightning', 'assets/lightning.png');
         this.load.image('pterodactyl', 'assets/pterodactyl.png');
+        
+        //game controls
+        this.load.image('musicOn', 'assets/buttons/musicOn.png');
+        this.load.image('musicOff', 'assets/buttons/musicOff.png');
+        this.load.image('pauseButton', 'assets/buttons/pauseButton.png');
+        this.load.image('buttonsMenu', 'assets/buttons/buttons_menu.png', 325, 233);
     },
     create:function(){
         this.state.start('MainMenu');

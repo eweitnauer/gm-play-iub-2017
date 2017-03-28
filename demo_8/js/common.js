@@ -211,62 +211,97 @@ DinoEggs.Game.prototype = {
         console.log("Power up appearing in "+powerupInterval+" seconds");
         this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);
         
-        this.pause_label = this.game.add.text(600, 200, 'Pause', { font: '24px Arial', fill: '#000' });
-        this.pause_label.inputEnabled = true;
-        this.pause_label.events.onInputDown.add(this.pauseClicked, this);
-        // Add a input listener that can help us return from being paused
+        //Game controls
+        this.pauseButton = this.game.add.button(this.game.world.width , this.scoreText.y + this.scoreText.height , 'pauseButton', this.pauseClicked, this);
+        this.pauseButton.x = this.pauseButton.x - this.pauseButton.width;
         this.game.input.onDown.add(this.unpause, this);
+        this.playOrMute = false;
+        //mute and unmute game
+        this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
+        this.muteButton.x = this.muteButton.x - this.muteButton.width;
+    },
+    muteMusic:function(){
+          if (this.playOrMute == false) {
+                this.music.pause();
+                this.playOrMute =true;
+          } else {
+              this.music.resume();
+              this.playOrMute = false;
+        }
+    },
+    restartGame: function() {
+            this.music.destroy();
+            this.state.start('Game');
+    },
+    exitToMain:function(){
+            this.music.destroy();
+            this.state.start('LevelSelect');
     },
     unpause:function(event){
-        console.log("Unpause clicked");
                 // Only act if paused
         if(this.game.paused){
             // Calculate the corners of the menu
-            var x1 = this.game.world.width/2 - 270/2, x2 = this.game.world.width/2 + 270/2,
-                y1 = this.game.world.height/2 - 180/2, y2 = this.game.world.height/2 + 180/2;
+            var x1 = this.game.world.width/2 - 325/2, 
+                x2 = this.game.world.width/2 + 325/2,
+                y1 = this.game.world.height/2 - 233/2, 
+                y2 = this.game.world.height/2 + 233/2;
 
             // Check if the click was inside the menu
             if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+                
+                this.game.paused = false;
+                $(".eq-match-div").show();
+                $(".eq-solve-div").show();
+                
                 // The choicemap is an array that will help us see which item was clicked
-                var choisemap = ['one', 'two', 'three', 'four', 'five', 'six'];
+                var choicemap = ['one', 'two', 'three', 'four'];
 
                 // Get menu local coordinates for the click
                 var x = event.x - x1,
                     y = event.y - y1;
 
                 // Calculate the choice 
-                var choise = Math.floor(x / 90) + 3*Math.floor(y / 90);
+                var choice = Math.floor(x / 162.5) + 2*Math.floor(y / 116.5);
+                switch(choice){
+                case 0: //play
+                        // Remove the menu and the label
+                        this.menu.destroy();
+                        this.choiceLabel.destroy();
+                        break;
+                case 1: //restart
+                        this.restartGame();
+                        break;
+                case 2: //tutorial
+                        this.game.paused = true;
+                        break;
+                case 3: //exit game
+                        this.exitToMain();
+                        break;
+            }
+                
 
                 // Display the choice
-                this.choiseLabel.text = 'You chose menu item: ' + choisemap[choise];
+                this.choiceLabel.text = 'You chose menu item: ' + choicemap[choice];
             }
-            else{
-                // Remove the menu and the label
-                this.menu.destroy();
-                this.choiseLabel.destroy();
-
-                // Unpause the game
-                this.game.paused = false;
-            }
+            
         }
     },
-    pauseClicked: function(){
-        console.log("Pause clicked");
-            
-        // When the paus button is pressed, we pause the game
+    pauseClicked: function(){   
+        console.log("sdfdsdsfdsf");
+        // When the pause button is pressed, we pause the game
         this.game.paused = true;
 
         // Then add the menu
-        this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'menu');
+        this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'buttonsMenu');
         this.menu.anchor.setTo(0.5, 0.5);
 
         // And a label to illustrate which menu item was chosen. (This is not necessary)
-        this.choiseLabel = this.game.add.text(this.game.world.width / 2, this.game.world.height -150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
-        this.choiseLabel.anchor.setTo(0.5, 0.5);
+        this.choiceLabel = this.game.add.text(this.game.world.width / 2, this.game.world.height -150, 'Choose any option', { font: '30px Arial', fill: '#000' });
+        this.choiceLabel.anchor.setTo(0.5, 0.5);
+        
+        $(".eq-match-div").hide();
+        $(".eq-solve-div").hide();
     },
-    /*render: function(){
-        this.game.debug.text("Time until event: " + this.game.time.events.duration, 250, 60);
-    },*/
     showPowerup:function(){
         //check level number from where we want to show powerup
         //show power up only when at least one rock is present
