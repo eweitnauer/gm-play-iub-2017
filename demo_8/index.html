@@ -37,6 +37,7 @@
             background-color:lightgreen;
             background-image: url('assets/bodybkgd.jpg');
             background-size: cover;
+            max-height: 450px;
         }
         
         canvas {
@@ -86,6 +87,23 @@
             margin: auto;
         }
         
+        .modal{
+            overflow-y: auto;
+        }
+        
+        #tutorialDiv, #tutorialModal, #tutorial_modal, .modal-content{
+            background-color:transparent;
+        }
+        
+        .modal-body{
+            background-color: transparent;
+            border: none;
+            background-image:url('assets/tut_bkgd.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-origin: content-box;
+        }
+        
         .modal-dialog{
             position: relative;
             display: table;
@@ -97,6 +115,15 @@
         
         iframe{
             border:none;
+        }
+        
+        /*div#tutorial_modal{
+           background-color: transparent;
+            width:80%;
+            border:none;
+        }*/
+        body.modal-open{
+            background-color: transparent !important;
         }
     </style>
 </head>
@@ -117,24 +144,24 @@
             <div class="modal fade" data-modal-color="" id="tutorialModal" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
-                    <div class="modal-content">
+                    <div id="tutorial_modal" class="modal-content" style="box-shadow:none;">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h2 class="modal-title">Tutorial</h4>
+                            <button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>
+                            <!--<h2 class="modal-title">Tutorial</h2>-->
                         </div>
                         <div class="modal-body">
                             <div id='outer'>
                                 <div id='inner'>
-                                    <div style="width:100%;min-height:600px;">
-                                        <iframe id="tFrame" src="gm_tutorial/tutorial.html" style="width:100%;min-height:600px"></iframe>
+                                    <div style="width:100%;min-height:250px;">
+                                        <iframe id="tFrame" src="gm_tutorial/tutorial.html" style="width:100%;min-height:450px"></iframe>
                                     </div>
                                 </div>
                             </div>
-                            <div class="container">          
+                            <!--<div class="container">          
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

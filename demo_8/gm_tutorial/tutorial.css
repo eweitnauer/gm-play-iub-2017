@@ -1,5 +1,6 @@
 body {
-  margin: 0;
+    margin: 0;
+    background-color: transparent !important;
 }
 
 div.gm-canvas{
@@ -11,10 +12,10 @@ div.gm-canvas{
 }*/
 #tutorial-container {
   margin: auto;
-  margin-bottom: 40px;
-  margin-top: 20px;
-  width: 780px;
-  padding: 0 10px;
+  /*margin-bottom: 40px;
+  margin-top: 20px;*/
+  width: 743px;
+  padding: 0 0px;
 }
 
 h2 {
@@ -154,4 +155,18 @@ div.canvas-element{
 
 div.animation svg g{
     transform:translate(250px,60px) !important;
+}
+
+.item{
+    color:white;
+    width:500px;
+    margin:auto;
+}
+
+.tutorial-instructions{
+    color:white !important;
+}
+
+a.carousel-control{
+    background-image:none !important;
 }
