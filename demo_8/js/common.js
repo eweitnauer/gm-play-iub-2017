@@ -145,24 +145,26 @@ DinoEggs.Game.prototype = {
         this.music = this.game.add.audio('bg_music');
         this.music.play();
         
+        
+        console.log("creating mute button")
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 30, 'muteButton', this.muteMusic, this, 2, 1, 0);
-        this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 30, 'Mute', { fontSize: '16px', fill: '#000' });
+        this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 30, 'Mute', { fontSize: '16px', fill: '#fff' });
         this.muteButton.anchor.set(0.5);
         
         //exit to game level
-        this.exitButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 60, 'exitButton', this.exitToMain, this, 2, 1, 0);
-         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 60, 'Exit', { fontSize: '16px', fill: '#000' });
+        this.exitButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 80, 'exitButton', this.exitToMain, this, 2, 1, 0);
+         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 60, 'Exit', { fontSize: '16px', fill: '#fff' });
         this.exitButton.anchor.set(0.5);     
         
         // pasue and unpause game
-        this.pauseButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 90, 'pauseButton', this.pauseGame, this, 2, 1, 0);
-         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 90, 'Pause', { fontSize: '16px', fill: '#000' });
+        this.pauseButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 130, 'pauseButton', this.pauseGame, this, 2, 1, 0);
+         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 90, 'Pause', { fontSize: '16px', fill: '#fff' });
         this.pauseButton.anchor.set(0.5);
         
         // restart game
-         this.restartButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 120, 'restartButton', this.restartGame, this, 2, 1, 0);
-         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 120, 'Restart', { fontSize: '16px', fill: '#000' });
+         this.restartButton = this.game.add.button(this.game.world.width*0.5 + 300 ,this.game.world.height*0.5 - 180, 'restartButton', this.restartGame, this, 2, 1, 0);
+         this.game.add.text(this.game.world.width*0.5 + 320, this.game.world.height*0.5 - 120, 'Restart', { fontSize: '16px', fill: '#fff' });
         this.restartButton.anchor.set(0.5);
         
         //create Eggs
@@ -224,6 +226,7 @@ DinoEggs.Game.prototype = {
     },
     
     muteMusic:function(){
+            console.log("mute clicked");
             if (this.playOrMute == false) {
                 this.music.pause();
                 this.playOrMute =true;
@@ -242,6 +245,8 @@ DinoEggs.Game.prototype = {
             this.game.paused = true; 
             this.menu = this.game.add.button(200, 200, 'resumeButton');
             this.menu.anchor.setTo(0.5, 0.5);
+            $(".eq-match-div").hide();
+            $(".eq-solve-div").hide();
             this.game.input.onDown.add(this.unpause, this);
     },
     
@@ -251,7 +256,9 @@ DinoEggs.Game.prototype = {
             if(this.game.paused) {
                 console.log("game has been un paused");
                 this.menu.destroy();
-                this.game.paused = false;             
+                this.game.paused = false;
+                $(".eq-match-div").show();
+                $(".eq-solve-div").show();
             }
     },    
     showRockInstructions:function(){
@@ -268,10 +275,12 @@ DinoEggs.Game.prototype = {
         
         //check if the rocks are falling:
         if(this._rocksGroup.countLiving() != 0){    
-            this.game.input.enabled = false;
+            //this.game.input.enabled = false;
+            this._eggsGroup.setAll('inputEnabled',false);
         }
         else{
-            this.game.input.enabled = true;
+            //this.game.input.enabled = true;
+            this._eggsGroup.setAll('inputEnabled',true);
         }
         
         //render egg equations

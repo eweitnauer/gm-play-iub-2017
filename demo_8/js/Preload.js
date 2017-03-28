@@ -41,10 +41,13 @@ DinoEggs.Preload.prototype = {
         this.load.atlasJSONHash('dino', 'assets/dinoMom/dino.png','assets/dinoMom/dino.json');
         this.load.image('sky', 'assets/happysky.png');
         this.load.spritesheet('button', 'assets/buttons/button.png', 120, 40);
-        this.load.spritesheet('muteButton', 'asset/buttons/mute_button_sprite_sheet.png', 193, 71);
-         this.load.spritesheet('exitButton', 'asset/buttons/mute_button_sprite_sheet.png', 193, 71);
-        this.load.spritesheet('resumeButton', 'asset/buttons/mute_button_sprite_sheet.png', 193, 71);
-        this.load.spritesheet('restartButton', 'asset/buttons/mute_button_sprite_sheet.png', 193, 71);
+        
+        this.load.spritesheet('muteButton', 'assets/buttons/mute_button_sprite_sheet.png', 193, 71);
+         this.load.spritesheet('exitButton', 'assets/buttons/mute_button_sprite_sheet.png', 193, 71);
+        this.load.spritesheet('pauseButton', 'assets/buttons/mute_button_sprite_sheet.png', 193, 71);
+        this.load.spritesheet('restartButton', 'assets/buttons/mute_button_sprite_sheet.png', 193, 71);
+        
+        
         this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music
         this.load.audio('bg_music',['assets/bg_music.mp3']);
