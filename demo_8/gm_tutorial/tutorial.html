@@ -1,7 +1,8 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>GM Tutorial</title>
-
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="tutorial.css"/>
@@ -9,57 +10,170 @@
 
 <body>
 <div id="tutorial-container">
-        <!-- div where we apply styles -->
-        <div id ="1" class="levelTutorial">
-            <div id='outer1'>
-                    <div id='inner1'></div>
+        <div id ="1" class="levelTutorial container">
+            <div id='outer1' class="carousel slide" data-ride="carousel" data-interval="false">
+                <ol class="carousel-indicators">
+                  <!--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                  <li data-target="#myCarousel" data-slide-to="3"></li>-->
+                </ol>
+                <div id='inner1' class="carousel-inner" role="listbox"></div>
+                 
+                  <a class="left carousel-control" href="#outer1" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer1" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+            </div>            
+        </div>
+        <div id ="2" class="levelTutorial container">
+            <div id='outer2' class="carousel slide" data-ride="carousel" data-interval="false">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner2' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer2" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer2" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="2" class="levelTutorial">
-            <div id='outer2'>
-                    <div id='inner2'></div>
+        <div id ="3" class="levelTutorial container">
+            <div id='outer3' class="carousel slide" data-ride="carousel" data-interval="false">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner3' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer3" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer3" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="3" class="levelTutorial">
-            <div id='outer3'>
-                    <div id='inner3'></div>
+        <!--<div id ="4" class="levelTutorial container">
+            <div id='outer4' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner4' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer4" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer4" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="4" class="levelTutorial">
-            <div id='outer4'>
-                    <div id='inner4'></div>
+        <div id ="5" class="levelTutorial container">
+            <div id='outer5' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner5' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer5" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer5" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="5" class="levelTutorial">
-            <div id='outer5'>
-                    <div id='inner5'></div>
+        <div id ="6" class="levelTutorial container">
+            <div id='outer6' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner6' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer6" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer6" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="6" class="levelTutorial">
-            <div id='outer6'>
-                    <div id='inner6'></div>
+        <div id ="7" class="levelTutorial container">
+            <div id='outer7' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner7' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer7" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer7" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="7" class="levelTutorial">
-            <div id='outer7'>
-                    <div id='inner7'></div>
+        <div id ="8" class="levelTutorial container">
+            <div id='outer8' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner8' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer8" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer8" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="8" class="levelTutorial">
-            <div id='outer8'>
-                    <div id='inner8'></div>
+        <div id ="9" class="levelTutorial container">
+            <div id='outer9' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner9' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer9" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer9" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
         </div>
-        <div id ="9" class="levelTutorial">
-            <div id='outer9'>
-                    <div id='inner9'></div>
+        <div id ="10" class="levelTutorial container">
+            <div id='outer10' class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                </ol>
+                    <div id='inner10' class="carousel-inner" role="listbox"></div>
+                
+                  <a class="left carousel-control" href="#outer10" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="right carousel-control" href="#outer10" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
             </div>
-        </div>
-        <div id ="10" class="levelTutorial">
-            <div id='outer10'>
-                    <div id='inner10'></div>
-            </div>
-        </div>
+        </div>-->
 </div>
 <script>
 
@@ -67,6 +181,7 @@ window.onload = function () {
   loadGM(init, { version: '1.0.3' });
 }
 var g_done_count;
+var g_counterInsideLevel = 0;
 function init() {
 	if (!tutorial_data) return;
 
@@ -76,6 +191,7 @@ function init() {
     var totalLevels =10;
     for(var level = 1;level<=totalLevels;level++){
         if(tutorial_data[level]){
+            g_counterInsideLevel = 0;
             for(var problemId in tutorial_data[level]){
                 var problem =tutorial_data[level][problemId];
                 load(problem,level);
@@ -83,8 +199,12 @@ function init() {
         }
     }
 
-
+    function getRandomRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+        
 	function load(data,level) {
+        
 		if (data.events) {
 			/* Some repackaging of the data.
 			*
@@ -108,7 +228,29 @@ function init() {
 
 			// Pass in the query selector of the inner div to the tutorial pair, it will use that as the
 			// container.
-			var pair = new gmath.ui.TutorialPair('#inner'+level, settings);
+            var innerDiv = document.getElementById('inner'+level);
+            //get the ol from innerdiv
+            var x = innerDiv.previousSibling;
+            //create new li for the ol
+            var newLi = document.createElement('li');
+            newLi.setAttribute("data-target","#outer"+level);
+            newLi.setAttribute("data-slide-to",g_counterInsideLevel);
+            if(g_counterInsideLevel==0)
+                newLi.setAttribute("class", "active"); 
+            //add li to ol
+            
+            
+            var newItemDiv = document.createElement('div');
+            
+            var newItemDivId = 'item_div' + level + "_" + g_counterInsideLevel;
+            newItemDiv.setAttribute("id", newItemDivId);
+            if(g_counterInsideLevel==0)
+                newItemDiv.setAttribute("class", "item active");
+            else
+                newItemDiv.setAttribute("class", "item");
+			
+            innerDiv.appendChild(newItemDiv);
+            var pair = new gmath.ui.TutorialPair("#"+newItemDivId, settings);
 
 			// The tutorial will emit a "done" event when the gesture has been done successfully.
 			// We'll call our "done" function when that happens (defined below).
@@ -116,6 +258,7 @@ function init() {
 
 			// We'll compare the number of done events with the number of pairs on the page.
 			tutorial_pairs++;
+            g_counterInsideLevel++;
 		}
 
 		else { // text only
@@ -155,3 +298,4 @@ function init() {
 }
 
 </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

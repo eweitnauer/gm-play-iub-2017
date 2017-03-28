@@ -1,13 +1,21 @@
 body {
-  margin: 0;
+    margin: 0;
+    background-color: transparent !important;
 }
 
+div.gm-canvas{
+    width:320px;
+    margin-left:auto;
+}
+/*div.canvas-element{
+    transform: none !important;
+}*/
 #tutorial-container {
   margin: auto;
-  margin-bottom: 40px;
-  margin-top: 20px;
-  width: 780px;
-  padding: 0 10px;
+  /*margin-bottom: 40px;
+  margin-top: 20px;*/
+  width: 743px;
+  padding: 0 0px;
 }
 
 h2 {
@@ -139,4 +147,26 @@ p.tutorial-instructions {
   color: #444;
   font-size: 22px;
   font-style: italic;
+}
+
+div.canvas-element{
+    transform:translate(230px,10px) !important;
+}
+
+div.animation svg g{
+    transform:translate(250px,60px) !important;
+}
+
+.item{
+    color:white;
+    width:500px;
+    margin:auto;
+}
+
+.tutorial-instructions, .carousel-inner h2{
+    color:white !important;
+}
+
+a.carousel-control{
+    background-image:none !important;
 }
