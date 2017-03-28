@@ -45,6 +45,7 @@ DinoEggs.Game.prototype = {
         this.g_numRocks = this._jsonData["numRocks"];
         this.g_numEggs = this._jsonData["numEggs"];
         this.rocksRemainingText = null;
+        this.currentLevelText = null;
         
         //------[EGGS] set problem mode according to problem set. 0:match expression, 1: solve equation , 2: simplify expression---------
         //including two types of problem-formats from simplify expression set
@@ -131,6 +132,9 @@ DinoEggs.Game.prototype = {
         
         //  The score[]
         this.scoreText = this.game.add.text(700, 16, 'Score: 0', { fontSize: '16px', fill: '#000' });
+        
+        //Current Level Number
+        this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { fontSize: '16px', fill: '#000' });
         
         // Number of Remaining Rocks
          if(this._levelNumber != 1){
@@ -500,7 +504,7 @@ DinoEggs.Game.prototype = {
                 }
                 else{
                     this.isPowerupActivated = false; 
-                    this.powerupID = null;
+                    this.powerupID = -1;
                 }
             }, this);
             
@@ -642,7 +646,7 @@ DinoEggs.Game.prototype = {
     spawnRock: function(){
         //do not spawn any rock if freeze rock power up has been activated
         console.log("spawnrock");
-        if(this.rocksTospawn && !this.isPowerupActivated && this.powerupID != "1"  ){
+        if(this.rocksTospawn && this.rocksTospawn.length > 0 && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
@@ -782,6 +786,11 @@ DinoEggs.Game.prototype = {
         }
         
         this.scoreText.destroy();
+        if(this._levelNumber!=1){
+            this.rocksRemainingText.destroy();
+            this.myHealthBar.kill();
+        }
+        this.currentLevelText.destroy();
         if(this.solveEqCanvas)
             this.clearGMCanvas(this.solveEqCanvas);
         
@@ -827,12 +836,12 @@ DinoEggs.Game.prototype = {
         }
         
         
-        //power up for hatching last egg (hatchRandomEgg)
-        if(this.isPowerupActivated == true){    
+      
             while(this._rocksGroup.countLiving() > 0){
+                console.log("Rocks bursts working in the while loop");
                 this.rockBurst(this._rocksGroup.children[0]);
             }
-        }
+        
     },
     
     simplifyEqCheck:function(evt){
@@ -1211,7 +1220,7 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        var indexToChoose = 3;
+        var indexToChoose = 0;
         //var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         var chosenPowerup = powerupsArray[indexToChoose];
           
@@ -1242,7 +1251,7 @@ DinoEggs.Game.prototype = {
             this._rocksGroup.children[i].body.velocity.y = 15;
         } 
         this.isPowerupActivated = false; 
-        this.powerupID = null;
+        this.powerupID = -1;
         this.game.time.events.repeat(Phaser.Timer.SECOND * 6, this.g_numRocks - this.g_rockProducedIndex - 1, this.spawnRock, this);
     },
     destroyRocks:function(){
@@ -1265,7 +1274,7 @@ DinoEggs.Game.prototype = {
             this.showBoard('click egg ','and solve for x');
             this.dino.animations.play('move', 10, true);
             this.isPowerupActivated = false; 
-            this.powerupID = null;
+            this.powerupID = -1;
         }
     },
     addGoldenEgg:function(){
@@ -1275,7 +1284,7 @@ DinoEggs.Game.prototype = {
         eggToReplace.tint = 0xccac00;
         eggToReplace.hitCounter = 10000; // provide a better logic to recognize the golden egg
         this.isPowerupActivated = false; 
-        this.powerupID = null;
+        this.powerupID = -1;
     },
     hatchRandomEgg:function(){    
         var eggIndex = this.getRandomRange(0, this._eggsGroup.children.length - 1);
