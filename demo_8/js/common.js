@@ -590,7 +590,7 @@ DinoEggs.Game.prototype = {
     spawnRock: function(){
         //do not spawn any rock if freeze rock power up has been activated
         console.log("spawnrock");
-        if(this.rocksTospawn && !this.isPowerupActivated && this.powerupID != "1"  ){
+        if(this.rocksTospawn && this.rocksTospawn.length > 0 && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
@@ -1159,7 +1159,7 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        var indexToChoose = 3;
+        var indexToChoose = 0;
         //var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         var chosenPowerup = powerupsArray[indexToChoose];
           
