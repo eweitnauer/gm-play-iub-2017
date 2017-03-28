@@ -452,7 +452,7 @@ DinoEggs.Game.prototype = {
                 }
                 else{
                     this.isPowerupActivated = false; 
-                    this.powerupID = null;
+                    this.powerupID = -1;
                 }
             }, this);
             
@@ -594,7 +594,10 @@ DinoEggs.Game.prototype = {
     spawnRock: function(){
         //do not spawn any rock if freeze rock power up has been activated
         console.log("spawnrock");
-        if(this.rocksTospawn && !this.isPowerupActivated && this.powerupID != "1"  ){
+        console.log("Rocks to Spawn :"+this.rocksTospawn );
+        console.log("PowerUp ID:"+this.powerupID);
+        
+        if(this.rocksTospawn &&  this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
@@ -1199,7 +1202,7 @@ DinoEggs.Game.prototype = {
             this._rocksGroup.children[i].body.velocity.y = 15;
         } 
         this.isPowerupActivated = false; 
-        this.powerupID = null;
+        this.powerupID = -1;
         this.game.time.events.repeat(Phaser.Timer.SECOND * 6, this.g_numRocks - this.g_rockProducedIndex - 1, this.spawnRock, this);
     },
     destroyRocks:function(){
@@ -1222,7 +1225,7 @@ DinoEggs.Game.prototype = {
             this.showBoard('click egg ','and solve for x');
             this.dino.animations.play('move', 10, true);
             this.isPowerupActivated = false; 
-            this.powerupID = null;
+            this.powerupID = -1;
         }
     },
     addGoldenEgg:function(){
@@ -1232,16 +1235,14 @@ DinoEggs.Game.prototype = {
         eggToReplace.tint = 0xccac00;
         eggToReplace.hitCounter = 10000; // provide a better logic to recognize the golden egg
         this.isPowerupActivated = false; 
-        this.powerupID = null;
+        this.powerupID = -1;
     },
     hatchRandomEgg:function(){    
         var eggIndex = this.getRandomRange(0, this._eggsGroup.children.length - 1);
         this.selectedEgg = this._eggsGroup.children[eggIndex];
         this.selectedEgg.animations.play('hatch', 6, false);
         this.selectedEgg = null;
-        
-        
-        
+            
     }
     
 
