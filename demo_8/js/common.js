@@ -224,9 +224,11 @@ DinoEggs.Game.prototype = {
           if (this.playOrMute == false) {
                 this.music.pause();
                 this.playOrMute =true;
+                this.muteButton.loadTexture('musicOff', 0 );
           } else {
               this.music.resume();
               this.playOrMute = false;
+              this.muteButton.loadTexture('musicOn', 0 );
         }
     },
     restartGame: function() {
@@ -250,8 +252,12 @@ DinoEggs.Game.prototype = {
             if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
                 
                 this.game.paused = false;
-                $(".eq-match-div").show();
-                $(".eq-solve-div").show();
+                
+                if(this._rocksGroup.countLiving() > 0){
+                    $("#eq-match-div").show();
+                }else{
+                     $("#eq-solve-div").show();
+                }
                 
                 // The choicemap is an array that will help us see which item was clicked
                 var choicemap = ['one', 'two', 'three', 'four'];
@@ -287,7 +293,6 @@ DinoEggs.Game.prototype = {
         }
     },
     pauseClicked: function(){   
-        console.log("sdfdsdsfdsf");
         // When the pause button is pressed, we pause the game
         this.game.paused = true;
 
@@ -299,8 +304,8 @@ DinoEggs.Game.prototype = {
         this.choiceLabel = this.game.add.text(this.game.world.width / 2, this.game.world.height -150, 'Choose any option', { font: '30px Arial', fill: '#000' });
         this.choiceLabel.anchor.setTo(0.5, 0.5);
         
-        $(".eq-match-div").hide();
-        $(".eq-solve-div").hide();
+        $("#eq-match-div").hide();
+        $("#eq-solve-div").hide();
     },
     showPowerup:function(){
         //check level number from where we want to show powerup
