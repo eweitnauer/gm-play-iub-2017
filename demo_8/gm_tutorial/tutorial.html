@@ -62,8 +62,8 @@
                   </a>
             </div>
         </div>
-        <!--<div id ="4" class="levelTutorial container">
-            <div id='outer4' class="carousel slide" data-ride="carousel">
+        <div id ="4" class="levelTutorial container">
+            <div id='outer4' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner4' class="carousel-inner" role="listbox"></div>
@@ -79,7 +79,7 @@
             </div>
         </div>
         <div id ="5" class="levelTutorial container">
-            <div id='outer5' class="carousel slide" data-ride="carousel">
+            <div id='outer5' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner5' class="carousel-inner" role="listbox"></div>
@@ -95,7 +95,7 @@
             </div>
         </div>
         <div id ="6" class="levelTutorial container">
-            <div id='outer6' class="carousel slide" data-ride="carousel">
+            <div id='outer6' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner6' class="carousel-inner" role="listbox"></div>
@@ -111,7 +111,7 @@
             </div>
         </div>
         <div id ="7" class="levelTutorial container">
-            <div id='outer7' class="carousel slide" data-ride="carousel">
+            <div id='outer7' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner7' class="carousel-inner" role="listbox"></div>
@@ -127,7 +127,7 @@
             </div>
         </div>
         <div id ="8" class="levelTutorial container">
-            <div id='outer8' class="carousel slide" data-ride="carousel">
+            <div id='outer8' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner8' class="carousel-inner" role="listbox"></div>
@@ -143,7 +143,7 @@
             </div>
         </div>
         <div id ="9" class="levelTutorial container">
-            <div id='outer9' class="carousel slide" data-ride="carousel">
+            <div id='outer9' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner9' class="carousel-inner" role="listbox"></div>
@@ -159,7 +159,7 @@
             </div>
         </div>
         <div id ="10" class="levelTutorial container">
-            <div id='outer10' class="carousel slide" data-ride="carousel">
+            <div id='outer10' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner10' class="carousel-inner" role="listbox"></div>
@@ -173,7 +173,7 @@
                     <span class="sr-only">Next</span>
                   </a>
             </div>
-        </div>-->
+        </div>
 </div>
 <script>
 
@@ -283,7 +283,7 @@ function init() {
 
 	function done(level) {
 		g_done_count++;
-        console.log("done count ",g_done_count);
+        console.log("done count ", g_done_count);
 		if (g_done_count === tutorial_data[level].length) {
             console.log("done level")
 			// I'm appending some text to the page, but here you'll be moving on to the next phase of
