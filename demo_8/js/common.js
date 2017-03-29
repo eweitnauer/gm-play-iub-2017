@@ -549,7 +549,6 @@ DinoEggs.Game.prototype = {
                     }
                 }
                 else{
-                    //this.isPowerupActivated = false; 
                     this.powerupID = -1;
                 }
             }, this);
