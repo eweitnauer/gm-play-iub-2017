@@ -27,6 +27,8 @@ DinoEggs.Preload.prototype = {
         this.game.load.spritesheet('levelIcons', 'assets/levelIcons/level_icons.png', 73.83, 82);	
         this.game.load.image('options', 'assets/options.png');
         this.game.load.image('tutorial', 'assets/buttons/tutorialTxt.png');
+        this.game.load.image('noButton', 'assets/buttons/noButton.png');
+        this.game.load.image('yesButton', 'assets/buttons/yesButton.png');
         this.game.load.image('play', 'assets/buttons/playTxt.png');
         this.game.load.image('exit', 'assets/buttons/exit.png');
         

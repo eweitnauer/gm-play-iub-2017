@@ -198,6 +198,7 @@ DinoEggs.LevelSelect.prototype = {
 				.to({ x: xpos+2 }, 20, Phaser.Easing.Linear.None)
 				.to({ x: xpos }, 20, Phaser.Easing.Linear.None)
 				.start();
+            
 		} else {
 			// simulate button press animation to indicate selection
 			var IconGroup = this.levelIcons[levelNumber-1];
@@ -205,6 +206,8 @@ DinoEggs.LevelSelect.prototype = {
 				.to({ x: 0.9, y: 0.9}, 100, Phaser.Easing.Linear.None)
 				.to({ x: 1.0, y: 1.0}, 100, Phaser.Easing.Linear.None)
 				.start();
+            console.log("Level Number........"+levelNumber-1 );
+            console.log("Icon Group contains........"+IconGroup );
 				
 			// it's a little tricky to pass selected levelNumber to callback function, but this works:
 			tween.onComplete.add(function(){this.onLevelSelected(sprite.health);}, this);

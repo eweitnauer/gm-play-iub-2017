@@ -220,7 +220,47 @@ DinoEggs.Game.prototype = {
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
         this.muteButton.x = this.muteButton.x - this.muteButton.width;
-    },
+        
+        //Exit 
+        optionsGroup = this.game.add.group();
+		optionsGroup.x = this.game.width*0.5;
+		optionsGroup.y = this.game.height*0.5;
+        optionsGroup.setAll('anchor.x', 0.5);
+	    optionsGroup.setAll('anchor.y', 0.5);
+		optionsGroup.scale.setTo(0,0);
+        optionsBg = this.game.add.sprite(0,0, "options");
+		optionsBg.anchor.setTo(0.5,0.5);
+        	
+		msg = this.game.add.text(optionsBg.x-150, optionsBg.y+50,'You want to Exit?', { fontSize: '25px', fill: '#000' });
+		
+		noButton = this.game.add.sprite(optionsBg.x-10,msg.y+40, "noButton");
+        noButton.scale.setTo(0.7,0.7);     
+        noButton.alpha = 0.8;
+		noButton.inputEnabled = true;
+	    noButton.events.onInputDown.add(this.noListener,this);
+        noButton.alpha = 0.8;
+        noButton.events.onInputOver.add(this.over, this);
+	    noButton.events.onInputOut.add(this.out, this);
+        
+        yesButton = this.game.add.sprite(optionsBg.x-80,msg.y+40, "yesButton");
+        yesButton.scale.setTo(0.7,0.7);     
+        yesButton.alpha = 0.8;
+		yesButton.inputEnabled = true;
+	    yesButton.events.onInputDown.add(this.yesListener,this);
+        yesButton.alpha = 0.8;
+     //   yesButton.events.onInputOver.add(this.over, this);
+	 //   yesButton.events.onInputOut.add(this.out, this);
+       
+        optionsGroup.add(optionsBg);
+        optionsGroup.add(msg);
+        optionsGroup.add(noButton);
+        optionsGroup.add(yesButton);
+        
+       
+    },    
+
+    
+    
     muteMusic:function(){
           if (this.playOrMute == false) {
                 this.music.pause();
@@ -274,7 +314,7 @@ DinoEggs.Game.prototype = {
                 switch(choice){
                 case 0: //play
                         // Remove the menu and the label
-                        this.menu.destroy();
+                        this.   menu.destroy();
                         this.choiceLabel.destroy();
                         break;
                 case 1: //restart
@@ -284,8 +324,13 @@ DinoEggs.Game.prototype = {
                         this.game.paused = true;
                         break;
                 case 3: //exit game
-                        this.exitToMain();
+                        this.menu.alpha = 0;
+                        this.choiceLabel.alpha = 0;
+                          
+                        var exitMenu = this.game.add.tween(optionsGroup.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
                         break;
+                        
+                       
             }
                 
 
@@ -1322,6 +1367,19 @@ DinoEggs.Game.prototype = {
         this.selectedEgg = this._eggsGroup.children[eggIndex];
         this.selectedEgg.animations.play('hatch', 6, false);
         this.selectedEgg = null;
+    },
+        yesListener: function(){
+        this.exitToMain();
+    }, 
+    noListener: function(){
+        var cancelExit =this.game.add.tween(optionsGroup.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+        cancelExit.onComplete.add(this.pauseClicked,this);
+    },
+    over: function(item) {
+			item.alpha=1;
+    },
+    out: function(item) {
+            item.alpha=0.8;
     }
     
 
