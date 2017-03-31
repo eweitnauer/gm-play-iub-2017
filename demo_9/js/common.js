@@ -367,9 +367,9 @@ DinoEggs.Game.prototype = {
             //console.log("rock.GMCanvas.style.left "+rock.GMCanvas.style.left);
           //rock.GMCanvas.style.top = rock.y;
             //rock.GMCanvas.style.transform = "translate(" + rock.x + "," + rock.y + ") !important";
-            $("#"+rock.GMCanvas.id).css({top: rock.y, left: rock.x+350, position:'absolute'});
-            console.log("rock.GMCanvas.id "+rock.GMCanvas.id);
-            //            console.log("rock.GMCanvas.style.top "+rock.GMCanvas.style.top);
+            $("#"+rock.GMCanvas.id).css({top: rock.y, left: rock.x + 350, position:'absolute'});
+            //console.log("rock.GMCanvas.id "+rock.GMCanvas.id);
+            //console.log("rock.GMCanvas.style.top "+rock.GMCanvas.style.top);
         });
         
         //render power up equation text
@@ -579,13 +579,14 @@ DinoEggs.Game.prototype = {
                 this.rockPositions.splice(randIndex,1);
                 //place the postionX at the end of array for reuse
                 this.rockPositions.push(randposX);
-                var rock = new Rock(this.game,randposX, 50, this.getMatchEquationOnRock());
+                var parsed_n_match = this.getMatchEquationOnRock();
+                var rock = new Rock(this.game,randposX, 50, parsed_n_match);
                 rock.body.velocity.y = 0;
                 rock.visible = false;
                 rock.equationText.visible = false;
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
-                rock.GMCanvas = this.createEqDiv(i, randposX, 50, this.getMatchEquationOnRock()[1]);
+                rock.GMCanvas = this.createEqDiv(i, randposX, 50, parsed_n_match[1]);
             }
         }
 
@@ -989,14 +990,16 @@ DinoEggs.Game.prototype = {
         var matchedEqRocks= [];
         //var parsedEq = equation.replace(/\*/g, "");
         var parsedEq = equation;
-        
+        //console.log("parsed: "+parsedEq);
         //if(this._levelNumber != 2){
             // be careful for expressions with *. Might need to use algebra model instead
             this.currentCanvasEqu = parsedEq;
         //}
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
+            //console.log("before if: "+this._rocksGroup.children[i].equ);
             if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
                 //add rock obj to array;
+                //console.log("inside if - matched: "+ this._rocksGroup.children[i].equ);
                 matchedEqRocks.push(this._rocksGroup.children[i]);
             }
             
