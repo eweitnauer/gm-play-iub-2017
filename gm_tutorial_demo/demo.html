@@ -23,12 +23,11 @@ window.onload = function () {
 function init() {
 	if (!tutorial_data) return;
 
-	var tutorial_pairs = 0
-	  , done_count = 0;
+	var tutorial_pairs = 0;
+	var completed_pairs = {};
 	tutorial_data.forEach(load);
 
 	function load(data) {
-        console.log(data);
 		if (data.events) {
 			/* Some repackaging of the data.
 			*
@@ -47,16 +46,18 @@ function init() {
 			, startWiggle: data.startWiggle
 			, allow_restart_after_done: false
 			, log_mouse_trajectories: false
+			, extraExamples: data.extraExamples
 			};
 			delete data.options.selection_color;
 
 			// Pass in the query selector of the inner div to the tutorial pair, it will use that as the
 			// container.
 			var pair = new gmath.ui.TutorialPair('#inner', settings);
-            console.log("pair ",pair)
+
 			// The tutorial will emit a "done" event when the gesture has been done successfully.
-			// We'll call our "done" function when that happens (defined below).
-			pair.events.on('done', done);
+			// We'll call our "done" function when that happens (defined below). We'll use the
+			// current value of the tutorial_pairs variable as a unique identifier for the pair.
+			pair.events.on('done', done.bind(null, tutorial_pairs, pair));
 
 			// We'll compare the number of done events with the number of pairs on the page.
 			tutorial_pairs++;
@@ -82,10 +83,14 @@ function init() {
 		}
 	}
 
-	function done() {
-		done_count++;
-        console.log("done");
-		if (done_count === tutorial_pairs) {
+	function done(pair_id, pair) {
+		// The "done" event of the pair doesn't give any information as to which example was
+		// completed. We'll work around that by checking if the example currently presented in
+		// the pair is the last example.
+		completed_pairs[pair_id] = (pair.current_example + 1) === pair.initial_expressions.length;
+
+		var done_states = Object.values(completed_pairs);
+		if (done_states.length === tutorial_pairs && done_states.every(function(val) { return val })) {
 			// I'm appending some text to the page, but here you'll be moving on to the next phase of
 			// the game.
 			var el = document.getElementById('inner');

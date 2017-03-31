@@ -27,4 +27,9 @@ var tutorial2 = {"options":{"pos":{"x":112.5,"y":100},"eq":"1+2+3","h_align":"ce
 tutorial2.text = "Simplify the sum";
 tutorial2.correctAnswers = ["6"];
 tutorial2.startWiggle = ["1"];
+
+// Extra examples inherit the settings of the primary example.
+var extraExample1 = { expression: '1-2+5', correctAnswers: ['4'] };
+tutorial2.extraExamples = [extraExample1];
+
 tutorial_data.push(tutorial2);
