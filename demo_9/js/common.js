@@ -362,8 +362,7 @@ DinoEggs.Game.prototype = {
         //render rock equations
         this._rocksGroup.forEach(function(rock){
           rock.equationText.x = Math.floor(rock.x + rock.width / 2);
-          rock.equationText.y = Math.floor(rock.y + rock.height / 2);          
-            
+          rock.equationText.y = Math.floor(rock.y + rock.height / 2);            
           rock.GMCanvas.style.left = Math.floor(rock.x + rock.width / 2);
             //console.log("rock.GMCanvas.style.left "+rock.GMCanvas.style.left);
           //rock.GMCanvas.style.top = rock.y;
@@ -586,13 +585,12 @@ DinoEggs.Game.prototype = {
                 rock.equationText.visible = false;
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
-                
                 rock.GMCanvas = this.createEqDiv(i, randposX, 50, this.getMatchEquationOnRock()[1]);
             }
         }
 
     },
-    
+
     createEqDiv: function(inputId, inputX, inputY, inputEq){
         var newGMDiv = document.createElement("div");
         var newGMDivId = "gmeq_" + (this.g_rockProducedIndex+1) + "_" + inputId;
@@ -608,7 +606,7 @@ DinoEggs.Game.prototype = {
         canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
         return newGMDiv;
     },
-    
+
     calculateScore: function(hitCount){
         if (hitCount == 0) {
             return "+50";
@@ -733,8 +731,7 @@ DinoEggs.Game.prototype = {
             rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
             //rock.equationText.visible=true;
-            rock.GMCanvas.style.display = "block";
-    
+            rock.GMCanvas.style.display = "block";    
     }
     },
     handlePowerupTween:function(){
