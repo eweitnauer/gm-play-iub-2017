@@ -78,7 +78,7 @@
             background-color:transparent !important;
         }
         
-        div.canvas-element circle{
+        div.canvas-element .handle{
             display:none;
         }
         div.row{
@@ -129,11 +129,15 @@
         .modal-backdrop.in{
             opacity:0.0001;
         }
+        
+        div.gm-game-rock div.text{
+            color: white !important;
+            position: absolute !important;
+        }
     </style>
 </head>
 <body>
-    
-    <div id='game-div'></div>
+    <div id='game-div' style="position:relative"></div>
     <div class="row">
         <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
             <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>

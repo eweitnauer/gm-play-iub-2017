@@ -61,7 +61,7 @@ DinoEggs.Game.prototype = {
         if(this._levelNumber != 1){
             this.rock_levelProblemSet = g_matchExpressionFormat[this._jsonData["rockLevelProblemSet"]];
             this.rock_problemMode = this._jsonData["rockProblemMode"];
-            this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]][0];
+            this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]];
             //this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
             this.g_parsedCanvasExpression = this.g_canvasExpression;
         }
@@ -137,11 +137,11 @@ DinoEggs.Game.prototype = {
         this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { fontSize: '16px', fill: '#000' });
         
         // Number of Remaining Rocks
-         if(this._levelNumber != 1){
+        if(this._levelNumber != 1){
              var barConfig = {x: 230, y: 25};
              this.myHealthBar = new HealthBar(this.game, barConfig);
              this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
-         }
+        }
         else{
             this.rocksRemainingText = "";
             this.myHealthBar = new HealthBar(this.game, barConfig);
@@ -163,17 +163,17 @@ DinoEggs.Game.prototype = {
 	    rockwave.scale.setTo(0,0);
 
         //create Rocks
-         if(this._levelNumber != 1){
+        if(this._levelNumber != 1){
             this.createRocks(this.g_numRocks);        
             //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
             this.startRockWave(6,this.g_numRocks,this.g_numEggs);
-         }
+        }
         
         //end celebration 
         this.celebrationEmitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
         
          //  Here we're passing an array of image keys. It will pick one at random when emitting a new particle.
-         this.celebrationEmitter.makeParticles(['jewel_red', 'jewel_purple', 'jewel_white','jewel_green','jewel_yellow']);
+        this.celebrationEmitter.makeParticles(['jewel_red', 'jewel_purple', 'jewel_white','jewel_green','jewel_yellow']);
         this.celebrationEmitter.gravity = 0; 
         this.celebrationEmitter.width = 800;
         this.celebrationEmitter.maxParticleScale = 1;
@@ -193,9 +193,9 @@ DinoEggs.Game.prototype = {
         
         
         //lightning group 
-         this._lightningGroup = this.game.add.group();
-         this._lightningGroup.enableBody = true;
-         this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        this._lightningGroup = this.game.add.group();
+        this._lightningGroup.enableBody = true;
+        this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
         this.lightRockMap ={}
         
         //show instructions after 2 seconds
@@ -316,7 +316,6 @@ DinoEggs.Game.prototype = {
         //Show the power up until it is acquired by player (atleast one time within level)
         if(this._levelNumber >= 3 && !this.isPowerupUsed){
             if(this._rocksGroup.countLiving() > 0 && this._eggsGroup.countLiving() > 0){
-                
                 //check whether we can get a unique equation for powerup
                 var uniqueEq = this.getEquationForPowerup();
                 if(uniqueEq != null){
@@ -368,7 +367,14 @@ DinoEggs.Game.prototype = {
         //render rock equations
         this._rocksGroup.forEach(function(rock){
           rock.equationText.x = Math.floor(rock.x + rock.width / 2);
-          rock.equationText.y = Math.floor(rock.y + rock.height / 2);          
+          rock.equationText.y = Math.floor(rock.y + rock.height / 2);            
+          rock.GMCanvas.style.left = Math.floor(rock.x + rock.width / 2);
+            //console.log("rock.GMCanvas.style.left "+rock.GMCanvas.style.left);
+          //rock.GMCanvas.style.top = rock.y;
+            //rock.GMCanvas.style.transform = "translate(" + rock.x + "," + rock.y + ") !important";
+            $("#"+rock.GMCanvas.id).css({top: rock.y, left: rock.x + 350, position:'absolute'});
+            //console.log("rock.GMCanvas.id "+rock.GMCanvas.id);
+            //console.log("rock.GMCanvas.style.top "+rock.GMCanvas.style.top);
         });
         
         //render power up equation text
@@ -578,16 +584,34 @@ DinoEggs.Game.prototype = {
                 this.rockPositions.splice(randIndex,1);
                 //place the postionX at the end of array for reuse
                 this.rockPositions.push(randposX);
-                var rock = new Rock(this.game,randposX, 50, this.getMatchEquationOnRock());
+                var parsed_n_match = this.getMatchEquationOnRock();
+                var rock = new Rock(this.game,randposX, 50, parsed_n_match);
                 rock.body.velocity.y = 0;
                 rock.visible = false;
                 rock.equationText.visible = false;
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
+                rock.GMCanvas = this.createEqDiv(i, randposX, 50, parsed_n_match);
             }
         }
 
     },
+
+    createEqDiv: function(inputId, inputX, inputY, inputEq){
+        var newGMDiv = document.createElement("div");
+        var newGMDivId = "gmeq_" + (this.g_rockProducedIndex+1) + "_" + inputId;
+        newGMDiv.setAttribute("id", newGMDivId);
+        newGMDiv.setAttribute("class", "gm-game-rock");
+        newGMDiv.style.left = inputX + 'px';
+        newGMDiv.style.top = inputY + 'px';
+        newGMDiv.style.display = "none";
+        document.body.appendChild(newGMDiv);
+        
+        var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
+        canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
+        return newGMDiv;
+    },
+
     calculateScore: function(hitCount){
         if (hitCount == 0) {
             return "+50";
@@ -711,8 +735,8 @@ DinoEggs.Game.prototype = {
             }
             rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
-            rock.equationText.visible=true;
-    
+            //rock.equationText.visible=true;
+            rock.GMCanvas.style.display = "block";    
     }
     },
     handlePowerupTween:function(){
@@ -794,6 +818,7 @@ DinoEggs.Game.prototype = {
         rock_emitter.start(true, 2000, null, 5);
         
         rock.equationText.destroy();
+        rock.GMCanvas.parentElement.removeChild(rock.GMCanvas);
         this._rocksGroup.remove(rock);
 
         //  And 2 seconds later we'll destroy the emitter
@@ -971,14 +996,16 @@ DinoEggs.Game.prototype = {
         var matchedEqRocks= [];
         //var parsedEq = equation.replace(/\*/g, "");
         var parsedEq = equation;
-        
+        //console.log("parsed: "+parsedEq);
         //if(this._levelNumber != 2){
             // be careful for expressions with *. Might need to use algebra model instead
             this.currentCanvasEqu = parsedEq;
         //}
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
+            //console.log("before if: "+this._rocksGroup.children[i].equ);
             if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
                 //add rock obj to array;
+                //console.log("inside if - matched: "+ this._rocksGroup.children[i].equ);
                 matchedEqRocks.push(this._rocksGroup.children[i]);
             }
             
@@ -1188,7 +1215,6 @@ DinoEggs.Game.prototype = {
     },
     getMatchEquationOnRock: function(){
         var indexToChoose = this.getRandomRange(1, this.rock_levelProblemSet.length - 1);
-        //var equationToDisplay = this.rock_levelProblemSet[indexToChoose][1];
         var originalEquationAscii = this.rock_levelProblemSet[indexToChoose][0];
         var equation =  this.rock_levelProblemSet[indexToChoose][1];
         var parsedEquation = equation.replace(/\*/g, "");
@@ -1233,20 +1259,16 @@ DinoEggs.Game.prototype = {
     createEggEquation: function(){
             //get random expression format from current level ProblemSet
             var rndm = Math.random();    
-            equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)][0];
-            unicode_equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)][1];
+            equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)];
             num_of_coefficients = (equation_format.match(/N/g)||[]).length;
             //console.log(num_of_coefficients);
             equation = equation_format;
-            uequation = unicode_equation_format;
             for(var i=0;i<num_of_coefficients;i++){
                 var indx = equation.indexOf('N');
                 var chr = Math.floor((Math.random() * 10) + 1);
                 equation = this.setCharAt(equation, indx, chr);
-                uequation = this.setCharAt(uequation, indx, this.getUnicodeNum(chr,uequation.charAt(indx)));
             }
-   
-            return [equation, uequation];
+            return equation;
     },
     //http://www.numericjs.com/index.php
     linspace: function(a,b,n) {
