@@ -608,6 +608,7 @@ DinoEggs.Game.prototype = {
         document.body.appendChild(newGMDiv);
         
         var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
+        console.log("inputEq:"+inputEq);
         canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
         return newGMDiv;
     },
@@ -1215,10 +1216,10 @@ DinoEggs.Game.prototype = {
     },
     getMatchEquationOnRock: function(){
         var indexToChoose = this.getRandomRange(1, this.rock_levelProblemSet.length - 1);
-        var originalEquationAscii = this.rock_levelProblemSet[indexToChoose][0];
-        var equation =  this.rock_levelProblemSet[indexToChoose][1];
+        var originalEquationAscii = this.rock_levelProblemSet[indexToChoose];
+        var equation =  this.rock_levelProblemSet[indexToChoose];
         var parsedEquation = equation.replace(/\*/g, "");
-        return [parsedEquation, originalEquationAscii];
+        return parsedEquation;
     },
     getEquationForPowerup: function(){
         var i = this.rock_levelProblemSet.length - 1;
