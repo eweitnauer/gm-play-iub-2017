@@ -1,5 +1,5 @@
 //------------------------------------------------------
-Rock = function (game, x, y, equations) {
+Rock = function (game, x, y, equation) {
 
     Phaser.Sprite.call(this, game, x, y, 'rock');
     
@@ -7,8 +7,8 @@ Rock = function (game, x, y, equations) {
     //set velocity in game while spawning rock
     this.body.velocity.y = 15;
     this.body.collideWorldBounds = true;
-    this.equ = equations[1];
-    this.equDisplay = equations[0];
+    this.equ = equation;
+    this.equDisplay = equation;
     //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
     var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equDisplay, { font: "25px Comic Sans MS", fill: "#ffffff", wordWrap: true, wordWrapWidth: this.width, align: "center"});
     
@@ -115,4 +115,3 @@ Egg.prototype.getEquation = function(){
 Egg.prototype.setEquStyle = function(style){
     this.children.forEach(function(c){ c.setStyle(style)});
 }
-
