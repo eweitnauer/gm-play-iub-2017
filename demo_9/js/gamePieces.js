@@ -56,6 +56,7 @@ Rock = function (game, x, y, equation) {
     text.anchor.set(0.5);
     this.equationText = text;
     //this.equationText = bmd;
+    this.equationText.visible = false;
 };
 
 Rock.prototype = Object.create(Phaser.Sprite.prototype);
@@ -92,7 +93,6 @@ Egg = function (game, x, y, equation) {
     text.anchor.set(0.5);
     
     this.equationText = text;
-    
     this.hitCounter=0;
     
     //add click event to egg
