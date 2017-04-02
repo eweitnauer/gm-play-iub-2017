@@ -66,7 +66,7 @@ DinoEggs.Game.prototype = {
         if(this._levelNumber != 1){
             this.rock_levelProblemSet = g_matchExpressionFormat[this._jsonData["rockLevelProblemSet"]];
             this.rock_problemMode = this._jsonData["rockProblemMode"];
-            this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]][0];
+            this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]];
             //this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
             this.g_parsedCanvasExpression = this.g_canvasExpression;
         }
@@ -137,11 +137,11 @@ DinoEggs.Game.prototype = {
         this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { fontSize: '16px', fill: '#000' });
         
         // Number of Remaining Rocks
-         if(this._levelNumber != 1){
+        if(this._levelNumber != 1){
              var barConfig = {x: 230, y: 25};
              this.myHealthBar = new HealthBar(this.game, barConfig);
              this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
-         }
+        }
         else{
             this.rocksRemainingText = "";
             this.myHealthBar = new HealthBar(this.game, barConfig);
@@ -163,17 +163,17 @@ DinoEggs.Game.prototype = {
 	    rockwave.scale.setTo(0,0);
 
         //create Rocks
-         if(this._levelNumber != 1){
+        if(this._levelNumber != 1){
             this.createRocks(this.g_numRocks);        
             //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
             this.startRockWave(6,this.g_numRocks,this.g_numEggs);
-         }
+        }
         
         //end celebration 
         this.celebrationEmitter = this.game.add.emitter(this.game.world.centerX, -32, 50);
         
          //  Here we're passing an array of image keys. It will pick one at random when emitting a new particle.
-         this.celebrationEmitter.makeParticles(['jewel_red', 'jewel_purple', 'jewel_white','jewel_green','jewel_yellow']);
+        this.celebrationEmitter.makeParticles(['jewel_red', 'jewel_purple', 'jewel_white','jewel_green','jewel_yellow']);
         this.celebrationEmitter.gravity = 0; 
         this.celebrationEmitter.width = 800;
         this.celebrationEmitter.maxParticleScale = 1;
@@ -193,9 +193,9 @@ DinoEggs.Game.prototype = {
         
         
         //lightning group 
-         this._lightningGroup = this.game.add.group();
-         this._lightningGroup.enableBody = true;
-         this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        this._lightningGroup = this.game.add.group();
+        this._lightningGroup.enableBody = true;
+        this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
         this.lightRockMap ={}
         
         //show instructions after 2 seconds
@@ -320,7 +320,7 @@ DinoEggs.Game.prototype = {
                 this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
                 
                 var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
-                this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , this.getMatchEquationOnRock()[0], pStyle); 
+                this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , this.getMatchEquationOnRock(), pStyle); 
                 this.powerupText.anchor.set(0.5);
             }else{
                 this.clearGMCanvas(this.matchExpCanvas); 
@@ -586,7 +586,7 @@ DinoEggs.Game.prototype = {
                 rock.equationText.visible = false;
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
-                rock.GMCanvas = this.createEqDiv(i, randposX, 50, parsed_n_match[1]);
+                rock.GMCanvas = this.createEqDiv(i, randposX, 50, parsed_n_match);
             }
         }
 
@@ -596,8 +596,7 @@ DinoEggs.Game.prototype = {
         var newGMDiv = document.createElement("div");
         var newGMDivId = "gmeq_" + (this.g_rockProducedIndex+1) + "_" + inputId;
         newGMDiv.setAttribute("id", newGMDivId);
-        newGMDiv.style.position = "absolute";
-        newGMDiv.style.color = "#ffffff !important";
+        newGMDiv.setAttribute("class", "gm-game-rock");
         newGMDiv.style.left = inputX + 'px';
         newGMDiv.style.top = inputY + 'px';
         newGMDiv.style.display = "none";
@@ -1209,11 +1208,10 @@ DinoEggs.Game.prototype = {
     },
     getMatchEquationOnRock: function(){
         var indexToChoose = this.getRandomRange(1, this.rock_levelProblemSet.length - 1);
-        var equationToDisplay = this.rock_levelProblemSet[indexToChoose][1];
-        var originalEquationAscii = this.rock_levelProblemSet[indexToChoose][0];
-        this.g_equation =  this.rock_levelProblemSet[indexToChoose][1];
+        var equationToDisplay = this.rock_levelProblemSet[indexToChoose];
+        this.g_equation =  this.rock_levelProblemSet[indexToChoose];
         this.g_parsedEquation = this.g_equation.replace(/\*/g, "");
-        return [this.g_parsedEquation, originalEquationAscii];
+        return this.g_parsedEquation
     },
     
     setCharAt:function(str, index, chr) {
@@ -1224,20 +1222,16 @@ DinoEggs.Game.prototype = {
     createEggEquation: function(){
             //get random expression format from current level ProblemSet
             var rndm = Math.random();    
-            equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)][0];
-            unicode_equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)][1];
+            equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)];
             num_of_coefficients = (equation_format.match(/N/g)||[]).length;
             //console.log(num_of_coefficients);
             equation = equation_format;
-            uequation = unicode_equation_format;
             for(var i=0;i<num_of_coefficients;i++){
                 var indx = equation.indexOf('N');
                 var chr = Math.floor((Math.random() * 10) + 1);
                 equation = this.setCharAt(equation, indx, chr);
-                uequation = this.setCharAt(uequation, indx, this.getUnicodeNum(chr,uequation.charAt(indx)));
             }
-   
-            return [equation, uequation];
+            return equation;
     },
     //http://www.numericjs.com/index.php
     linspace: function(a,b,n) {
