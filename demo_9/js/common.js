@@ -319,6 +319,7 @@ DinoEggs.Game.prototype = {
                 //check whether we can get a unique equation for powerup
                 var uniqueEq = this.getEquationForPowerup();
                 if(uniqueEq != null){
+                    console.log("Eq : "+uniqueEq);
                     this.pterodactyl.visible = true;  
                     this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
@@ -608,7 +609,6 @@ DinoEggs.Game.prototype = {
         document.body.appendChild(newGMDiv);
         
         var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-        console.log("inputEq:"+inputEq);
         canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
         return newGMDiv;
     },
@@ -1224,18 +1224,17 @@ DinoEggs.Game.prototype = {
     getEquationForPowerup: function(){
         var i = this.rock_levelProblemSet.length - 1;
         var uniqueEqFound = true;
+        var parsedCanvasEq = this.currentCanvasEqu.replace(/\*/g, "");
         while(i >= 0){
             uniqueEqFound = true;
-            var equation =  this.rock_levelProblemSet[i][1];
+            var equation =  this.rock_levelProblemSet[i];
             var parsedEquation = equation.replace(/\*/g, "");
-            if(parsedEquation != this.currentCanvasEqu){
+            if(parsedEquation != parsedCanvasEq){
                     for(j = 0 ; j < this._rocksGroup.children.length; j++){
                         if(this._rocksGroup.children[j].visible){
                             
                             var rockEq = this._rocksGroup.children[j].equ.replace(/\*/g, "");
-                            //console.log("visible rock : "+rockEq);
                             if(rockEq == parsedEquation){
-                                //console.log("Matches rock : "+rockEq);
                                 uniqueEqFound = false;
                                 break;
                             }
