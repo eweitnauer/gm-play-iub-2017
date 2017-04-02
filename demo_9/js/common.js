@@ -1309,13 +1309,13 @@ DinoEggs.Game.prototype = {
         //randomly choose available powerups 
         //Move below code somewhere else while refactoring
         var powerupsArray = [];
-        var freezePowerup = {"id": "1", "name" : "Rocks Freeze", "handler" : "freezeRocks"};
+        var freezePowerup = {"id": "1", "name" : "Rocks Freeze", "handler" : "freezeRocks", "spriteName": "freezeRocks"};
         powerupsArray.push(freezePowerup);
-        var destroyAllRocksPowerup = {id: "2", name : "Destroy All Rocks", handler : "destroyRocks"};
+        var destroyAllRocksPowerup = {id: "2", name : "Destroy All Rocks", handler : "destroyRocks", "spriteName": "destroyRocks"};
         powerupsArray.push(destroyAllRocksPowerup);
-        var goldenEggPowerup = {id: "3", name : "Unlocked Golden Egg", handler : "addGoldenEgg"};   
+        var goldenEggPowerup = {id: "3", name : "Unlocked Golden Egg", handler : "addGoldenEgg", "spriteName": "goldenEgg"};   
         powerupsArray.push(goldenEggPowerup);
-        var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg"};
+        var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
         //var indexToChoose = 1;
@@ -1323,15 +1323,17 @@ DinoEggs.Game.prototype = {
         var chosenPowerup = powerupsArray[indexToChoose];
           
         //Show powerup name
-        powerName = this.game.add.text(0,0, chosenPowerup.name, { fontSize: '32px', fill: '#000' });
-		powerName.anchor.setTo(0.5,0.5);
+        //powerName = this.game.add.text(0,0, chosenPowerup.name, { fontSize: '32px', fill: '#000' });
+		powerName = this.game.add.sprite(0,0, chosenPowerup.spriteName);
+        powerName.anchor.setTo(0.5,0.5);
+        powerName.scale.setTo(0,0);
         powerName.x=this.game.width/2;
         powerName.y=this.game.height/3;
         
-        var powerNameTween = this.game.add.tween(powerName.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
+        var powerNameTween = this.game.add.tween(powerName.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
         powerNameTween.onComplete.add(exitTween, this);
         function exitTween () {
-            this.game.add.tween(powerName.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
+            this.game.add.tween(powerName.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
         }
 
         //handle selected powerup
