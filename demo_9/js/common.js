@@ -20,18 +20,13 @@ DinoEggs.Game = function(){
     this.boardText2 = null;
     this.board = null;
     this.matchExpDerivation = null;    
-    this.g_equation="";
-    this.g_parsedEquation="";
     this.g_rockProducedIndex = -1;
     this.music=null;
     this.rockPositions =[];
     this.undoBtn = null;
     this.currentCanvasEqu ="";
     
-    //power up variables
-    this.g_powerupDuration = 5;
-    this.isPowerupActivated = false;
-    this.powerupID = -1;
+    
 };
 DinoEggs.Game.prototype = Object.create(Phaser.State.prototype);
 DinoEggs.Game.prototype.constructor = DinoEggs.Game;
@@ -70,6 +65,11 @@ DinoEggs.Game.prototype = {
             //this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
             this.g_parsedCanvasExpression = this.g_canvasExpression;
         }
+        
+        //power up variables
+        this.g_powerupDuration = 5;
+        this.isPowerupUsed = false;
+        this.powerupID = -1;
     },
 
     create:function(){
@@ -208,9 +208,9 @@ DinoEggs.Game.prototype = {
         
         
         //powerups appear randomly
-        var powerupInterval = this.getRandomRange(20, 100);
+        var powerupInterval = this.getRandomRange(20, 50);
         console.log("Power up appearing in "+powerupInterval+" seconds");
-        this.game.time.events.add(Phaser.Timer.SECOND * 10, this.showPowerup, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);
         
         //Game controls
         this.pauseButton = this.game.add.button(this.game.world.width , this.scoreText.y + this.scoreText.height , 'pauseButton', this.pauseClicked, this);
@@ -313,24 +313,30 @@ DinoEggs.Game.prototype = {
     showPowerup:function(){
         //check level number from where we want to show powerup
         //show power up only when at least one rock is present
-        if(this._levelNumber >= 3 ){
+        //Show the power up until it is acquired by player (atleast one time within level)
+        if(this._levelNumber >= 3 && !this.isPowerupUsed){
             if(this._rocksGroup.countLiving() > 0 && this._eggsGroup.countLiving() > 0){
-                this.pterodactyl.visible = true;  
-                this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
-                this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
                 
-                var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
-                this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , this.getMatchEquationOnRock()[0], pStyle); 
-                this.powerupText.anchor.set(0.5);
+                //check whether we can get a unique equation for powerup
+                var uniqueEq = this.getEquationForPowerup();
+                if(uniqueEq != null){
+                    this.pterodactyl.visible = true;  
+                    this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
+                    this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
+
+                    var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
+                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , uniqueEq, pStyle); 
+                    this.powerupText.anchor.set(0.5);
+                }
             }else{
                 this.clearGMCanvas(this.matchExpCanvas); 
                 this.showBoard('Click egg ','and solve for x');
                 this.dino.animations.play('move', 10, true);
             }
             
-            /*var powerupInterval = this.getRandomRange(20, 30);
+            var powerupInterval = this.getRandomRange(20, 50);
             console.log("Power up appearing in "+powerupInterval+" seconds");
-            this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);  */
+            this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);  
         } 
     },
     showRockInstructions:function(){
@@ -695,13 +701,13 @@ DinoEggs.Game.prototype = {
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
-          
             //replace rock equation
-            if(rock.getEquation() == this.currentCanvasEqu){
+            if(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
                 rock.setEquation(this.getMatchEquationOnRock());
-                while(rock.getEquation() == this.currentCanvasEqu){
+                while(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
                     rock.setEquation(this.getMatchEquationOnRock());
                 }
+                
             }
             rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
@@ -852,7 +858,9 @@ DinoEggs.Game.prototype = {
         var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 80, 'menu', function(){
             this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
-        mainMenuButton.anchor.set(0.5);  
+        mainMenuButton.anchor.set(0.5); 
+        
+        this.isPowerupUsed = false;
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
@@ -1180,13 +1188,43 @@ DinoEggs.Game.prototype = {
     },
     getMatchEquationOnRock: function(){
         var indexToChoose = this.getRandomRange(1, this.rock_levelProblemSet.length - 1);
-        var equationToDisplay = this.rock_levelProblemSet[indexToChoose][1];
+        //var equationToDisplay = this.rock_levelProblemSet[indexToChoose][1];
         var originalEquationAscii = this.rock_levelProblemSet[indexToChoose][0];
-        this.g_equation =  this.rock_levelProblemSet[indexToChoose][1];
-        this.g_parsedEquation = this.g_equation.replace(/\*/g, "");
-        return [this.g_parsedEquation, originalEquationAscii];
+        var equation =  this.rock_levelProblemSet[indexToChoose][1];
+        var parsedEquation = equation.replace(/\*/g, "");
+        return [parsedEquation, originalEquationAscii];
     },
-    
+    getEquationForPowerup: function(){
+        var i = this.rock_levelProblemSet.length - 1;
+        var uniqueEqFound = true;
+        while(i >= 0){
+            uniqueEqFound = true;
+            var equation =  this.rock_levelProblemSet[i][1];
+            var parsedEquation = equation.replace(/\*/g, "");
+            if(parsedEquation != this.currentCanvasEqu){
+                    for(j = 0 ; j < this._rocksGroup.children.length; j++){
+                        if(this._rocksGroup.children[j].visible){
+                            
+                            var rockEq = this._rocksGroup.children[j].equ.replace(/\*/g, "");
+                            //console.log("visible rock : "+rockEq);
+                            if(rockEq == parsedEquation){
+                                //console.log("Matches rock : "+rockEq);
+                                uniqueEqFound = false;
+                                break;
+                            }
+                        }
+                    } 
+            }else{
+                uniqueEqFound = false;
+            }
+            if(uniqueEqFound){
+                return parsedEquation;
+                break;
+            }
+            i--;
+        }
+        return null;
+    },
     setCharAt:function(str, index, chr) {
         if(index > str.length-1) return str;
         return str.substr(0,index) + chr + str.substr(index+1);
@@ -1236,7 +1274,7 @@ DinoEggs.Game.prototype = {
     
     //Power ups code
     acquirePowerup:function(){
-        this.isPowerupActivated = true;
+        this.isPowerupUsed = true;
         
         //kill pterodactyl, power up text and show a cool message that player acquired a powerup
         this.pterodactyl.visible = false;
@@ -1288,7 +1326,6 @@ DinoEggs.Game.prototype = {
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
             this._rocksGroup.children[i].body.velocity.y = 15;
         } 
-        this.isPowerupActivated = false; 
         this.powerupID = -1;
         this.game.time.events.repeat(Phaser.Timer.SECOND * 6, this.g_numRocks - this.g_rockProducedIndex - 1, this.spawnRock, this);
     },
@@ -1304,7 +1341,6 @@ DinoEggs.Game.prototype = {
             this.clearGMCanvas(this.matchExpCanvas); 
             this.showBoard('Click egg ','and solve for x');
             this.dino.animations.play('move', 10, true);
-            this.isPowerupActivated = false; 
             this.powerupID = -1;
         }
     },
@@ -1314,7 +1350,6 @@ DinoEggs.Game.prototype = {
         var eggToReplace = this._eggsGroup.children[eggIndex];  
         eggToReplace.tint = 0xccac00;
         eggToReplace.hitCounter = 10000; // provide a better logic to recognize the golden egg
-        this.isPowerupActivated = false; 
         this.powerupID = -1;
     },
     hatchRandomEgg:function(){    
