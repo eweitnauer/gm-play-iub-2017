@@ -198,8 +198,12 @@ DinoEggs.Game.prototype = {
         this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
         this.lightRockMap ={}
         
-        //show instructions after 2 seconds
+        //show instructions after 2 seconds 
+        if(this._levelNumber > 1){
         this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showRockInstructions, this);
+        }else{
+           this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showEggInstructions, this);
+        }
         
         //power up
         this.pterodactyl = this.game.add.sprite(0, 50, 'pterodactyl');
@@ -345,8 +349,7 @@ DinoEggs.Game.prototype = {
                 }
             }else{
                 this.clearGMCanvas(this.matchExpCanvas); 
-                this.showBoard('Click egg ','and solve for x');
-                this.dino.animations.play('move', 10, true);
+                this.showEggInstructions();
             }
             
             var powerupInterval = this.getRandomRange(20, 50);
@@ -356,6 +359,10 @@ DinoEggs.Game.prototype = {
     },
     showRockInstructions:function(){
         this.showBoard('Match rock ','expression to burst');
+        this.dino.animations.play('move', 10, true);
+    },
+    showEggInstructions:function(){
+        this.showBoard('Click egg ','and solve for x');
         this.dino.animations.play('move', 10, true);
     },
     update:function(){
@@ -796,8 +803,7 @@ DinoEggs.Game.prototype = {
            
             if(this._rocksGroup.countLiving() == 0){
                 this.clearGMCanvas(this.matchExpCanvas); 
-                this.showBoard('Click egg ','and solve for x');
-                this.dino.animations.play('move', 10, true);
+                this.showEggInstructions();
             }
             
         }     
@@ -866,8 +872,7 @@ DinoEggs.Game.prototype = {
             }
             else{
                 if(this._eggsGroup.countLiving()>0){
-                    this.showBoard('Click egg ','and solve for x');
-                    this.dino.animations.play('move', 10, true);
+                    this.showEggInstructions();
                     this._eggsGroup.callAll('animations.play', 'animations', 'wiggleOnce');
                 }
             }
@@ -1075,8 +1080,7 @@ DinoEggs.Game.prototype = {
             }
             if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
                 this.clearGMCanvas(this.matchExpCanvas); 
-                this.showBoard('Click egg ','and solve for x');
-                this.dino.animations.play('move', 10, true);
+                this.showEggInstructions();
             }
 
         }
@@ -1396,8 +1400,7 @@ DinoEggs.Game.prototype = {
         //clear both canvas
         if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex == this.g_numRocks){
             this.clearGMCanvas(this.matchExpCanvas); 
-            this.showBoard('Click egg ','and solve for x');
-            this.dino.animations.play('move', 10, true);
+            this.showEggInstructions();
             this.powerupID = -1;
         }
     },
