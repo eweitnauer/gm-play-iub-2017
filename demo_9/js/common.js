@@ -85,7 +85,7 @@ DinoEggs.Game.prototype = {
         
         }, { version: '1.0.4' });
         
-        g_countDinoForGameOver = 0;
+        this.g_countDinoForGameOver = 0;
         //hatchling positioning
         //this.hatchlingXLeftLimit = g_x_end + 10;
         //this.hatchlingXRightLimit = this.hatchlingXLeftLimit + 139; //139 is the width of a single dino hatchling
@@ -444,88 +444,6 @@ DinoEggs.Game.prototype = {
     },
     
     createEggs: function(numEggs){
-        if(this._levelNumber == 2){
-            //eggs fall from center of canvas onto ground 
-        var egg_y = this.game.world.height/2;
-
-        //  Here we'll create eggs evenly spaced apart
-        var egg_x_array = this.linspace(this.g_x_start,this.g_x_end,numEggs);
-
-        for (var i = 0; i < numEggs; i++){
-        
-            if(this._levelNumber != 2){
-                var egg = new Egg(this.game,egg_x_array[i],egg_y,this.createEggEquation());
-            }
-            else{
-                
-                //No equations to be displayed on the eggs for this level as no equation solving is there 
-                var egg = new Egg(this.game,egg_x_array[i],egg_y,"");    
-            }
-            
-            //add animation callback on complete !maintain parameter bindings
-            egg.animations.getAnimation('hatch').onComplete.add(function(eggSprite, animation){
-                //get x position for egg to hatch
-                var egg_x = eggSprite.x;
-                var isSad = false;
-                if(eggSprite.hitCounter > 2){
-                    isSad = true;
-                }
-              
-                //get score
-                var score = this.calculateScore(eggSprite.hitCounter); 
-
-                //Add score text here
-                var obtainedScoreText = this.game.add.text(eggSprite.x, eggSprite.y, score, { fontSize: '32px', fill: '#000' });
-
-                //score animation
-                var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
-                scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
-
-                //check for any existing black eggs
-                if(eggSprite.hitCounter <= 2){
-                    for (var j = 0; j < this._eggsGroup.length; j++){
-                        if(this._eggsGroup.children[j].hitCounter > 2){
-                            var blackEggScoreText = this.game.add.text(this._eggsGroup.children[j].x, this._eggsGroup.children[j].y, "-10", { fontSize: '32px', fill: '#000' });
-                            var blackEggTween = this.game.add.tween(blackEggScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
-                            //blackEggTweenArray.push(blackEggTween);
-                        blackEggTween.onComplete.addOnce(this.updateScore,this,blackEggScoreText); 
-                        }
-                    }
-                }
-
-                eggSprite.equationText.destroy();
-                this._eggsGroup.remove(eggSprite); 
-                this.runToMom(egg_x, isSad);
-
-                if(this._eggsGroup.countLiving() > 0 ){
-                    if(this.solveEqCanvas)
-                        this.clearGMCanvas(this.solveEqCanvas);
-                    if(this.matchExpCanvas)
-                        this.clearGMCanvas(this.matchExpCanvas);
-                    document.getElementById("eq-match-div").style.display="block";
-                    document.getElementById("eq-solve-div").style.display="none";
-                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                    this.currentCanvasEqu = this.g_parsedCanvasExpression;
-                    if(this._levelNumber > 2){    
-                        this.createRocks(this.g_numRocks);           
-                        this.startRockWave(6,this.g_numRocks,this.g_numEggs);
-                    }
-                }
-                else{
-
-                }
-            }, this);
-
-            //add click event to egg
-            if(this._levelNumber != 2){
-                egg.inputEnabled = true;
-                egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
-            }
-            this._eggsGroup.add(egg);
-
-            }
-        }
-        else{
             //eggs fall from center of canvas onto ground 
             var egg_y = this.game.world.height/2;
 
@@ -533,8 +451,14 @@ DinoEggs.Game.prototype = {
             var egg_x_array = this.linspace(this.g_x_start,this.g_x_end,numEggs);
 
             for (var i = 0; i < numEggs; i++){
-                var egg = new Egg(this.game,egg_x_array[i],egg_y,this.createEggEquation());
+                
+                if(this._levelNumber != 2){
+                    var egg = new Egg(this.game,egg_x_array[i],egg_y,this.createEggEquation());
 
+                }else{
+                    var egg = new Egg(this.game,egg_x_array[i],egg_y,"");   
+                }
+                
                 //add animation callback on complete !maintain parameter bindings
                 egg.animations.getAnimation('hatch').onComplete.add(function(eggSprite, animation){
                     //get x position for egg to hatch
@@ -561,7 +485,6 @@ DinoEggs.Game.prototype = {
                             if(this._eggsGroup.children[j].hitCounter > 2 && this._eggsGroup.children[j].hitCounter != 10000){
                                 var blackEggScoreText = this.game.add.text(this._eggsGroup.children[j].x, this._eggsGroup.children[j].y, "-10", { fontSize: '32px', fill: '#000' });
                                 var blackEggTween = this.game.add.tween(blackEggScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
-                                //blackEggTweenArray.push(blackEggTween);
                             blackEggTween.onComplete.addOnce(this.updateScore,this,blackEggScoreText); 
                             }
                         }
@@ -579,7 +502,7 @@ DinoEggs.Game.prototype = {
                         if(this.matchExpCanvas)
                             this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
                         this.currentCanvasEqu = this.g_parsedCanvasExpression;
-                        if(this._levelNumber > 1){
+                        if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
                             this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
                         }
@@ -588,14 +511,15 @@ DinoEggs.Game.prototype = {
                         this.powerupID = -1;
                     }
                 }, this);
-
-                //add click event to egg
+                
+            //add click event to egg
+            if(this._levelNumber != 2){
                 egg.inputEnabled = true;
                 egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
-                this._eggsGroup.add(egg);
+            }
+            this._eggsGroup.add(egg);
 
             }
-        }
     },
     
     createEggEqDiv: function(inputId, inputX, inputY, inputEq){
@@ -694,14 +618,14 @@ DinoEggs.Game.prototype = {
     stopDino: function(hatchling){
         //  This method will reset the frame to frame 1 after stopping
         hatchling.animations.stop(null, true);
-
-        if(this._levelNumber == 2)//if(this.isSingleRockWave)
-            g_countDinoForGameOver++;
+        if(this._levelNumber == 2){//if(this.isSingleRockWave)
+            this.g_countDinoForGameOver++;
+        }
         
         if(this._eggsGroup.countLiving() == 0)
         {
             if(this._levelNumber == 2){
-                 if(g_countDinoForGameOver==this.g_numEggs)
+                 if(this.g_countDinoForGameOver == this.g_numEggs)
                      this.gameOver(); 
             }
             else{
@@ -813,7 +737,7 @@ DinoEggs.Game.prototype = {
         this.rockBurst(rock);
 
         if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
-            this.clearGMCanvas(this.matchExpCanvas);    
+            this.clearGMCanvas(this.matchExpCanvas); 
         }
         
         //if this egg is not golden egg, only then change the egg color
@@ -840,6 +764,9 @@ DinoEggs.Game.prototype = {
         }else{
             egg.animations.play('wiggleOnce');
         }
+        
+        
+       
         
     },
     
