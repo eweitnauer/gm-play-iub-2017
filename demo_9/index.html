@@ -11,6 +11,7 @@
     <script src = "js/Boot.js"></script>
     <script src = "js/Preload.js"></script>
     <script src = "js/MainMenu.js"></script>
+    <script src = "js/StageSelect.js"></script>
     <script src = "js/LevelSelect.js"></script>
     <!--<script src = "js/Level1.js"></script>
     <script src = "js/Level2.js"></script>-->
@@ -78,7 +79,7 @@
             background-color:transparent !important;
         }
         
-        div.canvas-element circle{
+        div.canvas-element .handle{
             display:none;
         }
         div.row{
@@ -128,6 +129,15 @@
         
         .modal-backdrop.in{
             opacity:0.0001;
+        }
+        
+        div.gm-game-rock div.text{
+            color: pink !important;
+            position: absolute !important;
+        }
+        
+        div.gm-game-rock div.line{
+            background-color: pink !important;
         }
     </style>
 </head>
