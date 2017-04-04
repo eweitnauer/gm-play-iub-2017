@@ -25,6 +25,7 @@ DinoEggs.Game = function(){
     this.rockPositions =[];
     this.undoBtn = null;
     this.currentCanvasEqu ="";
+    this.pauseReason = "";
     
     
 };
@@ -224,6 +225,9 @@ DinoEggs.Game.prototype = {
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
         this.muteButton.x = this.muteButton.x - this.muteButton.width;
+        
+        this.questionButton = this.game.add.button(this.game.world.width ,this.muteButton.y + this.muteButton.height, 'questionButton', this.questionClicked, this, 2, 1, 0);
+        this.questionButton.x = this.questionButton.x - this.questionButton.width;
     },
     muteMusic:function(){
           if (this.playOrMute == false) {
@@ -249,7 +253,8 @@ DinoEggs.Game.prototype = {
     unpause:function(event){
                 // Only act if paused
         if(this.game.paused){
-            // Calculate the corners of the menu
+            if (this.pauseReason == "pauseClicked") {
+              // Calculate the corners of the menu
             var x1 = this.game.world.width/2 - 325/2, 
                 x2 = this.game.world.width/2 + 325/2,
                 y1 = this.game.world.height/2 - 233/2, 
@@ -300,7 +305,21 @@ DinoEggs.Game.prototype = {
 
                 // Display the choice
                 this.choiceLabel.text = 'You chose menu item: ' + choicemap[choice];
+            }  
+            } else {
+                var m1 = this.replayButton.x;
+                var m2 = this.replayButton.x + this.replayButton.width;
+                var n1 = this.replayButton.y;
+                var n2 = this.replayButton.y + this.replayButton.height;
+                if(event.x > m1 && event.x < m2 && event.y > n1 && event.y < n2 ) {
+                    this.game.paused = false;
+                    this.replayButton.destroy();
+                    $("#eq-match-div").show();
+                    $("#eq-solve-div").show();
+                }
+                
             }
+            
             
         }
     },
@@ -312,9 +331,27 @@ DinoEggs.Game.prototype = {
         console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
 
     },
+    
+    questionClicked: function(){
+         this.replayButton = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'replayButton');
+        this.game.paused = true;
+        this.pauseReason = "questionClicked";
+           $('#questionModal').modal('show');
+         if (this._rocksGroup.countLiving() > 0) {
+            $('#qFrame').contents().find('#rock').show();
+            $('#qFrame').contents().find('#egg').hide();
+         } else {
+            $('#qFrame').contents().find('#egg').show();
+            $('#qFrame').contents().find('#rock').hide();
+         }
+        $("#eq-match-div").hide();
+        $("#eq-solve-div").hide();
+},
+        
     pauseClicked: function(){   
         // When the pause button is pressed, we pause the game
         this.game.paused = true;
+        this.pauseReason = "pauseClicked";
 
         // Then add the menu
         this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'buttonsMenu');
@@ -327,6 +364,8 @@ DinoEggs.Game.prototype = {
         $("#eq-match-div").hide();
         $("#eq-solve-div").hide();
     },
+    
+   
     showPowerup:function(){
         //check level number from where we want to show powerup
         //show power up only when at least one rock is present
