@@ -54,13 +54,7 @@ Egg = function (game, x, y, equation) {
     this.body.collideWorldBounds = true;
     
     this.equ = equation;
-    this.equDisplay = equation;
-    var text = this.game.add.text(Math.floor(this.width / 2), Math.floor(this.height / 2), this.equDisplay, {font: "20px Comic Sans MS", fill: "#111111",wordWrap: true, wordWrapWidth: this.width, align: "center"});
-    text.anchor.set(0.5);
-    
-    this.equationText = text;
     this.hitCounter=0;
-    
     //add click event to egg
     this.inputEnabled = true;
     //this.events.onInputDown.add(populateSolveEqCanvas, this, this);
@@ -82,18 +76,18 @@ Egg.prototype.setEquStyle = function(style){
     this.children.forEach(function(c){ c.setStyle(style)});
 }
 
-Egg.prototype.createEggEqDiv = function(inputId, inputX, inputY, inputEq, eggProducedIndex){
-        var newGMDiv = document.createElement("div");
-        var newGMDivId = "gseq_" + (eggProducedIndex+1) + "_" + inputId;
-        newGMDiv.setAttribute("id", newGMDivId);
-        newGMDiv.setAttribute("class", "gm-game-egg");
-        newGMDiv.style.left = inputX + 'px';
-        newGMDiv.style.top = inputY + 'px';
-        newGMDiv.style.display = "none";
-        document.body.appendChild(newGMDiv);
+Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedIndex){
+    this.newGMDiv = document.createElement("div");
+    var newGMDivId = "gseq_" + (eggProducedIndex+1);
+    this.newGMDiv.setAttribute("id", newGMDivId);
+    this.newGMDiv.setAttribute("class", "gm-game-egg");
+    this.newGMDiv.style.left = inputX + 'px';
+    this.newGMDiv.style.top = (inputY + 50) + 'px';
+    this.newGMDiv.style.display = "block";
+    document.body.appendChild(this.newGMDiv);
         
-        var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-        console.log("inputEq:"+inputEq);
-        canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
-        return newGMDiv;
+    var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
+    console.log("inputEq:"+inputEq);
+    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
+    return canvas;
 }
