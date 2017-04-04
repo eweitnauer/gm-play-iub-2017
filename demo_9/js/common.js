@@ -221,6 +221,7 @@ DinoEggs.Game.prototype = {
         this.pauseButton.x = this.pauseButton.x - this.pauseButton.width;
         this.game.input.onDown.add(this.unpause, this);
         this.playOrMute = false;
+        
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
         this.muteButton.x = this.muteButton.x - this.muteButton.width;
@@ -341,7 +342,7 @@ DinoEggs.Game.prototype = {
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
 
                     var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
-                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , uniqueEq, pStyle); 
+                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6), uniqueEq, pStyle); 
                     this.powerupText.anchor.set(0.5);
                 }
             }else{
@@ -984,11 +985,8 @@ DinoEggs.Game.prototype = {
      lightningStruck:function(lightning, rock){
          
      
-         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();//.replace(/\*/g, "");
+         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
-         //console.log(this.lightRockMap[lightning.nameId] == rock);
-         //console.log(this.lightRockMap[lightning.nameId]);
-         //console.log(rock)
          if(this.lightRockMap[lightning.nameId] == rock){
              if(rock.equ != currentMatchExp){
                 return;
@@ -1223,12 +1221,20 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 2;
+        //var indexToChoose = 0;
         var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
-        var chosenPowerup = powerupsArray[indexToChoose];
-          
+        
+        //check if rocks freeze is acquired,
+        //In that case, if there are no rocks, player should acquire new powerup
+        var killedRocks = this.g_numRocks - this._rocksGroup.countLiving();
+        if(indexToChoose == 0 && killedRocks == this.g_rockProducedIndex + 1){
+            while(indexToChoose == 0){
+                indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
+            }
+        }
+        
+        var chosenPowerup = powerupsArray[indexToChoose];  
         //Show powerup name
-        //powerName = this.game.add.text(0,0, chosenPowerup.name, { fontSize: '32px', fill: '#000' });
 		powerName = this.game.add.sprite(0,0, chosenPowerup.spriteName);
         powerName.anchor.setTo(0.5,0.5);
         powerName.scale.setTo(0,0);
