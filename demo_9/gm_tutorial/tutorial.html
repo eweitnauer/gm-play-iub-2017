@@ -19,7 +19,7 @@
                   <li data-target="#myCarousel" data-slide-to="3"></li>-->
                 </ol>
                 <div id='inner1' class="carousel-inner" role="listbox"></div>
-                 
+
                   <a class="left carousel-control" href="#outer1" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -28,14 +28,14 @@
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                   </a>
-            </div>            
+            </div>
         </div>
         <div id ="2" class="levelTutorial container">
             <div id='outer2' class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner2' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer2" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -51,7 +51,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner3' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer3" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -67,7 +67,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner4' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer4" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -83,7 +83,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner5' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer5" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -99,7 +99,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner6' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer6" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -115,7 +115,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner7' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer7" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -131,7 +131,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner8' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer8" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -147,7 +147,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner9' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer9" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -163,7 +163,7 @@
                 <ol class="carousel-indicators">
                 </ol>
                     <div id='inner10' class="carousel-inner" role="listbox"></div>
-                
+
                   <a class="left carousel-control" href="#outer10" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -182,12 +182,24 @@ window.onload = function () {
 }
 var g_done_count;
 var g_counterInsideLevel = 0;
+
+var derivation_container_size
+  , pairs = [];
+function fix_positions() {
+  pairs.forEach(function(pair) {
+    pair.dl.container_view = derivation_container_size;
+    pair.player.dl.container_view = derivation_container_size;
+    pair.dl.initPosition();
+    pair.player.dl.initPosition();
+  });
+}
+
 function init() {
 	if (!tutorial_data) return;
 
 	var tutorial_pairs = 0;
     g_done_count = 0;
-	
+
     var totalLevels =10;
     for(var level = 1;level<=totalLevels;level++){
         if(tutorial_data[level]){
@@ -199,12 +211,14 @@ function init() {
         }
     }
 
+    setTimeout(fix_positions, 1000);
+
     function getRandomRange(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-        
+
 	function load(data,level) {
-        
+
 		if (data.events) {
 			/* Some repackaging of the data.
 			*
@@ -228,33 +242,46 @@ function init() {
 
 			// Pass in the query selector of the inner div to the tutorial pair, it will use that as the
 			// container.
-            var innerDiv = document.getElementById('inner'+level);
-            //get the ol from innerdiv
-            var x = innerDiv.previousSibling;
-            //create new li for the ol
-            var newLi = document.createElement('li');
-            newLi.setAttribute("data-target","#outer"+level);
-            newLi.setAttribute("data-slide-to",g_counterInsideLevel);
-            if(g_counterInsideLevel==0)
-                newLi.setAttribute("class", "active"); 
-            //add li to ol
-            
-            
-            var newItemDiv = document.createElement('div');
-            
-            var newItemDivId = 'item_div' + level + "_" + g_counterInsideLevel;
-            newItemDiv.setAttribute("id", newItemDivId);
-            if(g_counterInsideLevel==0)
-                newItemDiv.setAttribute("class", "item active");
-            else
-                newItemDiv.setAttribute("class", "item");
-			
-            innerDiv.appendChild(newItemDiv);
-            var pair = new gmath.ui.TutorialPair("#"+newItemDivId, settings);
+      var innerDiv = document.getElementById('inner'+level);
+      //get the ol from innerdiv
+      var x = innerDiv.previousSibling;
+      //create new li for the ol
+      var newLi = document.createElement('li');
+      newLi.setAttribute("data-target","#outer"+level);
+      newLi.setAttribute("data-slide-to",g_counterInsideLevel);
+      if(g_counterInsideLevel==0)
+          newLi.setAttribute("class", "active");
+      //add li to ol
 
-			// The tutorial will emit a "done" event when the gesture has been done successfully.
-			// We'll call our "done" function when that happens (defined below).
-			pair.events.on('done', done.bind(this,level));
+      var newItemDiv = document.createElement('div');
+
+      var newItemDivId = 'item_div' + level + "_" + g_counterInsideLevel;
+      newItemDiv.setAttribute("id", newItemDivId);
+      if(g_counterInsideLevel==0)
+          newItemDiv.setAttribute("class", "item active");
+      else
+          newItemDiv.setAttribute("class", "item");
+
+      innerDiv.appendChild(newItemDiv);
+      var pair = new gmath.ui.TutorialPair("#"+newItemDivId, settings);
+
+      // The tutorial will emit a "done" event when the gesture has been done successfully.
+      // We'll call our "done" function when that happens (defined below).
+      pair.events.on('done', done.bind(this,level));
+
+      // FIXING ISSUES W/ BOOTSTRAP CAROUSEL
+      // The bootstrap carousel is tricky, because we're loading content into elements are not yet
+      // rendered and have no dimensions. The first derivation will have the correct canvas size
+      // settings, because the first item in the carousel is rendered.
+      // Store those dimensions so we can apply them to the other derivations once everything is loaded.
+      pairs.push(pair);
+      if (!derivation_container_size) derivation_container_size = pair.dl.container_view;
+      // Re-bind event listener on the svg of the replay once the svg is rendered. (Actually does this
+      // for every tutorial pair right now, which it probably shouldn't).
+      $(innerDiv.parentElement).on('slid.bs.carousel', function() {
+        pair.play_btn.remove();
+        pair.play_btn.init();
+      });
 
 			// We'll compare the number of done events with the number of pairs on the page.
 			tutorial_pairs++;
