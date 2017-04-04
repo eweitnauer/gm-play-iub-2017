@@ -673,11 +673,6 @@ DinoEggs.Game.prototype = {
     },
     
     hitEgg: function(rock, egg){
-        this.rockBurst(rock);
-
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
-            this.clearGMCanvas(this.matchExpCanvas); 
-        }
         
         //if this egg is not golden egg, only then change the egg color
         
@@ -702,6 +697,12 @@ DinoEggs.Game.prototype = {
             }
         }else{
             egg.animations.play('wiggleOnce');
+        }
+        
+        this.rockBurst(rock);
+
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
+            this.clearGMCanvas(this.matchExpCanvas); 
         }
         
         
@@ -1166,11 +1167,19 @@ DinoEggs.Game.prototype = {
         if(index > str.length-1) return str;
         return str.substr(0,index) + chr + str.substr(index+1);
     },
-    
+    /*setDecimalDivision: function(equation_format){
+        var n = Math.floor((Math.random() * 10) + 1);
+        var product = Math.floor((Math.random() * 10) + 1);
+        return equation_format.replace(/N\/N/g, ""+(product*n)+"/"+n);
+    },*/
     getRandomEggEquation: function(){
             //get random expression format from current level ProblemSet
             var rndm = Math.random();    
             equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)];
+            
+            //set decimal division
+            //equation_format = this.setDecimalDivision(equation_format);
+        
             num_of_coefficients = (equation_format.match(/N/g)||[]).length;
             equation = equation_format;
             for(var i=0;i<num_of_coefficients;i++){
