@@ -8,55 +8,6 @@ Rock = function (game, x, y, equation) {
     this.body.velocity.y = 15;
     this.body.collideWorldBounds = true;
     this.equ = equation;
-    this.equDisplay = equation;
-    //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
-    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equDisplay, { font: "25px Comic Sans MS", fill: "#ffffff", wordWrap: true, wordWrapWidth: this.width, align: "center"});
-    
-    
-    /*var bmd = game.make.bitmapData(400,200);
-    bmd.ctx.beginPath();    
-    bmd.ctx.rect(0,0,400,200);    
-    bmd.ctx.fillStyle = '#FF0000';    
-    bmd.ctx.fill();    
-    bmd.ctx.fillStyle = '#000000';    
-    bmd.ctx.font = '32px Revalia';    
-    bmd.ctx.fillText(Math.random(),40,40);  
-    bmd.x = 0;
-    bmd.y = 0;
-    spr = game.add.sprite(100,100,bmd);    
-    spr.inputEnabled = true;    
-    spr.input.enableDrag();
-    */
-    
-    
-    ////////////////////////////
-    
-    /*var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'render-text', { preload: preload, create: create });var bmd = null;var spr = null;
-    //  The Google WebFont Loader will look for this object, so create it before loading the script.
-    
-    WebFontConfig = {    
-        active: function() { 
-            game.time.events.add(Phaser.Timer.SECOND, createText, this); 
-        },    
-        google: {      
-            families: ['Revalia']    }
-    };
-    
-    function preload() {    
-        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-    }*/
-    ////////////////////////////
-    
-    
-    //var text = null;
-    //create new div
-    //add html4 content to div corresponding to the equation
-    //attach div to this using phaser add div
-    
-    text.anchor.set(0.5);
-    this.equationText = text;
-    //this.equationText = bmd;
-    this.equationText.visible = false;
 };
 
 Rock.prototype = Object.create(Phaser.Sprite.prototype);
@@ -65,17 +16,32 @@ Rock.prototype.constructor = Rock;
 Rock.prototype.getEquation = function(){
     return this.equ;
 }
+
 Rock.prototype.setEquation = function(equation){
-    this.equationText.destroy();
     this.equ = equation;
-    this.equDisplay = equation;
-    //Add equation text on rock sprite. TO DO: change font size when sprite size is altered
-    var text = this.game.add.text(Math.floor( this.width / 2), Math.floor(this.height / 2), this.equDisplay, { font: "25px Comic Sans MS", fill: "#ffffff", wordWrap: true, wordWrapWidth: this.width, align: "center"});
-    text.anchor.set(0.5);
-    this.equationText = text;
+    this.GMCanvas.controller.reset();
+    this.GMCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });
 }
 
+Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex){
+    this.newGMDiv = document.createElement("div");
+    var newGMDivId = "gmeq_" + (rockProducedIndex+1) + "_" + inputId;
+    this.newGMDiv.setAttribute("id", newGMDivId);
+    this.newGMDiv.setAttribute("class", "gm-game-rock");
+    this.newGMDiv.style.left = inputX + 'px';
+    this.newGMDiv.style.top = inputY + 'px';
+    this.newGMDiv.style.display = "none";
+    document.body.appendChild(this.newGMDiv);
+        
+    var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
+    console.log("inputEq:"+inputEq);
+    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
+    return canvas;
+},
 
+Rock.prototype.displayGMEquation = function(){
+    this.newGMDiv.style.display="block";
+},
 //.......................................................
 
 //-------------------------------------------------------
@@ -114,4 +80,20 @@ Egg.prototype.getEquation = function(){
 
 Egg.prototype.setEquStyle = function(style){
     this.children.forEach(function(c){ c.setStyle(style)});
+}
+
+Egg.prototype.createEggEqDiv = function(inputId, inputX, inputY, inputEq, eggProducedIndex){
+        var newGMDiv = document.createElement("div");
+        var newGMDivId = "gseq_" + (eggProducedIndex+1) + "_" + inputId;
+        newGMDiv.setAttribute("id", newGMDivId);
+        newGMDiv.setAttribute("class", "gm-game-egg");
+        newGMDiv.style.left = inputX + 'px';
+        newGMDiv.style.top = inputY + 'px';
+        newGMDiv.style.display = "none";
+        document.body.appendChild(newGMDiv);
+        
+        var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
+        console.log("inputEq:"+inputEq);
+        canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
+        return newGMDiv;
 }
