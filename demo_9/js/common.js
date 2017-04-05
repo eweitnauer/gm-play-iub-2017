@@ -314,8 +314,6 @@ DinoEggs.Game.prototype = {
                 if(event.x > m1 && event.x < m2 && event.y > n1 && event.y < n2 ) {
                     this.game.paused = false;
                     this.replayButton.destroy();
-                    $("#eq-match-div").show();
-                    $("#eq-solve-div").show();
                 }
                 
             }
@@ -344,8 +342,6 @@ DinoEggs.Game.prototype = {
             $('#qFrame').contents().find('#egg').show();
             $('#qFrame').contents().find('#rock').hide();
          }
-        $("#eq-match-div").hide();
-        $("#eq-solve-div").hide();
 },
         
     pauseClicked: function(){   
@@ -712,11 +708,7 @@ DinoEggs.Game.prototype = {
     },
     
     hitEgg: function(rock, egg){
-        this.rockBurst(rock);
-
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
-            this.clearGMCanvas(this.matchExpCanvas); 
-        }
+        
         
         //if this egg is not golden egg, only then change the egg color
         
@@ -743,7 +735,11 @@ DinoEggs.Game.prototype = {
             egg.animations.play('wiggleOnce');
         }
         
-        
+     this.rockBurst(rock);
+
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
+            this.clearGMCanvas(this.matchExpCanvas); 
+        }   
        
         
     },
