@@ -667,11 +667,6 @@ DinoEggs.Game.prototype = {
     },
     
     hitEgg: function(rock, egg){
-        this.rockBurst(rock);
-
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
-            this.clearGMCanvas(this.matchExpCanvas); 
-        }
         
         //if this egg is not golden egg, only then change the egg color
         
@@ -696,6 +691,12 @@ DinoEggs.Game.prototype = {
             }
         }else{
             egg.animations.play('wiggleOnce');
+        }
+        
+        this.rockBurst(rock);
+
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
+            this.clearGMCanvas(this.matchExpCanvas); 
         }
         
         
@@ -1149,11 +1150,19 @@ DinoEggs.Game.prototype = {
         if(index > str.length-1) return str;
         return str.substr(0,index) + chr + str.substr(index+1);
     },
-    
+    /*setDecimalDivision: function(equation_format){
+        var n = Math.floor((Math.random() * 10) + 1);
+        var product = Math.floor((Math.random() * 10) + 1);
+        return equation_format.replace(/N\/N/g, ""+(product*n)+"/"+n);
+    },*/
     getRandomEggEquation: function(){
             //get random expression format from current level ProblemSet
             var rndm = Math.random();    
             equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)];
+            
+            //set decimal division
+            //equation_format = this.setDecimalDivision(equation_format);
+        
             num_of_coefficients = (equation_format.match(/N/g)||[]).length;
             equation = equation_format;
             for(var i=0;i<num_of_coefficients;i++){
@@ -1245,7 +1254,22 @@ DinoEggs.Game.prototype = {
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
             this._rocksGroup.children[i].body.velocity.y = 0;
         }
-        this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+        //update clock for every 1 second
+        g_clock_sec =0;
+        hourglass = this.game.add.sprite(this.game.width/2, 50, "clock");
+        hourglass.anchor.setTo(0.5,0.5);
+        hourglass.alpha = 0.75;
+        this.game.time.events.repeat(Phaser.Timer.SECOND,16,  this.updateClock, this);
+        //this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+    },
+    updateClock:function(){
+        g_clock_sec++;
+        hourglass.angle +=24;        
+        if(g_clock_sec>15){
+            hourglass.kill();
+            this.unfreezeRocks();
+        }
+        
     },
     unfreezeRocks:function(){
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
