@@ -34,7 +34,7 @@ Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rock
     document.body.appendChild(this.newGMDiv);
         
     var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-    console.log("inputEq:"+inputEq);
+    //console.log("inputEq:"+inputEq);
     var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
     return canvas;
 },
