@@ -260,13 +260,7 @@ DinoEggs.Game.prototype = {
                 y1 = this.game.world.height/2 + 50;
                 y2 = y1 + 80;
                 
-            console.log("x1 : "+x1);
-            console.log("x2 : "+x2);
-            console.log("x3 : "+x3);
-            console.log("x4 : "+x4);
-            console.log("x5 : "+x5);
-            console.log("y1 : "+y1);
-            console.log("y2 : "+y2);
+            
             // Check if the click was inside the menu
             if(event.x > x1 && event.x < x5 && event.y > y1 && event.y < y2 ){
                 
@@ -283,7 +277,6 @@ DinoEggs.Game.prototype = {
 
                 // Get menu local coordinates for the click
                 var x =  event.x;
-                console.log("You clicked at "+event.x+"  "+event.y);   
                 
                 // Calculate the choice 
                 if(x >= x1 && x < x2){
@@ -933,7 +926,7 @@ DinoEggs.Game.prototype = {
         
         //checking for powerup
         if(this.pterodactyl.visible == true){
-            var parsedEq = lastEq;
+            var parsedEq = lastEq.replace(/\*/g, "");
             if(this.powerupText.text == parsedEq){
                 this.acquirePowerup();
             }
@@ -1127,19 +1120,15 @@ DinoEggs.Game.prototype = {
     getEquationForPowerup: function(){
         var i = this.rock_levelProblemSet.length - 1;
         var uniqueEqFound = true;
-        //var parsedCanvasEq = this.currentCanvasEqu.replace(/\*/g, "");
         while(i >= 0){
             uniqueEqFound = true;
             var equation =  this.rock_levelProblemSet[i];
-            //var parsedEquation = equation.replace(/\*/g, "");
-            var parsedEquation = equation;
-//            if(parsedEquation != parsedCanvasEq){            //TODO: need to check with previous statement is required
-            if(parsedEquation != this.currentCanvasEqu){
+
+            if(equation != this.currentCanvasEqu){
                     for(j = 0 ; j < this._rocksGroup.children.length; j++){
                         if(this._rocksGroup.children[j].visible){
-                            var rockEq = this._rocksGroup.children[j].equ;//.replace(/\*/g, "");
-                            //console.log("visible rock : "+rockEq);
-                            if(rockEq == parsedEquation){
+                            var rockEq = this._rocksGroup.children[j].equ;
+                            if(rockEq == equation){
                                 uniqueEqFound = false;
                                 break;
                             }
@@ -1149,7 +1138,7 @@ DinoEggs.Game.prototype = {
                 uniqueEqFound = false;
             }
             if(uniqueEqFound){
-                return parsedEquation;
+                return equation.replace(/\*/g, "");
                 break;
             }
             i--;
