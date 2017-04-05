@@ -250,13 +250,24 @@ DinoEggs.Game.prototype = {
                 // Only act if paused
         if(this.game.paused){
             // Calculate the corners of the menu
-            var x1 = this.game.world.width/2 - 325/2, 
-                x2 = this.game.world.width/2 + 325/2,
-                y1 = this.game.world.height/2 - 233/2, 
-                y2 = this.game.world.height/2 + 233/2;
-
+            
+            var x1 = this.game.world.width/2 - 380/2 +35, 
+                x2 = x1 + 70,
+                x3 = x2 + 70, 
+                x4 = x3 + 70,
+                x5 = x4 + 70,
+                y1 = this.game.world.height/2 + 50;
+                y2 = y1 + 80;
+                
+            console.log("x1 : "+x1);
+            console.log("x2 : "+x2);
+            console.log("x3 : "+x3);
+            console.log("x4 : "+x4);
+            console.log("x5 : "+x5);
+            console.log("y1 : "+y1);
+            console.log("y2 : "+y2);
             // Check if the click was inside the menu
-            if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+            if(event.x > x1 && event.x < x5 && event.y > y1 && event.y < y2 ){
                 
                 this.game.paused = false;
                 
@@ -270,38 +281,27 @@ DinoEggs.Game.prototype = {
                 var choicemap = ['one', 'two', 'three', 'four'];
 
                 // Get menu local coordinates for the click
-                var x = event.x - x1,
-                    y = event.y - y1;
-
-                // Calculate the choice 
-                var choice = Math.floor(x / 162.5) + 2*Math.floor(y / 116.5);
-                switch(choice){
-                case 0: //play
-                        // Remove the menu and the label
-                        this.menu.destroy();
-                        this.choiceLabel.destroy();
-                        break;
-                case 1: //restart
-                        this.restartGame();
-                        break;
-                case 2: //tutorial
-                        this.game.paused = true;
-                        $('#tutorialModal').modal('show');
-                        $('#tFrame').contents().find('.levelTutorial').hide()
-                        $('#tFrame').contents().find("#"+this._levelNumber).show();
-                        document.getElementById("tFrame").contentWindow.g_done_count = 0;
-                        //console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
-                        break;
-                case 3: //exit game
-                        this.exitToMain();
-                        break;
-            }
+                var x =  event.x;
+                console.log("You clicked at "+event.x+"  "+event.y);   
                 
-
-                // Display the choice
-                this.choiceLabel.text = 'You chose menu item: ' + choicemap[choice];
+                // Calculate the choice 
+                if(x >= x1 && x < x2){
+                    // Remove the menu and the label
+                    this.menu.destroy();
+                    this.choiceLabel.destroy();
+                }else if(x >= x2 && x < x3){
+                    this.restartGame();
+                }else if(x >= x3 && x < x4){
+                    this.game.paused = true;
+                    $('#tutorialModal').modal('show');
+                    $('#tFrame').contents().find('.levelTutorial').hide()
+                    $('#tFrame').contents().find("#"+this._levelNumber).show();
+                    document.getElementById("tFrame").contentWindow.g_done_count = 0;
+                    //console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
+                }else if(x >= x4 && x < x5){ 
+                     this.exitToMain();
+                }
             }
-            
         }
     },
     tut_listener: function(){
