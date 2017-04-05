@@ -300,10 +300,11 @@ DinoEggs.Game.prototype = {
                      this.exitToMain();
                 }
              
-
-                // Display the choice
              
-            } else {
+            }          
+                
+            }
+            else {
                 var m1 = this.replayButton.x;
                 var m2 = this.replayButton.x + this.replayButton.width;
                 var n1 = this.replayButton.y;
@@ -312,11 +313,6 @@ DinoEggs.Game.prototype = {
                     this.game.paused = false;
                     this.replayButton.destroy();
                 }
-                
-            }
-            
-            
-                // Get menu local coordinates for the click
                 
             }
         }
@@ -332,6 +328,7 @@ DinoEggs.Game.prototype = {
     
     questionClicked: function(){
          this.replayButton = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'replayButton');
+        this.replayButton.anchor.setTo(0.5, 0.5);
         this.game.paused = true;
         this.pauseReason = "questionClicked";
            $('#questionModal').modal('show');
