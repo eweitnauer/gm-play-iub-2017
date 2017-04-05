@@ -505,7 +505,7 @@ DinoEggs.Game.prototype = {
                 rock.body.velocity.y = 0;
                 rock.visible = false;
                 rock.GMCanvas = rock.createRockEqDiv(i, randposX, 50, match_eq, this.g_rockProducedIndex);
-                console.log("rock gmcanvas after create:"+ rock.GMCanvas.controller);
+                //console.log("rock gmcanvas after create:"+ rock.GMCanvas.controller);
                 //rock.GMCanvas.controller.reset();
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);

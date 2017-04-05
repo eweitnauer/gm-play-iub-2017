@@ -310,17 +310,15 @@ function init() {
 
 	function done(level) {
 		g_done_count++;
-        console.log("done count ", g_done_count);
+        //console.log("done count ", g_done_count);
 		if (g_done_count === tutorial_data[level].length) {
-            console.log("done level")
-			// I'm appending some text to the page, but here you'll be moving on to the next phase of
-			// the game.
-			var el = document.getElementById('inner'+level);
-			var complete = document.createElement('h2');
-			var complete_content = document.createTextNode("All tutorials complete. Go ahead and play the game.");
-			complete.appendChild(complete_content);
-			el.appendChild(complete);
+            //console.log("done level")
+            window.parent.$("#tutorialModal").modal('hide');
 		}
+        else{
+            //goto next slide
+            $(".carousel").carousel('next');
+        }
 	}
 }
 
