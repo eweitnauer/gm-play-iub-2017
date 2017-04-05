@@ -221,6 +221,7 @@ DinoEggs.Game.prototype = {
         this.pauseButton.x = this.pauseButton.x - this.pauseButton.width;
         this.game.input.onDown.add(this.unpause, this);
         this.playOrMute = false;
+        
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
         this.muteButton.x = this.muteButton.x - this.muteButton.width;
@@ -336,13 +337,12 @@ DinoEggs.Game.prototype = {
                 //check whether we can get a unique equation for powerup
                 var uniqueEq = this.getEquationForPowerup();
                 if(uniqueEq != null){
-                    console.log("Eq : "+uniqueEq);
                     this.pterodactyl.visible = true;  
                     this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
 
                     var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
-                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , uniqueEq, pStyle); 
+                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6), uniqueEq, pStyle); 
                     this.powerupText.anchor.set(0.5);
                 }
             }else{
@@ -457,8 +457,11 @@ DinoEggs.Game.prototype = {
                     //eggSprite.equationText.destroy();
                     if(eggSprite.newGMDiv)
                         eggSprite.newGMDiv.parentElement.removeChild(eggSprite.newGMDiv);
+                    
+                    //check if egg is golden
+                    var isGoldenEgg = eggSprite.hitCounter == 10000 ? true : false;
                     this._eggsGroup.remove(eggSprite); 
-                    this.runToMom(egg_x, isSad);
+                    this.runToMom(egg_x, isSad, isGoldenEgg);
 
                     if(this._eggsGroup.countLiving() > 0 && this.powerupID != "4" ){
                         this.clearGMCanvas(this.solveEqCanvas);
@@ -505,8 +508,6 @@ DinoEggs.Game.prototype = {
                 rock.body.velocity.y = 0;
                 rock.visible = false;
                 rock.GMCanvas = rock.createRockEqDiv(i, randposX, 50, match_eq, this.g_rockProducedIndex);
-                //console.log("rock gmcanvas after create:"+ rock.GMCanvas.controller);
-                //rock.GMCanvas.controller.reset();
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
                 
@@ -529,12 +530,14 @@ DinoEggs.Game.prototype = {
         }
     },
 
-    runToMom: function(egg_x, isSad){
+    runToMom: function(egg_x, isSad, isGoldenEgg){
         var hatchling = null;
         if(isSad){
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling_sad');
         }
-        else{
+        else if(isGoldenEgg){
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'triplets');
+        }else{
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
         }
         hatchling.anchor.setTo(0.5, 0.5);
@@ -602,7 +605,6 @@ DinoEggs.Game.prototype = {
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
-        console.log("selectedEgg.equ: "+selectedEgg.equ);
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
@@ -630,7 +632,6 @@ DinoEggs.Game.prototype = {
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
             //replace rock equation
-            console.log("rock.gmcanvas: "+ rock.GMCanvas.canvas);
             if(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
                 rock.setEquation(this.getMatchEquationOnRock());
                 while(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
@@ -912,9 +913,6 @@ DinoEggs.Game.prototype = {
             this.currentCanvasEqu = parsedEq;
         //}
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
-            //console.log("before if: "+this._rocksGroup.children[i].equ);
-            console.log("this._rocksGroup.children[i].equ: " + this._rocksGroup.children[i].equ+ " and parsedEq: "+ parsedEq);
-            
             if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
                 //add rock obj to array;
                 //console.log("inside if - matched: "+ this._rocksGroup.children[i].equ);
@@ -935,7 +933,6 @@ DinoEggs.Game.prototype = {
         
         //checking for powerup
         if(this.pterodactyl.visible == true){
-            //var parsedEq = lastEq.replace(/\*/g, "");
             var parsedEq = lastEq;
             if(this.powerupText.text == parsedEq){
                 this.acquirePowerup();
@@ -988,11 +985,8 @@ DinoEggs.Game.prototype = {
      lightningStruck:function(lightning, rock){
          
      
-         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();//.replace(/\*/g, "");
+         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
-         //console.log(this.lightRockMap[lightning.nameId] == rock);
-         //console.log(this.lightRockMap[lightning.nameId]);
-         //console.log(rock)
          if(this.lightRockMap[lightning.nameId] == rock){
              if(rock.equ != currentMatchExp){
                 return;
@@ -1227,12 +1221,20 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 1;
+        //var indexToChoose = 0;
         var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
-        var chosenPowerup = powerupsArray[indexToChoose];
-          
+        
+        //check if rocks freeze is acquired,
+        //In that case, if there are no rocks, player should acquire new powerup
+        var killedRocks = this.g_numRocks - this._rocksGroup.countLiving();
+        if(indexToChoose == 0 && killedRocks == this.g_rockProducedIndex + 1){
+            while(indexToChoose == 0){
+                indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
+            }
+        }
+        
+        var chosenPowerup = powerupsArray[indexToChoose];  
         //Show powerup name
-        //powerName = this.game.add.text(0,0, chosenPowerup.name, { fontSize: '32px', fill: '#000' });
 		powerName = this.game.add.sprite(0,0, chosenPowerup.spriteName);
         powerName.anchor.setTo(0.5,0.5);
         powerName.scale.setTo(0,0);
