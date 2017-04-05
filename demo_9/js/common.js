@@ -1236,7 +1236,7 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 1;
+        //var indexToChoose = 0;
         var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         var chosenPowerup = powerupsArray[indexToChoose];
           
@@ -1263,7 +1263,22 @@ DinoEggs.Game.prototype = {
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
             this._rocksGroup.children[i].body.velocity.y = 0;
         }
-        this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+        //update clock for every 1 second
+        g_clock_sec =0;
+        hourglass = this.game.add.sprite(this.game.width/2, 50, "clock");
+        hourglass.anchor.setTo(0.5,0.5);
+        hourglass.alpha = 0.75;
+        this.game.time.events.repeat(Phaser.Timer.SECOND,16,  this.updateClock, this);
+        //this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+    },
+    updateClock:function(){
+        g_clock_sec++;
+        hourglass.angle +=24;        
+        if(g_clock_sec>15){
+            hourglass.kill();
+            this.unfreezeRocks();
+        }
+        
     },
     unfreezeRocks:function(){
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){

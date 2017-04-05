@@ -76,6 +76,8 @@ DinoEggs.Preload.prototype = {
         this.load.image('freezeRocks', 'assets/powerupText/freezeRocks.png');
         this.load.image('goldenEgg', 'assets/powerupText/goldenEgg.png');
         this.load.image('hatchEgg', 'assets/powerupText/hatchEgg.png');
+        
+        this.load.image('clock', 'assets/clock.png');
     },
     create:function(){
         this.state.start('MainMenu');
