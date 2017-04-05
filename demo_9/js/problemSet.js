@@ -45,13 +45,13 @@ g_matchExpressionFormat = [
     ],
     [
         'a*b-c*d',
-        'c*d-a*b',
+        '-c*d+a*b',
         'b*a-c*d',
-        'c*d-b*a',
+        '-c*d+b*a',
         'a*b-d*c',
-        'd*c-a*b',
+        '-d*c+a*b',
         'b*a-d*c',
-        'd*c-b*a'
+        '-d*c+b*a'
     ],
     [
         'p*w+t*w',

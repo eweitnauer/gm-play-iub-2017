@@ -109,6 +109,11 @@ DinoEggs.LevelSelect.prototype = {
 
 		for (var y=0; y < 3; y++) {
 			for (var x=0; x < 4; x++) {
+                
+                //Limits to 10 level icons
+                if(x == 2 && y == 2){
+                    break;
+                }
 				// next level
 				levelNumber = levelNumber + 1;
 				

@@ -222,6 +222,7 @@ DinoEggs.Game.prototype = {
         this.pauseButton.x = this.pauseButton.x - this.pauseButton.width;
         this.game.input.onDown.add(this.unpause, this);
         this.playOrMute = false;
+        
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
         this.muteButton.x = this.muteButton.x - this.muteButton.width;
@@ -253,15 +254,21 @@ DinoEggs.Game.prototype = {
     unpause:function(event){
                 // Only act if paused
         if(this.game.paused){
-            if (this.pauseReason == "pauseClicked") {
-              // Calculate the corners of the menu
-            var x1 = this.game.world.width/2 - 325/2, 
-                x2 = this.game.world.width/2 + 325/2,
-                y1 = this.game.world.height/2 - 233/2, 
-                y2 = this.game.world.height/2 + 233/2;
 
+            if (this.pauseReason == "pauseClicked") {
+
+            // Calculate the corners of the menu
+            
+            var x1 = this.game.world.width/2 - 380/2 +35, 
+                x2 = x1 + 70,
+                x3 = x2 + 70, 
+                x4 = x3 + 70,
+                x5 = x4 + 70,
+                y1 = this.game.world.height/2 + 50;
+                y2 = y1 + 80;
+               
             // Check if the click was inside the menu
-            if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+            if(event.x > x1 && event.x < x5 && event.y > y1 && event.y < y2 ){
                 
                 this.game.paused = false;
                 
@@ -274,38 +281,28 @@ DinoEggs.Game.prototype = {
                 // The choicemap is an array that will help us see which item was clicked
                 var choicemap = ['one', 'two', 'three', 'four'];
 
-                // Get menu local coordinates for the click
-                var x = event.x - x1,
-                    y = event.y - y1;
-
+                var x =  event.x;
                 // Calculate the choice 
-                var choice = Math.floor(x / 162.5) + 2*Math.floor(y / 116.5);
-                switch(choice){
-                case 0: //play
-                        // Remove the menu and the label
-                        this.menu.destroy();
-                        this.choiceLabel.destroy();
-                        break;
-                case 1: //restart
-                        this.restartGame();
-                        break;
-                case 2: //tutorial
-                        this.game.paused = true;
-                        $('#tutorialModal').modal('show');
-                        $('#tFrame').contents().find('.levelTutorial').hide()
-                        $('#tFrame').contents().find("#"+this._levelNumber).show();
-                        document.getElementById("tFrame").contentWindow.g_done_count = 0;
-                        //console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
-                        break;
-                case 3: //exit game
-                        this.exitToMain();
-                        break;
-            }
-                
+                if(x >= x1 && x < x2){
+                    // Remove the menu and the label
+                    this.menu.destroy();
+                    this.choiceLabel.destroy();
+                }else if(x >= x2 && x < x3){
+                    this.restartGame();
+                }else if(x >= x3 && x < x4){
+                    this.game.paused = true;
+                    $('#tutorialModal').modal('show');
+                    $('#tFrame').contents().find('.levelTutorial').hide()
+                    $('#tFrame').contents().find("#"+this._levelNumber).show();
+                    document.getElementById("tFrame").contentWindow.g_done_count = 0;
+                    //console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
+                }else if(x >= x4 && x < x5){ 
+                     this.exitToMain();
+                }
+             
 
                 // Display the choice
-                this.choiceLabel.text = 'You chose menu item: ' + choicemap[choice];
-            }  
+             
             } else {
                 var m1 = this.replayButton.x;
                 var m2 = this.replayButton.x + this.replayButton.width;
@@ -319,6 +316,9 @@ DinoEggs.Game.prototype = {
             }
             
             
+                // Get menu local coordinates for the click
+                
+            }
         }
     },
     tut_listener: function(){
@@ -371,13 +371,12 @@ DinoEggs.Game.prototype = {
                 //check whether we can get a unique equation for powerup
                 var uniqueEq = this.getEquationForPowerup();
                 if(uniqueEq != null){
-                    console.log("Eq : "+uniqueEq);
                     this.pterodactyl.visible = true;  
                     this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
 
                     var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
-                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6)  , uniqueEq, pStyle); 
+                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6), uniqueEq, pStyle); 
                     this.powerupText.anchor.set(0.5);
                 }
             }else{
@@ -492,8 +491,11 @@ DinoEggs.Game.prototype = {
                     //eggSprite.equationText.destroy();
                     if(eggSprite.newGMDiv)
                         eggSprite.newGMDiv.parentElement.removeChild(eggSprite.newGMDiv);
+                    
+                    //check if egg is golden
+                    var isGoldenEgg = eggSprite.hitCounter == 10000 ? true : false;
                     this._eggsGroup.remove(eggSprite); 
-                    this.runToMom(egg_x, isSad);
+                    this.runToMom(egg_x, isSad, isGoldenEgg);
 
                     if(this._eggsGroup.countLiving() > 0 && this.powerupID != "4" ){
                         this.clearGMCanvas(this.solveEqCanvas);
@@ -540,8 +542,6 @@ DinoEggs.Game.prototype = {
                 rock.body.velocity.y = 0;
                 rock.visible = false;
                 rock.GMCanvas = rock.createRockEqDiv(i, randposX, 50, match_eq, this.g_rockProducedIndex);
-                console.log("rock gmcanvas after create:"+ rock.GMCanvas.controller);
-                //rock.GMCanvas.controller.reset();
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
                 
@@ -564,12 +564,14 @@ DinoEggs.Game.prototype = {
         }
     },
 
-    runToMom: function(egg_x, isSad){
+    runToMom: function(egg_x, isSad, isGoldenEgg){
         var hatchling = null;
         if(isSad){
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling_sad');
         }
-        else{
+        else if(isGoldenEgg){
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'triplets');
+        }else{
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
         }
         hatchling.anchor.setTo(0.5, 0.5);
@@ -637,7 +639,6 @@ DinoEggs.Game.prototype = {
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none";        
         this.selectedEgg = selectedEgg;
-        console.log("selectedEgg.equ: "+selectedEgg.equ);
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
@@ -665,7 +666,6 @@ DinoEggs.Game.prototype = {
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
             //replace rock equation
-            console.log("rock.gmcanvas: "+ rock.GMCanvas.canvas);
             if(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
                 rock.setEquation(this.getMatchEquationOnRock());
                 while(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
@@ -708,7 +708,7 @@ DinoEggs.Game.prototype = {
     },
     
     hitEgg: function(rock, egg){
-        
+
         
         //if this egg is not golden egg, only then change the egg color
         
@@ -740,8 +740,7 @@ DinoEggs.Game.prototype = {
         if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
             this.clearGMCanvas(this.matchExpCanvas); 
         }   
-       
-        
+              
     },
     
     rockBurst: function(rock){    
@@ -947,9 +946,6 @@ DinoEggs.Game.prototype = {
             this.currentCanvasEqu = parsedEq;
         //}
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
-            //console.log("before if: "+this._rocksGroup.children[i].equ);
-            console.log("this._rocksGroup.children[i].equ: " + this._rocksGroup.children[i].equ+ " and parsedEq: "+ parsedEq);
-            
             if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
                 //add rock obj to array;
                 //console.log("inside if - matched: "+ this._rocksGroup.children[i].equ);
@@ -970,8 +966,7 @@ DinoEggs.Game.prototype = {
         
         //checking for powerup
         if(this.pterodactyl.visible == true){
-            //var parsedEq = lastEq.replace(/\*/g, "");
-            var parsedEq = lastEq;
+            var parsedEq = lastEq.replace(/\*/g, "");
             if(this.powerupText.text == parsedEq){
                 this.acquirePowerup();
             }
@@ -1023,11 +1018,8 @@ DinoEggs.Game.prototype = {
      lightningStruck:function(lightning, rock){
          
      
-         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();//.replace(/\*/g, "");
+         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
-         //console.log(this.lightRockMap[lightning.nameId] == rock);
-         //console.log(this.lightRockMap[lightning.nameId]);
-         //console.log(rock)
          if(this.lightRockMap[lightning.nameId] == rock){
              if(rock.equ != currentMatchExp){
                 return;
@@ -1168,19 +1160,15 @@ DinoEggs.Game.prototype = {
     getEquationForPowerup: function(){
         var i = this.rock_levelProblemSet.length - 1;
         var uniqueEqFound = true;
-        //var parsedCanvasEq = this.currentCanvasEqu.replace(/\*/g, "");
         while(i >= 0){
             uniqueEqFound = true;
             var equation =  this.rock_levelProblemSet[i];
-            //var parsedEquation = equation.replace(/\*/g, "");
-            var parsedEquation = equation;
-//            if(parsedEquation != parsedCanvasEq){            //TODO: need to check with previous statement is required
-            if(parsedEquation != this.currentCanvasEqu){
+
+            if(equation != this.currentCanvasEqu){
                     for(j = 0 ; j < this._rocksGroup.children.length; j++){
                         if(this._rocksGroup.children[j].visible){
-                            var rockEq = this._rocksGroup.children[j].equ;//.replace(/\*/g, "");
-                            //console.log("visible rock : "+rockEq);
-                            if(rockEq == parsedEquation){
+                            var rockEq = this._rocksGroup.children[j].equ;
+                            if(rockEq == equation){
                                 uniqueEqFound = false;
                                 break;
                             }
@@ -1190,7 +1178,7 @@ DinoEggs.Game.prototype = {
                 uniqueEqFound = false;
             }
             if(uniqueEqFound){
-                return parsedEquation;
+                return equation.replace(/\*/g, "");
                 break;
             }
             i--;
@@ -1201,11 +1189,19 @@ DinoEggs.Game.prototype = {
         if(index > str.length-1) return str;
         return str.substr(0,index) + chr + str.substr(index+1);
     },
-    
+    /*setDecimalDivision: function(equation_format){
+        var n = Math.floor((Math.random() * 10) + 1);
+        var product = Math.floor((Math.random() * 10) + 1);
+        return equation_format.replace(/N\/N/g, ""+(product*n)+"/"+n);
+    },*/
     getRandomEggEquation: function(){
             //get random expression format from current level ProblemSet
             var rndm = Math.random();    
             equation_format = this.egg_levelProblemSet[Math.floor(rndm*this.egg_levelProblemSet.length)];
+            
+            //set decimal division
+            //equation_format = this.setDecimalDivision(equation_format);
+        
             num_of_coefficients = (equation_format.match(/N/g)||[]).length;
             equation = equation_format;
             for(var i=0;i<num_of_coefficients;i++){
@@ -1262,12 +1258,20 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 1;
+        //var indexToChoose = 0;
         var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
-        var chosenPowerup = powerupsArray[indexToChoose];
-          
+        
+        //check if rocks freeze is acquired,
+        //In that case, if there are no rocks, player should acquire new powerup
+        var killedRocks = this.g_numRocks - this._rocksGroup.countLiving();
+        if(indexToChoose == 0 && killedRocks == this.g_rockProducedIndex + 1){
+            while(indexToChoose == 0){
+                indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
+            }
+        }
+        
+        var chosenPowerup = powerupsArray[indexToChoose];  
         //Show powerup name
-        //powerName = this.game.add.text(0,0, chosenPowerup.name, { fontSize: '32px', fill: '#000' });
 		powerName = this.game.add.sprite(0,0, chosenPowerup.spriteName);
         powerName.anchor.setTo(0.5,0.5);
         powerName.scale.setTo(0,0);
@@ -1289,7 +1293,22 @@ DinoEggs.Game.prototype = {
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
             this._rocksGroup.children[i].body.velocity.y = 0;
         }
-        this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+        //update clock for every 1 second
+        g_clock_sec =0;
+        hourglass = this.game.add.sprite(this.game.width/2, 50, "clock");
+        hourglass.anchor.setTo(0.5,0.5);
+        hourglass.alpha = 0.75;
+        this.game.time.events.repeat(Phaser.Timer.SECOND,16,  this.updateClock, this);
+        //this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+    },
+    updateClock:function(){
+        g_clock_sec++;
+        hourglass.angle +=24;        
+        if(g_clock_sec>15){
+            hourglass.kill();
+            this.unfreezeRocks();
+        }
+        
     },
     unfreezeRocks:function(){
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
