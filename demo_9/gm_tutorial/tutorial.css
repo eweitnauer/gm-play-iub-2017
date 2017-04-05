@@ -149,10 +149,10 @@ p.tutorial-instructions {
   font-style: italic;
 }
 
-div.canvas-element{
+/*div.canvas-element{
     transform:translate(230px,10px) !important;
 }
-
+*/
 div.animation svg g{
     transform:translate(250px,60px) !important;
 }
