@@ -71,14 +71,17 @@ DinoEggs.Preload.prototype = {
         this.load.image('musicOff', 'assets/buttons/musicOff.png');
         this.load.image('pauseButton', 'assets/buttons/pauseButton.png');
         this.load.image('buttonsMenu', 'assets/buttons/buttons_menu.png', 325, 233);
+        this.load.image('questionButton', 'assets/buttons/help.png');
+        this.load.image('replayButton', 'assets/buttons/resume.png');
         
         //powerup text
         this.load.image('destroyRocks', 'assets/powerupText/destroyRocks.png');
         this.load.image('freezeRocks', 'assets/powerupText/freezeRocks.png');
         this.load.image('goldenEgg', 'assets/powerupText/goldenEgg.png');
         this.load.image('hatchEgg', 'assets/powerupText/hatchEgg.png');
-        
+
         this.load.image('clock', 'assets/clock.png');
+
     },
     create:function(){
         this.state.start('MainMenu');
