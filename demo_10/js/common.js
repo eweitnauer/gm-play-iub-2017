@@ -514,7 +514,6 @@ DinoEggs.Game.prototype = {
             if(this._levelNumber != 2){
                 egg.inputEnabled = true;
                 egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
-                //egg.newGMDiv.addEventListener("click",this.populateSolveEqCanvas(this, egg));
             }
             this._eggsGroup.add(egg);
 
@@ -636,6 +635,8 @@ DinoEggs.Game.prototype = {
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
+        console.log("this.solveeqcanvas:"+this.solveEqCanvas);
+        
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
     },
     
