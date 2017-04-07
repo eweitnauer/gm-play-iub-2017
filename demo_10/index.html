@@ -131,13 +131,34 @@
             opacity:0.0001;
         }
         
+        div#game-div{
+            position:relative;
+            width:800px;
+            height:600px;
+            margin: 0 auto;
+            text-align:center;
+            z-index:1;
+        }
+        canvas
+        { 
+            position: absolute; 
+            z-index: 1 
+        }
+
+        div.gm-game-rock, div.gm-game-egg{
+            pointer-events: none !important;
+        }
+        
         div.gm-game-rock div.text{
             color: pink !important;
+            margin 0 auto !important;
             position: absolute !important;
         }
         
         div.gm-game-rock div.line{
             background-color: pink !important;
+            margin 0 auto !important;
+            position: absolute !important;
         }
     </style>
 </head>

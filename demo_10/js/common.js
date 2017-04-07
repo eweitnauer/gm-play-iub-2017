@@ -413,15 +413,13 @@ DinoEggs.Game.prototype = {
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            egg.newGMDiv.style.left = Math.floor(egg.x + egg.width / 2);
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 350, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 75, position:'absolute'});
           }
         });
         
         //render rock equations
-        this._rocksGroup.forEach(function(rock){          
-            rock.newGMDiv.style.left = Math.floor(rock.x + rock.width / 2);
-            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x + 350, position:'absolute'});
+        this._rocksGroup.forEach(function(rock){
+            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x+75, position:'absolute'});
         });
         
         //render power up equation text

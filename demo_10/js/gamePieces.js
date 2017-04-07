@@ -20,7 +20,7 @@ Rock.prototype.getEquation = function(){
 Rock.prototype.setEquation = function(equation){
     this.equ = equation;
     this.GMCanvas.controller.reset();
-    this.GMCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });
+    this.GMCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#fff' });
 }
 
 Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex){
@@ -31,10 +31,10 @@ Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rock
     this.newGMDiv.style.left = inputX + 'px';
     this.newGMDiv.style.top = inputY + 'px';
     this.newGMDiv.style.display = "none";
-    document.body.appendChild(this.newGMDiv);
-        
+    var gameDivContainer = document.getElementById("game-div");
+    gameDivContainer.appendChild(this.newGMDiv);
     var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
+    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#fff' });        
     return canvas;
 },
 
@@ -83,9 +83,10 @@ Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedInde
     this.newGMDiv.style.left = inputX + 'px';
     this.newGMDiv.style.top = (inputY + 50) + 'px';
     this.newGMDiv.style.display = "block";
-    document.body.appendChild(this.newGMDiv);
+    var gameDivContainer = document.getElementById("game-div");
+    gameDivContainer.appendChild(this.newGMDiv);
         
     var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:30, handle_stroke_color:'#fff' });        
+    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#fff' });        
     return canvas;
 }
