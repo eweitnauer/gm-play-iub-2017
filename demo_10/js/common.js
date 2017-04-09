@@ -807,6 +807,10 @@ DinoEggs.Game.prototype = {
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
+            
+            g_autoStartClock=5;
+            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px Arial"});
+            this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
         }
         
         
@@ -824,6 +828,16 @@ DinoEggs.Game.prototype = {
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+    },
+    autoStartNextLevel: function(){
+        g_autoStartClock--;
+        
+        autoStartTxt.text = 'Next Level starts in '+g_autoStartClock+' seconds';
+        if(g_autoStartClock<1){
+            autoStartTxt.kill();
+            DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; //parseFloat(this._levelNumber) + 1;
+            this.state.start('NextLevel');
+        }
     },
     destructGameObjectsBeforeGameOver : function(){
         //pass the score as a parameter 
