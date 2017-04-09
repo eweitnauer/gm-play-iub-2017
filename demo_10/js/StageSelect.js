@@ -20,7 +20,7 @@ DinoEggs.StageSelect.prototype = {
 
 	create: function() {
         this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'sky');
-        this.game.add.text(200, 24,'Select your grade set', {font:"48px Arial"});
+        this.game.add.text(200, 24,'Select your grade set', {font:"48px kalam"});
         
         //create stage icons
         var stageAIcon = this.game.add.sprite(this.game.world.width/6,this.game.height/3 , 'grade4');

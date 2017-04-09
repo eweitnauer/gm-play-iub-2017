@@ -310,9 +310,7 @@ function init() {
 
 	function done(level) {
 		g_done_count++;
-        //console.log("done count ", g_done_count);
 		if (g_done_count === tutorial_data[level].length) {
-            //console.log("done level")
             window.parent.$("#tutorialModal").modal('hide');
 		}
         else{
