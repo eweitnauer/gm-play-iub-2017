@@ -20,6 +20,20 @@ DinoEggs.Boot.prototype = {
     init: function(){
         this.input.maxPointers = 1; // multi-touch pointers for touch screen
         this.stage.disableVisibilityChange = true; // freeze game if player switches tab 
+        //global object for font loading
+        this.webFontLoading = {
+          //call rungame when fonts are loaded
+          active: function() {
+
+          },
+          custom: {
+            //array of family names, the ones written within the stylesheet.css coming
+            //in the fontSquirrel's webfont kit 
+            families: ['kalam'],
+            //local path to stylesheet.css
+            urls: ["fonts/stylesheet.css"]
+          }
+        };
         
     },
     
@@ -33,29 +47,34 @@ DinoEggs.Boot.prototype = {
     },
     
     create:function(){
-        //loading screen will have a white background
-        this.game.stage.backgroundColor = '#fff';
+       
+                //loading screen will have a white background
+                this.game.stage.backgroundColor = '#fff';
+
+                //scaling options
+                this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                this.scale.minWidth = 240;
+                this.scale.minHeight = 170;
+                this.scale.maxWidth = 800;
+                this.scale.maxHeight = 600;
+                //have the game centered horizontally
+                //this.scale.pageAlignHorizontally = true;
+
+                //screen size will be set automatically
+                //this.scale.setScreenSize(true);
+
+                //physics system for movement
+                this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+
+                //json for levels parsing
+                DinoEggs.jsonLevelObject = JSON.parse(this.game.cache.getText('level'));
         
-        //scaling options
-	    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-	    this.scale.minWidth = 240;
-	    this.scale.minHeight = 170;
-	    this.scale.maxWidth = 800;
-	    this.scale.maxHeight = 600;
-        //have the game centered horizontally
-	    //this.scale.pageAlignHorizontally = true;
- 
-	    //screen size will be set automatically
-	    //this.scale.setScreenSize(true);
- 
-	    //physics system for movement
-	    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        
-        
-        //json for levels parsing
-        DinoEggs.jsonLevelObject = JSON.parse(this.game.cache.getText('level'));
-            
-        this.state.start('Preload');
-    }
+                //load fonts using the object created above
+                WebFont.load(this.webFontLoading);
+
+                this.state.start('Preload');
+          }
+       
 }
 
