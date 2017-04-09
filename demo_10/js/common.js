@@ -207,7 +207,7 @@ DinoEggs.Game.prototype = {
         //powerups appear randomly
         var powerupInterval = this.getRandomRange(20, 50);
         console.log("Power up appearing in "+powerupInterval+" seconds");
-        this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.showPowerup, this);
         
         //Game controls
         this.pauseButton = this.game.add.button(this.game.world.width , this.scoreText.y + this.scoreText.height , 'pauseButton', this.pauseClicked, this);
@@ -365,7 +365,7 @@ DinoEggs.Game.prototype = {
                 var uniqueEq = this.getEquationForPowerup();
                 if(uniqueEq != null){
                     this.pterodactyl.visible = true;  
-                    this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
+                    this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width - this.pauseButton.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
 
                     var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
@@ -675,7 +675,7 @@ DinoEggs.Game.prototype = {
         if(this.g_powerupDuration > 0 && this._rocksGroup.countLiving() > 0 && this._eggsGroup.countLiving() > 0){
             x_pos = 0;
             if(this.pterodactyl.x == 0){
-                x_pos = this.game.world.width - this.pterodactyl.width;
+                x_pos = this.game.world.width - this.pterodactyl.width - this.pauseButton.width;
             }
             
             this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: x_pos , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true);
