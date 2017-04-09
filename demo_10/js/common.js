@@ -1015,9 +1015,6 @@ DinoEggs.Game.prototype = {
          var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
          if(this.lightRockMap[lightning.nameId] == rock){
-             if(rock.equ != currentMatchExp){
-                return;
-             }
              var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { fontSize: '32px', fill: '#000' });
              this.rockBurst(rock);
              delete this.lightRockMap[lightning.nameId];
@@ -1031,8 +1028,8 @@ DinoEggs.Game.prototype = {
     solveEqCheck:function(evt){
        
                 //condition to check if equation is solved  
-                if ((evt.last_eq.startsWith("a=") && !isNaN(evt.last_eq.slice(2)))||
-                   (evt.last_eq.endsWith("=a")&& !isNaN(evt.last_eq.slice(0,-2)))){
+                if (((evt.last_eq.startsWith("a=")||evt.last_eq.startsWith("-a=")) && !isNaN(evt.last_eq.slice(2)))||
+                   ((evt.last_eq.endsWith("=-a")||(evt.last_eq.endsWith("=-a")))&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
                         
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
