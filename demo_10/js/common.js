@@ -314,25 +314,16 @@ DinoEggs.Game.prototype = {
             }          
                 
             }
-            else {
-                var m1 = this.replayButton.x;
-                var m2 = this.replayButton.x + this.replayButton.width;
-                var n1 = this.replayButton.y;
-                var n2 = this.replayButton.y + this.replayButton.height;
-                if(event.x > m1 && event.x < m2 && event.y > n1 && event.y < n2 ) {
-                    this.game.paused = false;
-                    this.replayButton.destroy();
-                }
-                
-            }
-        }
+       }
     },
     questionClicked: function(){
-         this.replayButton = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'replayButton');
-        this.replayButton.anchor.setTo(0.5, 0.5);
         this.game.paused = true;
         this.pauseReason = "questionClicked";
-           $('#questionModal').modal('show');
+        $('#questionModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+       $('#questionModal').modal('show');
          if (this._rocksGroup.countLiving() > 0) {
             $('#qFrame').contents().find('#rock').show();
             $('#qFrame').contents().find('#egg').hide();
@@ -911,10 +902,12 @@ DinoEggs.Game.prototype = {
     showBoard: function(line1,line2) {
         if(this.board)
             this.clearBoard();
-        this.board = this.game.add.sprite(500,250,'board');
+        this.board = this.game.add.sprite(490,250,'board');
         this.board.scale.setTo(0.8,0.7);
-        this.boardText1 = this.game.add.text(520,270, line1, { fontSize: '15px', fill: '#000' });
-        this.boardText2 = this.game.add.text(510,300, line2, { fontSize: '15px', fill: '#000' });
+        var style = { font: "bold 15px italic", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
+        
+        this.boardText1 = this.game.add.text(520,270, line1, style);
+        this.boardText2 = this.game.add.text(505,300, line2, style);
     },
     
     clearBoard: function() {
@@ -1085,7 +1078,15 @@ DinoEggs.Game.prototype = {
             this.matchExpCanvas.model.on('el_changed', function(evt) {	
                 thisObj.matchEqCheck(evt);
             });
-        }            
+        }
+
+        //Unpause game after the Exiting question mark click
+        var questionCtx = this;
+        $("#questionModal").on("hidden.bs.modal", function() {
+              if(questionCtx.game.paused )
+                  questionCtx.game.paused = false;
+        });
+        
         this.currentCanvasEqu = this.g_parsedCanvasExpression;
        
        //Create the search button

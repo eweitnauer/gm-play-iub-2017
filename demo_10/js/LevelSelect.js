@@ -173,8 +173,8 @@ DinoEggs.LevelSelect.prototype = {
 		IconGroup.yOrg = ypos;
 
 		// determine background frame
-		var frame = 0;
-		if (isLocked == false) {frame = 1};
+		var frame = 5;
+		if (isLocked == false) {frame = 4};
 		
 		// add background
 		var icon1 = this.game.add.sprite(0, 0, 'levelIcons', frame);
@@ -183,7 +183,7 @@ DinoEggs.LevelSelect.prototype = {
 		// add stars, if needed
 		if (isLocked == false) {
             var txt = this.game.add.text(24, 16,''+levelNumber, {font:"45px Arial"});
-			var icon2 = this.game.add.sprite(0, 0, 'levelIcons', (2+stars));
+			var icon2 = this.game.add.sprite(0, 0, 'levelIcons', (3 -stars));
 			
 			IconGroup.add(txt);
 			IconGroup.add(icon2);
@@ -245,6 +245,10 @@ DinoEggs.LevelSelect.prototype = {
         this.selectedLevel=levelNumber;
 	},
     tut_listener: function(){
+          $('#tutorialModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+        });
         $('#tutorialModal').modal('show');
         $('#tFrame').contents().find('.levelTutorial').hide()
         $('#tFrame').contents().find("#"+this.selectedLevel).show();
