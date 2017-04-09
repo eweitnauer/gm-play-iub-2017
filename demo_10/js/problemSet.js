@@ -30,20 +30,6 @@ g_matchExpressionFormat = [
         'w+x+y/z'
     ],
     [
-        'm*x+n*x',
-        'm*x+x*n',
-        'n*x+m*x',
-        'n*x+x*m',
-        'x*n+m*x',
-        'x*n+x*m',
-        'x*m+n*x',
-        'x*m+x*n',
-        '(m+n)*x',
-        'x*(m+n)',
-        '(n+m)*x',
-        'x*(n+m)'
-    ],
-    [
         'a*b-c*d',
         '-c*d+a*b',
         'b*a-c*d',
@@ -85,6 +71,7 @@ g_matchExpressionFormat = [
         'p/c*t'
     ]
 ]
+
 g_matchEqProblemsFormat = [
         [
               'x=y'
@@ -115,74 +102,74 @@ g_solveForXEqProblemsFormat = [
     ]
      
 g_simplifyExpressionFormat =[
-         [
-            'N*N',
-            'N+N',
-            'N/N',
-            'N-N'
-         ],
-         
-         [
-            'N+N-N',
-            'N-N+N',
-            'N*N*N',
-            'N+N+N',
-            'N-N-N'
-         ],
-         
-         [
-             'N*N-N',
-             'N+N*N',
-             'N*N+N',
-             'N*N+N',
-             'N*N+N'
-         ],
-         [
-            'N+N/N-N',
-            'N-N/N+N',
-            'N/N-N',
-            'N/N+N',
-            'N+N/N+N',
-            'N-N/N-N'
-         ],
-         [
-            'N+N/N-N*N',
-            'N-N/N+N/N',
-            'N/N-N*N-N',
-            'N/N+N/N*N',
-            'N+N*N+N-N',
-            'N-N/N-N+N'
-         ],
-         [
-            'N*(N+N)',
-            'N+(N*N)',
-            '(N+N)*N',
-            '(N*N)+N',
-            'N*(N-N)',
-            'N-(N*N)',
-            '(N-N)*N',
-            '(N*N)-N'
-         ],
-    
-         [
-            'N*(N+N)+N',
-            'N*(N+N)-N',
-            'N*(N-N)+N',
-            'N*(N-N)-N',
-            'N+(N+N)*N',
-            'N-(N+N)*N',
-            'N+(N-N)*N',
-            'N-(N-N)*N'
-         ],
-         [
-             'N/N+N/N',
-             'N/N-N/N',
-             'N/N*N/N'
-         ],
-         [
-             'N*N/N',
-             'N/N*N',
-             'N/N*N/N',
-             'N/N/N/N'
-         ]
+     [
+        'N*N',
+        'N+N',
+        'N/N',
+        'N-N'
+     ],
+
+     [
+        'N+N-N',
+        'N-N+N',
+        'N*N*N',
+        'N+N+N',
+        'N-N-N'
+     ],
+
+     [
+         'N*N-N',
+         'N+N*N',
+         'N*N+N',
+         'N*N+N',
+         'N*N+N'
+     ],
+     [
+        'N+N/N-N',
+        'N-N/N+N',
+        'N/N-N',
+        'N/N+N',
+        'N+N/N+N',
+        'N-N/N-N'
+     ],
+     [
+        'N+N/N-N*N',
+        'N-N/N+N/N',
+        'N/N-N*N-N',
+        'N/N+N/N*N',
+        'N+N*N+N-N',
+        'N-N/N-N+N'
+     ],
+     [
+        'N*(N+N)',
+        'N+(N*N)',
+        '(N+N)*N',
+        '(N*N)+N',
+        'N*(N-N)',
+        'N-(N*N)',
+        '(N-N)*N',
+        '(N*N)-N'
+     ],
+
+     [
+        'N*(N+N)+N',
+        'N*(N+N)-N',
+        'N*(N-N)+N',
+        'N*(N-N)-N',
+        'N+(N+N)*N',
+        'N-(N+N)*N',
+        'N+(N-N)*N',
+        'N-(N-N)*N'
+     ],
+     [
+         'N/N+N/N',
+         'N/N-N/N',
+         'N/N*N/N'
+     ],
+     [
+         'N*N/N',
+         'N/N*N',
+         'N/N*N/N',
+         'N/N/N/N'
      ]
+ ]

@@ -287,6 +287,7 @@ DinoEggs.Game.prototype = {
                     // Remove the menu and the label
                     this.menu.destroy();
                     this.choiceLabel.destroy();
+                    $("div.noShow").removeClass("noShow");
                 }else if(x >= x2 && x < x3){
                     this.restartGame();
                 }else if(x >= x3 && x < x4){
@@ -345,9 +346,11 @@ DinoEggs.Game.prototype = {
         // When the pause button is pressed, we pause the game
         this.game.paused = true;
         this.pauseReason = "pauseClicked";
-
+        $("div.gm-game-rock").addClass("noShow");
+        $("div.gm-game-egg").addClass("noShow");
         // Then add the menu
         this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'buttonsMenu');
+        
         this.menu.anchor.setTo(0.5, 0.5);
 
         // And a label to illustrate which menu item was chosen. (This is not necessary)
@@ -1109,7 +1112,7 @@ DinoEggs.Game.prototype = {
        this.undoBtn.setAttribute("name","undobtn");
        this.undoBtn.setAttribute("id","undo_button");
        this.undoBtn.style.postion = "absolute";
-       this.undoBtn.style.top = "0";
+       //this.undoBtn.style.top = "0";
        this.undoBtn.style.marginLeft = "100px";
        this.undoBtn.style.cssFloat = "left";
     
@@ -1125,8 +1128,8 @@ DinoEggs.Game.prototype = {
        };
         
        //Add the button to the body
-        document.getElementById("game-div").appendChild(this.undoBtn);
-       
+        //document.getElementById("game-div").appendChild(this.undoBtn);
+       document.body.appendChild(this.undoBtn);
        this.undoBtn.disabled = true;
         $('#undo_button').addClass('btn-warning');
         $('#undo_button').addClass('btn-lg');

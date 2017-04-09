@@ -93,7 +93,7 @@
         }
         
         #tutorialDiv, #tutorialModal, #tutorial_modal, .modal-content{
-            background-color:transparent;
+            background-color:transparent !important;
         }
         
         .modal-body{
@@ -103,6 +103,7 @@
             background-repeat: no-repeat;
             background-size: contain;
             background-origin: content-box;
+            background-position: center;
         }
         
         .modal-dialog{
@@ -150,15 +151,42 @@
         }
         
         div.gm-game-rock div.text{
-            color: pink !important;
+            color: white !important;
             margin 0 auto !important;
             position: absolute !important;
         }
         
         div.gm-game-rock div.line{
-            background-color: pink !important;
+            background-color: white !important;
             margin 0 auto !important;
             position: absolute !important;
+        }
+        
+        div.modal-backdrop{
+            /*display:none !important;*/
+            background-color:rgb(80,120,120);
+        }
+        
+        div.modal button.close{
+            background: url('../assets/buttons/tutorial_sprite.png') -4px 54px !important;
+            width:52px;
+            height:52px;
+            opacity:0.65;
+        }
+        
+        button.close:hover{
+            opacity:0.95;
+        }
+        
+        #undo_button{
+            position:absolute !important;
+            z-index:10 !important;
+            bottom:10px;
+            left:15px;
+        }
+        
+        .noShow{
+            display:none !important;
         }
     </style>
 </head>
@@ -180,10 +208,10 @@
                     <!-- Modal content-->
                     <div id="tutorial_modal" class="modal-content" style="box-shadow:none;">
                         <div class="modal-header">
-                            <button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>
                             <!--<h2 class="modal-title">Tutorial</h2>-->
                         </div>
                         <div class="modal-body">
+                            <button type="button" style="color:white" class="close" data-dismiss="modal"></button>
                             <div id='outer'>
                                 <div id='inner'>
                                     <div style="width:100%;min-height:250px;">
