@@ -92,14 +92,14 @@ DinoEggs.LevelSelect.prototype = {
 	initLevelData: function() {
 
 		if (!DinoEggs.PLAYER_DATA) {
-			var str = window.localStorage.getItem('DinoGame_Progress');
+			var str = window.localStorage.getItem('DinoGameProgress');
 			try {
 				DinoEggs.PLAYER_DATA = JSON.parse(str);
 			} catch(e){
-				DinoEggs.PLAYER_DATA = [];
+				DinoEggs.PLAYER_DATA = [[],[]];
 			};
 			if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
-				DinoEggs.PLAYER_DATA = [];
+				DinoEggs.PLAYER_DATA = [[],[]];
 			};
 		};
 	},
@@ -118,16 +118,16 @@ DinoEggs.LevelSelect.prototype = {
 				levelNumber = levelNumber + 1;
 				
 				// check if array not yet initialised
-				if (typeof DinoEggs.PLAYER_DATA[levelNumber-1] !== 'number') {
+				if (typeof DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] !== 'number') {
 					if (levelNumber == 1) {
-						DinoEggs.PLAYER_DATA[levelNumber-1] = 0; // level 1 should never be locked
+						DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] = 0; // level 1 should never be locked
 					} else {
-						DinoEggs.PLAYER_DATA[levelNumber-1] = -1;
+						DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] = -1;
 					};
 				};
 
 				// player progress info for this level
-				var playdata = DinoEggs.PLAYER_DATA[levelNumber-1];
+				var playdata = DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1];
 
 				// decide which icon
 				var isLocked = true; // locked
@@ -197,7 +197,7 @@ DinoEggs.LevelSelect.prototype = {
 		// retrieve the iconlevel
 		var levelNumber = sprite.health;
 
-		if (DinoEggs.PLAYER_DATA[levelNumber-1] < 0) {
+		if (DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] < 0) {
 			// indicate it's locked by shaking left/right
 			var IconGroup = this.levelIcons[levelNumber-1];
 			var xpos = IconGroup.xOrg;
