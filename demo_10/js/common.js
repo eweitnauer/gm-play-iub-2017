@@ -240,6 +240,10 @@ DinoEggs.Game.prototype = {
         $("#eq-match-div").hide();
         $("#eq-solve-div").hide();
         this.game.paused = true;
+        $('#tutorialModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
         $('#tutorialModal').modal('show');
         $('#tFrame').contents().find('.levelTutorial').hide()
         $('#tFrame').contents().find("#"+this._levelNumber).show();
