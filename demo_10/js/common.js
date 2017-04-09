@@ -918,7 +918,7 @@ DinoEggs.Game.prototype = {
             this.clearBoard();
         this.board = this.game.add.sprite(490,250,'board');
         this.board.scale.setTo(0.8,0.7);
-        var style = { font: "bold 15px italic", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style = { font: "14px kalam", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
         
         this.boardText1 = this.game.add.text(520,270, line1, style);
         this.boardText2 = this.game.add.text(505,300, line2, style);
