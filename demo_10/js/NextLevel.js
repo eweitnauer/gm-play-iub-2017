@@ -12,8 +12,6 @@ DinoEggs.NextLevel.prototype.constructor = DinoEggs.NextLevel;
 DinoEggs.NextLevel.prototype = {
 
 	create: function () {
-        //this.game.add.sprite(0, 0, '');
-        console.log("next level:"+DinoEggs._selectedLevel);
 		this.state.start('Game');
 	}
 
