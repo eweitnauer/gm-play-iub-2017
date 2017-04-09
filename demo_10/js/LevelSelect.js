@@ -245,6 +245,10 @@ DinoEggs.LevelSelect.prototype = {
         this.selectedLevel=levelNumber;
 	},
     tut_listener: function(){
+          $('#tutorialModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+        });
         $('#tutorialModal').modal('show');
         $('#tFrame').contents().find('.levelTutorial').hide()
         $('#tFrame').contents().find("#"+this.selectedLevel).show();
