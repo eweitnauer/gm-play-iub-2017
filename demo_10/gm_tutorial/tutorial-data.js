@@ -27,5 +27,5 @@ function callback(rt){
 		}
 
 	}
-	console.log(tutorial_data);
+	//console.log(tutorial_data);
 }

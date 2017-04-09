@@ -63,7 +63,6 @@ DinoEggs.Game.prototype = {
             this.rock_levelProblemSet = g_matchExpressionFormat[this._jsonData["rockLevelProblemSet"]];
             this.rock_problemMode = this._jsonData["rockProblemMode"];
             this.g_canvasExpression = this.rock_levelProblemSet[this._jsonData["canvasExpression"]];
-            //this.g_parsedCanvasExpression = this.g_canvasExpression.replace(/\*/g, "");
             this.g_parsedCanvasExpression = this.g_canvasExpression;
         }
         
@@ -199,13 +198,6 @@ DinoEggs.Game.prototype = {
         this._lightningGroup.physicsBodyType = Phaser.Physics.ARCADE;
         this.lightRockMap ={}
         
-        //show instructions after 2 seconds 
-        if(this._levelNumber > 1){
-        this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showRockInstructions, this);
-        }else{
-           this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showEggInstructions, this);
-        }
-        
         //power up
         this.pterodactyl = this.game.add.sprite(0, 50, 'pterodactyl');
         this.pterodactyl.scale.setTo(0.2,0.2);
@@ -215,7 +207,7 @@ DinoEggs.Game.prototype = {
         //powerups appear randomly
         var powerupInterval = this.getRandomRange(20, 50);
         console.log("Power up appearing in "+powerupInterval+" seconds");
-        this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.showPowerup, this);
         
         //Game controls
         this.pauseButton = this.game.add.button(this.game.world.width , this.scoreText.y + this.scoreText.height , 'pauseButton', this.pauseClicked, this);
@@ -229,7 +221,31 @@ DinoEggs.Game.prototype = {
         
         this.questionButton = this.game.add.button(this.game.world.width ,this.muteButton.y + this.muteButton.height, 'questionButton', this.questionClicked, this, 2, 1, 0);
         this.questionButton.x = this.questionButton.x - this.questionButton.width;
+        
+        
+        
+        this.forceDisplayTutorial = false;
+        if(DinoEggs.PLAYER_DATA[this._levelNumber - 1] < 2){
+            this.forceDisplayTutorial = true;
+            this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showTutorial, this);    
+        }else{
+            if(this._levelNumber > 1){
+                this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showRockInstructions, this);
+            }else{
+                this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showEggInstructions, this);
+            }
+        }
     },
+    showTutorial: function(){  
+        $("#eq-match-div").hide();
+        $("#eq-solve-div").hide();
+        this.game.paused = true;
+        $('#tutorialModal').modal('show');
+        $('#tFrame').contents().find('.levelTutorial').hide()
+        $('#tFrame').contents().find("#"+this._levelNumber).show();
+        document.getElementById("tFrame").contentWindow.g_done_count = 0;
+    },
+    
     muteMusic:function(){
           if (this.playOrMute == false) {
                 this.music.pause();
@@ -286,20 +302,10 @@ DinoEggs.Game.prototype = {
                 if(x >= x1 && x < x2){
                     // Remove the menu and the label
                     this.menu.destroy();
-                    this.choiceLabel.destroy();
                 }else if(x >= x2 && x < x3){
                     this.restartGame();
                 }else if(x >= x3 && x < x4){
-                    this.game.paused = true;
-                    $('#tutorialModal').modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-                    $('#tutorialModal').modal('show');
-                    $('#tFrame').contents().find('.levelTutorial').hide()
-                    $('#tFrame').contents().find("#"+this._levelNumber).show();
-                    document.getElementById("tFrame").contentWindow.g_done_count = 0;
-                    //console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
+                    this.showTutorial();
                 }else if(x >= x4 && x < x5){ 
                      this.exitToMain();
                 }
@@ -310,19 +316,6 @@ DinoEggs.Game.prototype = {
             }
        }
     },
-    tut_listener: function(){
-        $('#tutorialModal').modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-        $('#tutorialModal').modal('show');
-        $('#tFrame').contents().find('.levelTutorial').hide()
-        $('#tFrame').contents().find("#"+this.selectedLevel).show();
-        document.getElementById("tFrame").contentWindow.g_done_count = 0;
-        console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
-
-    },
-    
     questionClicked: function(){
         this.game.paused = true;
         this.pauseReason = "questionClicked";
@@ -347,12 +340,7 @@ DinoEggs.Game.prototype = {
 
         // Then add the menu
         this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'buttonsMenu');
-        this.menu.anchor.setTo(0.5, 0.5);
-
-        // And a label to illustrate which menu item was chosen. (This is not necessary)
-        this.choiceLabel = this.game.add.text(this.game.world.width / 2, this.game.world.height -150, 'Paused', { font: '30px Arial', fill: '#000' });
-        this.choiceLabel.anchor.setTo(0.5, 0.5);
-        
+        this.menu.anchor.setTo(0.5, 0.5);        
         $("#eq-match-div").hide();
         $("#eq-solve-div").hide();
     },
@@ -368,7 +356,7 @@ DinoEggs.Game.prototype = {
                 var uniqueEq = this.getEquationForPowerup();
                 if(uniqueEq != null){
                     this.pterodactyl.visible = true;  
-                    this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
+                    this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width - this.pauseButton.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
 
                     var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
@@ -471,8 +459,9 @@ DinoEggs.Game.prototype = {
                     var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
                     scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
 
-                    //check for any existing black eggs
-                    if(eggSprite.hitCounter <= 2){
+                    //check for any existing blue eggs
+                    //This blue eggs should not be considered for '-10' calculation in Level 2 (when all eggs hatch simultaneously)
+                    if(eggSprite.hitCounter <= 2 && this._levelNumber != 2){
                         for (var j = 0; j < this._eggsGroup.length; j++){
                             if(this._eggsGroup.children[j].hitCounter > 2 && this._eggsGroup.children[j].hitCounter != 10000){
                                 var blackEggScoreText = this.game.add.text(this._eggsGroup.children[j].x, this._eggsGroup.children[j].y, "-10", { fontSize: '32px', fill: '#000' });
@@ -634,7 +623,6 @@ DinoEggs.Game.prototype = {
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
-        console.log("this.solveeqcanvas:"+this.solveEqCanvas);
         
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
     },
@@ -678,7 +666,7 @@ DinoEggs.Game.prototype = {
         if(this.g_powerupDuration > 0 && this._rocksGroup.countLiving() > 0 && this._eggsGroup.countLiving() > 0){
             x_pos = 0;
             if(this.pterodactyl.x == 0){
-                x_pos = this.game.world.width - this.pterodactyl.width;
+                x_pos = this.game.world.width - this.pterodactyl.width - this.pauseButton.width;
             }
             
             this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: x_pos , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true);
@@ -783,11 +771,6 @@ DinoEggs.Game.prototype = {
         if(obj != undefined)
             obj.destroy();
     },
-    
-    managePause:function(){
-        //To be implemented
-    },
-    
     gameOver: function() {    
         
         this.destructGameObjectsBeforeGameOver();
@@ -1046,9 +1029,6 @@ DinoEggs.Game.prototype = {
                         
                         this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
-
-                        /*document.getElementById("eq-match-div").style.display="block";
-                        document.getElementById("eq-solve-div").style.display="none";*/
                     }
 
                 }
@@ -1139,6 +1119,24 @@ DinoEggs.Game.prototype = {
        this.undoBtn.disabled = true;
         $('#undo_button').addClass('btn-warning');
         $('#undo_button').addClass('btn-lg');
+        
+        
+        //Tutorial close listener to unpause the game
+        var gameCtx = this;
+        $("#tutorialModal").on("hidden.bs.modal", function() {
+            if(gameCtx.game.paused && gameCtx.forceDisplayTutorial){
+                gameCtx.game.paused = false;
+                gameCtx.forceDisplayTutorial = false;
+                if(gameCtx._levelNumber > 1){
+                     gameCtx.showRockInstructions();
+                     $("#eq-match-div").show();
+                }else{
+                     gameCtx.showEggInstructions();
+                     $("#eq-solve-div").show();
+                }
+            }
+            
+        });
         
     },
     
