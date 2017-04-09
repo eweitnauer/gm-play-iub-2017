@@ -131,16 +131,16 @@ DinoEggs.Game.prototype = {
          
         
         //  The score[]
-        this.scoreText = this.game.add.text(700, 16, 'Score: 0', { fontSize: '16px', fill: '#000' });
+        this.scoreText = this.game.add.text(700, 16, 'Score: 0', { font: '16px kalam', fill: '#000' });
         
         //Current Level Number
-        this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { fontSize: '16px', fill: '#000' });
+        this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { font: '16px kalam', fill: '#000' });
         
         // Number of Remaining Rocks
         if(this._levelNumber != 1){
              var barConfig = {x: 230, y: 25};
              this.myHealthBar = new HealthBar(this.game, barConfig);
-             this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { fontSize: '16px', fill: '#000' });
+             this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { font: "16px kalam", fill: '#000' });
         }
         else{
             this.rocksRemainingText = "";
@@ -225,7 +225,8 @@ DinoEggs.Game.prototype = {
         
         
         this.forceDisplayTutorial = false;
-        if(DinoEggs.PLAYER_DATA[this._levelNumber - 1] < 2){
+        var levelStars = DinoEggs.PLAYER_DATA[DinoEggs.stageNumber - 1][this._levelNumber - 1];
+        if(levelStars == undefined || levelStars < 2){
             this.forceDisplayTutorial = true;
             this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showTutorial, this);    
         }else{
@@ -452,7 +453,7 @@ DinoEggs.Game.prototype = {
                     var score = this.calculateScore(eggSprite.hitCounter); 
 
                     //Add score text here
-                    var obtainedScoreText = this.game.add.text(eggSprite.x, eggSprite.y, score, { fontSize: '32px', fill: '#000' });
+                    var obtainedScoreText = this.game.add.text(eggSprite.x, eggSprite.y, score, { font: '32px kalam', fill: '#000' });
 
                     //score animation
     //                this.clearBoard();
@@ -464,7 +465,7 @@ DinoEggs.Game.prototype = {
                     if(eggSprite.hitCounter <= 2 && this._levelNumber != 2){
                         for (var j = 0; j < this._eggsGroup.length; j++){
                             if(this._eggsGroup.children[j].hitCounter > 2 && this._eggsGroup.children[j].hitCounter != 10000){
-                                var blackEggScoreText = this.game.add.text(this._eggsGroup.children[j].x, this._eggsGroup.children[j].y, "-10", { fontSize: '32px', fill: '#000' });
+                                var blackEggScoreText = this.game.add.text(this._eggsGroup.children[j].x, this._eggsGroup.children[j].y, "-10", { font: '32px kalam', fill: '#000' });
                                 var blackEggTween = this.game.add.tween(blackEggScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
                                 blackEggTween.onComplete.addOnce(this.updateScore,this,blackEggScoreText); 
                             }
@@ -791,7 +792,7 @@ DinoEggs.Game.prototype = {
             nextLevelButton.anchor.set(0.5);
             
             g_autoStartClock=5;
-            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px Arial"});
+            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px kalam"});
             this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
         }
         

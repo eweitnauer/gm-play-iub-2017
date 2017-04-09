@@ -20,11 +20,13 @@ DinoEggs.Boot.prototype = {
     init: function(){
         this.input.maxPointers = 1; // multi-touch pointers for touch screen
         this.stage.disableVisibilityChange = true; // freeze game if player switches tab 
+        
+        var ctx = this;
         //global object for font loading
         this.webFontLoading = {
           //call rungame when fonts are loaded
           active: function() {
-
+              ctx.state.start('Preload');
           },
           custom: {
             //array of family names, the ones written within the stylesheet.css coming
@@ -73,7 +75,7 @@ DinoEggs.Boot.prototype = {
                 //load fonts using the object created above
                 WebFont.load(this.webFontLoading);
 
-                this.state.start('Preload');
+                
           }
        
 }
