@@ -37,7 +37,7 @@ DinoEggs.Game.prototype = {
     initVaribles:function(){
         this._levelNumber = DinoEggs._selectedLevel;
         console.log("selected level:"+DinoEggs._selectedLevel);
-        this._jsonData = DinoEggs.jsonLevelObject[DinoEggs._selectedLevel];
+        this._jsonData = DinoEggs.jsonLevelObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this.g_numRocks = this._jsonData["numRocks"];
         this.g_numEggs = this._jsonData["numEggs"];
         this.rocksRemainingText = null;
@@ -783,12 +783,16 @@ DinoEggs.Game.prototype = {
         }        
         
         //next level button
-        if(DinoEggs.PLAYER_DATA[this._levelNumber] > -1 ){ //playerdata[currentlevel] = playerdata[this._levelNumber - 1]
+        if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ //playerdata[currentlevel] = playerdata[this._levelNumber - 1]
             var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'nextlevel', function(){
                 DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; //parseFloat(this._levelNumber) + 1;
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
+            
+            g_autoStartClock=5;
+            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px Arial"});
+            this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
         }
         
         
@@ -806,6 +810,16 @@ DinoEggs.Game.prototype = {
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+    },
+    autoStartNextLevel: function(){
+        g_autoStartClock--;
+        
+        autoStartTxt.text = 'Next Level starts in '+g_autoStartClock+' seconds';
+        if(g_autoStartClock<1){
+            autoStartTxt.kill();
+            DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; //parseFloat(this._levelNumber) + 1;
+            this.state.start('NextLevel');
+        }
     },
     destructGameObjectsBeforeGameOver : function(){
         //pass the score as a parameter 
@@ -861,16 +875,16 @@ DinoEggs.Game.prototype = {
     
     updatePlayerData: function(stars) {
 		// set number of stars for this level
-		DinoEggs.PLAYER_DATA[this._levelNumber-1] = stars;
+		DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber-1] = stars;
 
 		// unlock next level
-		if (this._levelNumber < DinoEggs.PLAYER_DATA.length) {
-			if (DinoEggs.PLAYER_DATA[this._levelNumber] < 0) { // currently locked (=-1)
-				DinoEggs.PLAYER_DATA[this._levelNumber] = 0; // set unlocked, 0 stars
+		if (this._levelNumber < DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1].length) {
+			if (DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] < 0) { // currently locked (=-1)
+				DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] = 0; // set unlocked, 0 stars
 			}
 		};
 		// and write to local storage
-		window.localStorage.setItem('DinoGame_Progress', JSON.stringify(DinoEggs.PLAYER_DATA));
+		window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
         
         //console.log("player data");
         //console.log(DinoEggs.PLAYER_DATA);
@@ -1017,8 +1031,8 @@ DinoEggs.Game.prototype = {
     solveEqCheck:function(evt){
        
                 //condition to check if equation is solved  
-                if ((evt.last_eq.startsWith("x=") && !isNaN(evt.last_eq.slice(2)))||
-                   (evt.last_eq.endsWith("=x")&& !isNaN(evt.last_eq.slice(0,-2)))){
+                if ((evt.last_eq.startsWith("a=") && !isNaN(evt.last_eq.slice(2)))||
+                   (evt.last_eq.endsWith("=a")&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
                         
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
