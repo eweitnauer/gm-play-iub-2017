@@ -303,6 +303,7 @@ DinoEggs.Game.prototype = {
                 if(x >= x1 && x < x2){
                     // Remove the menu and the label
                     this.menu.destroy();
+                    $("div.noShow").removeClass("noShow");
                 }else if(x >= x2 && x < x3){
                     this.restartGame();
                 }else if(x >= x3 && x < x4){
@@ -338,7 +339,8 @@ DinoEggs.Game.prototype = {
         // When the pause button is pressed, we pause the game
         this.game.paused = true;
         this.pauseReason = "pauseClicked";
-
+        $("div.gm-game-rock").addClass("noShow");
+        $("div.gm-game-egg").addClass("noShow");
         // Then add the menu
         this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'buttonsMenu');
         this.menu.anchor.setTo(0.5, 0.5);        
@@ -1016,9 +1018,6 @@ DinoEggs.Game.prototype = {
          var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
          if(this.lightRockMap[lightning.nameId] == rock){
-             if(rock.equ != currentMatchExp){
-                return;
-             }
              var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { fontSize: '32px', fill: '#000' });
              this.rockBurst(rock);
              delete this.lightRockMap[lightning.nameId];
@@ -1032,8 +1031,8 @@ DinoEggs.Game.prototype = {
     solveEqCheck:function(evt){
        
                 //condition to check if equation is solved  
-                if ((evt.last_eq.startsWith("a=") && !isNaN(evt.last_eq.slice(2)))||
-                   (evt.last_eq.endsWith("=a")&& !isNaN(evt.last_eq.slice(0,-2)))){
+                if (((evt.last_eq.startsWith("a=")||evt.last_eq.startsWith("-a=")) && !isNaN(evt.last_eq.slice(2)))||
+                   ((evt.last_eq.endsWith("=-a")||(evt.last_eq.endsWith("=-a")))&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
                         
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
@@ -1113,7 +1112,7 @@ DinoEggs.Game.prototype = {
        this.undoBtn.setAttribute("name","undobtn");
        this.undoBtn.setAttribute("id","undo_button");
        this.undoBtn.style.postion = "absolute";
-       this.undoBtn.style.top = "0";
+       //this.undoBtn.style.top = "0";
        this.undoBtn.style.marginLeft = "100px";
        this.undoBtn.style.cssFloat = "left";
     
@@ -1129,8 +1128,8 @@ DinoEggs.Game.prototype = {
        };
         
        //Add the button to the body
-        document.getElementById("game-div").appendChild(this.undoBtn);
-       
+        //document.getElementById("game-div").appendChild(this.undoBtn);
+       document.body.appendChild(this.undoBtn);
        this.undoBtn.disabled = true;
         $('#undo_button').addClass('btn-warning');
         $('#undo_button').addClass('btn-lg');

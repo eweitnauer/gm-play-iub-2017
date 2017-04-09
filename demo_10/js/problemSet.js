@@ -30,20 +30,6 @@ g_matchExpressionFormat = [
         'w+x+y/z'
     ],
     [
-        'm*x+n*x',
-        'm*x+x*n',
-        'n*x+m*x',
-        'n*x+x*m',
-        'x*n+m*x',
-        'x*n+x*m',
-        'x*m+n*x',
-        'x*m+x*n',
-        '(m+n)*x',
-        'x*(m+n)',
-        '(n+m)*x',
-        'x*(n+m)'
-    ],
-    [
         'a*b-c*d',
         '-c*d+a*b',
         'b*a-c*d',
@@ -140,10 +126,10 @@ g_matchExpressionFormat = [
          "b+a=c/5"     
     ],
     [   "(a+b)/m=n","a+b=n*m", "a+b=m*n", "(a+b)/n=m", "(b+a)/m=n", "b+a=n*m",
-        "b+a=m*n", "(b+a)/n=m", "n*m=b+a", "m*n=b+a", "m=(b+a)/n", "n=(b+a)/m", "n*m=a+b", "n=(a+b)/m", "m*n=a+b", "m=(a+b)/n", "(a+b)*1/m=n", "(b+a)*1/m=n", "1/m*(a+b)=n", "1/m*(b+a)=n", "n=(a+b)*1/m", "n=1/m*(a+b)", "n=1/m*(b+a)", "n=(b+a)*1/m", "(a+b)*1=n*m", "(a+b)*1/n=m", "(b+a)*1/n=m", "1/n*(a+b)=m", "1/n*(b+a)=m", "m=1/n*(a+b)", "m=1/n*(b+a)", "m=(a+b)*1/n", "m=(b+a)*1/n"
+        "b+a=m*n", "(b+a)/n=m", "n*m=b+a", "m*n=b+a", "m=(b+a)/n", "n=(b+a)/m", "n*m=a+b", "n=(a+b)/m", "m*n=a+b", "m=(a+b)/n", "(a+b)*1/m=n", "(b+a)*1/m=n", "1/m*(a+b)=n", "1/m*(b+a)=n", "n=(a+b)*1/m", "n=1/m*(a+b)", "n=1/m*(b+a)", "n=(b+a)*1/m", "(a+b)=n*m", "(a+b)*1/n=m", "(b+a)*1/n=m", "1/n*(a+b)=m", "1/n*(b+a)=m", "m=1/n*(a+b)", "m=1/n*(b+a)", "m=(a+b)*1/n", "m=(b+a)*1/n"
     ],
     [   "(r+5)/p=q","r+5=p*q", "r+5=q*p", "5+r=q*p", "5+r=p*q", "(5+r)/p=q", "(r+5)*1/p=q",
-        "(5+r)*1/p=q", "1/p*(r+5)=q", "1/p*(5+r)=q", "(r+5)/q=p", "(5+r)/q=p", "(r+5)*1/q=p", "(5+r)*1/q=p", "((r+5)*1)/q=p", "1/q*(r+5)=p", "1/q*(5+r)=p", "q=(r+5)/p", "q=(5+r)/p", "q*p=r+5", "q*p=5+r", "p*q=r+5", "p*q=5+r", "p=(r+5)/q", "p=(5+r)/q", "q=1/p*(r+5)", "q=1/p*(5+r)", "q=(r+5)*1/p", "q=(5+r)*1/p", "p=1/q*(r+5)", "p=1/q*(5+r)", "p=(r+5)*1/q", "p=(5+r)*1/q"
+        "(5+r)*1/p=q", "1/p*(r+5)=q", "1/p*(5+r)=q", "(r+5)/q=p", "(5+r)/q=p", "(r+5)*1/q=p", "(5+r)*1/q=p", "1/q*(r+5)=p", "1/q*(5+r)=p", "q=(r+5)/p", "q=(5+r)/p", "q*p=r+5", "q*p=5+r", "p*q=r+5", "p*q=5+r", "p=(r+5)/q", "p=(5+r)/q", "q=1/p*(r+5)", "q=1/p*(5+r)", "q=(r+5)*1/p", "q=(5+r)*1/p", "p=1/q*(r+5)", "p=1/q*(5+r)", "p=(r+5)*1/q", "p=(5+r)*1/q"
     ],
     [   "3*a^2+6*b^2+8",
         "3*a^2+8+6*b^2",
@@ -180,6 +166,7 @@ g_matchExpressionFormat = [
     ],
     ["y^2+a*y^2=c*y^2","a*y^2+y^2=c*y^2","a*y^2=c*y^2-y^2","a*y^2=-y^2+c*y^2","-c*y^2+a*y^2=-y^2","a*y^2-c*y^2=-y^2","-c*y^2=-y^2-a*y^2","-c*y^2=-a*y^2-y^2","y^2*(1+a)=c*y^2","y^2*(a+1)=c*y^2","(1+a)*y^2=c*y^2","(a+1)*y^2=c*y^2","(1*y^2+a*y^2)=c*y^2","y^2=c*y^2-a*y^2","y^2=(c-a)*y^2","y^2=(-a+c)*y^2","y^2=y^2*(c-a)","y^2=y^2*(-a+c)","y^2=(c*y^2-a*y^2)","a*y^2=(c-1)*y^2","a*y^2=(-1+c)*y^2","a*y^2=y^2*(c-1)","a*y^2=y^2*(-1+c)"]
 ]
+
 g_matchEqProblemsFormat = [
         [
               'x=y'
@@ -294,74 +281,74 @@ g_solveForXEqProblemsFormat = [
     ]
      
 g_simplifyExpressionFormat =[
-         [
-            'N*N',
-            'N+N',
-            'N/N',
-            'N-N'
-         ],
-         
-         [
-            'N+N-N',
-            'N-N+N',
-            'N*N*N',
-            'N+N+N',
-            'N-N-N'
-         ],
-         
-         [
-             'N*N-N',
-             'N+N*N',
-             'N*N+N',
-             'N*N+N',
-             'N*N+N'
-         ],
-         [
-            'N+N/N-N',
-            'N-N/N+N',
-            'N/N-N',
-            'N/N+N',
-            'N+N/N+N',
-            'N-N/N-N'
-         ],
-         [
-            'N+N/N-N*N',
-            'N-N/N+N/N',
-            'N/N-N*N-N',
-            'N/N+N/N*N',
-            'N+N*N+N-N',
-            'N-N/N-N+N'
-         ],
-         [
-            'N*(N+N)',
-            'N+(N*N)',
-            '(N+N)*N',
-            '(N*N)+N',
-            'N*(N-N)',
-            'N-(N*N)',
-            '(N-N)*N',
-            '(N*N)-N'
-         ],
-    
-         [
-            'N*(N+N)+N',
-            'N*(N+N)-N',
-            'N*(N-N)+N',
-            'N*(N-N)-N',
-            'N+(N+N)*N',
-            'N-(N+N)*N',
-            'N+(N-N)*N',
-            'N-(N-N)*N'
-         ],
-         [
-             'N/N+N/N',
-             'N/N-N/N',
-             'N/N*N/N'
-         ],
-         [
-             'N*N/N',
-             'N/N*N',
-             'N/N*N/N',
-             'N/N/N/N'
-         ]
+     [
+        'N*N',
+        'N+N',
+        'N/N',
+        'N-N'
+     ],
+
+     [
+        'N+N-N',
+        'N-N+N',
+        'N*N*N',
+        'N+N+N',
+        'N-N-N'
+     ],
+
+     [
+         'N*N-N',
+         'N+N*N',
+         'N*N+N',
+         'N*N+N',
+         'N*N+N'
+     ],
+     [
+        'N+N/N-N',
+        'N-N/N+N',
+        'N/N-N',
+        'N/N+N',
+        'N+N/N+N',
+        'N-N/N-N'
+     ],
+     [
+        'N+N/N-N*N',
+        'N-N/N+N/N',
+        'N/N-N*N-N',
+        'N/N+N/N*N',
+        'N+N*N+N-N',
+        'N-N/N-N+N'
+     ],
+     [
+        'N*(N+N)',
+        'N+(N*N)',
+        '(N+N)*N',
+        '(N*N)+N',
+        'N*(N-N)',
+        'N-(N*N)',
+        '(N-N)*N',
+        '(N*N)-N'
+     ],
+
+     [
+        'N*(N+N)+N',
+        'N*(N+N)-N',
+        'N*(N-N)+N',
+        'N*(N-N)-N',
+        'N+(N+N)*N',
+        'N-(N+N)*N',
+        'N+(N-N)*N',
+        'N-(N-N)*N'
+     ],
+     [
+         'N/N+N/N',
+         'N/N-N/N',
+         'N/N*N/N'
+     ],
+     [
+         'N*N/N',
+         'N/N*N',
+         'N/N*N/N',
+         'N/N/N/N'
      ]
+ ]

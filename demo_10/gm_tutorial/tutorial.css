@@ -169,4 +169,32 @@ div.animation svg g{
 
 a.carousel-control{
     background-image:none !important;
+    opacity:0.85;
 }
+
+span.glyphicon{
+    background:none;
+}
+
+span.glyphicon-chevron-left::before, span.glyphicon-chevron-right::before{
+    content: none;
+}
+
+span.glyphicon-chevron-left{
+    background: url('../assets/buttons/tutorial_sprite.png') -4px -4px;
+    width:52px;
+    height:52px;
+    opacity:0.65;
+}
+
+span.glyphicon-chevron-right{
+    background: url('../assets/buttons/tutorial_sprite.png') 56px 0px;
+    width:52px;
+    height:52px;
+    opacity:0.65;
+}
+
+span.glyphicon-chevron-left:hover, span.glyphicon-chevron-right:hover{
+    opacity:0.95;
+}
+
