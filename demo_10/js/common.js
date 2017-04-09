@@ -304,18 +304,7 @@ DinoEggs.Game.prototype = {
             }          
                 
             }
-            else {
-                var m1 = this.replayButton.x;
-                var m2 = this.replayButton.x + this.replayButton.width;
-                var n1 = this.replayButton.y;
-                var n2 = this.replayButton.y + this.replayButton.height;
-                if(event.x > m1 && event.x < m2 && event.y > n1 && event.y < n2 ) {
-                    this.game.paused = false;
-                    this.replayButton.destroy();
-                }
-                
-            }
-        }
+       }
     },
     tut_listener: function(){
         $('#tutorialModal').modal('show');
@@ -327,8 +316,6 @@ DinoEggs.Game.prototype = {
     },
     
     questionClicked: function(){
-         this.replayButton = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'replayButton');
-        this.replayButton.anchor.setTo(0.5, 0.5);
         this.game.paused = true;
         this.pauseReason = "questionClicked";
            $('#questionModal').modal('show');
@@ -1097,7 +1084,14 @@ DinoEggs.Game.prototype = {
             this.matchExpCanvas.model.on('el_changed', function(evt) {	
                 thisObj.matchEqCheck(evt);
             });
-        }            
+        }
+
+        //Unpause game after the Exiting question mark click
+        var questionCtx = this;
+        $("#questionModal").on("hidden.bs.modal", function() {
+              if(questionCtx.game.paused )
+                  questionCtx.game.paused = false;
+        });
         this.currentCanvasEqu = this.g_parsedCanvasExpression;
        
        //Create the search button
