@@ -920,10 +920,12 @@ DinoEggs.Game.prototype = {
     showBoard: function(line1,line2) {
         if(this.board)
             this.clearBoard();
-        this.board = this.game.add.sprite(500,250,'board');
+        this.board = this.game.add.sprite(490,250,'board');
         this.board.scale.setTo(0.8,0.7);
-        this.boardText1 = this.game.add.text(520,270, line1, { fontSize: '15px', fill: '#000' });
-        this.boardText2 = this.game.add.text(510,300, line2, { fontSize: '15px', fill: '#000' });
+        var style = { font: "bold 15px italic", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
+        
+        this.boardText1 = this.game.add.text(520,270, line1, style);
+        this.boardText2 = this.game.add.text(505,300, line2, style);
     },
     
     clearBoard: function() {
