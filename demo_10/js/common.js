@@ -291,6 +291,10 @@ DinoEggs.Game.prototype = {
                     this.restartGame();
                 }else if(x >= x3 && x < x4){
                     this.game.paused = true;
+                    $('#tutorialModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
                     $('#tutorialModal').modal('show');
                     $('#tFrame').contents().find('.levelTutorial').hide()
                     $('#tFrame').contents().find("#"+this._levelNumber).show();
@@ -307,6 +311,10 @@ DinoEggs.Game.prototype = {
        }
     },
     tut_listener: function(){
+        $('#tutorialModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
         $('#tutorialModal').modal('show');
         $('#tFrame').contents().find('.levelTutorial').hide()
         $('#tFrame').contents().find("#"+this.selectedLevel).show();
@@ -318,7 +326,11 @@ DinoEggs.Game.prototype = {
     questionClicked: function(){
         this.game.paused = true;
         this.pauseReason = "questionClicked";
-           $('#questionModal').modal('show');
+        $('#questionModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+       $('#questionModal').modal('show');
          if (this._rocksGroup.countLiving() > 0) {
             $('#qFrame').contents().find('#rock').show();
             $('#qFrame').contents().find('#egg').hide();
@@ -1092,6 +1104,7 @@ DinoEggs.Game.prototype = {
               if(questionCtx.game.paused )
                   questionCtx.game.paused = false;
         });
+        
         this.currentCanvasEqu = this.g_parsedCanvasExpression;
        
        //Create the search button
