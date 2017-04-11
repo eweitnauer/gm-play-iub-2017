@@ -492,8 +492,10 @@ DinoEggs.Game.prototype = {
                         this.clearGMCanvas(this.matchExpCanvas);
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
-                        if(this.matchExpCanvas)
+                        if(this.matchExpCanvas){
+                            console.log("inserting exp on match");
                             this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                        }
                         this.currentCanvasEqu = this.g_parsedCanvasExpression;
                         if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
@@ -846,6 +848,9 @@ DinoEggs.Game.prototype = {
         if(this.matchExpCanvas)
             this.clearGMCanvas(this.matchExpCanvas);
         
+        this.matchExpCanvas = null;
+        this.solveEqCanvas = null;
+        
         this.music.stop();
         var elem = document.getElementById("undo_button");
         if(elem){
@@ -1069,6 +1074,7 @@ DinoEggs.Game.prototype = {
     initCanvas: function(){
         //solveEqCanvas is for Equation Solving and simplifying            
         if(this._jsonData["isSimplify"]!=false){ // || this._jsonData["isSolve"] !=false){
+            console.log("creating solveeq");
             document.getElementById("eq-match-div").style.display="none";
             document.getElementById("eq-solve-div").style.display="block";
             this.solveEqCanvas = new gmath.Canvas('#gmath1-div', {use_toolbar: false, vertical_scroll: false });
@@ -1085,6 +1091,7 @@ DinoEggs.Game.prototype = {
         }
         //matchExpCanvas is for Pattern Matching
         if(this._jsonData["isMatch"] !=false){
+            console.log("creating matcheq");
             document.getElementById("eq-match-div").style.display="block";
             document.getElementById("eq-solve-div").style.display="none";
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });                
