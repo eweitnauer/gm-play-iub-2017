@@ -26,6 +26,7 @@ DinoEggs.Boot.prototype = {
         this.webFontLoading = {
           //call rungame when fonts are loaded
           active: function() {
+              ctx.game.add.text(0,0,"dummyText",{font : "10px kalam"});
               ctx.state.start('Preload');
           },
           custom: {
