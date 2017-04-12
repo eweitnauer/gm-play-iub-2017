@@ -207,7 +207,7 @@ DinoEggs.Game.prototype = {
         //powerups appear randomly
         var powerupInterval = this.getRandomRange(20, 50);
         console.log("Power up appearing in "+powerupInterval+" seconds");
-        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.showPowerup, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);
         
         //Game controls
         this.pauseButton = this.game.add.button(this.game.world.width , this.scoreText.y + this.scoreText.height , 'pauseButton', this.pauseClicked, this);
@@ -492,8 +492,9 @@ DinoEggs.Game.prototype = {
                         this.clearGMCanvas(this.matchExpCanvas);
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
-                        if(this.matchExpCanvas)
+                        if(this.matchExpCanvas){
                             this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                        }
                         this.currentCanvasEqu = this.g_parsedCanvasExpression;
                         if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
@@ -775,6 +776,18 @@ DinoEggs.Game.prototype = {
                     this._eggsGroup.callAll('animations.play', 'animations', 'wiggleOnce');
                 }
             }
+            
+            //check powerup and kill if visible
+            if(this.pterodactyl.visible == true){
+                this.pterodactyl.visible = false;
+                this.pterodactyl.kill();
+                this.pterodactyl.x = 0;
+                this.powerupText.kill();  
+
+                //reset the powerup duration
+                this.g_powerupDuration = 5;
+            }
+            
         }
 
     },
@@ -854,6 +867,9 @@ DinoEggs.Game.prototype = {
         
         if(this.matchExpCanvas)
             this.clearGMCanvas(this.matchExpCanvas);
+        
+        this.matchExpCanvas = null;
+        this.solveEqCanvas = null;
         
         this.music.stop();
         var elem = document.getElementById("undo_button");
@@ -1288,16 +1304,14 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 0;
+        //var indexToChoose = 1;
         var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         
         //check if rocks freeze is acquired,
         //In that case, if there are no rocks, player should acquire new powerup
         var killedRocks = this.g_numRocks - this._rocksGroup.countLiving();
-        if(indexToChoose == 0 && killedRocks == this.g_rockProducedIndex + 1){
-            while(indexToChoose == 0){
-                indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
-            }
+        if(indexToChoose == 0  && killedRocks == this.g_rockProducedIndex + 1){
+                indexToChoose = this.getRandomRange(1, 3);     
         }
         
         var chosenPowerup = powerupsArray[indexToChoose];  
@@ -1315,7 +1329,6 @@ DinoEggs.Game.prototype = {
         }
 
         //handle selected powerup
-        console.log(chosenPowerup.name);
         this.powerupID = chosenPowerup.id; 
         this[chosenPowerup.handler]();
     },
@@ -1328,13 +1341,19 @@ DinoEggs.Game.prototype = {
         hourglass = this.game.add.sprite(this.game.width/2, 50, "clock");
         hourglass.anchor.setTo(0.5,0.5);
         hourglass.alpha = 0.75;
-        this.game.time.events.repeat(Phaser.Timer.SECOND,16,  this.updateClock, this);
-        //this.game.time.events.add(Phaser.Timer.SECOND * 15, this.unfreezeRocks, this);
+        g_freezeRockTimerEvent = this.game.time.events.repeat(Phaser.Timer.SECOND,16,  this.updateClock, this);
     },
     updateClock:function(){
         g_clock_sec++;
         hourglass.angle +=24;        
-        if(g_clock_sec>15){
+        if(g_clock_sec > 15){
+            hourglass.kill();
+            this.unfreezeRocks();
+        }
+        
+        var killedRocks = this.g_numRocks - this._rocksGroup.countLiving();
+        if(killedRocks == this.g_rockProducedIndex + 1){   
+            this.game.time.events.remove(g_freezeRockTimerEvent);
             hourglass.kill();
             this.unfreezeRocks();
         }
