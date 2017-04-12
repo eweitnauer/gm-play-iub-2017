@@ -712,6 +712,15 @@ DinoEggs.Game.prototype = {
                         var style = {font: "20px Arial", fill: "#111111", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
                         egg.setEquStyle(style);
                         egg.animations.play('wiggleOnce');
+                        var eqSymbols = egg.newGMDiv.querySelectorAll('.text');
+                        eqSymbols.forEach(function(eqSymbol){
+                            eqSymbol.style.color = "white";
+                        });
+                        
+                        var eqSymbols2 = egg.newGMDiv.querySelectorAll('.line');
+                        eqSymbols2.forEach(function(eqSymbol){
+                            eqSymbol.style.backgroundColor = "white";
+                        });
                         break
                 case 3 :  egg.tint = 0x2412ff;
                         blackdino_popup = true;

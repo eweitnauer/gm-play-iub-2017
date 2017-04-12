@@ -68,7 +68,9 @@ g_matchExpressionFormat = [
     ],
     [
         't*p/c',
-        'p/c*t'
+        'p/c*t',
+        't*p*c^(-1)',
+        'p*c^(-1)*t'
     ],
     [   "x+y=z",
         "y+x=z",
