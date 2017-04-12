@@ -70,7 +70,7 @@ g_matchExpressionFormat = [
         't*p/c',
         'p/c*t',
         't*p*c^(-1)',
-        'p*c^(-1)*t'
+        'p*c^(-1)*t',
         "(t*p)/c",
          "t*p/c",
          "p/c*t",
