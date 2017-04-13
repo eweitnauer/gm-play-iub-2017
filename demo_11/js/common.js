@@ -492,10 +492,6 @@ DinoEggs.Game.prototype = {
                         this.clearGMCanvas(this.matchExpCanvas);
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
-                        if(this.matchExpCanvas){
-                            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                        }
-                        this.currentCanvasEqu = this.g_parsedCanvasExpression;
                         if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
                             this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
@@ -637,10 +633,14 @@ DinoEggs.Game.prototype = {
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){
         var t = this.game.add.tween(rockwave.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
-                        t.onComplete.add(exitTween, this);
-                        function exitTween () {
-                            this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
-                        }
+        t.onComplete.add(exitTween, this);
+        function exitTween () {
+            this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+            if(this.matchExpCanvas){
+                this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+            }
+            this.currentCanvasEqu = this.g_parsedCanvasExpression;
+        }
         //this.game.time.events.add(Phaser.Timer.SECOND * 2, this.shakeCamera, this);
         this.g_rockProducedIndex = -1;
         this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numEggs);
@@ -1047,7 +1047,7 @@ DinoEggs.Game.prototype = {
          var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
          if(this.lightRockMap[lightning.nameId] == rock){
-             var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { fontSize: '32px', fill: '#000' });
+             var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { font: '32px kalam', fill: '#000' });
              this.rockBurst(rock);
              delete this.lightRockMap[lightning.nameId];
              this._lightningGroup.remove(lightning);
@@ -1114,8 +1114,7 @@ DinoEggs.Game.prototype = {
             document.getElementById("eq-solve-div").style.display="none";
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });                
 
-            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
-
+            
             //!preserve binding
             var thisObj =this;
             this.matchExpCanvas.model.on('el_changed', function(evt) {	
@@ -1130,8 +1129,6 @@ DinoEggs.Game.prototype = {
                   questionCtx.game.paused = false;
         });
         
-        this.currentCanvasEqu = this.g_parsedCanvasExpression;
-       
        //Create the search button
        this.undoBtn = document.createElement("input");
         
@@ -1185,11 +1182,9 @@ DinoEggs.Game.prototype = {
     
     clearGMCanvas: function(canvasObj){
         //clear canvas
-        if(canvasObj){
-            while(canvasObj.model.elements().length > 0){
-            canvasObj.model.removeElement(canvasObj.model.elements()[0]); 
+        if(canvasObj){    
+            canvasObj.controller.reset();
         }
-     }
     },
     
     //utility functions
