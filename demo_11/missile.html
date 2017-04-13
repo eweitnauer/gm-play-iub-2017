@@ -1,0 +1,667 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Missile Command 0.1</title>
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
+<link rel="stylesheet" href="https://graspablemath.com/shared/fonts/fonts.css"/>
+<script src="https://graspablemath.com/shared/libs/d3/d3.min.js"></script>
+<script src="https://graspablemath.com/shared/libs/geom.js/geom.min.js"></script>
+<script src="https://graspablemath.com/shared/libs/gmath/gmath-0.5.0.min.js"></script>
+<script src="https://graspablemath.com/shared/libs/analytics/gm-ga.min.js"></script>
+<link rel="stylesheet" href="https://graspablemath.com/shared/libs/bootstrap-3.3.4-dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://graspablemath.com/shared/libs/bootstrap-3.3.4-dist/css/no-btn-focus.css"/>
+<script>
+/// Untility functions connected with random drawing of elements.
+var Random = {};
+
+/// Pass an array of N probabilities and the function will return
+/// a random index in 0...N-1, picked according to the probabilities.
+/// Pass normalized as true if the probs add up to 1. The default is false.
+Random.weighted = function(probs, normalized) {
+	var r = Math.random();
+	if (!normalized) r *= probs.reduce(function(a,b){return a+b});
+	var sum = 0;
+	var idx = -1;
+	while (r>sum) { idx++; sum+=probs[idx] }
+	return idx;
+}
+
+/// Like Random.weighted(), but will return the element of the array
+/// instead of the index. Pass an accessor functions that returns the
+/// weight when passed the element.
+/// If you know that the sum of all weights is 1, you can pass normalized
+/// as true to make things more efficient.
+Random.pick_weighted = function(xs, accessor, normalized) {
+	if (xs.length == 0) throw "empty list";
+	var idx = Random.weighted(xs.map(accessor), normalized);
+	if (idx == -1) throw "sum of probabilities must be bigger than 1";
+	return xs[idx];
+}
+
+/// Returns a random integer in 0...upper-1.
+Random.int = function(upper) {
+	return Math.floor(Math.random()*upper)
+}
+
+/// Returns a random element from the passed array.
+Random.pick = function(vals) {
+	if (vals.length == 0) throw "empty list";
+	return vals[Random.int(vals.length)];
+}
+
+/// Picks N random elements from the passed array without
+/// repetition and returns them as an array.
+Random.pickN = function(n, vals) {
+	if (n == 0) return [];
+	if (n > vals.length) throw "N bigger than number of elements";
+	var perm = Random.permutation(vals.length).slice(0,n);
+	return perm.map(function (val, i) { return vals[perm[i]] });
+}
+
+/// Returns a random permuation of the numbers 0...N-1 in an array.
+Random.permutation = function(N) {
+  var a = [];
+  for (var n=0; n<N; n++) {
+    var i = Math.round(Math.random()*n);
+    var v = a[i];
+    a[i] = n;
+    if (i != n) a[n] = v;
+  }
+  return a;
+}
+
+/// Creates a function uid() that returns a random hex number with 16 digets as string.
+;(function() {
+  var b32 = 0x100000000, f = 0xf, b = []
+      str = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+  function uid() {
+    var i = 0;
+    var r = Math.random()*b32;
+    b[i++] = str[r & f];
+    b[i++] = str[r>>>4 & f];
+    b[i++] = str[r>>>8 & f];
+    b[i++] = str[r>>>12 & f];
+    b[i++] = str[r>>>16 & f];
+    b[i++] = str[r>>>20 & f];
+    b[i++] = str[r>>>24 & f];
+    b[i++] = str[r>>>28 & f];
+    r = Math.random()*b32;
+    b[i++] = str[r & f];
+    b[i++] = str[r>>>4 & f];
+    b[i++] = str[r>>>8 & f];
+    b[i++] = str[r>>>12 & f];
+    b[i++] = str[r>>>16 & f];
+    b[i++] = str[r>>>20 & f];
+    b[i++] = str[r>>>24 & f];
+    b[i++] = str[r>>>28 & f];
+    return "_" + b.join("");
+  };
+  Random.uid = uid;
+})();
+
+
+
+</script>
+<style>
+svg#field {
+  display: block;
+  margin: auto;
+  border: 1px solid silver;
+}
+body {
+  padding-top: 20px;
+  font-size: 15px;
+  color: gray;
+  font-family: monospace;
+}
+p { margin: 10px 0;}
+h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 1em;
+  text-align: center;
+}
+div.center {
+  text-align: center;
+  margin: auto;
+}
+div.center .btn {
+  margin-top: 20px;
+  text-decoration: none;
+}
+div#info {
+  width: 900px;
+  margin: 10px auto;
+  margin-bottom: 30px;
+  font-size: 15px;
+  color: gray;
+  font-family: monospace;
+}
+a { text-decoration: underline }
+a.hidden-link { color: inherit; text-decoration: none; }
+a.hidden-link:hover { color: #23527c; text-decoration: underline; }
+</style>
+
+<body>
+<h1>Missile Command Clone 0.1</h1>
+<div id='main'></div>
+<div id='info'><span id='level'></span><span id='points'></span>
+<span id='maxpoints'style='float:right'></span><span id='maxlevel' style='float:right'></span></div>
+<div class=center>
+  <div>
+    <p>Match the expression to blast the incoming expressions</p>
+    <p>Don't let any expressions hit your green zone!</a></p>
+    <p>Good luck!</p>
+  </div>
+  <button class='btn btn-default'>Start</button>
+  <a role='button' href='../tutorial/index.html?ctx=matris' class='btn btn-default'>Tutorial</a>
+  <p>new to <a class='hidden-link' href="../index.html">graspable math</a>? check out our <a class='hidden-link' href="../tutorial/index.html?ctx=matris">tutorial</a> first!</p>
+</div>
+<script>
+console.log('using gmath version', gmath.version, 'and gmath.ui version', gmath.ui.version);
+
+var w = 900, h = 600, font_size = 50;
+
+gmath.options.actions.only_integer_devision = true;
+
+gmath.extend(gmath.DerivationList.defaultOptions, {
+    normal_font: { family: 'monospace' }
+  , italic_font: { family: 'monospace', style: 'italic' }
+  , h_align: 'center'
+  , v_align: 'center'
+  , fraction_size_factor: 0.95
+  , font_baseline_shift: 0.3
+  , font_ascent: 0.75
+  , font_descent: 0.15
+  , font_size: font_size
+  , collapsed_mode: true
+  , no_handles: true
+  , show_bg: false
+  , keep_in_container: false
+  , draggable: false
+  , debug_draw: false
+});
+
+gmath.AlgebraView.fontloader = gmath.FontLoader([{ family: 'monospace' }, { family: 'monospace', style: 'italic' }], 0);
+
+d3.select('button').on('click', function() {
+  d3.select(this).remove();
+  d3.select('.btn').remove();
+  init();
+  gmath_log_ga.trackEvent('missileCommand','clicked_play');
+});
+
+
+function init() {
+  svg = d3.select('#main')
+    .append('svg')
+    .attr('id', 'field')
+    .attr('width', w).attr('height', h);
+
+  var block_g = svg.append('g');
+  console.log("SVG : "+svg);
+  console.log(svg.node());
+  console.log("Block : "+block_g);
+
+  var mevents = new mtouch_events()
+    .on('drag', function() {
+      if (d3.event.dx || d3.event.dy) game.move(d3.event.dx, d3.event.dy);
+      if (d3.event.x || d3.event.y) {
+        game.mx = d3.event.x;
+        game.my = d3.event.y;
+      }
+      game.block_drag = true;
+    })
+    .on('release', function() {
+      game.dl.getLastView().interaction_handler.handlers.transform[2].end();
+      game.dl_drag = false;
+      game.block_drag = false;
+    });
+  svg.append('rect')
+    .attr({x: 0, y: 0, width: w, height: h})
+    .style('fill', 'none')
+    .style({'pointer-events': 'all'})
+    .call(mevents);
+
+  game = new Game(block_g);
+  game.start();
+
+
+  d3.select(document.body).on('keydown', function() {
+    var key = d3.event.keyCode;
+    if ([32,37,65,39,68,40,83].indexOf(key) !== -1) d3.event.preventDefault();
+  //  if (key === 32 && !dl.getLastView().interaction_handler.active_handler) game.pause(); // space
+
+    if (key === 37 || key === 65) game.move(-20, 0); // left or 'a'
+    if (key === 39 || key === 68) game.move(20, 0);  // right or 'd'
+    if (key === 40 || key === 83) game.dropDown();  // down or 's'
+  });
+}
+
+var levelStart =0;
+
+Game = function(block_g) {
+  this.mouse_jump = true;
+  this.delay = 650;
+  this.level = levelStart;
+  this.block_count = 0;
+  this.dy = 15;
+  this.mar = 20;
+  this.lose_dur = 5000;
+  this.block = null;
+  this.blocks = [];
+  this.timer = null;
+  this.paused = false;
+  this.levelUpNeeded=false;
+  this.block_g = block_g;
+  this.starters =
+    [
+        '4/2+n/x'
+      , 'ax+bx+cx'
+      , 'goo+hoo+boo+moo'
+    //  , 'x^3+x^2+x'
+      , '(c+m)*(s+l)'
+      , 'xyz+xy+xz'
+    ]
+  this.tick_count = 5;
+  this.area = { x: this.mar, y: h-1.1*font_size - this.mar
+              , width: w-2*this.mar, height: 1.1*font_size };
+  this.area_el = svg.append('rect').attr(this.area)
+    .style({ fill: 'green', opacity: 0.2 });
+  dl = this.dl = new gmath.DerivationList(svg.node(), {
+    eq: this.starters[levelStart], h_align: 'center', v_align: 'bottom', pos: ['auto', h-this.mar-5]
+  });
+  this.dl_drag = false;
+  this.block_drag = false;
+  this.dl_interaction = false;
+  this.block_interaction = false;
+  this.mx = null;
+  this.my = null;
+
+
+  this.missiles = [
+    [
+      'm/x+n/x'
+    , 'm/x+x/n'
+    , 'n/x+m/x'
+    , 'n/x+x/m'
+    , 'x/n+m/x'
+    , 'x/n+x/m'
+    , 'x/m+n/x'
+    , 'x/m+x/n'
+    , '(m+n)/x'
+    , 'x/(m+n)'
+    , '(n+m)/x'
+    , 'x/(n+m)'
+    ],
+    [
+       '(a+b+c)x'
+     , '(a+b)x+cx'
+     , 'ax+bx+cx'
+     , 'ax+(b+c)x'
+     , 'bx+(a+c)x'
+     , '(a+c)x+bx'
+     , 'cx+(a+b)x'
+     , 'x(a+b+c)'
+     , 'xa+xb+xc'
+     , 'ax+xb+cx'
+     , 'bx+ax+cx'
+     ],
+     [
+      , 'goo+hoo+boo+moo'
+      , 'boo+goo+moo+hoo'
+      , 'hoo+goo+boo+moo'
+      , 'goo+hoo+moo+boo'
+      , 'goo+boo+hoo+moo'
+      , '(go+mo)*o+hoo+boo'
+      , '(go+mo)*o+(ho+bo)*o'
+      , '(mo+go)*o+(ho+bo)*o'
+      , '(go+ho)*o+(mo+bo)*o'
+      , '(mo+go)*o+(bo+ho)*o'
+      , 'o*(mo+go)+o*(bo+ho)'
+      , 'oog+ooh+oob+oom'
+
+
+     ],
+
+     // [
+     //    'x^3+x^2+x'
+     //  , '(x^2+x+1)*x'
+     //  , 'x*(x^2+x+1)'
+     //  , 'x*(x^2+x)+x'
+     //  , 'x*(x^2+1)+x^2'
+     //  , 'x*(x+1)+x^3'
+     //  , '(1+x+x^2)*x'
+     //  , '(1+x^2+x)*x'
+     //  , 'x^2+x+x^3'
+     //  , 'x^2+x^3+x'
+     //  , 'x*(1+x+x^2)'
+     //  , 'x*(1+x^2+x)'
+
+     // ],
+
+     [
+        '(c+m)*(s+l)'
+      , 'c(s+l)+m(s+l)'
+      , '(s+l)c+(s+l)m'
+      , '(s+l)c+m(s+l)'
+      , '(m+c)*(s+l)'
+      , '(m+c)*(l+s)'
+      , '(c+m)*(l+s)'
+      , '(s+l)*(c+m)'
+      , '(l+s)*(c+m)'
+      , '(s+l)*(m+c)'
+      , '(l+s)*(m+c)'
+      , 'c(l+s)+m(l+s)'
+      , '(l+s)c+(l+s)m'
+      , '(l+s)c+m(l+s)'
+
+
+
+     ],
+
+     [
+       'xyz+xz+yx'
+     , 'x(yz+z+y)'
+     , '((1+z)y+z)x'
+     , '(y+yz+z)x'
+     , 'yx+z(xy+x)'
+     , 'xy+z*(y+1)*x'
+     , 'z(xy+x)+xy'
+      ]
+     ];
+
+
+  dl.events.on('end-of-interaction', function() {
+    if (!this.dl_interaction) {
+      gmath_log_ga.trackEvent('missileCommand','dl_interaction');
+      this.dl_interaction = true;
+    }
+  });
+
+  dl.getLastModel().events.on('change.matris', this.onChange.bind(this));
+  dl.getLastModel().events.on('create.matris', this.onChange.bind(this));
+  dl.getLastView().events.on('updated.matris', this.checkSize.bind(this));
+  this.showHighScore();
+  this.checkSize(); // for scaling the area_el correctly
+}
+
+Game.prototype.onChange = function() {
+  dl.getLastModel().events.on('change.matris', this.onChange.bind(this));
+  dl.getLastModel().events.on('create.matris', this.onChange.bind(this));
+  dl.getLastView().events.on('updated.matris', this.checkSize.bind(this));
+}
+
+Game.prototype.move = function(dx, dy) {
+  // if (this.lost || this.paused) return;
+  // if (this.dl_drag) {
+  //   this.dl.getLastView().interaction_handler.handlers.transform[2].update({dx: dx, dy: dy});
+  // } else {
+  //   this.block.pos[0] = Math.min(w-this.block.bbox.width-this.mar,
+  //                                Math.max(this.mar, this.block.pos[0]+dx));
+  //   if (!this.block.all_dy) this.block.all_dy = 0;
+  //   if (!dy) dy = 0;
+  //   if (dy < 0) dy = Math.max(dy, -this.block.all_dy);
+  //   this.block.pos[1] += dy;
+  //   this.block.all_dy += dy;
+  //   this.updateBlockPos();
+  //   if (this.block.pos[1] > this.area.y) {
+  //     this.joinBlock();
+  //   }
+  //   if (!this.block_interaction) {
+  //     gmath_log_ga.trackEvent('missileCommand','block_interaction');
+  //     this.block_interaction = true;
+  //   }
+  // }
+}
+
+Game.prototype.pause = function() {
+  if (this.lost || this.losing) return;
+  this.paused = !this.paused;
+
+  if (this.paused) {
+    dl.getLastRow().deactivate();
+    this.pause_el = svg.append('text').text('Paused')
+      .attr('dy', font_size)
+      .attr('dx', this.mar)
+      .style({'font-family': 'monospace', 'font-size': font_size + 'px', 'fill': 'gray'});
+  } else {
+    dl.getLastView().interactive(true);
+    dl.getLastView().update_all();
+    this.pause_el.remove();
+  }
+}
+
+Game.prototype.dropDown = function() {
+  if (this.lost || this.losing || this.paused) return;
+  this.joinBlock();
+}
+
+Game.prototype.randomX = function(lmar, rmar) {
+  return Math.round(Math.random()*(w-lmar-rmar))+lmar;
+}
+
+Game.prototype.updateBlockPos = function() {
+  for(block in this.blocks){
+    this.blocks[block].el.attr('transform', 'translate(' +
+      [this.blocks[block].pos[0], this.blocks[block].pos[1]]+')');
+  }
+}
+
+Game.prototype.tick = function() {
+  if (this.tick_count % (7+this.level) === 0){
+       this.start();
+  };
+  this.tick_count++;
+  clearTimeout(this.timer);
+  if (!this.paused) {
+    console.log('tick!')
+
+    if (!this.blocks) return;
+      for(block in this.blocks){
+        // compare to standard state
+        stateString = this.getTermAtX(0,0).parent.to_ascii();
+        blockDL = new gmath.DerivationList(svg.node(), {eq:this.blocks[block].expr})
+
+        var blockString = blockDL.getLastModel().to_ascii()
+        blockDL.remove()
+        if(stateString === blockString){
+          console.log('match!')
+          this.blastBlock(block, true)
+        } else {
+          this.blocks[block].pos[1] += this.dy;
+          if (this.blocks[block].pos[1] > this.area.y) {
+            console.log('you lose!')
+            this.lose();
+            this.joinBlock();
+          }
+        }
+      }
+      this.blocks = this.blocks.filter((x) => x);
+      if(this.levelUpNeeded){
+        this.levelUp();
+      }
+      this.blocks = this.blocks.filter((x) => x);
+      if(!(this.lost)){
+        this.timer = setTimeout(this.tick.bind(this), Math.round(this.delay * Math.pow(0.9, this.level)));
+      }
+      this.updateBlockPos();
+  }
+}
+
+Game.prototype.getTermAtX = function(x) {
+  var am = dl.getLastModel();
+  var dlx = dl.pos[0];
+  var root = am.children[0];
+  if (!root.is_group('sum')) return root;
+
+  var bbox = dl.getLastView().getBBox({no_padding: true});
+  if (x < bbox.x+dlx || x > bbox.x + dlx + bbox.width) return root;
+
+  var addends = root.children;
+  var xes = addends.map(function(n) {
+    return {node: n, x: dlx + n.x + n.sel_box.x, width: n.sel_box.width}
+  });
+  for (var n=0; n<xes.length; n++) {
+    if (x<xes[n].x+xes[n].width) return xes[n].node.children[1];
+  }
+  return root;
+}
+
+
+Game.prototype.blastBlock = function(blockIndex, userHit){
+  console.log(userHit, blockIndex, this.blocks)
+  blockRemant = this.blocks[blockIndex];
+  this.blocks[blockIndex].el.remove();
+   this.blocks[blockIndex] = null;
+   //this.blocks = this.blocks.filter((x, i) => i !== parseInt(blockIndex));
+   console.log(blockRemant)
+   if(userHit) this.block_count++;
+   if (this.block_count % 10 === 0){
+    this.block_count++;
+    this.levelUpNeeded=true;
+  }
+
+   this.updateInfo();
+   this.updateScore();
+}
+
+
+
+Game.prototype.levelUp = function(){
+  this.levelUpNeeded=false;
+  console.log('level', this.level)
+  this.level++;
+
+  for(block in this.blocks){
+    this.blastBlock(block, false);
+  }
+  var am = dl.getLastModel();
+  am.parseAndSet(this.starters[Math.min(4, this.level)]);
+
+  this.updateInfo();
+}
+
+
+
+
+Game.prototype.randomOp = function() {
+  return Random.pick(['+', '-', '*', '/']);
+}
+
+Game.prototype.randomNum = function() {
+  return (Math.random() < 0.2 ? 'x' : Random.pick([1,2,3,5,7]));
+}
+
+Game.prototype.randomForm = function(){
+  console.log('randomForming')
+  var candidate = Random.pick(this.missiles[Math.min(4, this.level)])
+  if(candidate){
+    stateString = this.getTermAtX(0,0).parent.to_ascii();
+    console.log("candidate", candidate, this.missiles)
+    blockDL = new gmath.DerivationList(svg.node(), {eq:candidate})
+
+    var blockString = blockDL.getLastModel().to_ascii()
+    blockDL.remove()
+    if(blockString===stateString){
+      return this.randomForm();
+    } else {
+      return candidate;
+    }
+  } else {
+    return this.randomForm();
+  }
+
+}
+
+
+Game.prototype.enterBlock = function() {
+  console.log("picking")
+  var expr = this.randomForm()
+  console.log("picked")
+  //this.randomOp() + this.randomNum();
+  var el = this.block_g.append('text').text(expr).style({
+    'font-family': 'monospace', 'font-size': 0.8*font_size+'px', 'visibility': 'hidden'});
+  var bbox = el.node().getBBox();
+  var pos = [this.randomX(this.mar, bbox.width+this.mar), font_size];
+  newBlock={ el: el, pos: pos, bbox: bbox, expr: expr}
+  if(this.blocks.length<5){
+  this.blocks.push(newBlock);
+}
+  this.updateBlockPos(newBlock);
+  newBlock.el.style('visibility', 'visible');
+}
+
+Game.prototype.checkSize = function() {
+  var height = dl.getLastView().getBBox().height;
+  this.area.height = height;
+  this.area.y = h-height-this.mar;
+  this.area_el.attr(this.area);
+  var width = dl.getLastView().getBBox().width;
+  var self = this;
+  if (width > w-2*this.mar) {
+    if (!this.losing) {
+      this.losing = true;
+      this.area_el.style('fill', 'yellow');
+      this.area_el.transition().duration(this.lose_dur).style('fill', 'red')
+          .each('end', function() { self.lose() });
+    }
+  } else {
+    this.area_el.interrupt();
+    this.losing = false;
+    this.area_el.style('fill', 'green');
+  }
+}
+
+Game.prototype.updateInfo = function() {
+  d3.select('span#level').text('level: ' + this.level);
+  d3.select('span#points').text(', score: ' + this.block_count);
+}
+
+Game.prototype.updateScore = function() {
+  var score = localStorage.getItem('gm-missileCommand-score');
+  if (score) {
+    score = JSON.parse(score);
+    if (score.blocks >= this.block_count) return;
+  }
+  localStorage.setItem('gm-missileCommand-score', JSON.stringify({ level: this.level,
+    blocks: this.block_count }));
+  this.showHighScore();
+}
+
+Game.prototype.showHighScore = function() {
+  var score = localStorage.getItem('gm-missileCommand-score');
+  if (score) score = JSON.parse(score);
+  else score = { level: 0, blocks: 0 };
+  d3.select('span#maxlevel').text('highest level: ' + score.level);
+  d3.select('span#maxpoints').text(', highest score: ' + score.blocks);
+}
+
+Game.prototype.lose = function() {
+  gmath_log_ga.trackEvent('missileCommand','time',this.timer);
+  gmath_log_ga.trackEvent('missileCommand','score',this.block_count);
+  clearTimeout(this.timer);
+  this.lost = true;
+  this.updateScore();
+  svg.append('text').text('You Lost')
+    .attr('dy', font_size)
+    .attr('dx', this.mar)
+    .style({'font-family': 'monospace', 'font-size': font_size, 'fill': 'crimson'});
+}
+
+Game.prototype.start = function() {
+  console.log("starting")
+  clearTimeout(this.timer);
+  if (this.lost) return;
+  this.updateInfo();
+  this.updateScore();
+  this.enterBlock();
+  this.timer = setTimeout(this.tick.bind(this), Math.round(this.delay * Math.pow(0.9, this.level)));
+}
+
+</script>
+<script>
+  gmath_log_ga.sendPageview();
+</script>
+</body>
+
