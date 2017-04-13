@@ -385,6 +385,7 @@ DinoEggs.Game.prototype = {
         this.dino.animations.play('move', 10, true);
     },
     showEggInstructions:function(){
+        
         this.showBoard('Click egg ','and solve for x');
         this.dino.animations.play('move', 10, true);
     },
@@ -621,9 +622,11 @@ DinoEggs.Game.prototype = {
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
+            this._eggsGroup.callAll('animations.stop', 'animations');
         }
         document.getElementById("eq-solve-div").style.display="block";
-        document.getElementById("eq-match-div").style.display="none";        
+        document.getElementById("eq-match-div").style.display="none"; 
+       
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
@@ -651,7 +654,7 @@ DinoEggs.Game.prototype = {
     },
     spawnRock: function(){
         //do not spawn any rock if freeze rock power up has been activated
-        console.log("spawnrock");
+        console.log("spawnrock changed");
         if(this.rocksTospawn && this.rocksTospawn.length > 0 && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
@@ -773,7 +776,7 @@ DinoEggs.Game.prototype = {
             else{
                 if(this._eggsGroup.countLiving()>0){
                     this.showEggInstructions();
-                    this._eggsGroup.callAll('animations.play', 'animations', 'wiggleOnce');
+                    this._eggsGroup.callAll('animations.play', 'animations', 'wiggleContinous');
                 }
             }
             
