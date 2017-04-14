@@ -322,6 +322,9 @@ DinoEggs.Game.prototype = {
             }
        }
     },
+    
+    
+       
     questionClicked: function(){
         this.game.paused = true;
         this.pauseReason = "questionClicked";
@@ -329,11 +332,15 @@ DinoEggs.Game.prototype = {
             backdrop: 'static',
             keyboard: false
         });
+        
+        
        $('#questionModal').modal('show');
          if (this._rocksGroup.countLiving() > 0) {
+            $('#modalTitle').html('Match the expression on rock!<button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>'); 
             $('#qFrame').contents().find('#rock').show();
             $('#qFrame').contents().find('#egg').hide();
          } else {
+            $('#modalTitle').html('Click an egg to hatch it!<button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>');
             $('#qFrame').contents().find('#egg').show();
             $('#qFrame').contents().find('#rock').hide();
          }
