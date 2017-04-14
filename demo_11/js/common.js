@@ -164,6 +164,9 @@ DinoEggs.Game.prototype = {
 
         //create Rocks
         if(this._levelNumber != 1){
+            //hide egg divisions
+            $("div[id*='gseq_']").hide();
+            
             this.createRocks(this.g_numRocks);        
             //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
             this.startRockWave(6,this.g_numRocks,this.g_numEggs);
@@ -236,6 +239,7 @@ DinoEggs.Game.prototype = {
                 this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showEggInstructions, this);
             }
         }
+        
     },
     showTutorial: function(){  
         $("#eq-match-div").hide();
@@ -508,8 +512,9 @@ DinoEggs.Game.prototype = {
                 egg.inputEnabled = true;
                 egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
             }
-            this._eggsGroup.add(egg);
-
+                
+            egg.canvasId = "gseq_"+(i+1);
+            this._eggsGroup.add(egg);     
             }
     },
     
@@ -619,11 +624,25 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
+        
+
+       
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
             this._eggsGroup.callAll('animations.stop', 'animations');
         }
+        
+        if(this._levelNumber != 1){
+            //hide other egg equations if they are visible
+            $("div[id*='gseq_']").hide();
+
+            //show the equation on selected egg
+            var eggCanvasId = selectedEgg.canvasId;   
+            var eggDivName = "div#"+eggCanvasId;
+            $(eggDivName).show();
+        }
+        
         document.getElementById("eq-solve-div").style.display="block";
         document.getElementById("eq-match-div").style.display="none"; 
        
@@ -640,7 +659,7 @@ DinoEggs.Game.prototype = {
         function exitTween () {
             this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
             if(this.matchExpCanvas){
-                this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
+                this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
             }
             this.currentCanvasEqu = this.g_parsedCanvasExpression;
         }
@@ -1180,6 +1199,7 @@ DinoEggs.Game.prototype = {
             }
             
         });
+    
         
     },
     
