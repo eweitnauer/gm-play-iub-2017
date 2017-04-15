@@ -37,7 +37,7 @@ DinoEggs.LevelSelect.prototype = {
         this.selectedLevel = -1;
         
         //-----------------------------------
-        optionsGroup = this.game.add.group();
+        /*optionsGroup = this.game.add.group();
 		optionsGroup.x = this.game.width*0.5;
 		optionsGroup.y = this.game.height*0.5;
         optionsGroup.setAll('anchor.x', 0.5);
@@ -76,7 +76,7 @@ DinoEggs.LevelSelect.prototype = {
         optionsGroup.add(msg);
         optionsGroup.add(tutorial);
         optionsGroup.add(play);
-        optionsGroup.add(exit);
+        optionsGroup.add(exit);*/
         //---------------------------------------------
         var prev = this.game.add.sprite(this.game.width/2,this.game.height-100, "prev");
         prev.anchor.setTo(0.5,0.5);
@@ -241,8 +241,11 @@ DinoEggs.LevelSelect.prototype = {
 	},
 
 	onLevelSelected: function(levelNumber) {
-        this.game.add.tween(optionsGroup.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
+        //this.game.add.tween(optionsGroup.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
         this.selectedLevel=levelNumber;
+        
+        DinoEggs._selectedLevel = this.selectedLevel;
+        this.state.start('Game');
 	},
     tut_listener: function(){
           $('#tutorialModal').modal({
@@ -256,16 +259,18 @@ DinoEggs.LevelSelect.prototype = {
         console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
 
     },
-    play_listener: function(){
-        DinoEggs._selectedLevel = this.selectedLevel;
-        this.state.start('Game');
-        /*
-        switch(this.selectedLevel){
-            case 1: this.state.start('Level1'); break;
-            case 2: this.state.start('Level2'); break;
-            case 3: this.state.start('Game'); break;
-        }*/
-    },
+    
+//    play_listener: function(){
+//        DinoEggs._selectedLevel = this.selectedLevel;
+//        this.state.start('Game');
+//        /*
+//        switch(this.selectedLevel){
+//            case 1: this.state.start('Level1'); break;
+//            case 2: this.state.start('Level2'); break;
+//            case 3: this.state.start('Game'); break;
+//        }*/
+//    },
+    
     exit_listener: function(){
         this.game.add.tween(optionsGroup.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
     },
