@@ -91,7 +91,13 @@
         .modal{
             overflow-y: auto;
         }
-        
+        .modal-title{
+            padding:9px 15px;
+           
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            text-align: center
+        }
         #tutorialDiv, #tutorialModal, #tutorial_modal, .modal-content{
             background-color:transparent !important;
         }
@@ -240,8 +246,10 @@
                     <!-- Modal content-->
                     <div id="question_modal" class="modal-content" style="box-shadow:none;">
                         <div class="modal-header">
-                            <button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>
-                            <!--<h2 class="modal-title">Tutorial</h2>-->
+                            <h1 class="modal-title" id = "modalTitle">
+                       
+                           </h1>
+                                <!--<h2 class="modal-title">Tutorial</h2>-->
                         </div>
                         <div class="modal-body">
                             <div id='outer'>
