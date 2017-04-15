@@ -326,6 +326,9 @@ DinoEggs.Game.prototype = {
             }
        }
     },
+    
+    
+       
     questionClicked: function(){
         this.game.paused = true;
         this.pauseReason = "questionClicked";
@@ -333,11 +336,15 @@ DinoEggs.Game.prototype = {
             backdrop: 'static',
             keyboard: false
         });
+        
+        
        $('#questionModal').modal('show');
          if (this._rocksGroup.countLiving() > 0) {
+            $('#modalTitle').html('Click the expression on rock!<button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>'); 
             $('#qFrame').contents().find('#rock').show();
             $('#qFrame').contents().find('#egg').hide();
          } else {
+            $('#modalTitle').html('Click an egg to hatch it!<button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>');
             $('#qFrame').contents().find('#egg').show();
             $('#qFrame').contents().find('#rock').hide();
          }
@@ -389,8 +396,7 @@ DinoEggs.Game.prototype = {
         this.dino.animations.play('move', 10, true);
     },
     showEggInstructions:function(){
-        
-        this.showBoard('Click egg ','and solve for x');
+        this.showBoard('Click egg and','       solve');
         this.dino.animations.play('move', 10, true);
     },
     update:function(){
@@ -970,12 +976,12 @@ DinoEggs.Game.prototype = {
     showBoard: function(line1,line2) {
         if(this.board)
             this.clearBoard();
-        this.board = this.game.add.sprite(490,250,'board');
+        this.board = this.game.add.sprite(490,220,'board');
         this.board.scale.setTo(0.8,0.7);
         var style = { font: "14px kalam", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
         
-        this.boardText1 = this.game.add.text(520,270, line1, style);
-        this.boardText2 = this.game.add.text(505,300, line2, style);
+        this.boardText1 = this.game.add.text(520,250, line1, style);
+        this.boardText2 = this.game.add.text(505,270, line2, style);
     },
     
     clearBoard: function() {
