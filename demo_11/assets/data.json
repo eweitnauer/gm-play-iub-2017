@@ -148,7 +148,7 @@
         "2": {
             "numRocks": 5,
             "numEggs": 2,
-            "rockLevelProblemSet":10,
+            "rockLevelProblemSet":9,
             "rockProblemMode": 0,
             "eggLevelProblemSet":-1,
             "eggProblemMode": -1,
@@ -160,7 +160,7 @@
         "3": {
             "numRocks": 5,
             "numEggs": 3,
-            "rockLevelProblemSet":11,
+            "rockLevelProblemSet":10,
             "rockProblemMode": 0,
             "eggLevelProblemSet":1,
             "eggProblemMode": 1,
@@ -172,7 +172,7 @@
         "4": {
             "numRocks": 7,
             "numEggs": 3,
-            "rockLevelProblemSet":12,
+            "rockLevelProblemSet":11,
             "rockProblemMode": 0,
             "eggLevelProblemSet":2,
             "eggProblemMode": 1,
@@ -184,7 +184,7 @@
         "5": {
             "numRocks": 8,
             "numEggs": 4,
-            "rockLevelProblemSet":13,
+            "rockLevelProblemSet":12,
             "rockProblemMode": 0,
             "eggLevelProblemSet":3,
             "eggProblemMode": 1,
@@ -196,7 +196,7 @@
          "6": {
             "numRocks": 8,
             "numEggs": 4,
-            "rockLevelProblemSet":14,
+            "rockLevelProblemSet":13,
             "rockProblemMode": 0,
             "eggLevelProblemSet":4,
             "eggProblemMode": 1,
@@ -208,7 +208,7 @@
         "7": {
             "numRocks": 8,
             "numEggs": 4,
-            "rockLevelProblemSet":15,
+            "rockLevelProblemSet":14,
             "rockProblemMode": 0,
             "eggLevelProblemSet":5,
             "eggProblemMode": 1,
@@ -220,7 +220,7 @@
         "8": {
             "numRocks": 8,
             "numEggs": 4,
-            "rockLevelProblemSet":16,
+            "rockLevelProblemSet":15,
             "rockProblemMode": 0,
             "eggLevelProblemSet":6,
             "eggProblemMode": 1,
@@ -232,7 +232,7 @@
         "9": {
             "numRocks": 8,
             "numEggs": 4,
-            "rockLevelProblemSet":17,
+            "rockLevelProblemSet":16,
             "rockProblemMode": 0,
             "eggLevelProblemSet":7,
             "eggProblemMode": 1,
@@ -244,7 +244,7 @@
         "10": {
             "numRocks": 8,
             "numEggs": 4,
-            "rockLevelProblemSet":18,
+            "rockLevelProblemSet":17,
             "rockProblemMode": 0,
             "eggLevelProblemSet":8,
             "eggProblemMode": 1,
