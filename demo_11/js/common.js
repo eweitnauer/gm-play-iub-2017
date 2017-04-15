@@ -36,6 +36,7 @@ DinoEggs.Game.prototype = {
     //set variables based on level number
     initVaribles:function(){
         this._levelNumber = DinoEggs._selectedLevel;
+        this.scoreBase = this._levelNumber * 30;
         console.log("selected level:"+DinoEggs._selectedLevel);
         this._jsonData = DinoEggs.jsonLevelObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this.g_numRocks = this._jsonData["numRocks"];
@@ -968,19 +969,26 @@ DinoEggs.Game.prototype = {
 		};
 		// and write to local storage
 		window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
-        
+       
         //console.log("player data");
         //console.log(DinoEggs.PLAYER_DATA);
 	},   
     
+    updateHighScore: function(highScore) {
+        DinoEggs.HIGH_SCORE = highScore;
+         window.localStorage.setItem('HighScore', JSON.stringify(DinoEggs.HIGH_SCORE));
+    },
+    
     endStar: function() {
         var starPostion =0;
-        var scoreBase =50;
         var starNumber=0;
+        if (this.score > DinoEggs.HIGH_SCORE ) {
+            this.updateHighScore(this.score);
+            }
         while (this.score > 0){
            this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
             starPostion = starPostion + 20;
-            this.score = this.score - scoreBase; 
+            this.score = this.score - this.scoreBase; 
             starNumber++;
             if (starNumber == 3){
                 break;
