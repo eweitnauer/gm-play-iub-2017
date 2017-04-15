@@ -72,12 +72,6 @@ DinoEggs.Game.prototype = {
         this.powerupID = -1;
     },
     
-    /*this.game.input.onDown.add(this.removeHalos, this);
-    removeHalos:function(){
-        if(this.halo)
-            this.halo.kill();
-    }*/
-    
     create:function(){
         this.initVaribles();
         //set world dimensions
@@ -430,17 +424,6 @@ DinoEggs.Game.prototype = {
          this.powerupText.x = Math.floor(this.pterodactyl.x + this.pterodactyl.width / 2);
          this.powerupText.y = Math.floor(this.pterodactyl.y + this.pterodactyl.height * (5.4/6));   
         }
-        /*if(this.input.activePointer.leftButton.isDown){
-            if(this.halo){
-                if(this._eggsGroup.input.pointerOver()){
-
-                }
-                else{
-                    console.log("killing halo");
-                    this.halo.kill();
-                }
-            }
-        }*/
     },
     
     disappearRockOnGround: function(rock, platform){
@@ -504,6 +487,7 @@ DinoEggs.Game.prototype = {
                     //check if egg is golden
                     var isGoldenEgg = eggSprite.hitCounter == 10000 ? true : false;
                     this._eggsGroup.remove(eggSprite); 
+                    
                     this.runToMom(egg_x, isSad, isGoldenEgg);
 
                     if(this._eggsGroup.countLiving() > 0 && this.powerupID != "4" ){
@@ -660,8 +644,6 @@ DinoEggs.Game.prototype = {
 		this.halo.anchor.setTo(0.5,0.5);
         this.halo.x=selectedEgg.x+this.selectedEgg.width/2;
         this.halo.y=selectedEgg.y+this.selectedEgg.height/2-2;
-	    //this.halo.scale.setTo(0,0);
-        //zombie = game.add.sprite(100, 100, 'zom');var x = 10;var y = 500zombie.reset(x, y);
     },
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){
@@ -823,8 +805,14 @@ DinoEggs.Game.prototype = {
         }
 
     },
+    removeHalo:function(){
+        console.log("removeHalo called");
+        if(this.halo)
+            this.halo.kill();    
+    },
     
     hatchAllEggs: function(){
+        this.removeHalo();
         this._eggsGroup.callAll('animations.play', 'animations', 'hatch');
     },
     
@@ -919,23 +907,25 @@ DinoEggs.Game.prototype = {
         });
     },
     
-    simplifyEqCheck:function(evt){
+    /*simplifyEqCheck:function(evt){
         this.undoBtn.disabled = false;
                 //condition to check if equation is solved  
                 if (!isNaN(evt.last_eq)){
                     if(this.selectedEgg){
+                        
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
                         t.onComplete.add(exitTween, this);
                         function exitTween () {
                             this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
                         }
+                        this.removeHalo();
                         this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
                         this.showBoard();
                     }
 
                 }
-    },
+    },*/
     
     updatePlayerData: function(stars) {
 		// set number of stars for this level
@@ -1095,13 +1085,12 @@ DinoEggs.Game.prototype = {
                 if (((evt.last_eq.startsWith("a=")||evt.last_eq.startsWith("-a=")) && !isNaN(evt.last_eq.slice(2)))||
                    ((evt.last_eq.endsWith("=-a")||(evt.last_eq.endsWith("=-a")))&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
-                        
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
                         t.onComplete.add(exitTween, this);
                         function exitTween () {
                             this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
                         }
-                        
+                        this.removeHalo();
                         this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
                     }
@@ -1118,6 +1107,7 @@ DinoEggs.Game.prototype = {
                         function exitTween () {
                             this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
                         }
+                        this.removeHalo();
                         this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
                     }
@@ -1421,6 +1411,7 @@ DinoEggs.Game.prototype = {
         this.powerupID = -1;
     },
     hatchRandomEgg:function(){    
+        this.removeHalo();
         var eggIndex = this.getRandomRange(0, this._eggsGroup.children.length - 1);
         this.selectedEgg = this._eggsGroup.children[eggIndex];
         this.selectedEgg.animations.play('hatch', 6, false);
