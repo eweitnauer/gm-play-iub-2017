@@ -164,6 +164,9 @@ DinoEggs.Game.prototype = {
 
         //create Rocks
         if(this._levelNumber != 1){
+            //hide egg divisions
+            $("div[id*='gseq_']").hide();
+            
             this.createRocks(this.g_numRocks);        
             //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
             this.startRockWave(6,this.g_numRocks,this.g_numEggs);
@@ -236,6 +239,7 @@ DinoEggs.Game.prototype = {
                 this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showEggInstructions, this);
             }
         }
+        
     },
     showTutorial: function(){  
         $("#eq-match-div").hide();
@@ -499,10 +503,6 @@ DinoEggs.Game.prototype = {
                         this.clearGMCanvas(this.matchExpCanvas);
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
-                        if(this.matchExpCanvas){
-                            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                        }
-                        this.currentCanvasEqu = this.g_parsedCanvasExpression;
                         if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
                             this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
@@ -518,8 +518,9 @@ DinoEggs.Game.prototype = {
                 egg.inputEnabled = true;
                 egg.events.onInputDown.add(this.populateSolveEqCanvas, this, egg);
             }
-            this._eggsGroup.add(egg);
-
+                
+            egg.canvasId = "gseq_"+(i+1);
+            this._eggsGroup.add(egg);     
             }
     },
     
@@ -629,12 +630,28 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
+        
+
+       
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
+            this._eggsGroup.callAll('animations.stop', 'animations');
         }
+        
+        if(this._levelNumber != 1){
+            //hide other egg equations if they are visible
+            $("div[id*='gseq_']").hide();
+
+            //show the equation on selected egg
+            var eggCanvasId = selectedEgg.canvasId;   
+            var eggDivName = "div#"+eggCanvasId;
+            $(eggDivName).show();
+        }
+        
         document.getElementById("eq-solve-div").style.display="block";
-        document.getElementById("eq-match-div").style.display="none";        
+        document.getElementById("eq-match-div").style.display="none"; 
+       
         this.selectedEgg = selectedEgg;
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
@@ -644,10 +661,14 @@ DinoEggs.Game.prototype = {
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){
         var t = this.game.add.tween(rockwave.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
-                        t.onComplete.add(exitTween, this);
-                        function exitTween () {
-                            this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
-                        }
+        t.onComplete.add(exitTween, this);
+        function exitTween () {
+            this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+            if(this.matchExpCanvas){
+                this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
+            }
+            this.currentCanvasEqu = this.g_parsedCanvasExpression;
+        }
         //this.game.time.events.add(Phaser.Timer.SECOND * 2, this.shakeCamera, this);
         this.g_rockProducedIndex = -1;
         this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,numEggs);
@@ -658,7 +679,7 @@ DinoEggs.Game.prototype = {
     },
     spawnRock: function(){
         //do not spawn any rock if freeze rock power up has been activated
-        console.log("spawnrock");
+        console.log("spawnrock changed");
         if(this.rocksTospawn && this.rocksTospawn.length > 0 && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
@@ -780,7 +801,7 @@ DinoEggs.Game.prototype = {
             else{
                 if(this._eggsGroup.countLiving()>0){
                     this.showEggInstructions();
-                    this._eggsGroup.callAll('animations.play', 'animations', 'wiggleOnce');
+                    this._eggsGroup.callAll('animations.play', 'animations', 'wiggleContinous');
                 }
             }
             
@@ -1054,7 +1075,7 @@ DinoEggs.Game.prototype = {
          var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
          if(this.lightRockMap[lightning.nameId] == rock){
-             var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { fontSize: '32px', fill: '#000' });
+             var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { font: '32px kalam', fill: '#000' });
              this.rockBurst(rock);
              delete this.lightRockMap[lightning.nameId];
              this._lightningGroup.remove(lightning);
@@ -1121,8 +1142,7 @@ DinoEggs.Game.prototype = {
             document.getElementById("eq-solve-div").style.display="none";
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });                
 
-            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
-
+            
             //!preserve binding
             var thisObj =this;
             this.matchExpCanvas.model.on('el_changed', function(evt) {	
@@ -1137,8 +1157,6 @@ DinoEggs.Game.prototype = {
                   questionCtx.game.paused = false;
         });
         
-        this.currentCanvasEqu = this.g_parsedCanvasExpression;
-       
        //Create the search button
        this.undoBtn = document.createElement("input");
         
@@ -1187,16 +1205,15 @@ DinoEggs.Game.prototype = {
             }
             
         });
+    
         
     },
     
     clearGMCanvas: function(canvasObj){
         //clear canvas
-        if(canvasObj){
-            while(canvasObj.model.elements().length > 0){
-            canvasObj.model.removeElement(canvasObj.model.elements()[0]); 
+        if(canvasObj){    
+            canvasObj.controller.reset();
         }
-     }
     },
     
     //utility functions
