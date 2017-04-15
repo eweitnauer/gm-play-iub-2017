@@ -404,16 +404,17 @@ DinoEggs.Game.prototype = {
             this._eggsGroup.setAll('inputEnabled',true);
         }
         
+        var bcrt = document.getElementById("game-div").getBoundingClientRect();
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 75, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + bcrt.left/2, position:'absolute'});
           }
         });
         
         //render rock equations
         this._rocksGroup.forEach(function(rock){
-            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x+75, position:'absolute'});
+            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x + bcrt.left/2, position:'absolute'});
         });
         
         //render power up equation text
@@ -713,16 +714,19 @@ DinoEggs.Game.prototype = {
                         var style = {font: "20px Arial", fill: "#111111", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
                         egg.setEquStyle(style);
                         egg.animations.play('wiggleOnce');
-                        var eqSymbols = egg.newGMDiv.querySelectorAll('.text');
-                        eqSymbols.forEach(function(eqSymbol){
-                            eqSymbol.style.color = "white";
-                        });
-                        
-                        var eqSymbols2 = egg.newGMDiv.querySelectorAll('.line');
-                        eqSymbols2.forEach(function(eqSymbol){
-                            eqSymbol.style.backgroundColor = "white";
-                        });
-                        break
+
+                        if(egg.newGMDiv){
+                            var eqSymbols = egg.newGMDiv.getElementsByClassName('text');
+                            Array.prototype.forEach.call(eqSymbols, function(eqSymbol) {
+                                eqSymbol.style.color = "white";
+                            });
+
+                            var eqSymbols2 = egg.newGMDiv.getElementsByClassName('line');
+                            Array.prototype.forEach.call(eqSymbols2, function(eqSymbol) {
+                                eqSymbol.style.backgroundColor = "white";
+                            });
+                        }
+                        break;
                 case 3 :  egg.tint = 0x2412ff;
                         blackdino_popup = true;
                         this.showBoard('Sad dino','Please hatch eggs!')
