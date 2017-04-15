@@ -17,9 +17,16 @@ DinoEggs.Preload.prototype = {
         //TO DO: show logo in loading screen
         //setting up preload bar
         this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'gamepreloadbkgd');
-        this.preloadBar = this.add.sprite(this.game.world.centerX,this.game.world.centerY,'preloadBar');
-        this.preloadBar.anchor.setTo(0.5,0.5);
+        
+        this.preloardGreyBar = this.add.sprite(this.game.world.centerX,this.game.world.centerY,'preloadGreyBar');
+        this.preloardGreyBar.anchor.setTo(0.5,0.5);
+        
+        
+        this.preloadBar = this.add.sprite(this.game.world.centerX - 250,this.game.world.centerY,'preloadBar');
+        this.preloadBar.anchor.setTo(0,0.5);
         this.time.advancedTiming = true; // better way of handling game time: Needs review
+        
+        
         
         //make a sprite into a loading bar.
         this.load.setPreloadSprite(this.preloadBar);
@@ -31,6 +38,7 @@ DinoEggs.Preload.prototype = {
         this.game.load.image('exit', 'assets/buttons/exit.png');
         
         //load all game assets
+        this.load.image('logo','assets/logo.png');
         this.load.image('rock', 'assets/rock.png');
         this.load.image('ground', 'assets/transparentplatform.png');
         this.load.image('fragment', 'assets/star.png');    
