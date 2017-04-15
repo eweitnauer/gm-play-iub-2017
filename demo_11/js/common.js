@@ -71,7 +71,13 @@ DinoEggs.Game.prototype = {
         this.isPowerupUsed = false;
         this.powerupID = -1;
     },
-
+    
+    /*this.game.input.onDown.add(this.removeHalos, this);
+    removeHalos:function(){
+        if(this.halo)
+            this.halo.kill();
+    }*/
+    
     create:function(){
         this.initVaribles();
         //set world dimensions
@@ -236,6 +242,8 @@ DinoEggs.Game.prototype = {
                 this.game.time.events.add(Phaser.Timer.SECOND * 2, this.showEggInstructions, this);
             }
         }
+        
+        this.input.mouse.capture = true;
     },
     showTutorial: function(){  
         $("#eq-match-div").hide();
@@ -404,17 +412,17 @@ DinoEggs.Game.prototype = {
             this._eggsGroup.setAll('inputEnabled',true);
         }
         
-        var bcrt = document.getElementById("game-div").getBoundingClientRect();
+        //var bcrt = document.getElementById("game-div").getBoundingClientRect();
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + bcrt.left/2, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 75, position:'absolute'});
           }
         });
         
         //render rock equations
         this._rocksGroup.forEach(function(rock){
-            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x + bcrt.left/2, position:'absolute'});
+            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x + 75, position:'absolute'});
         });
         
         //render power up equation text
@@ -422,7 +430,17 @@ DinoEggs.Game.prototype = {
          this.powerupText.x = Math.floor(this.pterodactyl.x + this.pterodactyl.width / 2);
          this.powerupText.y = Math.floor(this.pterodactyl.y + this.pterodactyl.height * (5.4/6));   
         }
+        /*if(this.input.activePointer.leftButton.isDown){
+            if(this.halo){
+                if(this._eggsGroup.input.pointerOver()){
 
+                }
+                else{
+                    console.log("killing halo");
+                    this.halo.kill();
+                }
+            }
+        }*/
     },
     
     disappearRockOnGround: function(rock, platform){
@@ -634,6 +652,16 @@ DinoEggs.Game.prototype = {
         this.clearGMCanvas(this.matchExpCanvas);
         
         this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
+         
+        
+        if(this.halo)
+            this.halo.kill();
+        this.halo = this.game.add.sprite(0,0, "halo");
+		this.halo.anchor.setTo(0.5,0.5);
+        this.halo.x=selectedEgg.x+this.selectedEgg.width/2;
+        this.halo.y=selectedEgg.y+this.selectedEgg.height/2-2;
+	    //this.halo.scale.setTo(0,0);
+        //zombie = game.add.sprite(100, 100, 'zom');var x = 10;var y = 500zombie.reset(x, y);
     },
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){

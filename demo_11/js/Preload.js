@@ -81,7 +81,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('hatchEgg', 'assets/powerupText/hatchEgg.png');
 
         this.load.image('clock', 'assets/clock.png');
-
+        this.load.image('halo', 'assets/selected.png');
     },
     create:function(){
         this.state.start('MainMenu');
