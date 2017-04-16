@@ -47,6 +47,8 @@ DinoEggs.Boot.prototype = {
         this.load.image('preloadBar','assets/preloader.png');
         //json data for levels
         this.load.text('level', 'assets/data.json');
+        //problem data for levels
+        this.load.text('problemSet', 'data/problems.json');
     },
     
     create:function(){
@@ -72,6 +74,9 @@ DinoEggs.Boot.prototype = {
 
                 //json for levels parsing
                 DinoEggs.jsonLevelObject = JSON.parse(this.game.cache.getText('level'));
+        
+                //json for problems parsing
+                DinoEggs.jsonProblemsObject = JSON.parse(this.game.cache.getText('problemSet'));
         
                 //load fonts using the object created above
                 WebFont.load(this.webFontLoading);
