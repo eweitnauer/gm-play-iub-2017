@@ -60,6 +60,7 @@ DinoEggs.Preload.prototype = {
         
 
         this.load.image('nextlevel', 'assets/buttons/nextlevel.png');
+        this.load.image('gradeSetlevel', 'assets/buttons/return_to_grade_set.png');
         //celebration particles
         this.load.image('jewel_red', 'assets/particles/jewel_red.png');
         this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');

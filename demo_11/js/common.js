@@ -36,6 +36,8 @@ DinoEggs.Game.prototype = {
     //set variables based on level number
     initVaribles:function(){
         this._levelNumber = DinoEggs._selectedLevel;
+        this._stageNumber = DinoEggs.stageNumber;
+        console.log("stage number is " + this._stageNumber);
         this.scoreBase = this._levelNumber * 30;
         console.log("selected level:"+DinoEggs._selectedLevel);
         this._jsonData = DinoEggs.jsonLevelObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
@@ -862,29 +864,42 @@ DinoEggs.Game.prototype = {
         }        
         
         //next level button
-        if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ //playerdata[currentlevel] = playerdata[this._levelNumber - 1]
-            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'nextlevel', function(){
+        if(this._levelNumber <= 9 ) {
+            if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ //playerdata[currentlevel] = playerdata[this._levelNumber - 1]
+            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'nextlevel', function(){
                 DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; //parseFloat(this._levelNumber) + 1;
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
             
-            g_autoStartClock=5;
-            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px kalam"});
-            this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
-        }
-        
-        
-        var restartButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'restart', function(){
+//            g_autoStartClock=5;
+//            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px kalam"});
+//            this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
+            var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, this.game.world.height*0.5 + 55, 'restart', function(){
             this.state.start('Game');
         }, this.game, 1, 0, 2);
         restartButton.anchor.set(0.5);
         
-        var mainMenuButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 80, 'menu', function(){
+        var mainMenuButton = this.game.add.button(this.game.world.width*0.5 + 40, this.game.world.height*0.5 + 55, 'menu', function(){
             this.state.start('MainMenu');
         }, this.game, 1, 0, 2);
         mainMenuButton.anchor.set(0.5); 
-        
+        } 
+        }else {
+            var style = { font: "30px Arial", fill: "#fff", align: "center" };
+            if (this._stageNumber == 1) {
+                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2, "Awesome, do you want to play next game stage", style);
+                conText1.anchor.set(0.5);
+            } else {
+                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2, "Awesome, you complete all the task, do you want to play again", style);
+                conText2.anchor.set(0.5);
+            }
+            var nextGameStageButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'gradeSetlevel', function(){
+                this.state.start('StageSelect');
+            }, this.game, 1, 0, 2);
+                nextGameStageButton.anchor.set(0.5);
+         }
+ 
         this.isPowerupUsed = false;
         
         //add celebration
