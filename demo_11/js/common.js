@@ -411,14 +411,6 @@ DinoEggs.Game.prototype = {
         //check collision for lightning
          this.game.physics.arcade.overlap(this._lightningGroup, this._rocksGroup, this.lightningStruck, null, this);
         
-        //check if the rocks are falling:
-        if(this._rocksGroup.countLiving() != 0){    
-            this._eggsGroup.setAll('inputEnabled',false);
-        }
-        else{
-            this._eggsGroup.setAll('inputEnabled',true);
-        }
-        
         //var bcrt = document.getElementById("game-div").getBoundingClientRect();
         //render egg equations
         this._eggsGroup.forEach(function(egg){
@@ -527,6 +519,11 @@ DinoEggs.Game.prototype = {
             egg.canvasId = "gseq_"+(i+1);
             this._eggsGroup.add(egg);     
             }
+        
+        //disable egg clicks for all eggs except level 1
+        if(this._levelNumber != 1){
+            this._eggsGroup.setAll('inputEnabled',false);
+        }
     },
     
     createRocks: function(numRocks){
@@ -568,6 +565,11 @@ DinoEggs.Game.prototype = {
     },
 
     runToMom: function(egg_x, isSad, isGoldenEgg){
+        
+        //enable egg click for level 1
+        if(this._levelNumber == 1){
+            this._eggsGroup.setAll('inputEnabled',true);
+        }
         var hatchling = null;
         if(isSad){
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling_sad');
@@ -636,12 +638,16 @@ DinoEggs.Game.prototype = {
     
     populateSolveEqCanvas: function(selectedEgg){
         
-
+        
        
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
             this._eggsGroup.callAll('animations.stop', 'animations');
+            
+            for(var i = 0; i < this._eggsGroup.children.length ; i++){
+                 this._eggsGroup.children[i].frame = 0;
+            }   
         }
         
         if(this._levelNumber != 1){
@@ -809,6 +815,8 @@ DinoEggs.Game.prototype = {
         this.game.time.events.add(2000, this.destroyObject, this, rock_emitter);
         
         if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){
+            
+            this._eggsGroup.setAll('inputEnabled',true);
             this.clearGMCanvas(this.matchExpCanvas);
             
             if(this._levelNumber == 2){
@@ -1122,6 +1130,8 @@ DinoEggs.Game.prototype = {
                 if (((evt.last_eq.startsWith("a=")||evt.last_eq.startsWith("-a=")) && !isNaN(evt.last_eq.slice(2)))||
                    ((evt.last_eq.endsWith("=-a")||(evt.last_eq.endsWith("=-a")))&& !isNaN(evt.last_eq.slice(0,-2)))){
                     if(this.selectedEgg){
+                        //for level 1, disable the egg clicks for all eggs once hatch animation has started
+                        this._eggsGroup.setAll('inputEnabled',false);
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
                         t.onComplete.add(exitTween, this);
                         function exitTween () {
@@ -1130,6 +1140,8 @@ DinoEggs.Game.prototype = {
                         this.removeHalo();
                         this.selectedEgg.animations.play('hatch', 6, false);
                         this.selectedEgg = null;
+                        
+                        
                     }
 
                 }
@@ -1139,6 +1151,8 @@ DinoEggs.Game.prototype = {
                 //condition to check if equation is solved  
                 if (!isNaN(evt.last_eq)){
                     if(this.selectedEgg){
+                         //for level 1, disable the egg clicks for all eggs once hatch animation has started
+                        this._eggsGroup.setAll('inputEnabled',false);
                         var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
                         t.onComplete.add(exitTween, this);
                         function exitTween () {
@@ -1340,12 +1354,13 @@ DinoEggs.Game.prototype = {
     acquirePowerup:function(){
         this.isPowerupUsed = true;
         
-        //kill pterodactyl, power up text and show a cool message that player acquired a powerup
+         //kill pterodactyl, power up text and show a cool message that player acquired a powerup
         this.pterodactyl.visible = false;
         this.pterodactyl.kill();
         this.pterodactyl.x = 0;
         this.powerupText.kill();
         this.g_powerupDuration = 5;
+            
         
         //randomly choose available powerups 
         //Move below code somewhere else while refactoring
@@ -1371,18 +1386,18 @@ DinoEggs.Game.prototype = {
         
         var chosenPowerup = powerupsArray[indexToChoose];  
         //Show powerup name
-		powerName = this.game.add.sprite(0,0, chosenPowerup.spriteName);
+		powerName = this.game.add.sprite(this.pterodactyl.x + this.pterodactyl.width/2,this.pterodactyl.y + this.pterodactyl.height/2, chosenPowerup.spriteName); 
         powerName.anchor.setTo(0.5,0.5);
         powerName.scale.setTo(0,0);
         powerName.x=this.game.width/2;
-        powerName.y=this.game.height/3;
+        powerName.y=this.game.height/3;  
         
         var powerNameTween = this.game.add.tween(powerName.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
         powerNameTween.onComplete.add(exitTween, this);
         function exitTween () {
             this.game.add.tween(powerName.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
         }
-
+        
         //handle selected powerup
         this.powerupID = chosenPowerup.id; 
         this[chosenPowerup.handler]();
