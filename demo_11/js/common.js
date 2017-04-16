@@ -410,7 +410,7 @@ DinoEggs.Game.prototype = {
         
         //check collision for lightning
          this.game.physics.arcade.overlap(this._lightningGroup, this._rocksGroup, this.lightningStruck, null, this);
-        
+     
         //var bcrt = document.getElementById("game-div").getBoundingClientRect();
         //render egg equations
         this._eggsGroup.forEach(function(egg){
@@ -729,13 +729,7 @@ DinoEggs.Game.prototype = {
             this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this);  
         }else{
             //kill the powerup even when there are no rocks on screen
-            this.pterodactyl.visible = false;
-            this.pterodactyl.kill();
-            this.pterodactyl.x = 0;
-            this.powerupText.kill();  
-            
-            //reset the powerup duration
-            this.g_powerupDuration = 5;
+            this.killPowerup();
            
             if(this._rocksGroup.countLiving() == 0){
                 this.clearGMCanvas(this.matchExpCanvas); 
@@ -743,6 +737,14 @@ DinoEggs.Game.prototype = {
             }
             
         }     
+    },
+    killPowerup: function(){
+        this.pterodactyl.visible = false;
+        this.pterodactyl.kill();
+        this.pterodactyl.x = 0;
+        this.powerupText.kill();  
+        //reset the powerup duration
+        this.g_powerupDuration = 5;
     },
     
     hitEgg: function(rock, egg){
@@ -753,7 +755,8 @@ DinoEggs.Game.prototype = {
         if(egg.tint != 0xccac00){
             var hits = ++egg.hitCounter;
             switch(hits){
-                case 1 : egg.tint = 0x00ff00; 
+                case 1 : 
+                        egg.tint = 0x00ff00; 
                         egg.animations.play('wiggleOnce');
                          break;
                 case 2 : egg.tint = 0xff0000;
@@ -831,20 +834,13 @@ DinoEggs.Game.prototype = {
             
             //check powerup and kill if visible
             if(this.pterodactyl.visible == true){
-                this.pterodactyl.visible = false;
-                this.pterodactyl.kill();
-                this.pterodactyl.x = 0;
-                this.powerupText.kill();  
-
-                //reset the powerup duration
-                this.g_powerupDuration = 5;
+                this.killPowerup();
             }
             
         }
 
     },
     removeHalo:function(){
-        console.log("removeHalo called");
         if(this.halo)
             this.halo.kill();    
     },
@@ -1093,11 +1089,15 @@ DinoEggs.Game.prototype = {
          lightning.nameId = this.makeid();
          
          this._lightningGroup.add(lightning);
-         lightning.rotation = this.game.physics.arcade.moveToObject(lightning, rock, 5, 500); 
          
-         //Add to map
-         this.lightRockMap[lightning.nameId] = rock;
-     },
+        lightning.rotation = this.game.physics.arcade.moveToObject(lightning, rock, 5, 500);
+
+        //Add to map
+        this.lightRockMap[lightning.nameId] = rock;
+        
+    },
+         
+         
     makeid: function()
     {
         var text = "";
@@ -1109,19 +1109,15 @@ DinoEggs.Game.prototype = {
         return text;
     },
      lightningStruck:function(lightning, rock){
-         
-     
-         var currentMatchExp = this.matchExpDerivation.getLastModel().to_ascii();
          //check if the lightning struck on correct rock, only then,burst the rock, else do nothing and continue moving towards target
          if(this.lightRockMap[lightning.nameId] == rock){
-             var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { font: '32px kalam', fill: '#000' });
-             this.rockBurst(rock);
-             delete this.lightRockMap[lightning.nameId];
-             this._lightningGroup.remove(lightning);
-
-             //animate and update score 
-             var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true);
-             scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText); 
+                 var obtainedScoreText = this.game.add.text(rock.x, rock.y, "+10", { font: '32px kalam', fill: '#000' });
+                 this.rockBurst(rock);
+                 
+                 //animate and update score 
+                 var scoreTween = this.game.add.tween(obtainedScoreText).to({x: 700, y: 16}, 3000, Phaser.Easing.Quadratic.InOut, true); scoreTween.onComplete.addOnce(this.updateScore,this,obtainedScoreText);   
+                delete this.lightRockMap[lightning.nameId];
+                this._lightningGroup.remove(lightning);
          }
      },
     solveEqCheck:function(evt){
@@ -1354,13 +1350,8 @@ DinoEggs.Game.prototype = {
     acquirePowerup:function(){
         this.isPowerupUsed = true;
         
-         //kill pterodactyl, power up text and show a cool message that player acquired a powerup
-        this.pterodactyl.visible = false;
-        this.pterodactyl.kill();
-        this.pterodactyl.x = 0;
-        this.powerupText.kill();
-        this.g_powerupDuration = 5;
-            
+        this.powerUpTween.pause();
+        this.pterodactyl.alpha = 0.8;
         
         //randomly choose available powerups 
         //Move below code somewhere else while refactoring
@@ -1384,23 +1375,28 @@ DinoEggs.Game.prototype = {
                 indexToChoose = this.getRandomRange(1, 3);     
         }
         
-        var chosenPowerup = powerupsArray[indexToChoose];  
-        //Show powerup name
-		powerName = this.game.add.sprite(this.pterodactyl.x + this.pterodactyl.width/2,this.pterodactyl.y + this.pterodactyl.height/2, chosenPowerup.spriteName); 
-        powerName.anchor.setTo(0.5,0.5);
-        powerName.scale.setTo(0,0);
-        powerName.x=this.game.width/2;
-        powerName.y=this.game.height/3;  
+        var chosenPowerup = powerupsArray[indexToChoose]; 
         
-        var powerNameTween = this.game.add.tween(powerName.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
-        powerNameTween.onComplete.add(exitTween, this);
-        function exitTween () {
-            this.game.add.tween(powerName.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
+        //Show powerup name
+		powerName = this.game.add.sprite(this.pterodactyl.x + this.pterodactyl.width/2,this.pterodactyl.y + this.pterodactyl.height * 2/3, chosenPowerup.spriteName); 
+        powerName.anchor.setTo(0.5,0.5);
+        powerName.scale.setTo(0.3,0.3);    
+       
+        var powerNameScaleTween = this.game.add.tween(powerName.scale).to({ x: 1,y:1}, 5000,  Phaser.Easing.Bounce.Out,true);
+        var powerNameTween = this.game.add.tween(powerName).to({ x: this.game.width/2,y:this.game.height/3}, 5000,  Phaser.Easing.Bounce.Out,true);
+        
+        powerNameScaleTween.chain(powerNameTween);
+        powerNameTween.onComplete.add(exitPowerNameTween, this);
+        
+        function exitPowerNameTween () { 
+            this.killPowerup();
+            this.game.add.tween(powerName.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);   
         }
         
         //handle selected powerup
         this.powerupID = chosenPowerup.id; 
         this[chosenPowerup.handler]();
+         
     },
     freezeRocks:function(){
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
