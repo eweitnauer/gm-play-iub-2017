@@ -1429,10 +1429,13 @@ DinoEggs.Game.prototype = {
         this.game.time.events.repeat(Phaser.Timer.SECOND * 6, this.g_numRocks - this.g_rockProducedIndex - 1, this.spawnRock, this);
     },
     destroyRocks:function(){
-        var i = this.g_rockProducedIndex;
+        /*var i = this.g_rockProducedIndex;
         while(i >= 0){
             this.rockBurst(this._rocksGroup.children[this._rocksGroup.children.length - 1]);
             i--;
+        }*/
+        while(this._rocksGroup.children[this._rocksGroup.children.length - 1].visible == true){
+            this.rockBurst(this._rocksGroup.children[this._rocksGroup.children.length - 1]);
         }
         
         //clear both canvas
