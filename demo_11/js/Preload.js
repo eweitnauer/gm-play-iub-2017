@@ -22,7 +22,7 @@ DinoEggs.Preload.prototype = {
         this.preloardGreyBar.anchor.setTo(0.5,0.5);
         
         
-        this.preloadBar = this.add.sprite(this.game.world.centerX - 250,this.game.world.centerY,'preloadBar');
+        this.preloadBar = this.add.sprite(this.game.world.centerX - 238,this.game.world.centerY,'preloadBar');
         this.preloadBar.anchor.setTo(0,0.5);
         this.time.advancedTiming = true; // better way of handling game time: Needs review
         
@@ -60,6 +60,7 @@ DinoEggs.Preload.prototype = {
         
 
         this.load.image('nextlevel', 'assets/buttons/nextlevel.png');
+        this.load.image('gradeSetlevel', 'assets/buttons/return_to_grade_set.png');
         //celebration particles
         this.load.image('jewel_red', 'assets/particles/jewel_red.png');
         this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');
@@ -90,9 +91,16 @@ DinoEggs.Preload.prototype = {
 
         this.load.image('clock', 'assets/clock.png');
         this.load.image('halo', 'assets/selected.png');
+        console.log("Preload function of PreLoad");
+
     },
     create:function(){
         this.state.start('MainMenu');
+        console.log("Create function of PreLoad");
+        //localStorage.clear();
+                
+        //Game Music in Local Storage
+        localStorage.setItem("isMusicPlaying", JSON.stringify(true)); 
     }
 }
 
