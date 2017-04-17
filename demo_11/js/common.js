@@ -72,7 +72,7 @@ DinoEggs.Game.prototype = {
         loadGM(function(){
          currentObj.initCanvas();   
         
-        }, { version: '1.0.4' });
+        }, { version: '1.1.2' });
         
         this.g_countDinoForGameOver = 0;
         //hatchling positioning
@@ -1138,7 +1138,7 @@ DinoEggs.Game.prototype = {
                         this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 50,  Phaser.Easing.Bounce.Out,true);
 
                     }
-
+                    this.removeHalo();
                     this.selectedEgg.animations.play('hatch', 6, false);
                     this.selectedEgg = null;
                     break;
