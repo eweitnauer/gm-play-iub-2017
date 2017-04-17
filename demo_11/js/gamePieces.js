@@ -44,7 +44,7 @@ Rock.prototype.displayGMEquation = function(){
 //.......................................................
 
 //-------------------------------------------------------
-Egg = function (game, x, y, equation) {
+Egg = function (game, x, y, equation, solutions) {
 
     Phaser.Sprite.call(this, game, x, y, 'egg');
     this.game.physics.arcade.enable(this);
@@ -53,6 +53,7 @@ Egg = function (game, x, y, equation) {
     this.body.collideWorldBounds = true;
     
     this.equ = equation;
+    this.solutions = solutions;
     this.hitCounter=0;
     //add click event to egg
     this.inputEnabled = true;
