@@ -1,6 +1,9 @@
 /*Game Common level*/
 //the actual game
 var DinoEggs = DinoEggs || {}; 
+var g_isMuteOn = false;
+var g_isMusicPlaying = true;
+var g_isFirstClickOnMute = true;
 
 DinoEggs.Game = function(){
     Phaser.State.call(this);
@@ -74,6 +77,12 @@ DinoEggs.Game.prototype = {
         
         }, { version: '1.1.2' });
         
+          //music 
+        if(!this.music){
+            this.music = this.game.add.audio('bg_music');
+            this.music.play();
+        }
+        
         this.g_countDinoForGameOver = 0;
         //hatchling positioning
         //this.hatchlingXLeftLimit = g_x_end + 10;
@@ -137,11 +146,6 @@ DinoEggs.Game.prototype = {
             this.myHealthBar.setPercent(100);
         }
     
-        
-        //music 
-        this.music = this.game.add.audio('bg_music');
-        this.music.play();
-        
         //create Eggs
         this.createEggs(this.g_numEggs);
         
@@ -205,12 +209,19 @@ DinoEggs.Game.prototype = {
         this.pauseButton = this.game.add.button(this.game.world.width , this.scoreText.y + this.scoreText.height , 'pauseButton', this.pauseClicked, this);
         this.pauseButton.x = this.pauseButton.x - this.pauseButton.width;
         this.game.input.onDown.add(this.unpause, this);
-        this.playOrMute = false;
-        
         //mute and unmute game
         this.muteButton = this.game.add.button(this.game.world.width ,this.pauseButton.y + this.pauseButton.height, 'musicOn', this.muteMusic, this, 2, 1, 0);
         this.muteButton.x = this.muteButton.x - this.muteButton.width;
+        g_isMusicPlaying = JSON.parse(localStorage.getItem("g_isMusicPlaying"));
         
+        if(g_isMusicPlaying == true){
+            this.music.resume();
+            this.muteButton.loadTexture('musicOn', 0 );
+        }else if(g_isMusicPlaying == false){
+            this.music.pause();
+             this.muteButton.loadTexture('musicOff', 0 );
+        }
+            
         this.questionButton = this.game.add.button(this.game.world.width ,this.muteButton.y + this.muteButton.height, 'questionButton', this.questionClicked, this, 2, 1, 0);
         this.questionButton.x = this.questionButton.x - this.questionButton.width;
         
@@ -248,15 +259,20 @@ DinoEggs.Game.prototype = {
     },
     
     muteMusic:function(){
-          if (this.playOrMute == false) {
+          if (g_isMuteOn == true || g_isFirstClickOnMute) {
                 this.music.pause();
-                this.playOrMute =true;
+                g_isMuteOn =false;
+                g_isMusicPlaying = false;
+                g_isFirstClickOnMute = false;
                 this.muteButton.loadTexture('musicOff', 0 );
-          } else {
+          } else if (g_isMuteOn == false) {
               this.music.resume();
-              this.playOrMute = false;
+              console.log("Mute set to true here");
+              g_isMuteOn = true;
+              g_isMusicPlaying = true;
               this.muteButton.loadTexture('musicOn', 0 );
         }
+        
     },
     restartGame: function() {
             //this.music.destroy();
@@ -902,6 +918,8 @@ DinoEggs.Game.prototype = {
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+
+        
     },
     autoStartNextLevel: function(){
         g_autoStartClock--;
@@ -934,7 +952,11 @@ DinoEggs.Game.prototype = {
         this.matchExpCanvas = null;
         this.solveEqCanvas = null;
         
-        this.music.stop();
+        
+        
+       // set the current state of game music to local storage
+       localStorage.setItem("g_isMusicPlaying", JSON.stringify(g_isMusicPlaying)); 
+        
         var elem = document.getElementById("undo_button");
         if(elem){
             elem.parentNode.removeChild(elem);
