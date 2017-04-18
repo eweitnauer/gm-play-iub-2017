@@ -364,6 +364,7 @@ DinoEggs.Game.prototype = {
         this.pauseReason = "pauseClicked";
         $("div.gm-game-rock").addClass("noShow");
         $("div.gm-game-egg").addClass("noShow");
+        $("div.gm-game-powerup").addClass("noShow");
         // Then add the menu
         this.menu = this.game.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'buttonsMenu');
         this.menu.anchor.setTo(0.5, 0.5);        
@@ -380,14 +381,12 @@ DinoEggs.Game.prototype = {
             if(this._rocksGroup.countLiving() > 0 && this._eggsGroup.countLiving() > 0){
                 //check whether we can get a unique equation for powerup
                 var uniqueEq = this.getEquationForPowerup();
-                if(uniqueEq != null){
+                if(uniqueEq != null && !this.pterodactyl.visible){
+                    this.powerupEq = uniqueEq;
+                    this.createPowerupEqDiv(this.powerupEq);
                     this.pterodactyl.visible = true;  
                     this.powerUpTween = this.game.add.tween(this.pterodactyl).to( { x: this.game.world.width - this.pterodactyl.width - this.pauseButton.width , y: 50 }, 7000, Phaser.Easing.Quadratic.InOut, true); 
                     this.powerUpTween.onComplete.addOnce(this.handlePowerupTween, this); 
-
-                    var pStyle = { font: "24px Comic Sans MS", fill: "#000", wordWrap: true, wordWrapWidth: this.pterodactyl.width, align: "center"};
-                    this.powerupText = this.game.add.text(this.pterodactyl.x + this.pterodactyl.width / 2 , this.pterodactyl.y + this.pterodactyl.height * (5.4/6), uniqueEq, pStyle); 
-                    this.powerupText.anchor.set(0.5);
                 }
             }else{
                 this.clearGMCanvas(this.matchExpCanvas); 
@@ -398,6 +397,20 @@ DinoEggs.Game.prototype = {
             console.log("Power up appearing in "+powerupInterval+" seconds");
             this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);  
         } 
+    },
+    createPowerupEqDiv : function(equation){
+        if(this.powerupGMDiv == undefined){
+            this.powerupGMDiv = document.createElement("div");
+            this.powerupGMDiv.setAttribute("id", "powerup_eq");
+            this.powerupGMDiv.setAttribute("class", "gm-game-powerup");
+            this.powerupGMDiv.style.left = '300px';
+            this.powerupGMDiv.style.top = '200px';
+            var gameDivContainer = document.getElementById("game-div");
+            gameDivContainer.appendChild(this.powerupGMDiv);
+            this.powerupCanvas = new gmath.Canvas('#powerup_eq', {use_toolbar: false, vertical_scroll: false });     
+        }
+        var derivation = this.powerupCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#000' });
+        this.powerupGMDiv.style.display = "block";
     },
     showRockInstructions:function(){
         this.showBoard('Match rock ','expression to burst');
@@ -430,8 +443,7 @@ DinoEggs.Game.prototype = {
         
         //render power up equation text
         if(this.pterodactyl.visible == true){
-         this.powerupText.x = Math.floor(this.pterodactyl.x + this.pterodactyl.width / 2);
-         this.powerupText.y = Math.floor(this.pterodactyl.y + this.pterodactyl.height * (5.4/6));   
+         $("#powerup_eq").css({top: this.pterodactyl.y + this.pterodactyl.height * (2/3), left: this.pterodactyl.x + this.pterodactyl.width * 2/3, position:'absolute'});
         }
     },
     
@@ -709,18 +721,19 @@ DinoEggs.Game.prototype = {
     },
     spawnRock: function(){
         //do not spawn any rock if freeze rock power up has been activated
-        console.log("spawnrock changed");
         if(this.rocksTospawn && this.rocksTospawn.length > 0 && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
             this.updateRocksRemaining();         
             var rock = this.rocksTospawn.pop();
+            
             //replace rock equation
-            if(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
+            if(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupEq == rock.getEquation())){
                 rock.setEquation(this.getMatchEquationOnRock());
-                while(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupText.text == rock.getEquation())){
+                while(rock.getEquation() == this.currentCanvasEqu || (this.pterodactyl.visible && this.powerupEq == rock.getEquation())){
                     rock.setEquation(this.getMatchEquationOnRock());
                 } 
             }
+            
             rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
             rock.newGMDiv.style.display = "block";
@@ -750,10 +763,14 @@ DinoEggs.Game.prototype = {
         }     
     },
     killPowerup: function(){
+        
         this.pterodactyl.visible = false;
         this.pterodactyl.kill();
-        this.pterodactyl.x = 0;
-        this.powerupText.kill();  
+        this.pterodactyl.x = 0; 
+        this.powerupEq = "";
+        this.powerupCanvas.controller.reset();
+        this.powerupGMDiv.style.display = "none";
+        
         //reset the powerup duration
         this.g_powerupDuration = 5;
     },
@@ -969,6 +986,10 @@ DinoEggs.Game.prototype = {
             if(_egg.newGMDiv)
                 _egg.newGMDiv.parentElement.removeChild(_egg.newGMDiv);
         });
+        
+        // reset powerup
+        $("#powerup_eq").remove();
+        this.powerupGMDiv = undefined;   
     },
     
     updatePlayerData: function(stars) {
@@ -983,9 +1004,6 @@ DinoEggs.Game.prototype = {
 		};
 		// and write to local storage
 		window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
-       
-        //console.log("player data");
-        //console.log(DinoEggs.PLAYER_DATA);
 	},   
     
     updateHighScore: function(highScore) {
@@ -1037,22 +1055,16 @@ DinoEggs.Game.prototype = {
     
     matchEquationOnRocks: function(equation){
         var matchedEqRocks= [];
-        //var parsedEq = equation.replace(/\*/g, "");
         var parsedEq = equation;
-        //console.log("parsed: "+parsedEq);
-        //if(this._levelNumber != 2){
-            // be careful for expressions with *. Might need to use algebra model instead
-            this.currentCanvasEqu = parsedEq;
-        //}
+        this.currentCanvasEqu = parsedEq;
+       
         for(var i = 0 ; i < this._rocksGroup.children.length ; i++){
             if(this._rocksGroup.children[i].visible && this._rocksGroup.children[i].equ == parsedEq){
                 //add rock obj to array;
-                //console.log("inside if - matched: "+ this._rocksGroup.children[i].equ);
                 matchedEqRocks.push(this._rocksGroup.children[i]);
             }
             
         }
-        //return -1;
         return matchedEqRocks;
     },
     matchEqCheck:function(evt){
@@ -1065,8 +1077,7 @@ DinoEggs.Game.prototype = {
         
         //checking for powerup
         if(this.pterodactyl.visible == true){
-            var parsedEq = lastEq.replace(/\*/g, "");
-            if(this.powerupText.text == parsedEq){
+            if(this.powerupEq == lastEq){
                 this.acquirePowerup();
             }
         }
@@ -1134,7 +1145,6 @@ DinoEggs.Game.prototype = {
 
     eggEqCheck:function(evt){         
         if(this.selectedEgg){
-            console.log("egg eq check");
             for(var index in this.selectedEgg.solutions){
                 //condition to check if equation is solved
                 if(evt.last_eq == this.selectedEgg.solutions[index]){
@@ -1278,7 +1288,7 @@ DinoEggs.Game.prototype = {
                 uniqueEqFound = false;
             }
             if(uniqueEqFound){
-                return equation.replace(/\*/g, "");
+                return equation;//.replace(/\*/g, "");
                 break;
             }
             i--;
