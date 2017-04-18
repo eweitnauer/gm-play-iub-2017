@@ -507,11 +507,6 @@ DinoEggs.Game.prototype = {
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
 
-                        if(this.matchExpCanvas && this._levelNumber!=2){
-                            this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } }); 
-                        }
-                        this.currentCanvasEqu = this.g_parsedCanvasExpression;
-
                         if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
                             this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
@@ -857,7 +852,6 @@ DinoEggs.Game.prototype = {
 
     },
     removeHalo:function(){
-        console.log("removeHalo called");
         if(this.halo)
             this.halo.kill();    
     },
@@ -1179,7 +1173,6 @@ DinoEggs.Game.prototype = {
             document.getElementById("eq-solve-div").style.display="none";
             this.matchExpCanvas = new gmath.Canvas('#gmath2-div', {use_toolbar: false, vertical_scroll: false });                
 
-            
             //!preserve binding
             var thisObj =this;
             this.matchExpCanvas.model.on('el_changed', function(evt) {	
