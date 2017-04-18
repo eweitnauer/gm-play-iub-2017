@@ -23,7 +23,7 @@ DinoEggs.Preload.prototype = {
         this.preloardGreyBar.anchor.setTo(0.5,0.5);
         
         
-        this.preloadBar = this.add.sprite(this.game.world.centerX - 250,this.game.world.centerY,'preloadBar');
+        this.preloadBar = this.add.sprite(this.game.world.centerX - 238,this.game.world.centerY,'preloadBar');
         this.preloadBar.anchor.setTo(0,0.5);
         this.time.advancedTiming = true; // better way of handling game time: Needs review
         

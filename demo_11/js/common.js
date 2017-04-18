@@ -507,7 +507,6 @@ DinoEggs.Game.prototype = {
                         document.getElementById("eq-match-div").style.display="block";
                         document.getElementById("eq-solve-div").style.display="none";
 
-                        
                         if(this._levelNumber > 2){
                             this.createRocks(this.g_numRocks);             
                             this.startRockWave(6,this.g_numRocks,this.g_numEggs);          
@@ -645,9 +644,6 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
-        
-        
-       
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
@@ -675,8 +671,11 @@ DinoEggs.Game.prototype = {
         this.clearGMCanvas(this.solveEqCanvas);
         this.clearGMCanvas(this.matchExpCanvas);
         
-        this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
-         
+        //enable wiggle on gm canvas equations for 1st and 2nd level
+        if(this._levelNumber==1)
+            this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 }, wiggle:["+","*","-","/"] });
+        else
+            this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
         
         if(this.halo)
             this.halo.kill();
@@ -692,7 +691,11 @@ DinoEggs.Game.prototype = {
         function exitTween () {
             this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
             if(this.matchExpCanvas){
-                this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
+                if(this._levelNumber==2){
+                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 }, wiggle:["+","-","*","/"] });
+                }
+                else
+                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
             }
             this.currentCanvasEqu = this.g_parsedCanvasExpression;
         }
@@ -967,26 +970,6 @@ DinoEggs.Game.prototype = {
                 _egg.newGMDiv.parentElement.removeChild(_egg.newGMDiv);
         });
     },
-    
-    /*simplifyEqCheck:function(evt){
-        this.undoBtn.disabled = false;
-                //condition to check if equation is solved  
-                if (!isNaN(evt.last_eq)){
-                    if(this.selectedEgg){
-                        
-                        var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
-                        t.onComplete.add(exitTween, this);
-                        function exitTween () {
-                            this.game.add.tween(awesome.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
-                        }
-                        this.removeHalo();
-                        this.selectedEgg.animations.play('hatch', 6, false);
-                        this.selectedEgg = null;
-                        this.showBoard();
-                    }
-
-                }
-    },*/
     
     updatePlayerData: function(stars) {
 		// set number of stars for this level
