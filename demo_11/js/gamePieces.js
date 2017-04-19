@@ -20,6 +20,7 @@ Rock.prototype.getEquation = function(){
 Rock.prototype.setEquation = function(equation){
     this.equ = equation;
     //$("#gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId).remove();
+    //console.log("#gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId);
     var newGMDivId = "gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId+"_"+this.inputId;
     this.newGMDiv.setAttribute("id", newGMDivId);
     this.newGMDiv.setAttribute("class", "gm-game-rock");
@@ -31,6 +32,7 @@ Rock.prototype.setEquation = function(equation){
 	this.newGMDiv.style.zIndex = 2;	
     gmath.AlgebraView.createStaticExpression(this.newGMDiv, equation);	
     document.getElementById("game-div").appendChild(this.newGMDiv);
+    document.getElementById(newGMDivId).firstChild.parentElement.removeChild(document.getElementById(newGMDivId).firstChild);
 }
 
 Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex){
