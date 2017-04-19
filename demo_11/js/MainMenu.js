@@ -76,7 +76,7 @@ DinoEggs.MainMenu.prototype = {
     stopBaby: function(baby){
         this.baby.animations.stop(null, true);
         this.baby.animations.add('baby_blink',['h1.png','h3.png','h4.png','h5.png','h4.png','h3.png','h1.png'],10,false);  
-        var blink_event = this.game.time.events.loop(Phaser.Timer.SECOND*4, this.spriteBlink, this);
+        this.blink_event = this.game.time.events.loop(Phaser.Timer.SECOND*4, this.spriteBlink, this);
         this.mom.animations.play('reachOutToBaby');
         
     },
@@ -90,7 +90,7 @@ DinoEggs.MainMenu.prototype = {
     startGame:function(){
         
         //this.music.stop();
-        this.game.time.events.remove(blink_event);
+        this.game.time.events.remove(this.blink_event);
         this.state.start('StageSelect');
         
     }, 
