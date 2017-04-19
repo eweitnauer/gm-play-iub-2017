@@ -34,7 +34,7 @@ DinoEggs.Boot.prototype = {
             //in the fontSquirrel's webfont kit 
             families: ['kalam'],
             //local path to stylesheet.css
-            urls: ["fonts/stylesheet.css"]
+            urls: ["assets/fonts/stylesheet.css"]
           }
         };
         

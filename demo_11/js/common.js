@@ -72,10 +72,12 @@ DinoEggs.Game.prototype = {
         //load both GM canvases
         //!preserve bindings
         var currentObj = this;
-        loadGM(function(){
-         currentObj.initCanvas();   
         
-        }, { version: '1.1.2' });
+        //performance fix: don't reload GM if already loded in index.html
+        if(gmath)
+            currentObj.initCanvas();
+        else
+            loadGM(currentObj.initCanvas(), { version: '2.0.0' });
         
           //music 
         if(!this.music){
@@ -159,8 +161,8 @@ DinoEggs.Game.prototype = {
         //create Rocks
         if(this._levelNumber != 1){
             //hide egg divisions
-            $("div[id*='gseq_']").hide();
-            
+            //$("div[id*='gseq_']").hide();
+            $("div[id*='gseq_']").css("visibility", "hidden");
             this.createRocks(this.g_numRocks);        
             //create rock wave - (rockinterval between consecutive rocks, number of rocks)       
             this.startRockWave(6,this.g_numRocks,this.g_numEggs);
@@ -434,19 +436,25 @@ DinoEggs.Game.prototype = {
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 75, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x, position:'absolute'});
           }
         });
         
         //render rock equations
         this._rocksGroup.forEach(function(rock){
-            $("#"+rock.newGMDiv.id).css({top: rock.y, left: rock.x + 75, position:'absolute'});
+            $("#"+rock.newGMDiv.id).css({top: rock.y, position:'absolute'});
         });
         
         //render power up equation text
         if(this.pterodactyl.visible == true){
          $("#powerup_eq").css({top: this.pterodactyl.y + this.pterodactyl.height * (2/3), left: this.pterodactyl.x + this.pterodactyl.width * 2/3, position:'absolute'});
         }
+
+        //move selected egg's halo along with the egg on dropping the eggs initially
+        if(this.selectedEgg){
+            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2;
+            this.halo.y=this.selectedEgg.y+this.selectedEgg.height/2-2;
+        }        
     },
     
     disappearRockOnGround: function(rock, platform){
@@ -670,12 +678,12 @@ DinoEggs.Game.prototype = {
         
         if(this._levelNumber != 1){
             //hide other egg equations if they are visible
-            $("div[id*='gseq_']").hide();
-
+            //$("div[id*='gseq_']").hide();
+            $("div[id*='gseq_']").css("visibility","hidden");
             //show the equation on selected egg
-            var eggCanvasId = selectedEgg.canvasId;   
-            var eggDivName = "div#"+eggCanvasId;
-            $(eggDivName).show();
+             var eggCanvasId = selectedEgg.canvasId;   
+             var eggDivName = "div#"+eggCanvasId;
+             $(eggDivName).css("visibility","visible");
         }
         
         document.getElementById("eq-solve-div").style.display="block";
@@ -738,7 +746,7 @@ DinoEggs.Game.prototype = {
             
             rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
-            rock.newGMDiv.style.display = "block";
+            rock.newGMDiv.style.visibility = "visible";
             //rock.displayGMEquation();
     }
     },
@@ -791,7 +799,7 @@ DinoEggs.Game.prototype = {
                          break;
                 case 2 : egg.tint = 0xff0000;
                         var style = {font: "20px Arial", fill: "#111111", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
-                        egg.setEquStyle(style);
+//                        egg.setEquStyle(style);
                         egg.animations.play('wiggleOnce');
 
                         if(egg.newGMDiv){
