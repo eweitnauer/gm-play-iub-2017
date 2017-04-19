@@ -417,7 +417,7 @@
             "rock": [
                         {
                             "problem": "a*b-c*d",
-                            "solutions": ["a*b-c*d", "c*d-a*b", "b*a-c*d", "c*d-b*a", "a*b-d*c", "d*c-a*b", "b*a-d*c", "d*c-b*a"]
+                            "solutions": ["b*a-c*d","a*b-c*d","a*b-d*c","-c*d+a*b","-d*c+a*b","-c*d+b*a","b*a-d*c","-d*c+b*a"]
                         }
             ]
 	  },
