@@ -19,8 +19,18 @@ Rock.prototype.getEquation = function(){
 
 Rock.prototype.setEquation = function(equation){
     this.equ = equation;
-    this.GMCanvas.controller.reset();
-    this.GMCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#fff' });
+    //$("#gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId).remove();
+    var newGMDivId = "gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId+"_"+this.inputId;
+    this.newGMDiv.setAttribute("id", newGMDivId);
+    this.newGMDiv.setAttribute("class", "gm-game-rock");
+    this.newGMDiv.style.left = (this.inputX + 1) + 'px';
+    this.newGMDiv.style.top = (this.inputY + 1) + 'px';
+    this.newGMDiv.style.width = "100px";
+    this.newGMDiv.style.height = "65px";
+    this.newGMDiv.style.pointerEvents="none";
+	this.newGMDiv.style.zIndex = 2;	
+    gmath.AlgebraView.createStaticExpression(this.newGMDiv, equation);	
+    document.getElementById("game-div").appendChild(this.newGMDiv);
 }
 
 Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex){
@@ -28,18 +38,29 @@ Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rock
     var newGMDivId = "gmeq_" + (rockProducedIndex+1) + "_" + inputId;
     this.newGMDiv.setAttribute("id", newGMDivId);
     this.newGMDiv.setAttribute("class", "gm-game-rock");
-    this.newGMDiv.style.left = inputX + 'px';
-    this.newGMDiv.style.top = inputY + 'px';
-    this.newGMDiv.style.display = "none";
-    var gameDivContainer = document.getElementById("game-div");
+    this.newGMDiv.style.left = (inputX + 1) + 'px';
+    this.newGMDiv.style.top = (inputY + 1) + 'px';
+    this.newGMDiv.style.width = "100px";
+    this.newGMDiv.style.height = "65px";
+    this.newGMDiv.style.pointerEvents="none";
+	this.newGMDiv.style.visibility = "hidden";
+	this.newGMDiv.style.zIndex = 2;    
+	var gameDivContainer = document.getElementById("game-div");
     gameDivContainer.appendChild(this.newGMDiv);
-    var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#fff' });        
-    return canvas;
+	
+    this.rockProducedIndex = rockProducedIndex;
+    this.inputId = inputId;
+    this.inputX = inputX;
+    this.inputY = inputY;
+
+    
+
+    gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
+    return this.newGMDiv;
 },
 
 Rock.prototype.displayGMEquation = function(){
-    this.newGMDiv.style.display="block";
+    this.newGMDiv.style.visibility="visible";
 },
 //.......................................................
 
@@ -82,13 +103,14 @@ Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedInde
     var newGMDivId = "gseq_" + (eggProducedIndex+1);
     this.newGMDiv.setAttribute("id", newGMDivId);
     this.newGMDiv.setAttribute("class", "gm-game-egg");
-    this.newGMDiv.style.left = inputX + 'px';
+    this.newGMDiv.style.left = (inputX) + 'px';
     this.newGMDiv.style.top = (inputY + 50) + 'px';
-    this.newGMDiv.style.display = "block";
+    this.newGMDiv.style.width = "85px";
+    this.newGMDiv.style.height = "65px";
+    this.newGMDiv.style.pointerEvents="none";
+    this.newGMDiv.style.zIndex = 2;
     var gameDivContainer = document.getElementById("game-div");
     gameDivContainer.appendChild(this.newGMDiv);
-        
-    var canvas = new gmath.Canvas('#' + newGMDivId, {use_toolbar: false, vertical_scroll: false });
-    var derivation = canvas.model.createElement('derivation', { eq: inputEq, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#fff' });        
-    return canvas;
+    gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
+    return this.newGMDiv;
 }

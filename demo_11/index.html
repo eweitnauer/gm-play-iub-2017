@@ -152,10 +152,12 @@
             z-index: 1 
         }
 
-        div.gm-game-rock, div.gm-game-egg, div.gm-game-rock *, div.gm-game-egg *{
+       /* div.gm-game-rock, div.gm-game-egg{
             pointer-events: none !important;
-            text-align:center;
-        }
+            text-align:center !important;
+            width:100px !important;
+            height:65px !important;
+        }*/
         
         div.gm-game-rock div.text{
             color: white !important;
@@ -169,6 +171,9 @@
             position: absolute !important;
         }
         
+        /*div.gm-game-rock, div.gm-game-rock *{
+            display:inline-block;
+        }*/
         div.modal-backdrop{
             /*display:none !important;*/
             background-color:rgb(80,120,120);
@@ -194,7 +199,15 @@
         }
         
         .noShow{
-            display:none !important;
+            visibility:hidden !important;
+        }
+        
+        div.gm-game-rock, div.gm-game-rock *, div.main, div.main *{
+            pointer-events: none !important;
+        }
+        
+        div.eq-solve-div, div.eq-solve-div *, div.eq-match-div, div.eq-match-div *, div.gm-canvas, div.gm-canvas *{
+            pointer-events: all !important;
         }
     </style>
 </head>
@@ -268,7 +281,7 @@
 </body>
 <script>
 window.onload = function () {
-  loadGM(console.log(""), { version: '1.0.4'});
+    loadGM(console.log("index.html loaded gmath"), { version: '2.0.0'});
 }
 
 
