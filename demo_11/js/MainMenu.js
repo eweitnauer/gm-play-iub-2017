@@ -50,11 +50,39 @@ DinoEggs.MainMenu.prototype = {
         //start button
         this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'button', this.startGame, this, 1, 0, 2);
         this.startButton.anchor.set(0.5);
-      
+        
+        //Animate baby dino and mom
+        this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 
+        this.mom.animations.add('reachOutToBaby',['m_1.png','m_2.png','m_3.png','m_2.png','m_1.png'],1,false);
+        this.mom.animations.add('mom_blink',['m_1.png','m_4.png','m_5.png','m_4.png','m_1.png'],10,false);
+        this.mom.play('mom_blink');
+        
+        this.baby = this.game.add.sprite(300,this.game.world.height-100, 'hatchling_intro_anim');
+        this.baby.anchor.setTo(0.5, 0.5);
+        this.baby.animations.add('run',['h1.png','h2.png']);
+        this.baby.animations.play('run', 10, true);
+        // params are: properties to tween, time in ms, easing and auto-start tweenthis.
+        var runningBabyTween = this.game.add.tween(this.baby).to({x: this.mom.x, y: this.game.world.height-50}, 6000, Phaser.Easing.Quadratic.InOut, true);
+        runningBabyTween.onComplete.addOnce(this.stopBaby, this,this.baby);  
+        
+        //this.hatchlingStatic.animations.add('blink');
+        //this.hatchlingStatic.animations.play('blink', 5, true);
+        
         document.getElementById("eq-match-div").style.display="block";
         document.getElementById("eq-solve-div").style.display="none";
                 
 
+    },
+    stopBaby: function(baby){
+        this.baby.animations.stop(null, true);
+        this.baby.animations.add('baby_blink',['h1.png','h3.png','h4.png','h5.png','h4.png','h3.png','h1.png'],10,false);  
+        var blink_event = this.game.time.events.loop(Phaser.Timer.SECOND*4, this.spriteBlink, this);
+        this.mom.animations.play('reachOutToBaby');
+        
+    },
+    spriteBlink:function(){
+        this.baby.animations.play('baby_blink');
+        this.mom.animations.play('mom_blink');
     },
     update:function(){
         //	Do some nice funky main menu effect here
@@ -62,6 +90,7 @@ DinoEggs.MainMenu.prototype = {
     startGame:function(){
         
         //this.music.stop();
+        this.game.time.events.remove(blink_event);
         this.state.start('StageSelect');
         
     }, 
