@@ -26,6 +26,7 @@ DinoEggs.Game = function(){
     this.undoBtn = null;
     this.currentCanvasEqu ="";
     this.pauseReason = "";
+    this.scoreBase = 0;
     
     
 };
@@ -36,6 +37,7 @@ DinoEggs.Game.prototype = {
     //set variables based on level number
     initVaribles:function(){
         this._levelNumber = DinoEggs._selectedLevel;
+        this.scorebase = this._levelNumber * 30;
         console.log("selected level:"+DinoEggs._selectedLevel);
         this._jsonData = DinoEggs.jsonLevelObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this.g_numRocks = this._jsonData["numRocks"];
@@ -924,24 +926,25 @@ DinoEggs.Game.prototype = {
     
     endStar: function() {
         var starPostion =0;
-        var scoreBase =50;
+//        var scoreBase =50;
         var starNumber=0;
         while (this.score > 0){
            this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
             starPostion = starPostion + 20;
-            this.score = this.score - scoreBase; 
+            this.score = this.score - this.scoreBase; 
+            console.log("base score is " + this.scoreBase);
             starNumber++;
             if (starNumber == 3){
                 break;
             }
         }
-        var greyStar = 3 - starNumber;
-        while(greyStar > 0){
-            var star1 =  this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
-            star1.tint= 0x232323;
-            starPostion = starPostion + 20;
-            greyStar--;
-        }
+//        var greyStar = 3 - starNumber;
+//        while(greyStar > 0){
+//            var star1 =  this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
+//            star1.tint= 0x232323;
+//            starPostion = starPostion + 20;
+//            greyStar--;
+//        }
         return starNumber;
     },
     
