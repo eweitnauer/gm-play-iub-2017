@@ -80,6 +80,7 @@ DinoEggs.Game.prototype = {
           //music 
         if(!this.music){
             this.music = this.game.add.audio('bg_music');
+            this.music.loopFull();
             this.music.play();
         }
         
@@ -267,7 +268,6 @@ DinoEggs.Game.prototype = {
                 this.muteButton.loadTexture('musicOff', 0 );
           } else if (g_isMuteOn == false) {
               this.music.resume();
-              console.log("Mute set to true here");
               g_isMuteOn = true;
               g_isMusicPlaying = true;
               this.muteButton.loadTexture('musicOn', 0 );
@@ -276,11 +276,13 @@ DinoEggs.Game.prototype = {
     },
     restartGame: function() {
             //this.music.destroy();
+            
             this.destructGameObjectsBeforeGameOver();
             this.state.start('Game');
     },
     exitToMain:function(){
             //this.music.destroy();
+            this.music.pause();
             this.destructGameObjectsBeforeGameOver();
             this.state.start('LevelSelect');
     },
@@ -909,9 +911,12 @@ DinoEggs.Game.prototype = {
             this.state.start('Game');
         }, this.game, 1, 0, 2);
         restartButton.anchor.set(0.5);
-        
+        var mus = this;
         var mainMenuButton = this.game.add.button(this.game.world.width*0.5 + 40, this.game.world.height*0.5 + 55, 'menu', function(){
+    
+            mus.music.pause();
             this.state.start('MainMenu');
+           
         }, this.game, 1, 0, 2);
         mainMenuButton.anchor.set(0.5); 
         } 
@@ -934,6 +939,10 @@ DinoEggs.Game.prototype = {
         
         //add celebration
          this.celebrationEmitter.start(false, 10000, 100);
+        
+        this.pauseButton.inputEnabled = false;
+        this.muteButton.inputEnabled = false;
+        this.questionButton.inputEnabled = false;
 
         
     },

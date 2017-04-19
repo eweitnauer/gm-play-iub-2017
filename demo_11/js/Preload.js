@@ -94,16 +94,12 @@ DinoEggs.Preload.prototype = {
 
         this.load.image('clock', 'assets/clock.png');
         this.load.image('halo', 'assets/selected.png');
-        console.log("Preload function of PreLoad");
-
+       
     },
     create:function(){
         this.state.start('MainMenu');
-        console.log("Create function of PreLoad");
-        //localStorage.clear();
-                
         //Game Music in Local Storage
-        localStorage.setItem("isMusicPlaying", JSON.stringify(true)); 
+        localStorage.setItem("g_isMusicPlaying", JSON.stringify(true)); 
     }
 }
 
