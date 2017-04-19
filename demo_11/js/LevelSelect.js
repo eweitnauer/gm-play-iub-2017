@@ -24,6 +24,7 @@ DinoEggs.LevelSelect.prototype = {
 	},
 
 	create: function() {
+        
         this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'sky');
 		//this.game.stage.backgroundColor = 0x80a0ff;
         this.game.add.text(256, 24,'Select a level', {font:"48px kalam"});
