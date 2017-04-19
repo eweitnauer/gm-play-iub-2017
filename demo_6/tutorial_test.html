@@ -1,0 +1,99 @@
+
+  <!doctype html>
+<meta charset="utf-8">
+<title>Tutorial Test</title>
+<script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
+
+<body>
+<span style='visibility: hidden; position: absolute; font-family: Kalam;'>x</span>
+<div class='middle'>
+  <div class='clear'></div>
+ 
+</div>
+<script>
+
+
+
+
+  window.onload = function () {
+    loadGM(setup, { version: '0.14.4' });
+  }
+
+  function setup() {
+    
+    var player = null;
+    var output = null;    
+    var width = 900, height = 500, p;   
+    d3.select('body').append('div').classed('container', true)
+      .style({width: width+'px', height: height+'px'})
+      .style('border', '1px solid silver');
+      
+    d3.select('body').append('br');
+    d3.select('body')
+      .append('button')
+        .text('get event data')
+        .on('click', getEventData.bind(this));
+
+    //p = d3.select('body').append('p').classed('event-data', true);
+
+    
+    var options = {
+  		  eq:  "2x+4=6" //add the equation here
+  		, pos: {x: width/8, y: 100}
+  		, no_handles: false
+      , use_hold_menu: true
+  		, normal_font: { family: 'Kalam' }
+  		, italic_font: { family: 'Kalam' }
+  		, font_baseline_shift: 0.4
+  		, font_ascent: 0.9
+  		, font_descent: 0.2
+  		, slanted_div_bar: true
+  		, div_bar_height: 1/14
+  		, auto_collapse_repeated_actions: false
+  		, h_align: 'center'
+  		, no_history: false
+  		, show_bg: false
+  		, enable_drag_to_join: true
+  		, h_align: 'center'
+  	};
+
+    var recorder = new gmath.GMEventRecorder();
+		recorder.createAndRecordDL('div.container', options);
+		var opts = gmath.extend({}, options);
+		opts.pos = {x: 5*width/8, y: 100};
+		opts.show_drag_indicator = false;
+		recorder.liveReplay('div.container', opts);
+      
+   
+    function getEventData() {
+      if (recorder.event_log.events.length >= 2) {
+        // set time of line-added event to first event after
+        recorder.event_log.events[0].time = recorder.event_log.events[1].time;
+      }
+        
+      output = JSON.stringify({ options: recorder.event_log.options
+                            , gm_options: recorder.event_log.gm_options
+                            , events: recorder.event_log.events.map(function(event, idx) {
+                                if (event.selection) event.selection = [];
+                                if (event.target) event.target = [];
+                                return event;
+                              })
+                            });
+      
+      console.log(output);
+    }
+      
+    d3.select('body').append('br');
+    d3.select('body').append('button').text('play').on('click', function() {
+			d3.select('div.container *').remove();
+			var data = JSON.parse(output);
+			data.options.pos = {x: 'center', y: 100};
+			data.options.show_drag_indicator = false;
+			if (player) player.stop_animation();
+			player = new gmath.GMEventRecorder(data, 'div.container');
+			player.replay(250, function() { });
+		});
+
+  }
+
+</script>
