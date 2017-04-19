@@ -10,7 +10,7 @@ DinoEggs.MainMenu = function(){
     
     this.music = null;
     this.startButton = null;
-     DinoEggs.HIGH_SCORE = null;
+    DinoEggs.HIGH_SCORE = null;
     
 };
 DinoEggs.MainMenu.prototype = Object.create(Phaser.State.prototype);
@@ -36,7 +36,8 @@ DinoEggs.MainMenu.prototype = {
         t.anchor.set(0.5);
         
         //inite high score
-        this.initHighScore;
+        this.initHighScore();
+        console.log("high score is " + DinoEggs.HIGH_SCORE);
         if (DinoEggs.HIGH_SCORE == null) {
             this.highScore = "welcome new players, create your high score"
         } else {
@@ -97,8 +98,9 @@ DinoEggs.MainMenu.prototype = {
     
     initHighScore: function() {
 
-		if (!DinoEggs.HIGH_SCORE) {
+		if (DinoEggs.HIGH_SCORE == null) {
 			var str = window.localStorage.getItem('HighScore');
+            console.log("init high score str from local storage" + str);
 			try {
 				DinoEggs.HIGH_SCORE = JSON.parse(str);
 			} catch(e){

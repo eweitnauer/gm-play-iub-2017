@@ -72,6 +72,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('jewel_yellow', 'assets/particles/jewel_yellow.png');
        
         this.load.image('awesome', 'assets/awesome.png');
+        this.load.image('congratulations', 'assets/congratulations.png');
         this.load.image('rockwave', 'assets/rockwaveTxt.png');
         
         //images for hit rock feature

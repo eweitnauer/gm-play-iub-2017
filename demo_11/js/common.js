@@ -189,6 +189,12 @@ DinoEggs.Game.prototype = {
         awesome.x=this.game.width/2;
         awesome.y=this.game.height/3;
 	    awesome.scale.setTo(0,0);
+
+        congratulations = this.game.add.sprite(0,100, "congratulations");
+		congratulations.anchor.setTo(0.5,0.5);
+        congratulations.x=this.game.width/2;
+        congratulations.y=this.game.height/4;
+	    congratulations.scale.setTo(0,0);
         
         
         //lightning group 
@@ -929,12 +935,13 @@ DinoEggs.Game.prototype = {
         mainMenuButton.anchor.set(0.5); 
         } 
         }else {
+             var t = this.game.add.tween(congratulations.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
             var style = { font: "30px Arial", fill: "#fff", align: "center" };
             if (this._stageNumber == 1) {
-                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2, "Awesome, do you want to play next game stage", style);
+                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 4-7!", style);
                 conText1.anchor.set(0.5);
             } else {
-                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2, "Awesome, you complete all the task, do you want to play again", style);
+                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "Congratulations! You have completed all the levels for grade 7-9!", style);
                 conText2.anchor.set(0.5);
             }
             var nextGameStageButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'gradeSetlevel', function(){
