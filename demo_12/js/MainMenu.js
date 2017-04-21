@@ -47,12 +47,12 @@ DinoEggs.MainMenu.prototype = {
         }
        
         var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
-        highScoreText.anchor.set(0.8);
+        highScoreText.anchor.set(0.5);
         
         //start button
         this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'startButton', this.startGame, this, 1, 0, 2);
-        this.startButton.anchor.set(0.5);
-        this.startButton.scale.set(0.5);
+        this.startButton.anchor.set(0.7);
+        this.startButton.scale.set(0.7);
         
         //Animate baby dino and mom
         this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 
