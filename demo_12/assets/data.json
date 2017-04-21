@@ -1,0 +1,157 @@
+{
+    "1": {
+        "1": {
+            "numRocks": 0,
+            "numEggs": 2,
+            "hasEggEq": true,
+            "hasRockEq": false,
+            "velocity" : 0
+        },
+
+        "2": {
+            "numRocks": 5,
+            "numEggs": 2,
+            "hasEggEq": false,
+            "hasRockEq": true,
+            "velocity" : 15
+        },
+
+        "3": {
+            "numRocks": 5,
+            "numEggs": 3,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 15
+        },
+
+        "4": {
+            "numRocks": 7,
+            "numEggs": 3,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+
+        "5": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+
+        "6": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+
+        "7": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+
+        "8": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+
+        "9": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+
+        "10": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        } 
+
+
+    },
+    "2":{
+        "1": {
+            "numRocks": 0,
+            "numEggs": 2,
+            "hasEggEq": true,
+            "hasRockEq": false,
+            "velocity" : 0
+        },
+        "2": {
+            "numRocks": 5,
+            "numEggs": 2,
+            "hasEggEq": false,
+            "hasRockEq": true,
+            "velocity" : 15
+        },
+        "3": {
+            "numRocks": 5,
+            "numEggs": 3,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 15
+        },
+        "4": {
+            "numRocks": 7,
+            "numEggs": 3,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+        "5": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+         "6": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+        "7": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+        "8": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+        "9": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        },
+        "10": {
+            "numRocks": 8,
+            "numEggs": 4,
+            "hasEggEq": true,
+            "hasRockEq": true,
+            "velocity" : 10
+        } 
+    }
+}
