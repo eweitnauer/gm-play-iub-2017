@@ -958,8 +958,11 @@ DinoEggs.Game.prototype = {
         this.pauseButton.inputEnabled = false;
         this.muteButton.inputEnabled = false;
         this.questionButton.inputEnabled = false;
-
         
+        //destroy game controls
+        this.pauseButton.destroy();
+        this.questionButton.destroy();
+        this.muteButton.destroy();  
     },
     autoStartNextLevel: function(){
         g_autoStartClock--;
