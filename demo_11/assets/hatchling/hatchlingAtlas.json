@@ -1,0 +1,52 @@
+{"frames": {
+
+"h1.png":
+{
+	"frame": {"x":0,"y":0,"w":91,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":89},
+	"sourceSize": {"w":91,"h":89}
+},
+"h2.png":
+{
+	"frame": {"x":91,"y":0,"w":91,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":89},
+	"sourceSize": {"w":91,"h":89}
+},
+"h3.png":
+{
+	"frame": {"x":182,"y":0,"w":92,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":89},
+	"sourceSize": {"w":92,"h":89}
+},
+"h4.png":
+{
+	"frame": {"x":274,"y":0,"w":92,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":89},
+	"sourceSize": {"w":92,"h":89}
+},
+"h5.png":
+{
+	"frame": {"x":366,"y":0,"w":92,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":89},
+	"sourceSize": {"w":92,"h":89}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "hatchlingAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":458,"h":89},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3aed36772095a701df31998b9f1ee316:ff37f767cdb3e8cf5fca601d8d7f3ffc:ffc8fdf2980d33989c1d4c081974151b$"
+}
+}

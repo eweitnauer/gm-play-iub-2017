@@ -1,0 +1,200 @@
+body {
+    margin: 0;
+    background-color: transparent !important;
+}
+
+div.gm-canvas{
+    width:320px;
+    margin-left:auto;
+}
+/*div.canvas-element{
+    transform: none !important;
+}*/
+#tutorial-container {
+  margin: auto;
+  /*margin-bottom: 40px;
+  margin-top: 20px;*/
+  width: 743px;
+  padding: 0 0px;
+}
+
+h2 {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  margin-bottom: 0;
+  font-weight: normal;
+  color: #333;
+}
+
+g.math {
+  pointer-events: all;
+}
+
+g.math text {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  dominant-baseline: alphabetic;
+}
+
+p.tutorial-instructions {
+  font-size: 19px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  color: #555;
+  font-weight: 300;
+  margin-top: 1em;
+}
+
+.tutorial {
+  margin-bottom: 3em;
+}
+
+.tutorial .choice {
+  margin: 10px 0;
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.instructions {
+	margin: auto;
+	text-align: left;
+	font-size: 18px;
+}
+
+.choice {
+	border: 1px solid silver;
+	border-radius: 4px;
+	background: #eee;
+  height: 120px;
+	width: 500px;
+	margin: 20px auto;
+	position: relative;
+}
+
+.substitution-problem {
+  border: 1px solid silver;
+  border-radius: 4px;
+  background: #eee;
+  height: 240px;    /* size of the canvas */
+  width: 500px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.choice svg {
+	overflow: visible;
+}
+
+.animation {
+  position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.choice button.gm-tutorial {
+	position: absolute;
+	left: 10px;
+	width: 120px;
+	font-style: normal;
+  border-color: #444;
+  background: inherit;
+  color: #444;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 52px;
+  min-height: 47px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 42px;
+  cursor: pointer;
+  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+}
+
+.choice button.gm-tutorial:active {
+	background: rgba(0,0,0,0.3);
+	color: inherit;
+}
+
+.choice span.feedback {
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  border-radius: 50%;
+  border: 1px solid #444;
+  color: #444;
+  font-size: 32px;
+  width: 0.8em;
+  height: 0.8em;
+  line-height: 0.6em;
+  padding-left: 2px;
+  background-color: inherit;
+}
+
+.choice span.tryit {
+  position: absolute;
+  left: 20px;
+  top: 45px;
+  color: #444;
+  font-size: 22px;
+  font-style: italic;
+}
+
+/*div.canvas-element{
+    transform:translate(230px,10px) !important;
+}
+*/
+div.animation svg g{
+    transform:translate(250px,60px) !important;
+}
+
+.item{
+    color:white;
+    width:500px;
+    margin:auto;
+}
+
+.tutorial-instructions, .carousel-inner h2{
+    color:white !important;
+}
+
+a.carousel-control{
+    background-image:none !important;
+    opacity:0.85;
+}
+
+span.glyphicon{
+    background:none;
+}
+
+span.glyphicon-chevron-left::before, span.glyphicon-chevron-right::before{
+    content: none;
+}
+
+span.glyphicon-chevron-left{
+    background: url('../assets/buttons/tutorial_sprite.png') -4px -4px;
+    width:52px;
+    height:52px;
+    opacity:0.65;
+}
+
+span.glyphicon-chevron-right{
+    background: url('../assets/buttons/tutorial_sprite.png') 56px 0px;
+    width:52px;
+    height:52px;
+    opacity:0.65;
+}
+
+span.glyphicon-chevron-left:hover, span.glyphicon-chevron-right:hover{
+    opacity:0.95;
+}
+
