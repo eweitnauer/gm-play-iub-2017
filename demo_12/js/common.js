@@ -476,11 +476,20 @@ DinoEggs.Game.prototype = {
 
             //  Here we'll create eggs evenly spaced apart
             var egg_x_array = this.linspace(this.g_x_start,this.g_x_end,numEggs);
-
+        
+           // generate random index array
+            var randomIndexArr = [];
+            if(this._levelNumber != 2){
+                while(randomIndexArr.length < this.g_numEggs){
+                    var randomnumber = Math.ceil(Math.random()*this._jsonProblemData["egg"].length - 1)
+                    if(randomIndexArr.indexOf(randomnumber) > -1) continue;
+                    randomIndexArr[randomIndexArr.length] = randomnumber;
+                }
+            }
             for (var i = 0; i < numEggs; i++){
                 
                 if(this._levelNumber != 2){
-                    var eggEquationAndSol = this.getRandomEggEquationAndSolutions();
+                    var eggEquationAndSol = this.getRandomEggEquationAndSolutions(randomIndexArr, i);
                     var eggEquation = eggEquationAndSol[0];
                     var eggSolutions = eggEquationAndSol[1];
                     var egg = new Egg(this.game,egg_x_array[i],egg_y, eggEquation, eggSolutions);
@@ -904,8 +913,9 @@ DinoEggs.Game.prototype = {
         
         this.destructGameObjectsBeforeGameOver();
         
-        var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
-        
+        var starHeight = 22;
+        var gameOverText = this.game.add.text( this.game.world.width*0.5, this.game.world.height*0.5 + starHeight, 'Score:' + this.score, { font: '22px kalam', fill: '#000' });
+        gameOverText.anchor.set(0.5);
         var stars = this.endStar();
         if (stars > 0){
             this.updatePlayerData(stars);
@@ -913,28 +923,28 @@ DinoEggs.Game.prototype = {
         
         //next level button
         if(this._levelNumber <= 9 ) {
-            if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ //playerdata[currentlevel] = playerdata[this._levelNumber - 1]
-            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 40, 'nextlevel', function(){
-                DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; //parseFloat(this._levelNumber) + 1;
+            if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ 
+            
+            //Next level button
+            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, gameOverText.y + gameOverText.height + 10, 'nextlevel', function(){
+                DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; 
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
-            
-//            g_autoStartClock=5;
-//            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px kalam"});
-//            this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
-            var restartButton = this.game.add.button(this.game.world.width*0.5 - 60, this.game.world.height*0.5 + 115, 'restart', function(){
-            this.state.start('Game');
-        }, this.game, 1, 0, 2);
-        restartButton.anchor.set(0.5);
-        var mus = this;
-        var mainMenuButton = this.game.add.button(this.game.world.width*0.5 + 60, this.game.world.height*0.5 + 115, 'menu', function(){
-    
-            mus.music.pause();
-            this.state.start('MainMenu');
+            //nextLevelButton.scale.setTo(2,2);
+                
+            //restart button
+            var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
+                this.state.start('Game');
+            }, this.game, 1, 0, 2);
+            restartButton.anchor.set(0.5);
+            var mus = this;
+            var mainMenuButton = this.game.add.button(restartButton.x + restartButton.width , nextLevelButton.y + nextLevelButton.height, 'menu', function(){
+                mus.music.pause();
+                this.state.start('MainMenu');
            
-        }, this.game, 1, 0, 2);
-        mainMenuButton.anchor.set(0.5); 
+            }, this.game, 1, 0, 2);
+            mainMenuButton.anchor.set(0.5); 
         } 
         }else {
              var t = this.game.add.tween(congratulations.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
@@ -960,8 +970,11 @@ DinoEggs.Game.prototype = {
         this.pauseButton.inputEnabled = false;
         this.muteButton.inputEnabled = false;
         this.questionButton.inputEnabled = false;
-
         
+        //destroy game controls
+        this.pauseButton.destroy();
+        this.questionButton.destroy();
+        this.muteButton.destroy();  
     },
     autoStartNextLevel: function(){
         g_autoStartClock--;
@@ -1038,25 +1051,29 @@ DinoEggs.Game.prototype = {
     },
     
     endStar: function() {
-        var starPostion =0;
-        var starNumber=0;
-        if (this.score > DinoEggs.HIGH_SCORE ) {
+        
+        var singleStarWidth = 24;
+        var singleStarHeight = 22;
+        var starSpriteWidth = 3 * singleStarWidth;
+        var starNumber = 0;
+        if (this.score > DinoEggs.HIGH_SCORE){
             this.updateHighScore(this.score);
-            }
+        }
+        var starStartPosition = this.game.world.width/2 - starSpriteWidth/2;
         while (this.score > 0){
-            this.game.add.sprite(this.game.world.width*0.5 - 30 + starPostion, this.game.world.height*0.5 - 80, 'star');
-            starPostion = starPostion + 20;
-            this.score = this.score - this.scoreBase; 
-            starNumber++;
-            if (starNumber == 3){
-                break;
-            }
+           this.game.add.sprite(starStartPosition, this.game.world.height*0.5 - singleStarHeight, 'star');
+           starStartPosition = starStartPosition + singleStarWidth;
+           this.score = this.score - this.scoreBase; 
+           starNumber++;
+           if (starNumber == 3){    
+               break;
+           }
         }
         var greyStar = 3 - starNumber;
         while(greyStar > 0){
-            var star1 =  this.game.add.sprite(this.game.world.width*0.5 - 30 + starPostion, this.game.world.height*0.5 - 80, 'star');
+            var star1 =  this.game.add.sprite(starStartPosition, this.game.world.height*0.5 - singleStarHeight, 'star');
+            starStartPosition = starStartPosition + singleStarWidth;
             star1.tint= 0x232323;
-            starPostion = starPostion + 20;
             greyStar--;
         }
         return starNumber;
@@ -1228,10 +1245,7 @@ DinoEggs.Game.prototype = {
         
        //Set the attributes
        this.undoBtn.setAttribute("id","undo_button");
-       //this.undoBtn.setAttribute("name","undobtn");        
        this.undoBtn.setAttribute("type","button");
-       //this.undoBtn.setAttribute("value","Undo");
-
        
        var contextRef = this;
        this.undoBtn.onclick = function(){
@@ -1323,12 +1337,11 @@ DinoEggs.Game.prototype = {
         var product = Math.floor((Math.random() * 10) + 1);
         return equation_format.replace(/N\/N/g, ""+(product*n)+"/"+n);
     },*/
-    getRandomEggEquationAndSolutions: function(){
-            //get random expression format from current level ProblemSet 
-            var randIndex = Math.floor(Math.random()*this._jsonProblemData["egg"].length)
-            equation = this._jsonProblemData["egg"][randIndex]["problem"];
-            solutions = this._jsonProblemData["egg"][randIndex]["solutions"];
-            return [equation,solutions];
+    getRandomEggEquationAndSolutions: function(randomIndexArr, index){
+        //get random expression format from current level ProblemSet 
+        equation = this._jsonProblemData["egg"][randomIndexArr[index]]["problem"];
+        solutions = this._jsonProblemData["egg"][randomIndexArr[index]]["solutions"];
+        return [equation,solutions];
     },
     //http://www.numericjs.com/index.php
     linspace: function(a,b,n) {
@@ -1373,8 +1386,8 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 1;
-        var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
+        var indexToChoose = 0;
+        //var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         
         //check if rocks freeze is acquired,
         //In that case, if there are no rocks, player should acquire new powerup
@@ -1441,11 +1454,6 @@ DinoEggs.Game.prototype = {
         this.game.time.events.repeat(Phaser.Timer.SECOND * 6, this.g_numRocks - this.g_rockProducedIndex - 1, this.spawnRock, this);
     },
     destroyRocks:function(){
-        /*var i = this.g_rockProducedIndex;
-        while(i >= 0){
-            this.rockBurst(this._rocksGroup.children[this._rocksGroup.children.length - 1]);
-            i--;
-        }*/
         while(this._rocksGroup.children[this._rocksGroup.children.length - 1].visible == true){
             this.rockBurst(this._rocksGroup.children[this._rocksGroup.children.length - 1]);
         }
@@ -1475,4 +1483,3 @@ DinoEggs.Game.prototype = {
     
 
 }
-

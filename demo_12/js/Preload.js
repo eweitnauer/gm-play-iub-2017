@@ -16,8 +16,28 @@ DinoEggs.Preload.prototype.constructor = DinoEggs.Preload;
 DinoEggs.Preload.prototype = {
     preload:function(){
         //TO DO: show logo in loading screen
+              
         //setting up preload bar
         this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'gamepreloadbkgd');
+        
+        //create a progress display text  
+       this.loadingText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 100, 'Loading... 0%', { fill: '#000000', font: '60px kalam' });
+       this.loadingText.anchor.setTo(0.5, 0.5);
+        
+        var progressDisplay = 0;
+        var timerEvt = this.game.time.events.loop(100, function (){
+            if(progressDisplay < 100){
+                if(progressDisplay < this.game.load.progress){
+                    this.loadingText.text = 'Loading... '+(this.game.load.progress)+'%';
+                    progressDisplay++;
+                }
+
+            }else{
+
+                this.loadingText.text = 'Ready, Go!';
+                this.game.time.events.remove(timerEvt);
+            }
+        }, this);
         
         this.preloardGreyBar = this.add.sprite(this.game.world.centerX,this.game.world.centerY,'preloadGreyBar');
         this.preloardGreyBar.anchor.setTo(0.5,0.5);
@@ -25,9 +45,7 @@ DinoEggs.Preload.prototype = {
         
         this.preloadBar = this.add.sprite(this.game.world.centerX - 238,this.game.world.centerY,'preloadBar');
         this.preloadBar.anchor.setTo(0,0.5);
-        this.time.advancedTiming = true; // better way of handling game time: Needs review
-        
-        
+        this.time.advancedTiming = true; // better way of handling game time: Needs review   
         
         //make a sprite into a loading bar.
         this.load.setPreloadSprite(this.preloadBar);
@@ -39,7 +57,7 @@ DinoEggs.Preload.prototype = {
         this.game.load.image('exit', 'assets/buttons/exit.png');
         
         //load all game assets
-        this.load.image('logo','assets/logo.png');
+        this.load.image('logo','assets/name.png');
         this.load.image('rock', 'assets/rock.png');
         this.load.image('ground', 'assets/transparentplatform.png');
         this.load.image('fragment', 'assets/star.png');    
@@ -52,7 +70,7 @@ DinoEggs.Preload.prototype = {
         this.load.atlasJSONHash('dino', 'assets/dinoMom/dino.png','assets/dinoMom/dino.json');
         this.load.atlasJSONHash('dino_intro_anim', 'assets/dinoMom/dinoMomIntro.png','assets/dinoMom/dinoMomIntro.json');
         this.load.image('sky', 'assets/happysky.png');
-        this.load.spritesheet('button', 'assets/buttons/button.png', 120, 40);
+        this.load.spritesheet('startButton', 'assets/buttons/startSprite.png', 236, 123);
         this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music
         this.load.audio('bg_music',['assets/bg_music.mp3']);
@@ -63,7 +81,7 @@ DinoEggs.Preload.prototype = {
         
 
         this.load.image('nextlevel', 'assets/buttons/nextlevel.png');
-        this.load.image('gradeSetlevel', 'assets/buttons/return.png');
+        this.load.image('gradeSetlevel', 'assets/buttons/return_to_grade_set.png');
         //celebration particles
         this.load.image('jewel_red', 'assets/particles/jewel_red.png');
         this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');
@@ -97,7 +115,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('halo', 'assets/selected.png');
        
     },
-    create:function(){
+    create:function(){    
         this.state.start('MainMenu');
         //Game Music in Local Storage
         localStorage.setItem("g_isMusicPlaying", JSON.stringify(true)); 
