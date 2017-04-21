@@ -255,6 +255,7 @@ DinoEggs.Game.prototype = {
         $("div#gm-holder-div").css("width", $("div#game-div").width());
         $("div#gm-holder-div").css("top", $("div#game-div").height());
         $("div#gm-holder-div").css("left", $("div#game-div").scrollLeft());
+
     },
     showTutorial: function(){  
         $("#eq-match-div").hide();
@@ -1246,7 +1247,6 @@ DinoEggs.Game.prototype = {
        //Set the attributes
        this.undoBtn.setAttribute("id","undo_button");
        this.undoBtn.setAttribute("type","button");
-       
        var contextRef = this;
        this.undoBtn.onclick = function(){
            if(contextRef._rocksGroup.countLiving() > 0){
@@ -1260,7 +1260,6 @@ DinoEggs.Game.prototype = {
        document.getElementById("gm-holder-div").appendChild(this.undoBtn);
        //document.body.appendChild(this.undoBtn);
        this.undoBtn.disabled = true;
-        
         
         //Tutorial close listener to unpause the game
         var gameCtx = this;

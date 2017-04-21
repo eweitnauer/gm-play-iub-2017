@@ -42,7 +42,6 @@ DinoEggs.StageSelect.prototype = {
         //animate icons
         this.game.add.tween(stageAIcon.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
         this.game.add.tween(stageBIcon.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
-        
         $("div#gm-holder-div").css("visibility","hidden");
 	},
     

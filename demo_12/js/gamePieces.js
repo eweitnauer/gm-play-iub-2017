@@ -45,8 +45,7 @@ Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rock
     this.rockProducedIndex = rockProducedIndex;
     this.inputId = inputId;
     this.inputX = inputX;
-    this.inputY = inputY;    
-
+    this.inputY = inputY;  
     gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
     return this.newGMDiv;
 },
