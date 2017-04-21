@@ -478,7 +478,7 @@ DinoEggs.Game.prototype = {
             var randomIndexArr = [];
             if(this._levelNumber != 2){
                 while(randomIndexArr.length < this.g_numEggs){
-                    var randomnumber = Math.ceil(Math.random()*this._jsonProblemData["egg"].length)
+                    var randomnumber = Math.ceil(Math.random()*this._jsonProblemData["egg"].length - 1)
                     if(randomIndexArr.indexOf(randomnumber) > -1) continue;
                     randomIndexArr[randomIndexArr.length] = randomnumber;
                 }
@@ -911,8 +911,9 @@ DinoEggs.Game.prototype = {
         
         this.destructGameObjectsBeforeGameOver();
         
-        var gameOverText = this.game.add.text( this.game.world.width*0.5 - 50, this.game.world.height*0.5 - 40, 'Score:' + this.score, { fontSize: '22px', fill: '#000' });
-        
+        var starHeight = 22;
+        var gameOverText = this.game.add.text( this.game.world.width*0.5, this.game.world.height*0.5 + starHeight, 'Score:' + this.score, { font: '22px kalam', fill: '#000' });
+        gameOverText.anchor.set(0.5);
         var stars = this.endStar();
         if (stars > 0){
             this.updatePlayerData(stars);
@@ -920,28 +921,28 @@ DinoEggs.Game.prototype = {
         
         //next level button
         if(this._levelNumber <= 9 ) {
-            if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ //playerdata[currentlevel] = playerdata[this._levelNumber - 1]
-            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 20, 'nextlevel', function(){
-                DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; //parseFloat(this._levelNumber) + 1;
+            if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ 
+            
+            //Next level button
+            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, gameOverText.y + gameOverText.height + 10, 'nextlevel', function(){
+                DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; 
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
-            
-//            g_autoStartClock=5;
-//            autoStartTxt = this.game.add.text(256, 100,'Next Level starts in '+g_autoStartClock+' seconds', {font:"20px kalam"});
-//            this.game.time.events.repeat(Phaser.Timer.SECOND,6,  this.autoStartNextLevel, this);
-            var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, this.game.world.height*0.5 + 55, 'restart', function(){
-            this.state.start('Game');
-        }, this.game, 1, 0, 2);
-        restartButton.anchor.set(0.5);
-        var mus = this;
-        var mainMenuButton = this.game.add.button(this.game.world.width*0.5 + 40, this.game.world.height*0.5 + 55, 'menu', function(){
-    
-            mus.music.pause();
-            this.state.start('MainMenu');
+            nextLevelButton.scale.setTo(2,2);
+                
+            //restart button
+            var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
+                this.state.start('Game');
+            }, this.game, 1, 0, 2);
+            restartButton.anchor.set(0.5);
+            var mus = this;
+            var mainMenuButton = this.game.add.button(restartButton.x + restartButton.width , nextLevelButton.y + nextLevelButton.height, 'menu', function(){
+                mus.music.pause();
+                this.state.start('MainMenu');
            
-        }, this.game, 1, 0, 2);
-        mainMenuButton.anchor.set(0.5); 
+            }, this.game, 1, 0, 2);
+            mainMenuButton.anchor.set(0.5); 
         } 
         }else {
              var t = this.game.add.tween(congratulations.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
@@ -1048,25 +1049,29 @@ DinoEggs.Game.prototype = {
     },
     
     endStar: function() {
-        var starPostion =0;
-        var starNumber=0;
-        if (this.score > DinoEggs.HIGH_SCORE ) {
+        
+        var singleStarWidth = 24;
+        var singleStarHeight = 22;
+        var starSpriteWidth = 3 * singleStarWidth;
+        var starNumber = 0;
+        if (this.score > DinoEggs.HIGH_SCORE){
             this.updateHighScore(this.score);
-            }
+        }
+        var starStartPosition = this.game.world.width/2 - starSpriteWidth/2;
         while (this.score > 0){
-           this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
-            starPostion = starPostion + 20;
-            this.score = this.score - this.scoreBase; 
-            starNumber++;
-            if (starNumber == 3){
-                break;
-            }
+           this.game.add.sprite(starStartPosition, this.game.world.height*0.5 - singleStarHeight, 'star');
+           starStartPosition = starStartPosition + singleStarWidth;
+           this.score = this.score - this.scoreBase; 
+           starNumber++;
+           if (starNumber == 3){    
+               break;
+           }
         }
         var greyStar = 3 - starNumber;
         while(greyStar > 0){
-            var star1 =  this.game.add.sprite(this.game.world.width*0.5 - 50 + starPostion, this.game.world.height*0.5 - 80, 'star');
+            var star1 =  this.game.add.sprite(starStartPosition, this.game.world.height*0.5 - singleStarHeight, 'star');
+            starStartPosition = starStartPosition + singleStarWidth;
             star1.tint= 0x232323;
-            starPostion = starPostion + 20;
             greyStar--;
         }
         return starNumber;
