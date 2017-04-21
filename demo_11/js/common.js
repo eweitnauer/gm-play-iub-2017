@@ -473,11 +473,20 @@ DinoEggs.Game.prototype = {
 
             //  Here we'll create eggs evenly spaced apart
             var egg_x_array = this.linspace(this.g_x_start,this.g_x_end,numEggs);
-
+        
+           // generate random index array
+            var randomIndexArr = [];
+            if(this._levelNumber != 2){
+                while(randomIndexArr.length < this.g_numEggs){
+                    var randomnumber = Math.ceil(Math.random()*this._jsonProblemData["egg"].length)
+                    if(randomIndexArr.indexOf(randomnumber) > -1) continue;
+                    randomIndexArr[randomIndexArr.length] = randomnumber;
+                }
+            }
             for (var i = 0; i < numEggs; i++){
                 
                 if(this._levelNumber != 2){
-                    var eggEquationAndSol = this.getRandomEggEquationAndSolutions();
+                    var eggEquationAndSol = this.getRandomEggEquationAndSolutions(randomIndexArr, i);
                     var eggEquation = eggEquationAndSol[0];
                     var eggSolutions = eggEquationAndSol[1];
                     var egg = new Egg(this.game,egg_x_array[i],egg_y, eggEquation, eggSolutions);
@@ -1331,12 +1340,11 @@ DinoEggs.Game.prototype = {
         var product = Math.floor((Math.random() * 10) + 1);
         return equation_format.replace(/N\/N/g, ""+(product*n)+"/"+n);
     },*/
-    getRandomEggEquationAndSolutions: function(){
-            //get random expression format from current level ProblemSet 
-            var randIndex = Math.floor(Math.random()*this._jsonProblemData["egg"].length)
-            equation = this._jsonProblemData["egg"][randIndex]["problem"];
-            solutions = this._jsonProblemData["egg"][randIndex]["solutions"];
-            return [equation,solutions];
+    getRandomEggEquationAndSolutions: function(randomIndexArr, index){
+        //get random expression format from current level ProblemSet 
+        equation = this._jsonProblemData["egg"][randomIndexArr[index]]["problem"];
+        solutions = this._jsonProblemData["egg"][randomIndexArr[index]]["solutions"];
+        return [equation,solutions];
     },
     //http://www.numericjs.com/index.php
     linspace: function(a,b,n) {
