@@ -6,8 +6,7 @@ var DinoEggs = DinoEggs || {};
 
 DinoEggs.MainMenu = function(){
     "use strict";
-    Phaser.State.call(this);
-    
+    Phaser.State.call(this);  
     this.music = null;
     this.startButton = null;
     DinoEggs.HIGH_SCORE = null;
@@ -26,31 +25,34 @@ DinoEggs.MainMenu.prototype = {
 //        this.background.autoScroll(-20, 0);         //give it speed in x
         
          //game logo
-        this.logo = this.game.add.sprite(this.game.world.width*0.5,this.game.world.height*0.7 - 300, 'logo');
+        this.logo = this.game.add.sprite(this.game.world.width*0.5,this.game.world.height*0.4, 'logo');
         this.logo.anchor.set(0.5);
+        this.logo.scale.setTo(0.5,0.5);
+        
+        //logo tween
+        var logoTween = this.game.add.tween(this.logo.scale).to({ x: 0.7,y:0.8}, 5000, Phaser.Easing.Bounce.Out,true).loop(true);
         
         //start game text
-        var gameName = "Math Fun!";
-        var style = { font: "30px Arial", fill: "#fff", align: "center" };
-        var t = this.game.add.text(this.game.width/2, this.logo.y + this.logo.height, gameName, style);
-        t.anchor.set(0.5);
+       // var gameName = "Math Fun!";
+        var style = { font: "30px kalam", fill: "#000", align: "right" };
+        /*var t = this.game.add.text(this.game.width/2, this.logo.y + this.logo.height, gameName, style);
+        t.anchor.set(0.5);*/
         
-        //inite high score
+        //init high score
         this.initHighScore();
-        console.log("high score is " + DinoEggs.HIGH_SCORE);
         if (DinoEggs.HIGH_SCORE == null) {
-            this.highScore = "welcome new players, create your high score"
+            this.highScore = "Welcome new players! Create your high score"
         } else {
-             this.highScore = "highest score is " + DinoEggs.HIGH_SCORE;
+             this.highScore = "High score : " + DinoEggs.HIGH_SCORE;
         }
        
-        var highScoreText = this.game.add.text(this.game.width/2, this.logo.y + this.logo.height + 100, this.highScore, style);
-        highScoreText.anchor.set(0.5);
-        console.log(this.highScore + "++++" );
+        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
+        highScoreText.anchor.set(0.8);
         
         //start button
-        this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'button', this.startGame, this, 1, 0, 2);
+        this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'startButton', this.startGame, this, 1, 0, 2);
         this.startButton.anchor.set(0.5);
+        this.startButton.scale.set(0.5);
         
         //Animate baby dino and mom
         this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 

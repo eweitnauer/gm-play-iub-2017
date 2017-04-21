@@ -1394,8 +1394,8 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 1;
-        var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
+        var indexToChoose = 0;
+        //var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         
         //check if rocks freeze is acquired,
         //In that case, if there are no rocks, player should acquire new powerup
@@ -1462,11 +1462,6 @@ DinoEggs.Game.prototype = {
         this.game.time.events.repeat(Phaser.Timer.SECOND * 6, this.g_numRocks - this.g_rockProducedIndex - 1, this.spawnRock, this);
     },
     destroyRocks:function(){
-        /*var i = this.g_rockProducedIndex;
-        while(i >= 0){
-            this.rockBurst(this._rocksGroup.children[this._rocksGroup.children.length - 1]);
-            i--;
-        }*/
         while(this._rocksGroup.children[this._rocksGroup.children.length - 1].visible == true){
             this.rockBurst(this._rocksGroup.children[this._rocksGroup.children.length - 1]);
         }
