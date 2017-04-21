@@ -251,6 +251,10 @@ DinoEggs.Game.prototype = {
         
 
         //this.input.mouse.capture = true;
+        $("div#gm-holder-div").css("visibility","visible");
+        $("div#gm-holder-div").css("width", $("div#game-div").width());
+        $("div#gm-holder-div").css("top", $("div#game-div").height());
+        $("div#gm-holder-div").css("left", $("div#game-div").scrollLeft());
 
     },
     showTutorial: function(){  
@@ -442,13 +446,13 @@ DinoEggs.Game.prototype = {
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 8, position:'absolute'});
           }
         });
         
         //render rock equations
         this._rocksGroup.forEach(function(rock){
-            $("#"+rock.newGMDiv.id).css({top: rock.y, position:'absolute'});
+            $("#"+rock.newGMDiv.id).css({top: rock.y+5,left:rock.x+5, position:'absolute'});
         });
         
         //render power up equation text
@@ -729,7 +733,7 @@ DinoEggs.Game.prototype = {
             this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
             if(this.matchExpCanvas){
                 if(this._levelNumber==2){
-                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 }, wiggle:["+","-","*","/"] });
+                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 }, wiggle:["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] });
                 }
                 else
                     this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
@@ -762,8 +766,7 @@ DinoEggs.Game.prototype = {
             rock.body.velocity.y = this._jsonData["velocity"];
             rock.visible = true;
             rock.newGMDiv.style.visibility = "visible";
-            //rock.displayGMEquation();
-    }
+        }
     },
     handlePowerupTween:function(){
         this.g_powerupDuration--;  
@@ -929,7 +932,7 @@ DinoEggs.Game.prototype = {
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
-            nextLevelButton.scale.setTo(2,2);
+            //nextLevelButton.scale.setTo(2,2);
                 
             //restart button
             var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
@@ -1242,15 +1245,8 @@ DinoEggs.Game.prototype = {
        this.undoBtn = document.createElement("input");
         
        //Set the attributes
-       this.undoBtn.setAttribute("type","button");
-       this.undoBtn.setAttribute("value","Undo");
-       this.undoBtn.setAttribute("name","undobtn");
        this.undoBtn.setAttribute("id","undo_button");
-       this.undoBtn.style.postion = "absolute";
-       //this.undoBtn.style.top = "0";
-       this.undoBtn.style.marginLeft = "100px";
-       this.undoBtn.style.cssFloat = "left";
-    
+       this.undoBtn.setAttribute("type","button");
        var contextRef = this;
        this.undoBtn.onclick = function(){
            if(contextRef._rocksGroup.countLiving() > 0){
@@ -1258,17 +1254,12 @@ DinoEggs.Game.prototype = {
            }else{
                 contextRef.solveEqCanvas.controller.undo();
            }
-           
-           
        };
         
        //Add the button to the body
-        //document.getElementById("game-div").appendChild(this.undoBtn);
-       document.body.appendChild(this.undoBtn);
+       document.getElementById("gm-holder-div").appendChild(this.undoBtn);
+       //document.body.appendChild(this.undoBtn);
        this.undoBtn.disabled = true;
-        $('#undo_button').addClass('btn-warning');
-        $('#undo_button').addClass('btn-lg');
-        
         
         //Tutorial close listener to unpause the game
         var gameCtx = this;

@@ -85,6 +85,7 @@ DinoEggs.LevelSelect.prototype = {
         prev.inputEnabled = true;
         prev.events.onInputDown.add(this.navListener, this);
         prev.input.useHandCursor = true;
+        $("div#gm-holder-div").css("visibility","hidden");
 	},
 
 	update: function() {

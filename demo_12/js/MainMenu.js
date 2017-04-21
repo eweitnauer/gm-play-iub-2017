@@ -6,7 +6,7 @@ var DinoEggs = DinoEggs || {};
 
 DinoEggs.MainMenu = function(){
     "use strict";
-    Phaser.State.call(this);  
+    Phaser.State.call(this);
     this.music = null;
     this.startButton = null;
     DinoEggs.HIGH_SCORE = null;

@@ -139,7 +139,7 @@
         }
         
         div#game-div{
-            position:relative;
+            position:relative !important;
             width:800px;
             height:600px;
             margin: 0 auto;
@@ -151,15 +151,14 @@
             position: absolute; 
             z-index: 1 
         }
-
-
-       /* div.gm-game-rock, div.gm-game-egg{
-
+        
+        div.gm-game-rock, div.gm-game-egg{
             pointer-events: none !important;
-            text-align:center !important;
-            width:100px !important;
-            height:65px !important;
-        }*/
+            /*text-align:center !important;*/
+            width:83px !important;
+            height:55px !important;
+            z-index: 2 !important;
+        }
         
         div.gm-game-rock div.text{
             color: white !important;
@@ -210,9 +209,22 @@
         
         #undo_button{
             position:absolute !important;
-            z-index:10 !important;
-            bottom:10px;
-            left:15px;
+            z-index:2 !important;
+            bottom:20%;
+            right:20%;
+            background-color:transparent;
+            background-image: url(assets/buttons/undo.png);
+            width:80px;
+            height:46px;
+            border: none;
+            padding: none;
+            outline:none;
+            cursor: pointer;
+            opacity: 85%;
+        }
+        
+        #undo_button:hover{
+            opacity: 100%;
         }
         
         .noShow{
@@ -226,11 +238,17 @@
         div.eq-solve-div, div.eq-solve-div *, div.eq-match-div, div.eq-match-div *, div.gm-canvas, div.gm-canvas *{
             pointer-events: all !important;
         }
+        
+        div#gm-holder-div{
+            position:absolute;
+            visibility:hidden;
+            z-index:2;
+        }
     </style>
 </head>
 <body>
-    <div id='game-div' style="position:relative"></div>
-    <div class="row">
+    <div id="game-div"class="row">
+    <div id="gm-holder-div" class="row">
         <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
             <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
         </div>
@@ -238,7 +256,8 @@
             <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
         </div>
     </div>
-    
+    </div>
+
     <div id ="tutorialDiv" class="container">
             <!-- Modal -->
             <div class="modal fade" data-modal-color="" id="tutorialModal" role="dialog">

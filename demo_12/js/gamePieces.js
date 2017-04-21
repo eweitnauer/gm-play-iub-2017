@@ -18,45 +18,34 @@ Rock.prototype.getEquation = function(){
 }
 
 Rock.prototype.setEquation = function(equation){
+    //new unique equation created
     this.equ = equation;
-    //$("#gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId).remove();
-    //console.log("#gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId);
     var newGMDivId = "gmeq_" + (this.rockProducedIndex+1) + "_" + this.inputId+"_"+this.inputId;
     this.newGMDiv.setAttribute("id", newGMDivId);
     this.newGMDiv.setAttribute("class", "gm-game-rock");
-    this.newGMDiv.style.left = (this.inputX + 1) + 'px';
-    this.newGMDiv.style.top = (this.inputY + 1) + 'px';
-    this.newGMDiv.style.width = "100px";
-    this.newGMDiv.style.height = "65px";
-    this.newGMDiv.style.pointerEvents="none";
-	this.newGMDiv.style.zIndex = 2;	
+    this.newGMDiv.style.left = (this.inputX + 5) + 'px';
+    this.newGMDiv.style.top = (this.inputY + 5) + 'px';
     gmath.AlgebraView.createStaticExpression(this.newGMDiv, equation);	
     document.getElementById("game-div").appendChild(this.newGMDiv);
+    
+    //remove previous non-unique equation
     document.getElementById(newGMDivId).firstChild.parentElement.removeChild(document.getElementById(newGMDivId).firstChild);
-}
+},
 
 Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex){
     this.newGMDiv = document.createElement("div");
-    var newGMDivId = "gmeq_" + (rockProducedIndex+1) + "_" + inputId;
-    this.newGMDiv.setAttribute("id", newGMDivId);
+    this.newGMDiv.setAttribute("id", "gmeq_" + (rockProducedIndex+1) + "_" + inputId);
     this.newGMDiv.setAttribute("class", "gm-game-rock");
-    this.newGMDiv.style.left = (inputX + 1) + 'px';
-    this.newGMDiv.style.top = (inputY + 1) + 'px';
-    this.newGMDiv.style.width = "100px";
-    this.newGMDiv.style.height = "65px";
-    this.newGMDiv.style.pointerEvents="none";
+    this.newGMDiv.style.left = (inputX + 5) + 'px';
+    this.newGMDiv.style.top = (inputY + 5) + 'px';
 	this.newGMDiv.style.visibility = "hidden";
-	this.newGMDiv.style.zIndex = 2;    
-	var gameDivContainer = document.getElementById("game-div");
-    gameDivContainer.appendChild(this.newGMDiv);
+	document.getElementById("game-div").appendChild(this.newGMDiv);
 	
+    //add attributes into the object for use by setEquation()
     this.rockProducedIndex = rockProducedIndex;
     this.inputId = inputId;
     this.inputX = inputX;
-    this.inputY = inputY;
-
-    
-
+    this.inputY = inputY;  
     gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
     return this.newGMDiv;
 },
@@ -105,12 +94,8 @@ Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedInde
     var newGMDivId = "gseq_" + (eggProducedIndex+1);
     this.newGMDiv.setAttribute("id", newGMDivId);
     this.newGMDiv.setAttribute("class", "gm-game-egg");
-    this.newGMDiv.style.left = (inputX) + 'px';
-    this.newGMDiv.style.top = (inputY + 50) + 'px';
-    this.newGMDiv.style.width = "85px";
-    this.newGMDiv.style.height = "65px";
-    this.newGMDiv.style.pointerEvents="none";
-    this.newGMDiv.style.zIndex = 2;
+    this.newGMDiv.style.left = (inputX+ 8) + 'px';
+    this.newGMDiv.style.top = (inputY + 30) + 'px';
     var gameDivContainer = document.getElementById("game-div");
     gameDivContainer.appendChild(this.newGMDiv);
     gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
