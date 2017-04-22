@@ -668,19 +668,20 @@ DinoEggs.Game.prototype = {
     updateScore: function(currentScoreText){
         var scoreString = currentScoreText.text;
         currentScoreText.destroy();
-        
+       
         // update the actual score
         var operation = scoreString.substring(0,1);
         if(operation == '+'){
-            this.score += parseInt(scoreString.substring(1));
+            this.score += parseInt(scoreString.substring(1));       
         }else{
             this.score -= parseInt(scoreString.substring(1));
-            
+    
             //do not allow negative scores
             if(this.score < 0){
                 this.score = 0;
             }
         } 
+        
         this.scoreText.text = 'Score: ' + this.score;
     },
     
@@ -927,20 +928,19 @@ DinoEggs.Game.prototype = {
             if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ 
             
             //Next level button
-            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, gameOverText.y + gameOverText.height + 10, 'nextlevel', function(){
+            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, gameOverText.y + gameOverText.height + 30, 'nextlevel', function(){
                 DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; 
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
-            //nextLevelButton.scale.setTo(2,2);
                 
             //restart button
-            var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
+            var restartButton = this.game.add.button(this.game.world.width*0.5 - 60, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
                 this.state.start('Game');
             }, this.game, 1, 0, 2);
             restartButton.anchor.set(0.5);
             var mus = this;
-            var mainMenuButton = this.game.add.button(restartButton.x + restartButton.width , nextLevelButton.y + nextLevelButton.height, 'menu', function(){
+            var mainMenuButton = this.game.add.button(restartButton.x + restartButton.width + 10, nextLevelButton.y + nextLevelButton.height, 'menu', function(){
                 mus.music.pause();
                 this.state.start('MainMenu');
            
@@ -1077,6 +1077,8 @@ DinoEggs.Game.prototype = {
             star1.tint= 0x232323;
             greyStar--;
         }
+        //reset score 
+        this.score = 0;
         return starNumber;
     },
     
