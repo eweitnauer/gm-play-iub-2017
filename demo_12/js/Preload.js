@@ -113,6 +113,7 @@ DinoEggs.Preload.prototype = {
 
         this.load.image('clock', 'assets/clock.png');
         this.load.image('halo', 'assets/selected.png');
+        this.load.image('rockMeter', 'assets/rockMeter.png');
        
     },
     create:function(){    
