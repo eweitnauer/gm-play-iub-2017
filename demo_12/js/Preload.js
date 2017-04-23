@@ -83,11 +83,11 @@ DinoEggs.Preload.prototype = {
         this.load.image('nextlevel', 'assets/buttons/nextlevel.png');
         this.load.image('gradeSetlevel', 'assets/buttons/return_to_grade_set.png');
         //celebration particles
-        this.load.image('jewel_red', 'assets/particles/jewel_red.png');
-        this.load.image('jewel_purple', 'assets/particles/jewel_purple.png');
-        this.load.image('jewel_white', 'assets/particles/jewel_white.png');
-        this.load.image('jewel_green', 'assets/particles/jewel_green.png');
-        this.load.image('jewel_yellow', 'assets/particles/jewel_yellow.png');
+        this.load.image('jewel_red', 'assets/particles/celebration/jewel_red.png');
+        this.load.image('jewel_purple', 'assets/particles/celebration/jewel_purple.png');
+        this.load.image('jewel_white', 'assets/particles/celebration/jewel_white.png');
+        this.load.image('jewel_green', 'assets/particles/celebration/jewel_green.png');
+        this.load.image('jewel_yellow', 'assets/particles/celebration/jewel_yellow.png');
        
         this.load.image('awesome', 'assets/awesome.png');
         this.load.image('congratulations', 'assets/congratulations.png');
