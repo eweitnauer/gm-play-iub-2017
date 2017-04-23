@@ -77,7 +77,7 @@ DinoEggs.Game.prototype = {
         if(gmath)
             currentObj.initCanvas();
         else
-            loadGM(currentObj.initCanvas(), { version: '2.0.0' });
+            loadGM(currentObj.initCanvas(), { version: '2.0.1' });
         
           //music 
         if(!this.music){
@@ -110,7 +110,7 @@ DinoEggs.Game.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this._platforms = this.game.add.group();
         this._platforms.enableBody = true;
-        var ground = this._platforms.create(0, this.game.world.height - 12, 'ground');
+        var ground = this._platforms.create(0, this.game.world.height - 120, 'ground');
         ground.scale.setTo(2,6);
         ground.body.immovable = true;
         
@@ -253,7 +253,7 @@ DinoEggs.Game.prototype = {
         //this.input.mouse.capture = true;
         $("div#gm-holder-div").css("visibility","visible");
         $("div#gm-holder-div").css("width", $("div#game-div").width());
-        $("div#gm-holder-div").css("top", $("div#game-div").height());
+        $("div#gm-holder-div").css("top", $("div#game-div").height()-100);
         $("div#gm-holder-div").css("left", $("div#game-div").scrollLeft());
 
     },
@@ -417,14 +417,12 @@ DinoEggs.Game.prototype = {
             this.powerupGMDiv = document.createElement("div");
             this.powerupGMDiv.setAttribute("id", "powerup_eq");
             this.powerupGMDiv.setAttribute("class", "gm-game-powerup");
-            this.powerupGMDiv.style.left = '300px';
+            this.powerupGMDiv.style.left = '100px';
             this.powerupGMDiv.style.top = '200px';
-            var gameDivContainer = document.getElementById("game-div");
-            gameDivContainer.appendChild(this.powerupGMDiv);
-            this.powerupCanvas = new gmath.Canvas('#powerup_eq', {use_toolbar: false, vertical_scroll: false });     
+            document.getElementById("game-div").appendChild(this.powerupGMDiv);
         }
-        var derivation = this.powerupCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#000' });
-        this.powerupGMDiv.style.display = "block";
+        gmath.AlgebraView.createStaticExpression(this.powerupGMDiv, equation);
+        this.powerupGMDiv.style.visibility = "visible";
     },
     showRockInstructions:function(){
         this.showBoard('Match rock ','expression to burst');
@@ -457,7 +455,7 @@ DinoEggs.Game.prototype = {
         
         //render power up equation text
         if(this.pterodactyl.visible == true){
-         $("#powerup_eq").css({top: this.pterodactyl.y + this.pterodactyl.height * (2/3), left: this.pterodactyl.x + this.pterodactyl.width * 2/3, position:'absolute'});
+         $("#powerup_eq").css({top: this.pterodactyl.y + this.pterodactyl.height * (2/3), left: this.pterodactyl.x + this.pterodactyl.width * 1/4, position:'absolute'});
         }
 
         //move selected egg's halo along with the egg on dropping the eggs initially
@@ -620,12 +618,12 @@ DinoEggs.Game.prototype = {
         }
         var hatchling = null;
         if(isSad){
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling_sad');
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling_sad');
         }
         else if(isGoldenEgg){
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'triplets');
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'triplets');
         }else{
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
         }
         hatchling.anchor.setTo(0.5, 0.5);
         hatchling.animations.add('run');
@@ -796,9 +794,15 @@ DinoEggs.Game.prototype = {
         this.pterodactyl.kill();
         this.pterodactyl.x = 0; 
         this.powerupEq = "";
-        this.powerupCanvas.controller.reset();
-        this.powerupGMDiv.style.display = "none";
-        
+        /*remove previous non-unique equation*/
+        $("div#powerup_eq").find(":first-child").remove();
+        /*var powUp = document.getElementById("powerup_eq");
+        if(powUp!=undefined && powUp !=null){
+            if((powUp).childElementCount > 1){
+                powUp.firstChild.parentElement.removeChild(document.getElementById("powerup_eq").firstChild);
+            }
+        }*/
+        this.powerupGMDiv.style.visibility = "hidden";
         //reset the powerup duration
         this.g_powerupDuration = 5;
     },
@@ -1042,8 +1046,21 @@ DinoEggs.Game.prototype = {
 				DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] = 0; // set unlocked, 0 stars
 			}
 		};
-		// and write to local storage
-		window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+		
+        if(DinoEggs.isLoggedIn = true){
+            setGameData(JSON.stringify(DinoEggs.PLAYER_DATA), function(error) {
+                if (error) 
+                    console.log(JSON.stringify(error));
+                else{
+                    console.log("saved data to db successfully!");
+                }
+            });
+            setGameData();
+        }
+        else{
+            // guest mode - write to local storage
+		  window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+        }
 	},   
     
     updateHighScore: function(highScore) {

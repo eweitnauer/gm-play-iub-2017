@@ -69,7 +69,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('star', 'assets/star.png');
         this.load.atlasJSONHash('dino', 'assets/dinoMom/dino.png','assets/dinoMom/dino.json');
         this.load.atlasJSONHash('dino_intro_anim', 'assets/dinoMom/dinoMomIntro.png','assets/dinoMom/dinoMomIntro.json');
-        this.load.image('sky', 'assets/happysky.png');
+        this.load.image('sky', 'assets/happysky.jpg');
         this.load.spritesheet('startButton', 'assets/buttons/startSprite.png', 236, 123);
         this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music

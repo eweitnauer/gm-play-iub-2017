@@ -8,8 +8,10 @@ DinoEggs.MainMenu = function(){
     "use strict";
     Phaser.State.call(this);
     this.music = null;
+    this.profileButton = null;
     this.startButton = null;
     DinoEggs.HIGH_SCORE = null;
+    DinoEggs.isLoggedIn = false;
     
 };
 DinoEggs.MainMenu.prototype = Object.create(Phaser.State.prototype);
@@ -41,7 +43,7 @@ DinoEggs.MainMenu.prototype = {
         //init high score
         this.initHighScore();
         if (DinoEggs.HIGH_SCORE == null) {
-            this.highScore = "Welcome new players! Create your high score"
+            this.highScore = "High score : 0";
         } else {
              this.highScore = "High score : " + DinoEggs.HIGH_SCORE;
         }
@@ -53,6 +55,14 @@ DinoEggs.MainMenu.prototype = {
         this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'startButton', this.startGame, this, 1, 0, 2);
         this.startButton.anchor.set(0.7);
         this.startButton.scale.set(0.7);
+        
+        //login and continue career button
+        this.profileButton = this.game.add.button(this.game.world.width*0.25, this.game.world.height*0.7, 'startButton', this.loginUser, this, 1, 0, 2);
+                                                  
+        this.profileButton.visible = false;
+                                                  
+        this.profileButton.anchor.set(0.7);
+        this.profileButton.scale.set(0.7);                                                  
         
         //Animate baby dino and mom
         this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 
@@ -97,6 +107,42 @@ DinoEggs.MainMenu.prototype = {
         this.state.start('StageSelect');
         
     }, 
+    
+    get_data:function() {
+        getGameData(function(error, data) {
+            var returnString = "";
+            if (error){
+                returnString = JSON.stringify(error);
+                console.log("Error: "+returnString);
+            }
+            else {
+                var userdata = JSON.stringify(data);
+                console.log("No login error, user logged in successfully.");
+                var obj = JSON.parse(userdata);
+                var playerSet1Levels = [obj.level_1_stars,obj.level_2_stars,obj.level_3_stars,obj.level_4_stars,obj.level_5_stars,obj.level_6_stars,obj.level_7_stars,obj.level_8_stars,obj.level_8_stars,obj.level_10_stars];
+
+                //var playerSet2Levels = [obj.level_1_stars,obj.level_2_stars,obj.level_3_stars,obj.level_4_stars,obj.level_5_stars,obj.level_6_stars,obj.level_7_stars,obj.level_8_stars,obj.level_8_stars,obj.level_10_stars];
+                returnString = JSON.stringify([playerSet1Levels,playerSet1Levels]);
+            }
+            return returnString;
+        });
+        return getGameData();
+    },
+    
+    loginUser:function(){
+        window.open('https://graspablemath.com/auth/google', 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1');
+        
+        if (DinoEggs.isLoggedIn==false) {
+            console.log('User is not logged in, reverting to guest mode');
+            //nothing to do here, level select state will populate the player data from local storage
+        }
+        else{
+            console.log("user logged in");
+            DinoEggs.isLoggedIn = true;
+            DinoEggs.PLAYER_DATA = this.get_data();            
+        }
+        //return false;
+    },
     
     initHighScore: function() {
 
