@@ -59,6 +59,7 @@ Rock.prototype.displayGMEquation = function(){
 Egg = function (game, x, y, equation, solutions) {
 
     Phaser.Sprite.call(this, game, x, y, 'egg');
+    this.scale.setTo(0.8,0.8);
     this.game.physics.arcade.enable(this);
     this.body.gravity.y = 300;
     this.body.bounce.y =  0.5; 
@@ -71,9 +72,9 @@ Egg = function (game, x, y, equation, solutions) {
     this.inputEnabled = true;
     //this.events.onInputDown.add(populateSolveEqCanvas, this, this);
     
-    this.animations.add('hatch',['egg.png','hatch1.png','hatch2.png','hatch3.png','hatch4.png','hatch5.png','hatch6.png','hatch7.png','hatch8.png','hatch9.png','hatch10.png','hatch11.png','hatch12.png','hatch13.png','hatch14.png'],6,false);
-    this.animations.add('wiggleOnce',['wiggle1.png','wiggle2.png','wiggle3.png','wiggle2.png','egg.png','wiggle4.png','wiggle5.png','wiggle4.png','egg.png'],10,false);
-    this.animations.add('wiggleContinous',['wiggle1.png','wiggle2.png','egg.png','wiggle4.png','egg.png'],4,true);
+    this.animations.add('hatch',['egg.png','hatch1.png','hatch2.png','hatch3.png','hatch4.png','hatch5.png','hatch6.png','hatch7.png','hatch8.png','hatch9.png'],6,false);
+    this.animations.add('wiggleOnce',['wiggle01.png','wiggle02.png','wiggle03.png','wiggle04.png','wiggle05.png','wiggle06.png','wiggle07.png','wiggle08.png','wiggle09.png','wiggle10.png','wiggle11.png','wiggle12.png','wiggle01.png'],10,false);
+    this.animations.add('wiggleContinous',['wiggle01.png','wiggle02.png','wiggle03.png','wiggle04.png','wiggle05.png','wiggle06.png','wiggle07.png','wiggle08.png','wiggle09.png','wiggle10.png','wiggle11.png','wiggle12.png','wiggle01.png'],4,true);
     this.canvasId = "gseq_0";
 
 };

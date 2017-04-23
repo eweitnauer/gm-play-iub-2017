@@ -58,9 +58,22 @@ DinoEggs.MainMenu.prototype = {
 //        highScoreText.anchor.set(0.5);
         
         //start button
-        this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'startButton', this.startGame, this, 1, 0, 2);
-        this.startButton.anchor.set(0.7);
-        this.startButton.scale.set(0.7);
+        this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() { 
+            //window.location.href = "https://graspablemath.com/auth/google";
+            window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
+            return false;
+        }, this, 1, 0, 2);
+        this.startButton.anchor.set(0.5);
+        this.startButton.scale.set(0.5);
+        
+        //start as Guest button
+        this.startGuestButton = this.game.add.button(this.game.world.width+100,this.game.world.height*0.8, 'startGuestButton', this.startGame, this, 1, 0, 2);
+        this.startGuestButton.anchor.set(0.5);
+        this.startGuestButton.scale.set(0.5);
+
+        //Animate buttons
+        this.game.add.tween(this.startButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.7 }, 1000, Phaser.Easing.Exponential.Out, true);
+		this.game.add.tween(this.startGuestButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.8 }, 1000, Phaser.Easing.Exponential.Out, true);
         
         //Animate baby dino and mom
         this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 

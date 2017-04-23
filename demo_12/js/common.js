@@ -62,6 +62,8 @@ DinoEggs.Game.prototype = {
         this.g_powerupDuration = 5;
         this.isPowerupUsed = false;
         this.powerupID = -1;
+        
+        explosions=null;
     },
     
     create:function(){
@@ -77,7 +79,7 @@ DinoEggs.Game.prototype = {
         if(gmath)
             currentObj.initCanvas();
         else
-            loadGM(currentObj.initCanvas(), { version: '2.0.0' });
+            loadGM(currentObj.initCanvas(), { version: '2.0.1' });
         
           //music 
         if(!this.music){
@@ -96,7 +98,8 @@ DinoEggs.Game.prototype = {
         this.hatchlingXSpacing = 50;
         
         this.hatchlingYUpperLimit = 40;
-        this.hatchlingYLowerLimit = 80;
+        this.hatchlingYLowerLimit = 130;
+        this.hatchlingYLowerLimit = 130;
         this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
         this.hatchlingYRange = this.hatchlingYUpperLimit - this.hatchlingYLowerLimit;
         //this.hatchlingYSpacing = (this.hatchlingYUpperLimit + this.hatchlingYLowerLimit) / this.g_numEggs;
@@ -116,8 +119,8 @@ DinoEggs.Game.prototype = {
         
         //dino mom
         
-        this.dino = this.game.add.sprite(567, 275, 'dino');
-        var move = this.dino.animations.add('move',['1.png','2.png','3.png','4.png'],24,true);
+        this.dino = this.game.add.sprite(this.game.width-300, 275, 'dino');
+        var move = this.dino.animations.add('move',['mom_talk1.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],24,true);
         
         //  Rocks group
         this._rocksGroup = this.game.add.group();
@@ -249,12 +252,22 @@ DinoEggs.Game.prototype = {
             }
         }
         
+        //  An explosion pool
+        explosions = this.game.add.group();
+        explosions.createMultiple(30, 'kaboom');
+        explosions.forEach(this.setupInvader, this);
 
         //this.input.mouse.capture = true;
         $("div#gm-holder-div").css("visibility","visible");
         $("div#gm-holder-div").css("width", $("div#game-div").width());
         $("div#gm-holder-div").css("top", $("div#game-div").height());
         $("div#gm-holder-div").css("left", $("div#game-div").scrollLeft());
+
+    },
+    setupInvader:function(invader) {
+        invader.anchor.x = 0.5;
+        invader.anchor.y = 0.5;
+        invader.animations.add('kaboom');
 
     },
     showTutorial: function(){  
@@ -446,7 +459,7 @@ DinoEggs.Game.prototype = {
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 8, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+50, left: egg.x + 8, position:'absolute'});
           }
         });
         
@@ -462,7 +475,7 @@ DinoEggs.Game.prototype = {
 
         //move selected egg's halo along with the egg on dropping the eggs initially
         if(this.selectedEgg){
-            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2;
+            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2+4;
             this.halo.y=this.selectedEgg.y+this.selectedEgg.height/2-2;
         }        
     },
@@ -626,8 +639,19 @@ DinoEggs.Game.prototype = {
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'triplets');
         }else{
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
+            eyes = this.game.add.sprite(81,18, 'eyes');
+            eyes.anchor.setTo(0.6,0.45);
+            eyes.animations.add('blinking');
+            eyes.animations.play('blinking', 5, true);
+            hatchling.addChild(eyes);
+            tail = this.game.add.sprite(23,68, 'tail');
+            tail.anchor.setTo(1,0);
+            tail.animations.add('wag');
+            tail.animations.play('wag', 3, true);
+            hatchling.addChild(eyes);
+            hatchling.addChild(tail);
         }
-        hatchling.anchor.setTo(0.5, 0.5);
+        //hatchling.anchor.setTo(0.5, 0.5);
         hatchling.animations.add('run');
         hatchling.animations.play('run', 10, true);
 
@@ -723,7 +747,7 @@ DinoEggs.Game.prototype = {
             this.halo.kill();
         this.halo = this.game.add.sprite(0,0, "halo");
 		this.halo.anchor.setTo(0.5,0.5);
-        this.halo.x=selectedEgg.x+this.selectedEgg.width/2;
+        this.halo.x=selectedEgg.x+this.selectedEgg.width/2 +4;
         this.halo.y=selectedEgg.y+this.selectedEgg.height/2-2;
     },
     
@@ -847,16 +871,22 @@ DinoEggs.Game.prototype = {
         
      this.rockBurst(rock);
 
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){ 
+            console.log("clearing gm canvas");
             this.clearGMCanvas(this.matchExpCanvas); 
         }   
               
     },
     
-    rockBurst: function(rock){    
+    rockBurst: function(rock){   
+        
+        //  And create an explosion :)
+        var explosion = explosions.getFirstExists(false);
+        explosion.reset(rock.x, rock.y);
+        explosion.play('kaboom', 30, false, true);
     
          //burst emitter for rocks
-        var rock_emitter = this.game.add.emitter(0, 0, 100);
+        /*var rock_emitter = this.game.add.emitter(0, 0, 100);
 
         rock_emitter.makeParticles('star');
         rock_emitter.gravity = 0;
@@ -865,14 +895,14 @@ DinoEggs.Game.prototype = {
         rock_emitter.y = rock.y;
 
         //explode / milliseconds before particle disappear/ doesn't matter/ number of particles emitted at a time
-        rock_emitter.start(true, 2000, null, 5);
+        rock_emitter.start(true, 2000, null, 5);*/
         
         //rock.equationText.destroy();
         rock.newGMDiv.parentElement.removeChild(rock.newGMDiv);
         this._rocksGroup.remove(rock);
 
         //  And 2 seconds later we'll destroy the emitter
-        this.game.time.events.add(2000, this.destroyObject, this, rock_emitter);
+        //this.game.time.events.add(2000, this.destroyObject, this, rock_emitter);
         
         if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){
             
