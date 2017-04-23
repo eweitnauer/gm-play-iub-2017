@@ -951,11 +951,13 @@ DinoEggs.Game.prototype = {
              var t = this.game.add.tween(congratulations.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
             var style = { font: "30px Arial", fill: "#fff", align: "center" };
             if (this._stageNumber == 1) {
-                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 4-7!", style);
-                conText1.anchor.set(0.5);
+                var endText1 = this.game.add.sprite(this.game.width/2, this.game.height/2 + 30, 'endText1');
+//                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 4-7!", style);
+                endText1.anchor.set(0.5);
             } else {
-                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "Congratulations! You have completed all the levels for grade 7-9!", style);
-                conText2.anchor.set(0.5);
+                var endText2 = this.game.add.sprite(this.game.width/2, this.game.height/2 + 30, 'endText2');
+//                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 7-9!", style);
+                endText2.anchor.set(0.5);
             }
             var nextGameStageButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'gradeSetlevel', function(){
                 this.state.start('StageSelect');
