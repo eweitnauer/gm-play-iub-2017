@@ -96,15 +96,24 @@ DinoEggs.LevelSelect.prototype = {
 	initLevelData: function() {
 
 		if (!DinoEggs.PLAYER_DATA) {
-			var str = window.localStorage.getItem('DinoGameProgress');
-			try {
-				DinoEggs.PLAYER_DATA = JSON.parse(str);
-			} catch(e){
-				DinoEggs.PLAYER_DATA = [[],[]];
-			};
-			if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
-				DinoEggs.PLAYER_DATA = [[],[]];
-			};
+            
+            //check for loggedin user
+            if(DinoEggs.isLoggedIn){
+                //nothing to do, player data already populated from welcome screen
+            }
+            //guest
+            else{
+                var str = window.localStorage.getItem('DinoGameProgress');
+                try {
+                    DinoEggs.PLAYER_DATA = JSON.parse(str);
+                    console.log(DinoEggs.PLAYER_DATA);
+                } catch(e){
+                    DinoEggs.PLAYER_DATA = [[],[]];
+                };
+                if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
+                    DinoEggs.PLAYER_DATA = [[],[]];
+                };
+            }
 		};
 	},
 

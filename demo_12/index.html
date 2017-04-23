@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-	<title>Save Dino Eggs</title>
+	<title>Math-e-saurs</title>
     <script src="js/phaser.js"></script>
     <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
     <script src="js/problemSet.js"></script>
@@ -17,6 +17,7 @@
     <script src = "js/common.js"></script>
     <script src = "js/main.js"></script>
     <script src = "js/HealthBar.js"></script>
+    <script src="https://graspablemath.com/auth/gm-dino-auth.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- jQuery library -->
@@ -56,8 +57,10 @@
         }
         
         div.row{
-            background-image: url('assets/canvas-bkgd.png');
-            /*background-size:800px 600px;
+            background:none !important;
+            z-index: 2 !important;
+            /*background-image: url('assets/canvas-bkgd.jpg');
+            background-size:800px 600px;
             background-repeat:no-repeat;
             background-position: left bottom;*/
         }
@@ -152,7 +155,7 @@
             z-index: 1 
         }
         
-        div.gm-game-rock, div.gm-game-egg{
+        div.gm-game-rock, div.gm-game-egg, div.gm-game-powerup{
             pointer-events: none !important;
             /*text-align:center !important;*/
             width:83px !important;
@@ -176,7 +179,7 @@
         /*div.gm-game-rock, div.gm-game-rock *{
             display:inline-block;
         }*/
-
+        
         div.gm-game-powerup div.text{
             color: black !important;
             margin 0 auto !important;
@@ -184,7 +187,7 @@
         }
         
         div.gm-game-powerup div.line{
-            background-color: white !important;
+            background-color: black !important;
             margin 0 auto !important;
             position: absolute !important;
         }
@@ -211,7 +214,7 @@
             position:absolute !important;
             z-index:2 !important;
             bottom:20%;
-            right:20%;
+            left:5%;
             background-color:transparent;
             background-image: url(assets/buttons/undo.png);
             width:80px;
@@ -220,11 +223,11 @@
             padding: none;
             outline:none;
             cursor: pointer;
-            opacity: 85%;
+            opacity: 0.85;
         }
         
         #undo_button:hover{
-            opacity: 100%;
+            opacity: 1;
         }
         
         .noShow{
@@ -248,14 +251,14 @@
 </head>
 <body>
     <div id="game-div"class="row">
-    <div id="gm-holder-div" class="row">
-        <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
-            <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
+        <div id="gm-holder-div" class="row">
+            <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
+                <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
+            </div>
+            <div id="eq-match-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
+                <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
+            </div>
         </div>
-        <div id="eq-match-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
-            <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
-        </div>
-    </div>
     </div>
 
     <div id ="tutorialDiv" class="container">

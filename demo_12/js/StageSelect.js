@@ -15,7 +15,8 @@ DinoEggs.StageSelect.prototype = {
 
 	preload: function() {
 		this.game.load.image('grade4', 'assets/grade4.png');
-        this.game.load.image('grade7', 'assets/grade7.png');	
+        this.game.load.image('grade7', 'assets/grade7.png');
+        this.game.load.image('prev', 'assets/arrows/prev.png');
 	},
 
 	create: function() {
@@ -42,18 +43,19 @@ DinoEggs.StageSelect.prototype = {
         //animate icons
         this.game.add.tween(stageAIcon.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
         this.game.add.tween(stageBIcon.scale).to({ x: 1,y:1}, 500,  Phaser.Easing.Bounce.Out,true);
-        
+       
         var prev = this.game.add.sprite(this.game.width,this.game.height-100, "prev");
+
         prev.anchor.setTo(0.5,0.5);
         // input handler
         prev.inputEnabled = true;
         prev.events.onInputDown.add(this.navListener, this);
         prev.input.useHandCursor = true;
-        
+
         this.add.tween(prev).to({x: this.game.width/2, y: this.game.height-100}, 1000, Phaser.Easing.Exponential.Out, true);
         
         $("div#gm-holder-div").css("visibility","hidden");
-	},
+	  },
     navListener: function(sprite, pointer){
         this.state.start('MainMenu');
     },

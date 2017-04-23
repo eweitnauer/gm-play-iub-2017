@@ -43,7 +43,7 @@ DinoEggs.Boot.prototype = {
     //assets we'll use in the loading screen
     preload:function(){
         //TO-DO: include game logo in
-        this.load.image('gamepreloadbkgd', 'assets/happysky.png');
+        this.load.image('gamepreloadbkgd', 'assets/happysky.jpg');
         this.load.image('preloadBar','assets/preloader.png');
         this.load.image('preloadGreyBar', 'assets/preloaderGrey.png');
         //json data for levels
