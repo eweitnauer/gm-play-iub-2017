@@ -43,18 +43,39 @@ DinoEggs.MainMenu.prototype = {
         //init high score
         this.initHighScore();
         if (DinoEggs.HIGH_SCORE == null) {
-            this.highScore = "High score : 0";
+            this.highScore = "High score : " + 0;
         } else {
              this.highScore = "High score : " + DinoEggs.HIGH_SCORE;
         }
        
-        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
+        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
         highScoreText.anchor.set(0.5);
+        highScoreText.font = 'Revalia';
+        
+        var grd = highScoreText.context.createLinearGradient(0, 0, 0, highScoreText.canvas.height);
+        grd.addColorStop(0, '#f4aa42');   
+        grd.addColorStop(1, '#1856b2');
+        highScoreText.fill = grd;
+//        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
+//        highScoreText.anchor.set(0.5);
         
         //start button
-        this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'startButton', this.startGame, this, 1, 0, 2);
-        this.startButton.anchor.set(0.7);
-        this.startButton.scale.set(0.7);
+        this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() { 
+            //window.location.href = "https://graspablemath.com/auth/google";
+            window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
+            return false;
+        }, this, 1, 0, 2);
+        this.startButton.anchor.set(0.5);
+        this.startButton.scale.set(0.5);
+        
+        //start as Guest button
+        this.startGuestButton = this.game.add.button(this.game.world.width+100,this.game.world.height*0.8, 'startGuestButton', this.startGame, this, 1, 0, 2);
+        this.startGuestButton.anchor.set(0.5);
+        this.startGuestButton.scale.set(0.5);
+
+        //Animate buttons
+        this.game.add.tween(this.startButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.7 }, 1000, Phaser.Easing.Exponential.Out, true);
+		this.game.add.tween(this.startGuestButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.8 }, 1000, Phaser.Easing.Exponential.Out, true);
         
         //login and continue career button
         this.profileButton = this.game.add.button(this.game.world.width*0.25, this.game.world.height*0.7, 'startButton', this.loginUser, this, 1, 0, 2);

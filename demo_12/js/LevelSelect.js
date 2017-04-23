@@ -19,7 +19,6 @@ DinoEggs.LevelSelect.prototype = {
 	preload: function() {
         //this.game.load.spritesheet('levelselecticons', 'assets/levelselecticons.png', 96, 96);
 		this.game.load.spritesheet('levelIcons', 'assets/levelIcons/level_icons.png', 73.83, 82);
-        this.game.load.image('prev', 'assets/arrows/prev.png');
 		this.initLevelData();
 	},
 
@@ -79,12 +78,15 @@ DinoEggs.LevelSelect.prototype = {
         optionsGroup.add(play);
         optionsGroup.add(exit);*/
         //---------------------------------------------
-        var prev = this.game.add.sprite(this.game.width/2,this.game.height-100, "prev");
+        var prev = this.game.add.sprite(this.game.width,this.game.height-100, "prev");
         prev.anchor.setTo(0.5,0.5);
         // input handler
         prev.inputEnabled = true;
         prev.events.onInputDown.add(this.navListener, this);
         prev.input.useHandCursor = true;
+        
+        this.add.tween(prev).to({x: this.game.width/2, y: this.game.height-100}, 1000, Phaser.Easing.Exponential.Out, true);
+        
         $("div#gm-holder-div").css("visibility","hidden");
 	},
 
