@@ -59,7 +59,7 @@ DinoEggs.MainMenu.prototype = {
         //login and continue career button
         this.profileButton = this.game.add.button(this.game.world.width*0.25, this.game.world.height*0.7, 'startButton', this.loginUser, this, 1, 0, 2);
                                                   
-        this.profileButton.visible = false;
+        this.profileButton.visible = true;
                                                   
         this.profileButton.anchor.set(0.7);
         this.profileButton.scale.set(0.7);                                                  
