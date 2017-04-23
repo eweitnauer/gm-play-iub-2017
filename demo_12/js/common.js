@@ -62,6 +62,8 @@ DinoEggs.Game.prototype = {
         this.g_powerupDuration = 5;
         this.isPowerupUsed = false;
         this.powerupID = -1;
+        
+        explosions=null;
     },
     
     create:function(){
@@ -77,7 +79,7 @@ DinoEggs.Game.prototype = {
         if(gmath)
             currentObj.initCanvas();
         else
-            loadGM(currentObj.initCanvas(), { version: '2.0.0' });
+            loadGM(currentObj.initCanvas(), { version: '2.0.1' });
         
           //music 
         if(!this.music){
@@ -96,7 +98,8 @@ DinoEggs.Game.prototype = {
         this.hatchlingXSpacing = 50;
         
         this.hatchlingYUpperLimit = 40;
-        this.hatchlingYLowerLimit = 80;
+        this.hatchlingYLowerLimit = 130;
+        this.hatchlingYLowerLimit = 130;
         this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
         this.hatchlingYRange = this.hatchlingYUpperLimit - this.hatchlingYLowerLimit;
         //this.hatchlingYSpacing = (this.hatchlingYUpperLimit + this.hatchlingYLowerLimit) / this.g_numEggs;
@@ -110,14 +113,14 @@ DinoEggs.Game.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this._platforms = this.game.add.group();
         this._platforms.enableBody = true;
-        var ground = this._platforms.create(0, this.game.world.height - 12, 'ground');
+        var ground = this._platforms.create(0, this.game.world.height - 120, 'ground');
         ground.scale.setTo(2,6);
         ground.body.immovable = true;
         
         //dino mom
         
-        this.dino = this.game.add.sprite(567, 275, 'dino');
-        var move = this.dino.animations.add('move',['1.png','2.png','3.png','4.png'],24,true);
+        this.dino = this.game.add.sprite(this.game.width-300, 275, 'dino');
+        var move = this.dino.animations.add('move',['mom_talk1.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],24,true);
         
         //  Rocks group
         this._rocksGroup = this.game.add.group();
@@ -250,12 +253,22 @@ DinoEggs.Game.prototype = {
             }
         }
         
+        //  An explosion pool
+        explosions = this.game.add.group();
+        explosions.createMultiple(30, 'kaboom');
+        explosions.forEach(this.setupInvader, this);
 
         //this.input.mouse.capture = true;
         $("div#gm-holder-div").css("visibility","visible");
         $("div#gm-holder-div").css("width", $("div#game-div").width());
-        $("div#gm-holder-div").css("top", $("div#game-div").height());
+        $("div#gm-holder-div").css("top", $("div#game-div").height()-100);
         $("div#gm-holder-div").css("left", $("div#game-div").scrollLeft());
+
+    },
+    setupInvader:function(invader) {
+        invader.anchor.x = 0.5;
+        invader.anchor.y = 0.5;
+        invader.animations.add('kaboom');
 
     },
     showTutorial: function(){  
@@ -418,14 +431,12 @@ DinoEggs.Game.prototype = {
             this.powerupGMDiv = document.createElement("div");
             this.powerupGMDiv.setAttribute("id", "powerup_eq");
             this.powerupGMDiv.setAttribute("class", "gm-game-powerup");
-            this.powerupGMDiv.style.left = '300px';
+            this.powerupGMDiv.style.left = '100px';
             this.powerupGMDiv.style.top = '200px';
-            var gameDivContainer = document.getElementById("game-div");
-            gameDivContainer.appendChild(this.powerupGMDiv);
-            this.powerupCanvas = new gmath.Canvas('#powerup_eq', {use_toolbar: false, vertical_scroll: false });     
+            document.getElementById("game-div").appendChild(this.powerupGMDiv);
         }
-        var derivation = this.powerupCanvas.model.createElement('derivation', { eq: equation, pos: { x: 'center', y: 50 }, font_size:20, handle_stroke_color:'#000' });
-        this.powerupGMDiv.style.display = "block";
+        gmath.AlgebraView.createStaticExpression(this.powerupGMDiv, equation);
+        this.powerupGMDiv.style.visibility = "visible";
     },
     showRockInstructions:function(){
         this.showBoard('Match rock ','expression to burst');
@@ -447,7 +458,7 @@ DinoEggs.Game.prototype = {
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 8, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+50, left: egg.x + 8, position:'absolute'});
           }
         });
         
@@ -458,12 +469,12 @@ DinoEggs.Game.prototype = {
         
         //render power up equation text
         if(this.pterodactyl.visible == true){
-         $("#powerup_eq").css({top: this.pterodactyl.y + this.pterodactyl.height * (2/3), left: this.pterodactyl.x + this.pterodactyl.width * 2/3, position:'absolute'});
+         $("#powerup_eq").css({top: this.pterodactyl.y + this.pterodactyl.height * (2/3), left: this.pterodactyl.x + this.pterodactyl.width * 1/4, position:'absolute'});
         }
 
         //move selected egg's halo along with the egg on dropping the eggs initially
         if(this.selectedEgg){
-            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2;
+            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2+4;
             this.halo.y=this.selectedEgg.y+this.selectedEgg.height/2-2;
         }        
     },
@@ -621,14 +632,26 @@ DinoEggs.Game.prototype = {
         }
         var hatchling = null;
         if(isSad){
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling_sad');
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling_sad');
         }
         else if(isGoldenEgg){
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'triplets');
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'triplets');
         }else{
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-100, 'hatchling');
+
+            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
+            eyes = this.game.add.sprite(81,18, 'eyes');
+            eyes.anchor.setTo(0.6,0.45);
+            eyes.animations.add('blinking');
+            eyes.animations.play('blinking', 5, true);
+            hatchling.addChild(eyes);
+            tail = this.game.add.sprite(23,68, 'tail');
+            tail.anchor.setTo(1,0);
+            tail.animations.add('wag');
+            tail.animations.play('wag', 3, true);
+            hatchling.addChild(eyes);
+            hatchling.addChild(tail);
         }
-        hatchling.anchor.setTo(0.5, 0.5);
+        //hatchling.anchor.setTo(0.5, 0.5);
         hatchling.animations.add('run');
         hatchling.animations.play('run', 10, true);
 
@@ -669,19 +692,20 @@ DinoEggs.Game.prototype = {
     updateScore: function(currentScoreText){
         var scoreString = currentScoreText.text;
         currentScoreText.destroy();
-        
+       
         // update the actual score
         var operation = scoreString.substring(0,1);
         if(operation == '+'){
-            this.score += parseInt(scoreString.substring(1));
+            this.score += parseInt(scoreString.substring(1));       
         }else{
             this.score -= parseInt(scoreString.substring(1));
-            
+    
             //do not allow negative scores
             if(this.score < 0){
                 this.score = 0;
             }
         } 
+        
         this.scoreText.text = 'Score: ' + this.score;
     },
     
@@ -723,7 +747,7 @@ DinoEggs.Game.prototype = {
             this.halo.kill();
         this.halo = this.game.add.sprite(0,0, "halo");
 		this.halo.anchor.setTo(0.5,0.5);
-        this.halo.x=selectedEgg.x+this.selectedEgg.width/2;
+        this.halo.x=selectedEgg.x+this.selectedEgg.width/2 +4;
         this.halo.y=selectedEgg.y+this.selectedEgg.height/2-2;
     },
     
@@ -797,9 +821,15 @@ DinoEggs.Game.prototype = {
         this.pterodactyl.kill();
         this.pterodactyl.x = 0; 
         this.powerupEq = "";
-        this.powerupCanvas.controller.reset();
-        this.powerupGMDiv.style.display = "none";
-        
+        /*remove previous non-unique equation*/
+        $("div#powerup_eq").find(":first-child").remove();
+        /*var powUp = document.getElementById("powerup_eq");
+        if(powUp!=undefined && powUp !=null){
+            if((powUp).childElementCount > 1){
+                powUp.firstChild.parentElement.removeChild(document.getElementById("powerup_eq").firstChild);
+            }
+        }*/
+        this.powerupGMDiv.style.visibility = "hidden";
         //reset the powerup duration
         this.g_powerupDuration = 5;
     },
@@ -847,16 +877,22 @@ DinoEggs.Game.prototype = {
         
      this.rockBurst(rock);
 
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){ 
+            console.log("clearing gm canvas");
             this.clearGMCanvas(this.matchExpCanvas); 
         }   
               
     },
     
-    rockBurst: function(rock){    
+    rockBurst: function(rock){   
+        
+        //  And create an explosion :)
+        var explosion = explosions.getFirstExists(false);
+        explosion.reset(rock.x, rock.y);
+        explosion.play('kaboom', 30, false, true);
     
          //burst emitter for rocks
-        var rock_emitter = this.game.add.emitter(0, 0, 100);
+        /*var rock_emitter = this.game.add.emitter(0, 0, 100);
 
         rock_emitter.makeParticles('star');
         rock_emitter.gravity = 0;
@@ -865,14 +901,14 @@ DinoEggs.Game.prototype = {
         rock_emitter.y = rock.y;
 
         //explode / milliseconds before particle disappear/ doesn't matter/ number of particles emitted at a time
-        rock_emitter.start(true, 2000, null, 5);
+        rock_emitter.start(true, 2000, null, 5);*/
         
         //rock.equationText.destroy();
         rock.newGMDiv.parentElement.removeChild(rock.newGMDiv);
         this._rocksGroup.remove(rock);
 
         //  And 2 seconds later we'll destroy the emitter
-        this.game.time.events.add(2000, this.destroyObject, this, rock_emitter);
+        //this.game.time.events.add(2000, this.destroyObject, this, rock_emitter);
         
         if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){
             
@@ -928,20 +964,19 @@ DinoEggs.Game.prototype = {
             if(DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] > -1 ){ 
             
             //Next level button
-            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, gameOverText.y + gameOverText.height + 10, 'nextlevel', function(){
+            var nextLevelButton = this.game.add.button(this.game.world.width*0.5, gameOverText.y + gameOverText.height + 30, 'nextlevel', function(){
                 DinoEggs._selectedLevel = DinoEggs._selectedLevel + 1; 
                 this.state.start('NextLevel');
             }, this.game, 1, 0, 2);
             nextLevelButton.anchor.set(0.5);
-            //nextLevelButton.scale.setTo(2,2);
                 
             //restart button
-            var restartButton = this.game.add.button(this.game.world.width*0.5 - 40, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
+            var restartButton = this.game.add.button(this.game.world.width*0.5 - 60, nextLevelButton.y + nextLevelButton.height, 'restart', function(){
                 this.state.start('Game');
             }, this.game, 1, 0, 2);
             restartButton.anchor.set(0.5);
             var mus = this;
-            var mainMenuButton = this.game.add.button(restartButton.x + restartButton.width , nextLevelButton.y + nextLevelButton.height, 'menu', function(){
+            var mainMenuButton = this.game.add.button(restartButton.x + restartButton.width + 10, nextLevelButton.y + nextLevelButton.height, 'menu', function(){
                 mus.music.pause();
                 this.state.start('MainMenu');
            
@@ -952,11 +987,13 @@ DinoEggs.Game.prototype = {
              var t = this.game.add.tween(congratulations.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
             var style = { font: "30px Arial", fill: "#fff", align: "center" };
             if (this._stageNumber == 1) {
-                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 4-7!", style);
-                conText1.anchor.set(0.5);
+                var endText1 = this.game.add.sprite(this.game.width/2, this.game.height/2 + 30, 'endText1');
+//                var conText1 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 4-7!", style);
+                endText1.anchor.set(0.5);
             } else {
-                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "Congratulations! You have completed all the levels for grade 7-9!", style);
-                conText2.anchor.set(0.5);
+                var endText2 = this.game.add.sprite(this.game.width/2, this.game.height/2 + 30, 'endText2');
+//                var conText2 = this.game.add.text(this.game.width/2, this.game.height/2 + 30, "You have completed all the levels for grade 7-9!", style);
+                endText2.anchor.set(0.5);
             }
             var nextGameStageButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.5 + 50, 'gradeSetlevel', function(){
                 this.state.start('StageSelect');
@@ -1044,8 +1081,21 @@ DinoEggs.Game.prototype = {
 				DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] = 0; // set unlocked, 0 stars
 			}
 		};
-		// and write to local storage
-		window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+		
+        if(DinoEggs.isLoggedIn = true){
+            setGameData(JSON.stringify(DinoEggs.PLAYER_DATA), function(error) {
+                if (error) 
+                    console.log(JSON.stringify(error));
+                else{
+                    console.log("saved data to db successfully!");
+                }
+            });
+            setGameData();
+        }
+        else{
+            // guest mode - write to local storage
+		  window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+        }
 	},   
     
     updateHighScore: function(highScore) {
@@ -1079,6 +1129,8 @@ DinoEggs.Game.prototype = {
             star1.tint= 0x232323;
             greyStar--;
         }
+        //reset score 
+        this.score = 0;
         return starNumber;
     },
     
