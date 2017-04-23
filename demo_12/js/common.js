@@ -142,9 +142,10 @@ DinoEggs.Game.prototype = {
         
         // Number of Remaining Rocks
         if(this._levelNumber != 1){
-             var barConfig = {x: 230, y: 25};
+             var barConfig = {x: 160, y: 25 };
              this.myHealthBar = new HealthBar(this.game, barConfig);
-             this.rocksRemainingText = this.game.add.text(20, 16, 'Rocks Left: '+(this.g_numRocks), { font: "16px kalam", fill: '#000' });
+             this.rocksRemainingText = this.game.add.text(270, 16, this.g_numRocks, { font: "16px kalam", fill: '#000' });
+             this.rockMeter = this.game.add.image(0, -15, 'rockMeter');
         }
         else{
             this.rocksRemainingText = "";
@@ -685,7 +686,7 @@ DinoEggs.Game.prototype = {
         }
     },
     updateRocksRemaining: function(){
-          this.rocksRemainingText.text = 'Rocks Left: ' +(this.g_numRocks-this.g_rockProducedIndex-1);
+          this.rocksRemainingText.text = this.g_numRocks-this.g_rockProducedIndex-1;
           this.myHealthBar.setPercent(((this.g_numRocks-this.g_rockProducedIndex-1)/this.g_numRocks)*100); 
     },
     updateScore: function(currentScoreText){
@@ -1034,6 +1035,7 @@ DinoEggs.Game.prototype = {
         if(this._levelNumber!=1){
             this.rocksRemainingText.destroy();
             this.myHealthBar.kill();
+            this.rockMeter.destroy();
         }
         this.currentLevelText.destroy();
         if(this.solveEqCanvas)

@@ -123,9 +123,12 @@ DinoEggs.Preload.prototype = {
 
         this.load.image('clock', 'assets/clock.png');
         this.load.image('halo', 'assets/selected.png');
+
+        this.load.image('rockMeter', 'assets/rockMeter.png');
+
         
         this.load.spritesheet('kaboom', 'assets/explode.png', 128, 128);
-       
+
     },
     create:function(){    
         this.state.start('MainMenu');
