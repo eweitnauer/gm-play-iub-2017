@@ -41,13 +41,21 @@ DinoEggs.MainMenu.prototype = {
         //init high score
         this.initHighScore();
         if (DinoEggs.HIGH_SCORE == null) {
-            this.highScore = "Welcome new players! Create your high score"
+            this.highScore = "High score : " + 0;
         } else {
              this.highScore = "High score : " + DinoEggs.HIGH_SCORE;
         }
        
-        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
+        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
         highScoreText.anchor.set(0.5);
+        highScoreText.font = 'Revalia';
+        
+        var grd = highScoreText.context.createLinearGradient(0, 0, 0, highScoreText.canvas.height);
+        grd.addColorStop(0, '#f4aa42');   
+        grd.addColorStop(1, '#1856b2');
+        highScoreText.fill = grd;
+//        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
+//        highScoreText.anchor.set(0.5);
         
         //start button
         this.startButton = this.game.add.button(this.game.world.width*0.5, this.game.world.height*0.7, 'startButton', this.startGame, this, 1, 0, 2);
