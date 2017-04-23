@@ -61,16 +61,17 @@ DinoEggs.Preload.prototype = {
         this.load.image('rock', 'assets/rock.png');
         this.load.image('ground', 'assets/transparentplatform.png');
         this.load.image('fragment', 'assets/star.png');    
-        this.load.atlasJSONHash('egg', 'assets/eggs/eggsAtlas.png','assets/eggs/eggsAtlas.json');
-        this.load.spritesheet('hatchling', 'assets/hatchling/hatchlingSheet.png', 91, 89);
+        this.load.atlasJSONHash('egg', 'assets/eggs/eggSheet.png','assets/eggs/egg.json');
+        this.load.spritesheet('hatchling', 'assets/hatchling/hatchlingSheet.png', 91, 89.5);
         this.load.spritesheet('hatchling_sad', 'assets/hatchling/sadhatchlingSheet.png', 91, 89);
         this.load.spritesheet('triplets', 'assets/hatchling/tripletSheet.png', 80, 87.5);
         this.load.atlasJSONHash('hatchling_intro_anim', 'assets/hatchling/hatchlingAtlas.png', 'assets/hatchling/hatchlingAtlas.json');
         this.load.image('star', 'assets/star.png');
-        this.load.atlasJSONHash('dino', 'assets/dinoMom/dino.png','assets/dinoMom/dino.json');
+        this.load.atlasJSONHash('dino', 'assets/dinoMom/mom_talk.png','assets/dinoMom/mom_talk.json');
         this.load.atlasJSONHash('dino_intro_anim', 'assets/dinoMom/dinoMomIntro.png','assets/dinoMom/dinoMomIntro.json');
         this.load.image('sky', 'assets/happysky.png');
-        this.load.spritesheet('startButton', 'assets/buttons/startSprite.png', 236, 123);
+        this.load.spritesheet('startButton', 'assets/buttons/play_button.png', 354, 85);
+        this.load.spritesheet('startGuestButton', 'assets/buttons/playGuest_button.png', 354, 85);
         this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music
         this.load.audio('bg_music',['assets/bg_music.mp3']);
@@ -78,7 +79,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('menu', 'assets/buttons/main_menu.png');
         this.load.image('board', 'assets/board.png');
 
-        
+        this.load.image('prev', 'assets/arrows/prev.png');
 
         this.load.image('nextlevel', 'assets/buttons/nextlevel.png');
         this.load.image('gradeSetlevel', 'assets/buttons/return_to_grade_set.png');

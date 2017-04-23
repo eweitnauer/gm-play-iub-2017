@@ -1,0 +1,188 @@
+{"frames": {
+
+"egg.png":
+{
+	"frame": {"x":0,"y":0,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch1.png":
+{
+	"frame": {"x":130,"y":0,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch2.png":
+{
+	"frame": {"x":260,"y":0,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch3.png":
+{
+	"frame": {"x":0,"y":230,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch4.png":
+{
+	"frame": {"x":130,"y":230,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch5.png":
+{
+	"frame": {"x":260,"y":230,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch6.png":
+{
+	"frame": {"x":0,"y":460,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch7.png":
+{
+	"frame": {"x":130,"y":460,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch8.png":
+{
+	"frame": {"x":260,"y":460,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"hatch9.png":
+{
+	"frame": {"x":0,"y":690,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle01.png":
+{
+	"frame": {"x":130,"y":690,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle02.png":
+{
+	"frame": {"x":260,"y":690,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle03.png":
+{
+	"frame": {"x":0,"y":920,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle04.png":
+{
+	"frame": {"x":130,"y":920,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle05.png":
+{
+	"frame": {"x":260,"y":920,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle06.png":
+{
+	"frame": {"x":0,"y":1150,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle07.png":
+{
+	"frame": {"x":130,"y":1150,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle08.png":
+{
+	"frame": {"x":260,"y":1150,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle09.png":
+{
+	"frame": {"x":0,"y":1380,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle10.png":
+{
+	"frame": {"x":130,"y":1380,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle11.png":
+{
+	"frame": {"x":260,"y":1380,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+},
+"wiggle12.png":
+{
+	"frame": {"x":0,"y":1610,"w":130,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":230},
+	"sourceSize": {"w":130,"h":230}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "eggSheet.png",
+	"format": "RGBA8888",
+	"size": {"w":390,"h":1840},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:721348edd8c203d1c1c34c4990307a04:7b9437f3efcf15908b24d60bed7625bb:6ec4c8ffe937d32d81ccabf6c6b9f1aa$"
+}
+}

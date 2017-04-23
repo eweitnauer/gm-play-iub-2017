@@ -77,7 +77,7 @@ DinoEggs.Game.prototype = {
         if(gmath)
             currentObj.initCanvas();
         else
-            loadGM(currentObj.initCanvas(), { version: '2.0.0' });
+            loadGM(currentObj.initCanvas(), { version: '2.0.1' });
         
           //music 
         if(!this.music){
@@ -116,8 +116,8 @@ DinoEggs.Game.prototype = {
         
         //dino mom
         
-        this.dino = this.game.add.sprite(567, 275, 'dino');
-        var move = this.dino.animations.add('move',['1.png','2.png','3.png','4.png'],24,true);
+        this.dino = this.game.add.sprite(this.game.width-300, 275, 'dino');
+        var move = this.dino.animations.add('move',['mom_talk1.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],24,true);
         
         //  Rocks group
         this._rocksGroup = this.game.add.group();
@@ -446,7 +446,7 @@ DinoEggs.Game.prototype = {
         //render egg equations
         this._eggsGroup.forEach(function(egg){
           if(egg.newGMDiv){
-            $("#"+egg.newGMDiv.id).css({top: egg.y+30, left: egg.x + 8, position:'absolute'});
+            $("#"+egg.newGMDiv.id).css({top: egg.y+80, left: egg.x + 8, position:'absolute'});
           }
         });
         
@@ -462,8 +462,8 @@ DinoEggs.Game.prototype = {
 
         //move selected egg's halo along with the egg on dropping the eggs initially
         if(this.selectedEgg){
-            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2;
-            this.halo.y=this.selectedEgg.y+this.selectedEgg.height/2-2;
+            this.halo.x=this.selectedEgg.x+this.selectedEgg.width/2 +4;
+            this.halo.y=this.selectedEgg.y+this.selectedEgg.height/2+8;
         }        
     },
     
@@ -722,8 +722,8 @@ DinoEggs.Game.prototype = {
             this.halo.kill();
         this.halo = this.game.add.sprite(0,0, "halo");
 		this.halo.anchor.setTo(0.5,0.5);
-        this.halo.x=selectedEgg.x+this.selectedEgg.width/2;
-        this.halo.y=selectedEgg.y+this.selectedEgg.height/2-2;
+        this.halo.x=selectedEgg.x+this.selectedEgg.width/2 +4;
+        this.halo.y=selectedEgg.y+this.selectedEgg.height/2+8;
     },
     
     startRockWave: function(rockIntervalSec, numRocks,numEggs){
@@ -846,7 +846,8 @@ DinoEggs.Game.prototype = {
         
      this.rockBurst(rock);
 
-        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){    
+        if(this._rocksGroup.countLiving() == 0 && this.g_rockProducedIndex +1 == this.g_numRocks){ 
+            console.log("clearing gm canvas");
             this.clearGMCanvas(this.matchExpCanvas); 
         }   
               
