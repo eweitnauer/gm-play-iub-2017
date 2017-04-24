@@ -98,7 +98,7 @@ DinoEggs.LevelSelect.prototype = {
 		if (!DinoEggs.PLAYER_DATA) {
             
             //check for loggedin user
-            if(DinoEggs.isLoggedIn){
+            if(DinoEggs.isLoggedIn==true){
                 //nothing to do, player data already populated from welcome screen
             }
             //guest

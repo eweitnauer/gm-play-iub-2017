@@ -75,7 +75,7 @@ DinoEggs.Preload.prototype = {
         this.load.atlasJSONHash('dino', 'assets/dinoMom/mom_talk.png','assets/dinoMom/mom_talk.json');
         this.load.atlasJSONHash('dino_intro_anim', 'assets/dinoMom/dinoMomIntro.png','assets/dinoMom/dinoMomIntro.json');
 
-        this.load.image('sky', 'assets/happysky.png');
+        this.load.image('sky', 'assets/happysky.jpg');
         this.load.spritesheet('startButton', 'assets/buttons/play_button.png', 354, 85);
         this.load.spritesheet('startGuestButton', 'assets/buttons/playGuest_button.png', 354, 85);
 
@@ -123,9 +123,12 @@ DinoEggs.Preload.prototype = {
 
         this.load.image('clock', 'assets/clock.png');
         this.load.image('halo', 'assets/selected.png');
+
+        this.load.image('rockMeter', 'assets/rockMeter.png');
+
         
         this.load.spritesheet('kaboom', 'assets/explode.png', 128, 128);
-       
+
     },
     create:function(){    
         this.state.start('MainMenu');
