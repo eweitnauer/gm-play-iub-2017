@@ -591,7 +591,7 @@
             "rock": [
                 {
                     "problem": "A*M-B*M+C ",
-                    "solutions": ["M*A-B*M+C", "A*M-M*B+C", "C+A*M-B*M", "C+M*A-B*M", "C+M*A-M*B", "A*M-B*M+C ", "C+A*M-B*M"]
+                    "solutions": ["M*A-B*M+C", "A*M-M*B+C", "C+A*M-B*M", "C+M*A-B*M", "C+M*A-M*B", "A*M-B*M+C", "C+A*M-B*M"]
                 }
             ]
 	   },
@@ -723,12 +723,12 @@
                             "solutions": ["4"]
                         }, {
                             "problem": "5*14/14",
-                            "solutions": ["1"]
+                            "solutions": ["5"]
                         }, {
                             "problem": "27*12/4",
                             "solutions": ["81"]
                         }, {
-                            "problem": "13*15/10",
+                            "problem": "13*15/5",
                             "solutions": ["39"]
                         }, {
                             "problem": "17*8/4",
@@ -1085,7 +1085,7 @@
 		}],
 		"rock": [{
 			"problem": "a*d-b=c",
-			"solutions": ["a*d=c+b", "a*d=b+c", "a*d-b=c", "d*a-b=c", "c=d*a-b", "c=a*d-b", "c+b=a*d", "b=a*d-c", "-a*d+b=-c", "-a*d=-c-b", "d*-a=-c-b", "b-a*d=-c", "b-d*a=c"]
+			"solutions": ["a*d=c+b", "a*d=b+c", "a*d-b=c", "d*a-b=c", "c=d*a-b", "c=a*d-b", "c+b=a*d", "b=a*d-c", "-a*d+b=-c", "-a*d=-c-b", "d*-a=-c-b", "b-a*d=-c", "b-d*a=-c"]
 		}, {
 			"problem": "s=p*q-r",
 			"solutions": ["p*q=s+r", "p*q=r+s", "p*q-r=s", "q*p-r=s", "s=q*p-r", "s=p*q-r", "s+r=p*q", "r=p*q-s", "-p*q+r=-s", "-p*q=-s-r", "q*-p=-s-r", "r-p*q=-s", "r-q*p=-s"]

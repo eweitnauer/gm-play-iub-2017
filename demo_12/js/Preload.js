@@ -78,6 +78,7 @@ DinoEggs.Preload.prototype = {
         this.load.image('sky', 'assets/happysky.jpg');
         this.load.spritesheet('startButton', 'assets/buttons/play_button.png', 354, 85);
         this.load.spritesheet('startGuestButton', 'assets/buttons/playGuest_button.png', 354, 85);
+        this.load.spritesheet('scoreboardButton', 'assets/buttons/scoreboard.png', 354, 159/2);
 
       this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music
@@ -128,6 +129,7 @@ DinoEggs.Preload.prototype = {
 
         
         this.load.spritesheet('kaboom', 'assets/explode.png', 128, 128);
+        this.load.image('highScore', 'assets/highScore.png');
 
     },
     create:function(){    

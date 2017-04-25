@@ -30,32 +30,21 @@ DinoEggs.MainMenu.prototype = {
         //logo tween
         var logoTween = this.game.add.tween(this.logo.scale).to({ x: 0.7,y:0.8}, 5000, Phaser.Easing.Bounce.Out,true).loop(true);
         
-        //start game text
-       // var gameName = "Math Fun!";
-        var style = { font: "30px kalam", fill: "#000", align: "right" };
-        /*var t = this.game.add.text(this.game.width/2, this.logo.y + this.logo.height, gameName, style);
-        t.anchor.set(0.5);*/
+        
         
         //init high score
         this.initHighScore();
-        if (DinoEggs.HIGH_SCORE == null) {
-            this.highScore = "High score : " + 0;
-        } else {
-             this.highScore = "High score : " + DinoEggs.HIGH_SCORE;
-        }
-       
-        var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
+        
+        /*var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
         highScoreText.anchor.set(0.5);
         highScoreText.font = 'Arial';
         
         var grd = highScoreText.context.createLinearGradient(0, 0, 0, highScoreText.canvas.height);
         grd.addColorStop(0, '#f4aa42');   
         grd.addColorStop(1, '#1856b2');
-        highScoreText.fill = grd;
-//      var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore, style);
-//      highScoreText.anchor.set(0.5);
-        
-        //start button
+        highScoreText.fill = grd;*/
+
+       //start button
         this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() {
             DinoEggs.UserMode = true;
             if(!isLoggedIn()||window.localStorage.getItem('LoggedInUserProgress')==null){
@@ -73,27 +62,29 @@ DinoEggs.MainMenu.prototype = {
                 }
             }
            else{
-                this.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
+                this.game.time.events.remove(this.blink_event);
                 this.state.start('StageSelect');
            }
-//            this.game.time.events.remove(this.blink_event);
-//            this.state.start('StageSelect');
-            
         }, this, 1, 0, 2);
         
         this.startButton.anchor.set(0.5);
         this.startButton.scale.set(0.5);
         
         //start as Guest button
-        this.startGuestButton = this.game.add.button(this.game.world.width+100,this.game.world.height*0.8, 'startGuestButton', this.startGame, this, 1, 0, 2);
+        this.startGuestButton = this.game.add.button(this.game.world.width+100,this.game.world.height*0.7, 'startGuestButton', this.startGame, this, 1, 0, 2);
         this.startGuestButton.anchor.set(0.5);
         this.startGuestButton.scale.set(0.5);
+        
+        //scoreboard button
+        this.scoreboardButton = this.game.add.button(0,this.game.world.height*0.8, 'scoreboardButton', this.goToScoreboard, this, 1, 0, 2);
+        this.scoreboardButton.anchor.set(0.5);
+        this.scoreboardButton.scale.set(0.5);
 
         //Animate buttons
-        this.game.add.tween(this.startButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.7 }, 1000, Phaser.Easing.Exponential.Out, true);
-		this.game.add.tween(this.startGuestButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.8 }, 1000, Phaser.Easing.Exponential.Out, true);
-                                                        
-        
+        this.game.add.tween(this.startButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.6 }, 1000, Phaser.Easing.Exponential.Out, true);
+		    this.game.add.tween(this.startGuestButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.7 }, 1000, Phaser.Easing.Exponential.Out, true);
+        this.game.add.tween(this.scoreboardButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.8 }, 1000, Phaser.Easing.Exponential.Out, true);
+
         //Animate baby dino and mom
         this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 
         this.mom.animations.add('reachOutToBaby',['m_1.png','m_2.png','m_3.png','m_2.png','m_1.png'],1,false);
@@ -140,16 +131,19 @@ DinoEggs.MainMenu.prototype = {
         this.state.start('StageSelect');
         
     }, 
+    goToScoreboard: function(){
+        this.game.time.events.remove(this.blink_event);
+        this.state.start('Scoreboard');
+    },
     
     initHighScore: function() {
 
 		if (DinoEggs.HIGH_SCORE == null) {
 			var str = window.localStorage.getItem('HighScore');
-            console.log("init high score str from local storage" + str);
 			try {
 				DinoEggs.HIGH_SCORE = JSON.parse(str);
 			} catch(e){
-				DinoEggs.HIGH_SCORE = null;
+				DinoEggs.HIGH_SCORE = 0;
 			};
 		};
 	},
