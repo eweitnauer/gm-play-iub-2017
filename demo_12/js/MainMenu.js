@@ -64,11 +64,13 @@ DinoEggs.MainMenu.prototype = {
                 if (googleLoginWindow.closed) {
                     clearInterval(timer);
                     get_data();
+                    g_dino_eggs_mainmenu.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
+                    g_dino_eggs_mainmenu.state.start('StageSelect');
                 }
             }
-            
-            this.game.time.events.remove(this.blink_event);
-            this.state.start('StageSelect');
+//            
+//            this.game.time.events.remove(this.blink_event);
+//            this.state.start('StageSelect');
             
         }, this, 1, 0, 2);
         

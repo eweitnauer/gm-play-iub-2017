@@ -95,7 +95,7 @@ DinoEggs.LevelSelect.prototype = {
 	
 	initLevelData: function() {
 
-		if (!DinoEggs.PLAYER_DATA) {
+		//if (!DinoEggs.PLAYER_DATA) {
             
             var valueForPlayerData = null;
             //check for loggedin user
@@ -123,7 +123,7 @@ DinoEggs.LevelSelect.prototype = {
             if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
                 DinoEggs.PLAYER_DATA = [[],[]];
             };
-		};
+		//};
 	},
 
 	createLevelIcons: function() {

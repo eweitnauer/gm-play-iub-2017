@@ -1086,6 +1086,7 @@ DinoEggs.Game.prototype = {
         if(isLoggedIn()===true){
             var points = DinoEggs.HIGH_SCORE;
             var level_1_stars = JSON.stringify(DinoEggs.PLAYER_DATA);
+            window.localStorage.setItem('LoggedInUserProgress', JSON.stringify({points,level_1_stars}));
             set_data(points,level_1_stars);
         }
 	},   

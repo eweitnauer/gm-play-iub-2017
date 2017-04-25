@@ -70,7 +70,7 @@ function set_data(points,level_1_stars) {
     }
     setGameData({points,level_1_stars}, function(error) {
         if (error) console.log(JSON.stringify(error));
-        else console.log('success!');
+        else console.log('successfully adde dto database!');
     });
 }
 
