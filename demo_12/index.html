@@ -322,6 +322,7 @@
 <script>
 window.onload = function () {
     loadGM(console.log("index.html loaded gmath"), { version: '2.0.1'});
+    gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction'];
 }
 
 

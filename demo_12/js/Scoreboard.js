@@ -95,12 +95,14 @@ DinoEggs.Scoreboard.prototype = {
         //Set up some initial tiles 
         this.initTiles();
         
-        var prev = this.game.add.sprite(this.game.width/2,this.game.height-100, "prev");
+        var prev = this.game.add.sprite(this.game.width,this.game.height-100, "prev");
         prev.anchor.setTo(0.5,0.5);
         // input handler
         prev.inputEnabled = true;
         prev.events.onInputDown.add(this.navListener, this);
         prev.input.useHandCursor = true;
+        
+        this.add.tween(prev).to({x: this.game.width/2, y: this.game.height-100}, 1000, Phaser.Easing.Exponential.Out, true);
  
 	},
     initTiles: function(){
@@ -112,15 +114,9 @@ DinoEggs.Scoreboard.prototype = {
  
         //Loop through each position in a specific column, starting from the top
         for(var j = 0; j < this.data.length ; j++){
-            
-            //console.log("Column : "+j);
  
             //Add the tile to the game at this grid position
             var tile = this.addTile(i, j);
- 
-            //Keep a track of the tiles position in our tileGrid
-            //this.tileGrid[i][j] = tile;
- 
         }
     }
  
@@ -170,9 +166,6 @@ DinoEggs.Scoreboard.prototype = {
     tile.ctx.fill();
  
     tile.ctx.font = '30px kalam';
-    /*tile.ctx.border = '2px';
-    tile.ctx.borderStyle = 'solid';
-    tile.ctx.borderColor = '#000';*/
     tile.ctx.textAlign = 'center';
     tile.ctx.textBaseline = 'middle';
     tile.ctx.fillStyle = '#000';

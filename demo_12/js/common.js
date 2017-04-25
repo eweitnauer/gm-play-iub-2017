@@ -74,12 +74,13 @@ DinoEggs.Game.prototype = {
         //load both GM canvases
         //!preserve bindings
         var currentObj = this;
-        
-        //performance fix: don't reload GM if already loded in index.html
+        //performance fix: don't reload GM if already loaded in index.html
         if(gmath)
             currentObj.initCanvas();
         else
             loadGM(currentObj.initCanvas(), { version: '2.0.1' });
+        
+        gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction'];
         
           //music 
         if(!this.music){
@@ -1522,8 +1523,8 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        var indexToChoose = 0;
-        //var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
+        //var indexToChoose = 0;
+        var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         
         //check if rocks freeze is acquired,
         //In that case, if there are no rocks, player should acquire new powerup

@@ -34,20 +34,11 @@ DinoEggs.MainMenu.prototype = {
         //logo tween
         var logoTween = this.game.add.tween(this.logo.scale).to({ x: 0.7,y:0.8}, 5000, Phaser.Easing.Bounce.Out,true).loop(true);
         
-        //start game text
-       // var gameName = "Math Fun!";
-        var style = { font: "30px kalam", fill: "#000", align: "right" };
-        /*var t = this.game.add.text(this.game.width/2, this.logo.y + this.logo.height, gameName, style);
-        t.anchor.set(0.5);*/
+        
         
         //init high score
         this.initHighScore();
-        if (DinoEggs.HIGH_SCORE == null) {
-            this.highScore = "High score : " + 0;
-        } else {
-             this.highScore = "High score : " + DinoEggs.HIGH_SCORE;
-        }
-       
+        
         /*var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
         highScoreText.anchor.set(0.5);
         highScoreText.font = 'Revalia';
@@ -73,7 +64,7 @@ DinoEggs.MainMenu.prototype = {
         this.startGuestButton.scale.set(0.5);
         
          //scoreboard button
-        this.scoreboardButton = this.game.add.button(this.game.world.width+100,this.game.world.height*0.8, 'scoreboardButton', this.goToScoreboard, this, 1, 0, 2);
+        this.scoreboardButton = this.game.add.button(0,this.game.world.height*0.8, 'scoreboardButton', this.goToScoreboard, this, 1, 0, 2);
         this.scoreboardButton.anchor.set(0.5);
         this.scoreboardButton.scale.set(0.5);
 
