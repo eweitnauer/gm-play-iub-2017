@@ -134,6 +134,7 @@ DinoEggs.Preload.prototype = {
         this.state.start('MainMenu');
         //Game Music in Local Storage
         localStorage.setItem("g_isMusicPlaying", JSON.stringify(true)); 
+        //window.gm_logged_in = false;
     }
 }
 

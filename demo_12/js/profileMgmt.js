@@ -1,11 +1,3 @@
-//function convertToGameData(inpData){
-//    var s = "";
-//    if(inpData!=null){
-//        var s = "{gameData:[{s1:[" + inpData[0].toString() + "]},{s2:[" + inpData[1].toString() + "]}]}";
-//        console.log(s);   
-//    }
-//    return s;
-//}
 // Called when the user chooses a google account from the pop-up.
 loginCallBack = function() {
     window.gm_logged_in = true;
@@ -59,9 +51,9 @@ function getGameData(callback) {
   xhr.send();
 }
 
-queryUserData(function(error, data) {
+/*queryUserData(function(error, data) {
   if (!error) window.gm_logged_in = true;
-});
+});*/
 
 function set_data(points,level_1_stars) {
     if (!isLoggedIn()) {
@@ -70,7 +62,7 @@ function set_data(points,level_1_stars) {
     }
     setGameData({points,level_1_stars}, function(error) {
         if (error) console.log(JSON.stringify(error));
-        else console.log('successfully adde dto database!');
+        else console.log('successfully sent data to database!');
     });
 }
 

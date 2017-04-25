@@ -57,18 +57,25 @@ DinoEggs.MainMenu.prototype = {
         
         //start button
         this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() {
-            var googleLoginWindow = window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
-            var timer = setInterval(checkAuth, 500);
+            DinoEggs.UserMode = true;
+            if(!isLoggedIn()||window.localStorage.getItem('LoggedInUserProgress')==null){
+                var googleLoginWindow = window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
 
-            function checkAuth() {
-                if (googleLoginWindow.closed) {
-                    clearInterval(timer);
-                    get_data();
-                    g_dino_eggs_mainmenu.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
-                    g_dino_eggs_mainmenu.state.start('StageSelect');
+                var timer = setInterval(checkAuth, 500);
+
+                function checkAuth() {
+                    if (googleLoginWindow.closed) {
+                        clearInterval(timer);
+                        get_data();
+                        g_dino_eggs_mainmenu.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
+                        g_dino_eggs_mainmenu.state.start('StageSelect');
+                    }
                 }
             }
-//            
+           else{
+                this.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
+                this.state.start('StageSelect');
+           }
 //            this.game.time.events.remove(this.blink_event);
 //            this.state.start('StageSelect');
             
@@ -126,6 +133,7 @@ DinoEggs.MainMenu.prototype = {
         
     startGame:function(){
         //this.music.stop();
+        DinoEggs.UserMode = false;
         console.log("not logged in, guest mode");
         DinoEggs.isLoggedIn = false;
         this.game.time.events.remove(this.blink_event);

@@ -1083,7 +1083,8 @@ DinoEggs.Game.prototype = {
 		
         // guest mode - write to local storage
         window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
-        if(isLoggedIn()===true){
+        if(DinoEggs.UserMode && isLoggedIn()){
+            console.log("common.js User Mode, sending new data to server...");
             var points = DinoEggs.HIGH_SCORE;
             var level_1_stars = JSON.stringify(DinoEggs.PLAYER_DATA);
             window.localStorage.setItem('LoggedInUserProgress', JSON.stringify({points,level_1_stars}));
