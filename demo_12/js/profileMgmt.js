@@ -1,6 +1,14 @@
+//function convertToGameData(inpData){
+//    var s = "";
+//    if(inpData!=null){
+//        var s = "{gameData:[{s1:[" + inpData[0].toString() + "]},{s2:[" + inpData[1].toString() + "]}]}";
+//        console.log(s);   
+//    }
+//    return s;
+//}
 // Called when the user chooses a google account from the pop-up.
 loginCallBack = function() {
-  window.gm_logged_in = true;
+    window.gm_logged_in = true;
 }
 
 function isLoggedIn() {
@@ -54,3 +62,31 @@ function getGameData(callback) {
 queryUserData(function(error, data) {
   if (!error) window.gm_logged_in = true;
 });
+
+function set_data(points,level_1_stars) {
+    if (!isLoggedIn()) {
+        console.log('user is not logged in!');
+        return;
+    }
+    setGameData({points,level_1_stars}, function(error) {
+        if (error) console.log(JSON.stringify(error));
+        else console.log('success!');
+    });
+}
+
+function get_data() {
+  if (!isLoggedIn()) {
+    console.log('user is not logged in!');
+    return;
+  }
+  getGameData(function(error, data) {
+    if (error) {
+        console.log(JSON.stringify(error));
+        return false;
+    }
+    else{
+        var jsonstringdata = JSON.stringify(data);
+        window.localStorage.setItem('LoggedInUserProgress', jsonstringdata);
+    }
+  });
+}

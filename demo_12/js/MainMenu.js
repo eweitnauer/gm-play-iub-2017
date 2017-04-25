@@ -57,49 +57,19 @@ DinoEggs.MainMenu.prototype = {
         
         //start button
         this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() {
-            console.log("starting");
-            window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
+            var googleLoginWindow = window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
+            var timer = setInterval(checkAuth, 500);
+
+            function checkAuth() {
+                if (googleLoginWindow.closed) {
+                    clearInterval(timer);
+                    get_data();
+                }
+            }
             
-            var x = queryUserData(function(error,data){
-                if (error) {
-                    console.log(JSON.stringify(error));
-                    return false;
-                }
-                else{
-                    console.log(JSON.stringify(data));
-                    
-                    var y = getGameData(function(error,data){
-                        if (error) {
-                            console.log(JSON.stringify(error));
-                            return false;
-                        }
-                        else{
-                            var userGameData = JSON.stringify(data);
-                            console.log(userGameData);
-                            //if(userGameData=="[]"){
-                                //nothing stored in db/first time user
-                                setGameData({ points: 1000, level_1_stars: 5 },function(error,data){
-                                    if (error) {
-                                        console.log(JSON.stringify(error));
-                                        return false;
-                                    }
-                                    else{
-                                        console.log("sent to db!");
-                                    }
-                                });
-                            }
-                            //else{
-                              //  DinoEggs.PLAYER_DATA = userGameData;
-                        //    }
-                          //  return true;
-                        //}
-                    });
-                    return true;
-                }
-            });
-            DinoEggs.isLoggedIn = true;
             this.game.time.events.remove(this.blink_event);
             this.state.start('StageSelect');
+            
         }, this, 1, 0, 2);
         
         this.startButton.anchor.set(0.5);

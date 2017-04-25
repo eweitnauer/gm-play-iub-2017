@@ -12,7 +12,7 @@ DinoEggs.game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-div');
 //
 //    //  The Google Fonts we want to load (specify as many as you like in the array)
 //    google: {
-//      families: ['Revalia']
+//      families: ['Arial']
 //    }
 //
 //};

@@ -97,23 +97,32 @@ DinoEggs.LevelSelect.prototype = {
 
 		if (!DinoEggs.PLAYER_DATA) {
             
+            var valueForPlayerData = null;
             //check for loggedin user
-            if(DinoEggs.isLoggedIn==true){
-                //nothing to do, player data already populated from welcome screen
+            if(isLoggedIn()){
+                console.log("isLoggedIn()");
+                var LSPlayData = window.localStorage.getItem('LoggedInUserProgress');
+                JSON.parse(LSPlayData, (key, value) => {
+                  if(key==="level_1_stars")
+                    valueForPlayerData = value;
+                });
             }
             //guest
             else{
+                console.log("guest");
                 var str = window.localStorage.getItem('DinoGameProgress');
-                try {
-                    DinoEggs.PLAYER_DATA = JSON.parse(str);
-                    console.log(DinoEggs.PLAYER_DATA);
-                } catch(e){
-                    DinoEggs.PLAYER_DATA = [[],[]];
-                };
-                if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
-                    DinoEggs.PLAYER_DATA = [[],[]];
-                };
+                valueForPlayerData = JSON.parse(str);
             }
+            
+            try {
+                DinoEggs.PLAYER_DATA = valueForPlayerData;
+                console.log(DinoEggs.PLAYER_DATA);
+            } catch(e){
+                DinoEggs.PLAYER_DATA = [[],[]];
+            };
+            if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
+                DinoEggs.PLAYER_DATA = [[],[]];
+            };
 		};
 	},
 
@@ -140,8 +149,8 @@ DinoEggs.LevelSelect.prototype = {
 				};
 
 				// player progress info for this level
-				var playdata = DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1];
-
+                playdata = DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1];
+                
 				// decide which icon
 				var isLocked = true; // locked
 				var stars = 0; // no stars

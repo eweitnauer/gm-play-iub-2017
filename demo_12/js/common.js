@@ -948,7 +948,6 @@ DinoEggs.Game.prototype = {
             obj.destroy();
     },
     gameOver: function() {    
-        
         this.destructGameObjectsBeforeGameOver();
         
         var starHeight = 22;
@@ -1082,18 +1081,12 @@ DinoEggs.Game.prototype = {
 			}
 		};
 		
-        if(DinoEggs.isLoggedIn = true){
-            setGameData(JSON.stringify(DinoEggs.PLAYER_DATA), function(error) {
-                if (error) 
-                    console.log(JSON.stringify(error));
-                else{
-                    console.log("saved data to db successfully!");
-                }
-            });
-        }
-        else{
-            // guest mode - write to local storage
-		  window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+        // guest mode - write to local storage
+        window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+        if(isLoggedIn()===true){
+            var points = DinoEggs.HIGH_SCORE;
+            var level_1_stars = JSON.stringify(DinoEggs.PLAYER_DATA);
+            set_data(points,level_1_stars);
         }
 	},   
     
