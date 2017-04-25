@@ -178,7 +178,7 @@
 <script>
 
 window.onload = function () {
-  loadGM(init, { version: '2.0.1' });
+  loadGM(init, { version: '2.0.2' });
 }
 var g_done_count;
 var g_counterInsideLevel = 0;
@@ -197,7 +197,12 @@ function fix_positions() {
 function init() {
 	if (!tutorial_data) return;
 
-    gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction'];
+    gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction',,'CombinationRewriteAction',
+'EquationRewriteAction', 
+'ExpressionRewriteAction',
+'FirstLineRewriteAction',
+'FractionRewriteAction',
+'InequalityRewriteAction'];
     
 	var tutorial_pairs = 0;
     g_done_count = 0;
