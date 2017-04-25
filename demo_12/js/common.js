@@ -119,7 +119,7 @@ DinoEggs.Game.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this._platforms = this.game.add.group();
         this._platforms.enableBody = true;
-        var ground = this._platforms.create(0, this.game.world.height - 120, 'ground');
+        var ground = this._platforms.create(0, this.game.world.height - 80, 'ground');
         ground.scale.setTo(2,6);
         ground.body.immovable = true;
         
@@ -961,7 +961,6 @@ DinoEggs.Game.prototype = {
             obj.destroy();
     },
     gameOver: function() {    
-        
         this.destructGameObjectsBeforeGameOver();
         
         var stars = this.endStar();
@@ -1110,19 +1109,16 @@ DinoEggs.Game.prototype = {
 				DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][this._levelNumber] = 0; // set unlocked, 0 stars
 			}
 		};
-        if(DinoEggs.isLoggedIn = true){
-            setGameData(JSON.stringify(DinoEggs.PLAYER_DATA), function(error) {
-                if (error) 
-                    console.log(JSON.stringify(error));
-                else{
-                    console.log("saved data to db successfully!");
-                }
-            });
-            setGameData();
-        }
-        else{
-            // guest mode - write to local storage
-		  window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+
+		
+        // guest mode - write to local storage
+        window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
+        if(DinoEggs.UserMode && isLoggedIn()){
+            console.log("common.js User Mode, sending new data to server...");
+            var points = DinoEggs.HIGH_SCORE;
+            var level_1_stars = JSON.stringify(DinoEggs.PLAYER_DATA);
+            window.localStorage.setItem('LoggedInUserProgress', JSON.stringify({points,level_1_stars}));
+            set_data(points,level_1_stars);
         }
 	},   
     

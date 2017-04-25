@@ -6,7 +6,7 @@ var DinoEggs = DinoEggs || {};
 DinoEggs.LevelSelect = function(){
     Phaser.State.call(this);
     
-    DinoEggs.PLAYER_DATA = null;
+    //DinoEggs.PLAYER_DATA = null;
 	this.levelIcons = [];
 };
 
@@ -95,26 +95,35 @@ DinoEggs.LevelSelect.prototype = {
 	
 	initLevelData: function() {
 
-		if (!DinoEggs.PLAYER_DATA) {
+		//if (!DinoEggs.PLAYER_DATA) {
             
+            var valueForPlayerData = null;
             //check for loggedin user
-            if(DinoEggs.isLoggedIn){
-                //nothing to do, player data already populated from welcome screen
+            if(DinoEggs.UserMode && isLoggedIn()){
+                console.log("Level Select user mode");
+                var LSPlayData = window.localStorage.getItem('LoggedInUserProgress');
+                JSON.parse(LSPlayData, (key, value) => {
+                  if(key==="level_1_stars")
+                    valueForPlayerData = JSON.parse(value);
+                });
             }
             //guest
             else{
+                console.log("Level Select guest mode");
                 var str = window.localStorage.getItem('DinoGameProgress');
-                try {
-                    DinoEggs.PLAYER_DATA = JSON.parse(str);
-                    console.log(DinoEggs.PLAYER_DATA);
-                } catch(e){
-                    DinoEggs.PLAYER_DATA = [[],[]];
-                };
-                if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
-                    DinoEggs.PLAYER_DATA = [[],[]];
-                };
+                valueForPlayerData = JSON.parse(str);
             }
-		};
+            
+            try {
+                DinoEggs.PLAYER_DATA = valueForPlayerData;
+                console.log(DinoEggs.PLAYER_DATA);
+            } catch(e){
+                DinoEggs.PLAYER_DATA = [[],[]];
+            };
+            if (Object.prototype.toString.call( DinoEggs.PLAYER_DATA ) !== '[object Array]' ) {
+                DinoEggs.PLAYER_DATA = [[],[]];
+            };
+		//};
 	},
 
 	createLevelIcons: function() {
@@ -132,6 +141,7 @@ DinoEggs.LevelSelect.prototype = {
 				
 				// check if array not yet initialised
 				if (typeof DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] !== 'number') {
+                    console.log("NaN");
 					if (levelNumber == 1) {
 						DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] = 0; // level 1 should never be locked
 					} else {
@@ -140,8 +150,8 @@ DinoEggs.LevelSelect.prototype = {
 				};
 
 				// player progress info for this level
-				var playdata = DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1];
-
+                playdata = DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1];
+                
 				// decide which icon
 				var isLocked = true; // locked
 				var stars = 0; // no stars

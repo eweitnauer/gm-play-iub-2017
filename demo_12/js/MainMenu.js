@@ -1,14 +1,10 @@
-/* your game’s welcome screen. 
-After the preload state, all the game images are already loaded into the memory, so they can quickly accessed.*/
-//scrolling background and some text.
-
 var DinoEggs = DinoEggs || {}; 
 
 DinoEggs.MainMenu = function(){
     "use strict";
     Phaser.State.call(this);
     this.music = null;
-    this.profileButton = null;
+    this.startGuestButton = null;
     this.startButton = null;
     DinoEggs.HIGH_SCORE = null;
     DinoEggs.isLoggedIn = false;
@@ -41,20 +37,36 @@ DinoEggs.MainMenu.prototype = {
         
         /*var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
         highScoreText.anchor.set(0.5);
-        highScoreText.font = 'Revalia';
+        highScoreText.font = 'Arial';
         
         var grd = highScoreText.context.createLinearGradient(0, 0, 0, highScoreText.canvas.height);
         grd.addColorStop(0, '#f4aa42');   
         grd.addColorStop(1, '#1856b2');
         highScoreText.fill = grd;*/
 
-        
-        //start button
-        this.startButton = this.game.add.button(0,this.game.world.height*0.6 , 'startButton', function() { 
-            //window.location.href = "https://graspablemath.com/auth/google";
-            window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
-            return false;
+       //start button
+        this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() {
+            DinoEggs.UserMode = true;
+            if(!isLoggedIn()||window.localStorage.getItem('LoggedInUserProgress')==null){
+                var googleLoginWindow = window.open("https://graspablemath.com/auth/google", 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1'); 
+
+                var timer = setInterval(checkAuth, 500);
+
+                function checkAuth() {
+                    if (googleLoginWindow.closed) {
+                        clearInterval(timer);
+                        get_data();
+                        g_dino_eggs_mainmenu.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
+                        g_dino_eggs_mainmenu.state.start('StageSelect');
+                    }
+                }
+            }
+           else{
+                this.game.time.events.remove(this.blink_event);
+                this.state.start('StageSelect');
+           }
         }, this, 1, 0, 2);
+        
         this.startButton.anchor.set(0.5);
         this.startButton.scale.set(0.5);
         
@@ -63,24 +75,16 @@ DinoEggs.MainMenu.prototype = {
         this.startGuestButton.anchor.set(0.5);
         this.startGuestButton.scale.set(0.5);
         
-         //scoreboard button
+        //scoreboard button
         this.scoreboardButton = this.game.add.button(0,this.game.world.height*0.8, 'scoreboardButton', this.goToScoreboard, this, 1, 0, 2);
         this.scoreboardButton.anchor.set(0.5);
         this.scoreboardButton.scale.set(0.5);
 
         //Animate buttons
         this.game.add.tween(this.startButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.6 }, 1000, Phaser.Easing.Exponential.Out, true);
-		this.game.add.tween(this.startGuestButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.7 }, 1000, Phaser.Easing.Exponential.Out, true);
+		    this.game.add.tween(this.startGuestButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.7 }, 1000, Phaser.Easing.Exponential.Out, true);
         this.game.add.tween(this.scoreboardButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.8 }, 1000, Phaser.Easing.Exponential.Out, true);
-        
-        //login and continue career button
-        this.profileButton = this.game.add.button(this.game.world.width*0.25, this.game.world.height*0.7, 'startButton', this.loginUser, this, 1, 0, 2);
-                                                  
-        this.profileButton.visible = false;
-                                                  
-        this.profileButton.anchor.set(0.7);
-        this.profileButton.scale.set(0.7);                                                  
-        
+
         //Animate baby dino and mom
         this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 
         this.mom.animations.add('reachOutToBaby',['m_1.png','m_2.png','m_3.png','m_2.png','m_1.png'],1,false);
@@ -117,9 +121,12 @@ DinoEggs.MainMenu.prototype = {
     update:function(){
         //	Do some nice funky main menu effect here
     },
-    startGame:function(){
         
+    startGame:function(){
         //this.music.stop();
+        DinoEggs.UserMode = false;
+        console.log("not logged in, guest mode");
+        DinoEggs.isLoggedIn = false;
         this.game.time.events.remove(this.blink_event);
         this.state.start('StageSelect');
         
@@ -127,42 +134,6 @@ DinoEggs.MainMenu.prototype = {
     goToScoreboard: function(){
         this.game.time.events.remove(this.blink_event);
         this.state.start('Scoreboard');
-    },
-    
-    get_data:function() {
-        getGameData(function(error, data) {
-            var returnString = "";
-            if (error){
-                returnString = JSON.stringify(error);
-                console.log("Error: "+returnString);
-            }
-            else {
-                var userdata = JSON.stringify(data);
-                console.log("No login error, user logged in successfully.");
-                var obj = JSON.parse(userdata);
-                var playerSet1Levels = [obj.level_1_stars,obj.level_2_stars,obj.level_3_stars,obj.level_4_stars,obj.level_5_stars,obj.level_6_stars,obj.level_7_stars,obj.level_8_stars,obj.level_8_stars,obj.level_10_stars];
-
-                //var playerSet2Levels = [obj.level_1_stars,obj.level_2_stars,obj.level_3_stars,obj.level_4_stars,obj.level_5_stars,obj.level_6_stars,obj.level_7_stars,obj.level_8_stars,obj.level_8_stars,obj.level_10_stars];
-                returnString = JSON.stringify([playerSet1Levels,playerSet1Levels]);
-            }
-            return returnString;
-        });
-        return getGameData();
-    },
-    
-    loginUser:function(){
-        window.open('https://graspablemath.com/auth/google', 'Authorize Graspable Math','left=20,top=20,width=500,height=500,toolbar=1');
-        
-        if (DinoEggs.isLoggedIn==false) {
-            console.log('User is not logged in, reverting to guest mode');
-            //nothing to do here, level select state will populate the player data from local storage
-        }
-        else{
-            console.log("user logged in");
-            DinoEggs.isLoggedIn = true;
-            DinoEggs.PLAYER_DATA = this.get_data();            
-        }
-        //return false;
     },
     
     initHighScore: function() {
