@@ -179,7 +179,6 @@
 
 window.onload = function () {
   loadGM(init, { version: '2.0.1' });
-  gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction'];
 }
 var g_done_count;
 var g_counterInsideLevel = 0;
@@ -198,6 +197,8 @@ function fix_positions() {
 function init() {
 	if (!tutorial_data) return;
 
+    gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction'];
+    
 	var tutorial_pairs = 0;
     g_done_count = 0;
 

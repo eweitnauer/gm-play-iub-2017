@@ -1282,8 +1282,8 @@ DinoEggs.Game.prototype = {
         }
     },
     initiateLightningWeaponForRock:function(rock){
-        
-         var lightning = this.game.add.sprite(this.game.world.centerX,600, 'lightning');
+         var canvasTop = document.getElementById('eq-match-div').getBoundingClientRect().top;
+         var lightning = this.game.add.sprite(this.game.world.centerX,canvasTop, 'lightning');
          //lightning.scale.setTo(0.2,0.2);
          lightning.anchor.setTo(0.5, 0.5);
          this.game.physics.enable(lightning, Phaser.Physics.ARCADE);
@@ -1443,7 +1443,6 @@ DinoEggs.Game.prototype = {
         while(i >= 0){
             uniqueEqFound = true;
             var equation =  this.rock_levelProblemSet[i];
-
             if(equation != this.currentCanvasEqu){
                     for(j = 0 ; j < this._rocksGroup.children.length; j++){
                         if(this._rocksGroup.children[j].visible){
