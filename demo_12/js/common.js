@@ -40,7 +40,9 @@ DinoEggs.Game.prototype = {
     initVaribles:function(){
         this._levelNumber = DinoEggs._selectedLevel;
         this._stageNumber = DinoEggs.stageNumber;
+//        console.log("stage number is " + this._stageNumber);
         this.scoreBase = this._levelNumber * 30;
+//        console.log("selected level:"+DinoEggs._selectedLevel);
         this._jsonData = DinoEggs.jsonLevelObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this._jsonProblemData = DinoEggs.jsonProblemsObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this.g_numRocks = this._jsonData["numRocks"];
@@ -1109,15 +1111,16 @@ DinoEggs.Game.prototype = {
 			}
 		};
 
-		
-        // guest mode - write to local storage
-        window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
         if(DinoEggs.UserMode && isLoggedIn()){
             console.log("common.js User Mode, sending new data to server...");
             var points = DinoEggs.HIGH_SCORE;
             var level_1_stars = JSON.stringify(DinoEggs.PLAYER_DATA);
             window.localStorage.setItem('LoggedInUserProgress', JSON.stringify({points,level_1_stars}));
             set_data(points,level_1_stars);
+        }
+        else{
+            //console.log("common.js guest mode - write to local storage...");
+            window.localStorage.setItem('DinoGameProgress', JSON.stringify(DinoEggs.PLAYER_DATA));
         }
 	},   
     

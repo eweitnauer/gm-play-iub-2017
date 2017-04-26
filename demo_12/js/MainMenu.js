@@ -14,11 +14,7 @@ DinoEggs.MainMenu.prototype = Object.create(Phaser.State.prototype);
 DinoEggs.MainMenu.prototype.constructor = DinoEggs.MainMenu;
 
 DinoEggs.MainMenu.prototype = {
-    create:function(){
-        //TO-DO: add music
-        //this.music = this.add.audio('titleMusic');
-		//this.music.play();
-        
+    create:function(){        
         this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'sky');
 //        this.background.autoScroll(-20, 0);         //give it speed in x
         
@@ -55,9 +51,25 @@ DinoEggs.MainMenu.prototype = {
                 function checkAuth() {
                     if (googleLoginWindow.closed) {
                         clearInterval(timer);
-                        get_data();
-                        g_dino_eggs_mainmenu.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
-                        g_dino_eggs_mainmenu.state.start('StageSelect');
+                        
+                        if(!isLoggedIn()){
+                            //console.log("user didn't login, falling back to guest mode");
+                            g_dino_eggs_mainmenu.startGame();
+                        }
+                        else{
+                            //check for existing data if not, initialize
+                            queryUserData(function(error, data) {
+                              if (!error) {
+                                  window.gm_logged_in = true;
+                                  get_data();
+                                  g_dino_eggs_mainmenu.game.time.events.remove(g_dino_eggs_mainmenu.blink_event);
+                                  g_dino_eggs_mainmenu.state.start('StageSelect');
+                              }
+                                else{
+                                    g_dino_eggs_mainmenu.startGame();
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -125,6 +137,7 @@ DinoEggs.MainMenu.prototype = {
     startGame:function(){
         //this.music.stop();
         DinoEggs.UserMode = false;
+        //console.log("not logged in, guest mode");
         DinoEggs.isLoggedIn = false;
         this.game.time.events.remove(this.blink_event);
         this.state.start('StageSelect');

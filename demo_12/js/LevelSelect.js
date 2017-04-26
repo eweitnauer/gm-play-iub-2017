@@ -100,7 +100,7 @@ DinoEggs.LevelSelect.prototype = {
             var valueForPlayerData = null;
             //check for loggedin user
             if(DinoEggs.UserMode && isLoggedIn()){
-                console.log("Level Select user mode");
+                //console.log("Level Select user mode");
                 var LSPlayData = window.localStorage.getItem('LoggedInUserProgress');
                 JSON.parse(LSPlayData, (key, value) => {
                   if(key==="level_1_stars")
@@ -276,7 +276,7 @@ DinoEggs.LevelSelect.prototype = {
         $('#tFrame').contents().find('.levelTutorial').hide()
         $('#tFrame').contents().find("#"+this.selectedLevel).show();
         document.getElementById("tFrame").contentWindow.g_done_count = 0;
-        console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
+        //console.log("done count ", document.getElementById("tFrame").contentWindow.g_done_count);
 
     },
     
