@@ -125,7 +125,6 @@ DinoEggs.MainMenu.prototype = {
     startGame:function(){
         //this.music.stop();
         DinoEggs.UserMode = false;
-        console.log("not logged in, guest mode");
         DinoEggs.isLoggedIn = false;
         this.game.time.events.remove(this.blink_event);
         this.state.start('StageSelect');

@@ -109,14 +109,12 @@ DinoEggs.LevelSelect.prototype = {
             }
             //guest
             else{
-                console.log("Level Select guest mode");
                 var str = window.localStorage.getItem('DinoGameProgress');
                 valueForPlayerData = JSON.parse(str);
             }
             
             try {
                 DinoEggs.PLAYER_DATA = valueForPlayerData;
-                console.log(DinoEggs.PLAYER_DATA);
             } catch(e){
                 DinoEggs.PLAYER_DATA = [[],[]];
             };
@@ -141,7 +139,6 @@ DinoEggs.LevelSelect.prototype = {
 				
 				// check if array not yet initialised
 				if (typeof DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] !== 'number') {
-                    console.log("NaN");
 					if (levelNumber == 1) {
 						DinoEggs.PLAYER_DATA[DinoEggs.stageNumber-1][levelNumber-1] = 0; // level 1 should never be locked
 					} else {

@@ -40,9 +40,7 @@ DinoEggs.Game.prototype = {
     initVaribles:function(){
         this._levelNumber = DinoEggs._selectedLevel;
         this._stageNumber = DinoEggs.stageNumber;
-        console.log("stage number is " + this._stageNumber);
         this.scoreBase = this._levelNumber * 30;
-        console.log("selected level:"+DinoEggs._selectedLevel);
         this._jsonData = DinoEggs.jsonLevelObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this._jsonProblemData = DinoEggs.jsonProblemsObject[DinoEggs.stageNumber][DinoEggs._selectedLevel];
         this.g_numRocks = this._jsonData["numRocks"];
@@ -85,7 +83,8 @@ DinoEggs.Game.prototype = {
 'ExpressionRewriteAction',
 'FirstLineRewriteAction',
 'FractionRewriteAction',
-'InequalityRewriteAction'];
+'InequalityRewriteAction',
+'IndexFormConversionAction'];
         
           //music 
         if(!this.music){
@@ -228,7 +227,7 @@ DinoEggs.Game.prototype = {
         //powerups appear randomly
         if(this._levelNumber >= 3){
             var powerupInterval = this.getRandomRange(20, 50);
-            console.log("Power up appearing in "+powerupInterval+" seconds");
+            //console.log("Power up appearing in "+powerupInterval+" seconds");
             this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);
         }
         
@@ -436,7 +435,7 @@ DinoEggs.Game.prototype = {
             }
             
             var powerupInterval = this.getRandomRange(20, 50);
-            console.log("Power up appearing in "+powerupInterval+" seconds");
+            //console.log("Power up appearing in "+powerupInterval+" seconds");
             this.game.time.events.add(Phaser.Timer.SECOND * powerupInterval, this.showPowerup, this);  
         } 
     },
