@@ -1,6 +1,13 @@
 // Called when the user chooses a google account from the pop-up.
 loginCallBack = function() {
-    window.gm_logged_in = true;
+    queryUserData(function(error, data) {
+        if (!error) {
+            window.gm_logged_in = true;
+        }
+        else{
+            window.gm_logged_in = false;
+        }
+    });
 }
 
 function isLoggedIn() {
@@ -51,29 +58,25 @@ function getGameData(callback) {
   xhr.send();
 }
 
-/*queryUserData(function(error, data) {
-  if (!error) window.gm_logged_in = true;
-});*/
-
 function set_data(points,level_1_stars) {
     if (!isLoggedIn()) {
-        console.log('user is not logged in!');
+        //console.log('user is not logged in!');
         return;
     }
     setGameData({points,level_1_stars}, function(error) {
         if (error) console.log(JSON.stringify(error));
-        else console.log('successfully sent data to database!');
+        //else console.log('successfully sent data to database!');
     });
 }
 
 function get_data() {
   if (!isLoggedIn()) {
-    console.log('user is not logged in!');
+    //console.log('user is not logged in!');
     return;
   }
   getGameData(function(error, data) {
     if (error) {
-        console.log(JSON.stringify(error));
+        //console.log(JSON.stringify(error));
         return false;
     }
     else{
