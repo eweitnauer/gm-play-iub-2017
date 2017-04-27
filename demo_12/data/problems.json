@@ -590,7 +590,7 @@
            
             "rock": [
                 {
-                    "problem": "A*M-B*M+C ",
+                    "problem": "A*M-B*M+C",
                     "solutions": ["M*A-B*M+C", "A*M-M*B+C", "C+A*M-B*M", "C+M*A-B*M", "C+M*A-M*B", "A*M-B*M+C", "C+A*M-B*M"]
                 }
             ]
