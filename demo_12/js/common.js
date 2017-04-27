@@ -647,7 +647,7 @@ DinoEggs.Game.prototype = {
     },
 
     runToMom: function(egg_x, isSad, isGoldenEgg){
-        
+       
         //enable egg click for level 1
         if(this._levelNumber == 1){
             this._eggsGroup.setAll('inputEnabled',true);
@@ -732,6 +732,7 @@ DinoEggs.Game.prototype = {
     },
     
     populateSolveEqCanvas: function(selectedEgg){
+        document.getElementById('undo_button').style.visibility = "visible";
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
@@ -811,6 +812,7 @@ DinoEggs.Game.prototype = {
       this.game.camera.shake(0.005, 1000);  
     },
     spawnRock: function(){
+        
         //do not spawn any rock if freeze rock power up has been activated
         if(this.rocksTospawn && this.rocksTospawn.length > 0 && this.powerupID != "1"  ){
             this.g_rockProducedIndex++;
@@ -1279,7 +1281,7 @@ DinoEggs.Game.prototype = {
             this.clearBoard();
             this.dino.animations.stop(null, true);
             
-        this.undoBtn.disabled = false;
+       // this.undoBtn.disabled = false;
         var lastEq = evt.last_eq;
         
         //checking for powerup
@@ -1356,6 +1358,7 @@ DinoEggs.Game.prototype = {
                 //condition to check if equation is solved
                 if(evt.last_eq == this.selectedEgg.solutions[index]){
                     this._eggsGroup.setAll('inputEnabled',false);
+                    document.getElementById('undo_button').style.visibility = "hidden";
                     var t = this.game.add.tween(awesome.scale).to({ x: 1,y:1}, 2000,  Phaser.Easing.Bounce.Out,true);
                     t.onComplete.add(exitTween, this);
                     function exitTween () {
@@ -1422,7 +1425,7 @@ DinoEggs.Game.prototype = {
        //Add the button to the body
        document.getElementById("gm-holder-div").appendChild(this.undoBtn);
        //document.body.appendChild(this.undoBtn);
-       this.undoBtn.disabled = true;
+       //this.undoBtn.disabled = true;
         
         //Tutorial close listener to unpause the game
         var gameCtx = this;
