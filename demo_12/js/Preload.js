@@ -63,13 +63,15 @@ DinoEggs.Preload.prototype = {
         this.load.image('ground', 'assets/transparentplatform.png');
         this.load.atlasJSONHash('egg', 'assets/eggs/eggSheet.png','assets/eggs/egg.json');
         this.load.spritesheet('hatchling', 'assets/hatchling/hatchlingSheet.png', 91, 89.5);
-        this.load.spritesheet('eyes', 'assets/hatchling/eyes.png', 28, 22);
-        this.load.spritesheet('tail', 'assets/hatchling/tail.png', 20, 17);
+        this.load.spritesheet('h_eyes', 'assets/hatchling/eyes.png', 28, 22);
+        this.load.spritesheet('h_tail', 'assets/hatchling/tail.png', 20, 17);
         this.load.spritesheet('hatchling_sad', 'assets/hatchling/sadhatchlingSheet.png', 91, 89);
         this.load.spritesheet('triplets', 'assets/hatchling/tripletSheet.png', 80, 87.5);
         this.load.atlasJSONHash('hatchling_intro_anim', 'assets/hatchling/hatchlingAtlas.png', 'assets/hatchling/hatchlingAtlas.json');
         this.load.image('star', 'assets/star.png');
         this.load.atlasJSONHash('dino', 'assets/dinoMom/mom_talk.png','assets/dinoMom/mom_talk.json');
+        this.load.spritesheet('m_eyes', 'assets/dinoMom/eyes.png', 63, 15);
+        this.load.spritesheet('m_tail', 'assets/dinoMom/tail.png', 29, 41);
         this.load.atlasJSONHash('dino_intro_anim', 'assets/dinoMom/dinoMomIntro.png','assets/dinoMom/dinoMomIntro.json');
 
         this.load.image('sky', 'assets/happysky.jpg');

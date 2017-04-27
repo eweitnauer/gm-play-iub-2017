@@ -127,6 +127,16 @@ DinoEggs.Game.prototype = {
         //dino mom
         
         this.dino = this.game.add.sprite(this.game.width-300, 275, 'dino');
+        m_eyes = this.game.add.sprite(93,59, 'm_eyes');
+        m_eyes.animations.add('blinking');
+        m_eyes.animations.play('blinking', 5, true);
+        this.dino.addChild(m_eyes);
+        m_tail = this.game.add.sprite(280,210, 'm_tail');
+        m_tail.anchor.setTo(0.5,1);
+        m_tail.animations.add('wag');
+        m_tail.animations.play('wag', 3, true);
+        this.dino.addChild(m_eyes);
+        this.dino.addChild(m_tail);
         var move = this.dino.animations.add('move',['mom_talk1.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],24,true);
         
         //  Rocks group
@@ -661,17 +671,17 @@ DinoEggs.Game.prototype = {
         }else{
 
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
-            eyes = this.game.add.sprite(81,18, 'eyes');
-            eyes.anchor.setTo(0.6,0.45);
-            eyes.animations.add('blinking');
-            eyes.animations.play('blinking', 5, true);
-            hatchling.addChild(eyes);
-            tail = this.game.add.sprite(23,68, 'tail');
-            tail.anchor.setTo(1,0);
-            tail.animations.add('wag');
-            tail.animations.play('wag', 3, true);
-            hatchling.addChild(eyes);
-            hatchling.addChild(tail);
+            h_eyes = this.game.add.sprite(81,18, 'h_eyes');
+            h_eyes.anchor.setTo(0.6,0.45);
+            h_eyes.animations.add('blinking');
+            h_eyes.animations.play('blinking', 5, true);
+            hatchling.addChild(h_eyes);
+            h_tail = this.game.add.sprite(23,68, 'h_tail');
+            h_tail.anchor.setTo(1,0);
+            h_tail.animations.add('h_wag');
+            h_tail.animations.play('h_wag', 3, true);
+            hatchling.addChild(h_eyes);
+            hatchling.addChild(h_tail);
         }
         //hatchling.anchor.setTo(0.5, 0.5);
         hatchling.animations.add('run');

@@ -21,11 +21,22 @@ DinoEggs.MainMenu.prototype = {
          //game logo
         this.logo = this.game.add.sprite(this.game.world.width*0.5,this.game.world.height*0.25, 'logo');
         this.logo.anchor.set(0.5);
-        this.logo.scale.setTo(0.5,0.5);
         
         //logo tween
-        var logoTween = this.game.add.tween(this.logo.scale).to({ x: 0.7,y:0.8}, 5000, Phaser.Easing.Bounce.Out,true).loop(true);
-        
+        //var logoTween = this.game.add.tween(this.logo.scale).to({ x: 0.7,y:0.8}, 5000, Phaser.Easing.Bounce.Out,true).loop(true);
+        var a = this,
+        b = 350;
+        this.logo.alpha = 0, this.logo.scale.set(1.3, 1.3), this.game.add.tween(this.logo).to({
+            alpha: 1
+        }, 300, Phaser.Easing.Cubic.Out, !0, b), this.game.add.tween(this.logo.scale).to({
+            x: 1,
+            y: 1
+        }, 600, Phaser.Easing.Back.Out, !0, b).onComplete.addOnce(function() {
+            a.game.add.tween(a.logo.scale).to({
+                y: .94,
+                x: 1.06
+            }, 800, Phaser.Easing.Sinusoidal.InOut, !0, 0, 1e3, !0)
+        })
         
         
         //init high score
