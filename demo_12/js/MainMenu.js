@@ -19,7 +19,7 @@ DinoEggs.MainMenu.prototype = {
 //        this.background.autoScroll(-20, 0);         //give it speed in x
         
          //game logo
-        this.logo = this.game.add.sprite(this.game.world.width*0.5,this.game.world.height*0.4, 'logo');
+        this.logo = this.game.add.sprite(this.game.world.width*0.5,this.game.world.height*0.25, 'logo');
         this.logo.anchor.set(0.5);
         this.logo.scale.setTo(0.5,0.5);
         
@@ -30,16 +30,7 @@ DinoEggs.MainMenu.prototype = {
         
         //init high score
         this.initHighScore();
-        
-        /*var highScoreText = this.game.add.text(this.game.width * 0.8, this.game.height * 0.1, this.highScore);
-        highScoreText.anchor.set(0.5);
-        highScoreText.font = 'Arial';
-        
-        var grd = highScoreText.context.createLinearGradient(0, 0, 0, highScoreText.canvas.height);
-        grd.addColorStop(0, '#f4aa42');   
-        grd.addColorStop(1, '#1856b2');
-        highScoreText.fill = grd;*/
-
+    
        //start button
         this.startButton = this.game.add.button(0,this.game.world.height*0.7 , 'startButton', function() {
             DinoEggs.UserMode = true;

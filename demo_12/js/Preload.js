@@ -55,15 +55,12 @@ DinoEggs.Preload.prototype = {
         
         this.game.load.spritesheet('levelIcons', 'assets/levelIcons/level_icons.png', 73.83, 82);	
         this.game.load.image('options', 'assets/options.png');
-        this.game.load.image('tutorial', 'assets/buttons/tutorialTxt.png');
-        this.game.load.image('play', 'assets/buttons/playTxt.png');
         this.game.load.image('exit', 'assets/buttons/exit.png');
         
         //load all game assets
         this.load.image('logo','assets/name.png');
         this.load.image('rock', 'assets/rock.png');
         this.load.image('ground', 'assets/transparentplatform.png');
-        this.load.image('fragment', 'assets/star.png');    
         this.load.atlasJSONHash('egg', 'assets/eggs/eggSheet.png','assets/eggs/egg.json');
         this.load.spritesheet('hatchling', 'assets/hatchling/hatchlingSheet.png', 91, 89.5);
         this.load.spritesheet('eyes', 'assets/hatchling/eyes.png', 28, 22);
@@ -80,7 +77,6 @@ DinoEggs.Preload.prototype = {
         this.load.spritesheet('startGuestButton', 'assets/buttons/playGuest_button.png', 354, 85);
         this.load.spritesheet('scoreboardButton', 'assets/buttons/scoreboard.png', 354, 159/2);
 
-      this.load.image('tutorial', 'assets/buttons/tutorial.png');
         //background music
         this.load.audio('bg_music',['assets/bg_music.mp3']);
         this.load.image('restart', 'assets/buttons/restart.png');

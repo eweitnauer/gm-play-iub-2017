@@ -35,49 +35,6 @@ DinoEggs.LevelSelect.prototype = {
         document.getElementById("eq-solve-div").style.display="none";
         
         this.selectedLevel = -1;
-        
-        //-----------------------------------
-        /*optionsGroup = this.game.add.group();
-		optionsGroup.x = this.game.width*0.5;
-		optionsGroup.y = this.game.height*0.5;
-        optionsGroup.setAll('anchor.x', 0.5);
-	    optionsGroup.setAll('anchor.y', 0.5);
-		optionsGroup.scale.setTo(0,0);
-        optionsBg = this.game.add.sprite(0,0, "options");
-		optionsBg.anchor.setTo(0.5,0.5);
-        	
-		msg = this.game.add.text(optionsBg.x-150, optionsBg.y+50,'Choose an option', { fontSize: '25px', fill: '#000' });
-		
-		tutorial = this.game.add.sprite(optionsBg.x-150,msg.y+20, "tutorial");
-        tutorial.scale.setTo(0.7,0.7);     
-        tutorial.alpha = 0.8;
-		tutorial.inputEnabled = true;
-		tutorial.events.onInputDown.add(this.tut_listener,this);
-        tutorial.events.onInputOver.add(this.over, this);
-	    tutorial.events.onInputOut.add(this.out, this);
-		
-		play = this.game.add.sprite(optionsBg.x+50,msg.y+20, "play");
-        play.scale.setTo(0.7,0.7);     
-        play.alpha = 0.8;
-		play.inputEnabled = true;
-		play.events.onInputDown.add(this.play_listener,this);
-        play.events.onInputOver.add(this.over, this);
-	    play.events.onInputOut.add(this.out, this);
-        
-        exit = this.game.add.sprite(optionsBg.x-200,optionsBg.y+10, "exit");
-        exit.scale.setTo(0.7,0.7);        
-		exit.inputEnabled = true;
-        exit.events.onInputDown.add(this.exit_listener,this);
-        exit.alpha = 0.8;
-        exit.events.onInputOver.add(this.over, this);
-	    exit.events.onInputOut.add(this.out, this);
-        
-        optionsGroup.add(optionsBg);
-        optionsGroup.add(msg);
-        optionsGroup.add(tutorial);
-        optionsGroup.add(play);
-        optionsGroup.add(exit);*/
-        //---------------------------------------------
         var prev = this.game.add.sprite(this.game.width,this.game.height-100, "prev");
         prev.anchor.setTo(0.5,0.5);
         // input handler
