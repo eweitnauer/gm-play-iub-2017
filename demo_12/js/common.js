@@ -78,7 +78,7 @@ DinoEggs.Game.prototype = {
         if(gmath)
             currentObj.initCanvas();
         else
-            loadGM(currentObj.initCanvas(), { version: '2.0.2' });
+            loadGM(currentObj.initCanvas(), { version: '2.0.3' });
         
         gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction','CombinationRewriteAction',
 'EquationRewriteAction', 
