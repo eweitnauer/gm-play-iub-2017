@@ -178,8 +178,7 @@
 <script>
 
 window.onload = function () {
-  loadGM(init, { version: '2.0.3' });
-}
+loadGM(init, { version: '2.0.3' });
 var g_done_count;
 var g_counterInsideLevel = 0;
 
@@ -319,14 +318,14 @@ function init() {
 	function done(level) {
 		g_done_count++;
 		if (g_done_count === tutorial_data[level].length) {
+            g_done_count = 0;
             window.parent.$("#tutorialModal").modal('hide');
 		}
         else{
-            //goto next slide
-            $(".carousel").carousel('next');
+            $("#inner"+level).parent().carousel('next');
         }
 	}
 }
-
+}
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
