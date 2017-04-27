@@ -78,7 +78,7 @@ DinoEggs.Game.prototype = {
         if(gmath)
             currentObj.initCanvas();
         else
-            loadGM(currentObj.initCanvas(), { version: '2.0.2' });
+            loadGM(currentObj.initCanvas(), { version: '2.0.3' });
         
         gmath.Derivation.defaultOptions.action_blacklist = ['FlipTermAcrossFractionAction','CombinationRewriteAction',
 'EquationRewriteAction', 
@@ -450,7 +450,11 @@ DinoEggs.Game.prototype = {
             this.powerupGMDiv.style.top = '200px';
             document.getElementById("game-div").appendChild(this.powerupGMDiv);
         }
-        gmath.AlgebraView.createStaticExpression(this.powerupGMDiv, equation);
+        var options = [];
+        if(this._stageNumber == 1){
+            options['use_arithmetic_multiplication_symbol'] = true;
+        }
+        gmath.AlgebraView.createStaticExpression(this.powerupGMDiv, equation, options);
         this.powerupGMDiv.style.visibility = "visible";
     },
     showRockInstructions:function(){
@@ -514,6 +518,8 @@ DinoEggs.Game.prototype = {
                     randomIndexArr[randomIndexArr.length] = randomnumber;
                 }
             }
+        
+            var useArithmeticSymbol = this._stageNumber == 1 ? true : false;
             for (var i = 0; i < numEggs; i++){
                 
                 if(this._levelNumber != 2){
@@ -521,7 +527,7 @@ DinoEggs.Game.prototype = {
                     var eggEquation = eggEquationAndSol[0];
                     var eggSolutions = eggEquationAndSol[1];
                     var egg = new Egg(this.game,egg_x_array[i],egg_y, eggEquation, eggSolutions);
-                    egg.createEggEqDiv(egg_x_array[i], egg_y, eggEquation, i);
+                    egg.createEggEqDiv(egg_x_array[i], egg_y, eggEquation, i, useArithmeticSymbol);
 
                 }else{
                     var egg = new Egg(this.game,egg_x_array[i],egg_y,"");   
@@ -604,6 +610,7 @@ DinoEggs.Game.prototype = {
     createRocks: function(numRocks){
         //  create rocks
         this.rockPositions = this.linspace(this.g_x_start,this.g_x_end,this.g_numEggs);
+        var useArithmeticSymbol = this._stageNumber == 1 ? true : false;
         if(this.rockPositions.length>0){
             
             for (var i = 0; i < numRocks; i++){
@@ -616,7 +623,7 @@ DinoEggs.Game.prototype = {
                 var rock = new Rock(this.game,randposX, 50, match_eq);
                 rock.body.velocity.y = 0;
                 rock.visible = false;
-                rock.GMCanvas = rock.createRockEqDiv(i, randposX, 50, match_eq, this.g_rockProducedIndex);
+                rock.GMCanvas = rock.createRockEqDiv(i, randposX, 50, match_eq, this.g_rockProducedIndex, useArithmeticSymbol);
                 this._rocksGroup.add(rock);
                 this.rocksTospawn.push(rock);
                 
@@ -753,10 +760,19 @@ DinoEggs.Game.prototype = {
         this.clearGMCanvas(this.matchExpCanvas);
         
         //enable wiggle on gm canvas equations for 1st and 2nd level
-        if(this._levelNumber==1)
-            this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 }, wiggle:["+","*","-","/"] });
-        else
-            this.solveEqCanvas.model.createElement('derivation', { eq: selectedEgg.equ, pos: { x: 'center', y: 50 } });
+        var options = [];
+        options['eq'] = selectedEgg.equ;
+        options['pos'] = { x: 'center', y: 50 };
+        
+        if(this._levelNumber==1){
+            options['wiggle'] = ["+","*","-","/"];
+        }
+        if(this._stageNumber == 1){
+            //for lower grades, use the arithmetic multiplication symbol
+            options['use_arithmetic_multiplication_symbol'] = true;
+        }
+        this.solveEqCanvas.model.createElement('derivation', options);
+           
         
         if(this.halo)
             this.halo.kill();
@@ -772,11 +788,17 @@ DinoEggs.Game.prototype = {
         function exitTween () {
             this.game.add.tween(rockwave.scale).to({ x: 0,y:0}, 500,  Phaser.Easing.Bounce.Out,true);
             if(this.matchExpCanvas){
-                if(this._levelNumber==2){
-                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 }, wiggle:["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] });
+                var options = [];
+                options['eq'] = this.g_parsedCanvasExpression;
+                options['pos'] = { x: "center", y: 10 };
+                if(this._levelNumber == 2){
+                    options['wiggle'] = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] ;
                 }
-                else
-                    this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', { eq: this.g_parsedCanvasExpression, pos: { x: "center", y: 10 } });
+                if(this._stageNumber == 1){
+                    //for lower grades, use the arithmetic multiplication symbol
+                    options['use_arithmetic_multiplication_symbol'] = true;
+                }
+                this.matchExpDerivation = this.matchExpCanvas.model.createElement('derivation', options);
             }
             this.currentCanvasEqu = this.g_parsedCanvasExpression;
         }

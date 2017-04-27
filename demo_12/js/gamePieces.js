@@ -32,7 +32,7 @@ Rock.prototype.setEquation = function(equation){
     document.getElementById(newGMDivId).firstChild.parentElement.removeChild(document.getElementById(newGMDivId).firstChild);
 },
 
-Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex){
+Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rockProducedIndex, useArithmeticSymbol){
     this.newGMDiv = document.createElement("div");
     this.newGMDiv.setAttribute("id", "gmeq_" + (rockProducedIndex+1) + "_" + inputId);
     this.newGMDiv.setAttribute("class", "gm-game-rock");
@@ -46,7 +46,11 @@ Rock.prototype.createRockEqDiv = function(inputId, inputX, inputY, inputEq, rock
     this.inputId = inputId;
     this.inputX = inputX;
     this.inputY = inputY;  
-    gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
+    var options = [];
+    if(useArithmeticSymbol){
+        options['use_arithmetic_multiplication_symbol'] = true;
+    }
+    gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq,options );
     return this.newGMDiv;
 },
 
@@ -90,7 +94,7 @@ Egg.prototype.setEquStyle = function(style){
     this.children.forEach(function(c){ c.setStyle(style)});
 }
 
-Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedIndex){
+Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedIndex, useArithmeticSymbol){
     this.newGMDiv = document.createElement("div");
     var newGMDivId = "gseq_" + (eggProducedIndex+1);
     this.newGMDiv.setAttribute("id", newGMDivId);
@@ -99,6 +103,10 @@ Egg.prototype.createEggEqDiv = function(inputX, inputY, inputEq, eggProducedInde
     this.newGMDiv.style.top = (inputY + 30) + 'px';
     var gameDivContainer = document.getElementById("game-div");
     gameDivContainer.appendChild(this.newGMDiv);
-    gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq);
+    var options = [];
+    if(useArithmeticSymbol){
+         options['use_arithmetic_multiplication_symbol'] = true;
+    }
+    gmath.AlgebraView.createStaticExpression(this.newGMDiv, inputEq, options);
     return this.newGMDiv;
 }

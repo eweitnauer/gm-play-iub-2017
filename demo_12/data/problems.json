@@ -837,7 +837,7 @@
 		"egg": [],
 		"rock": [{
 			"problem": "p+q=r",
-			"solutions": ["q+p=r", "r=q+p", "r=p+q", "p=r-q", "p=-q+r", "p-r=q", "q=r-p", "-p=-r+q", "-p=q-r", "q=-p+r", "-q=p-r", "-q=-r+p", "r=p+q", "r=q+p", "-r=-p-q", "-r=-q-p", "-q-p=-r", "-p-q=-r"]
+			"solutions": ["q+p=r", "r=q+p", "r=p+q", "p=r-q", "p=-q+r", "p-r=-q", "q=r-p", "-p=-r+q", "-p=q-r", "q=-p+r", "-q=p-r", "-q=-r+p", "r=p+q", "r=q+p", "-r=-p-q", "-r=-q-p", "-q-p=-r", "-p-q=-r"]
 		}, {
 			"problem": "a+b=c",
 			"solutions": ["b+a=c", "c=b+a", "c=a+b", "a=c-b", "a=-b+c", "a-c=b", "b=c-a", "-a=-c+b", "-a=b-c", "b=-a+c", "-b=a-c", "-b=-c+a", "c=a+b", "c=b+a", "-c=-a-b", "-c=-b-a", "-b-a=-c", "-a-b=-c"]
