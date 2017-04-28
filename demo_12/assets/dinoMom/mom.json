@@ -1,0 +1,100 @@
+{"frames": {
+
+"mom.png":
+{
+	"frame": {"x":296,"y":288,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_idle2.png":
+{
+	"frame": {"x":0,"y":288,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_idle3.png":
+{
+	"frame": {"x":592,"y":288,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_idle4.png":
+{
+	"frame": {"x":1184,"y":288,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_idle5.png":
+{
+	"frame": {"x":888,"y":288,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_smile2.png":
+{
+	"frame": {"x":1475,"y":0,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_smile3.png":
+{
+	"frame": {"x":1179,"y":0,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_smile4.png":
+{
+	"frame": {"x":883,"y":0,"w":296,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":296,"h":288},
+	"sourceSize": {"w":296,"h":288}
+},
+"mom_talk2.png":
+{
+	"frame": {"x":0,"y":0,"w":294,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":294,"h":288},
+	"sourceSize": {"w":294,"h":288}
+},
+"mom_talk3.png":
+{
+	"frame": {"x":294,"y":0,"w":294,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":294,"h":288},
+	"sourceSize": {"w":294,"h":288}
+},
+"mom_talk4.png":
+{
+	"frame": {"x":588,"y":0,"w":295,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":288},
+	"sourceSize": {"w":295,"h":288}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "mom.png",
+	"format": "RGBA8888",
+	"size": {"w":1771,"h":576},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:eee9d71c01fe1896b491d0d17c3cdf0c:b585f10b274d9bfc442a782569027482:d7593fc9177fd3a3a798cd322166891e$"
+}
+}

@@ -75,7 +75,7 @@ Egg = function (game, x, y, equation, solutions) {
     //add click event to egg
     this.inputEnabled = true;
     //this.events.onInputDown.add(populateSolveEqCanvas, this, this);
-    
+    this.isGoldenEgg = false;
     this.animations.add('hatch',['egg.png','hatch1.png','hatch2.png','hatch3.png','hatch4.png','hatch5.png','hatch6.png','hatch7.png','hatch8.png','hatch9.png'],6,false);
     this.animations.add('wiggleOnce',['wiggle01.png','wiggle02.png','wiggle03.png','wiggle04.png','wiggle05.png','wiggle06.png','wiggle07.png','wiggle08.png','wiggle09.png','wiggle10.png','wiggle11.png','wiggle12.png','wiggle01.png'],10,false);
     this.animations.add('wiggleContinous',['wiggle01.png','wiggle02.png','wiggle03.png','wiggle04.png','wiggle05.png','wiggle06.png','wiggle07.png','wiggle08.png','wiggle09.png','wiggle10.png','wiggle11.png','wiggle12.png','wiggle01.png'],4,true);
