@@ -69,6 +69,7 @@ DinoEggs.StageSelect.prototype = {
         else{
             DinoEggs.stageNumber=-1;
         }
+        window.localStorage.setItem("selectedStage", JSON.stringify(DinoEggs.stageNumber));
         this.state.start('LevelSelect');
     },
 

@@ -296,8 +296,9 @@ DinoEggs.Game.prototype = {
         });
         $('#tutorialModal').modal('show');
         $('#tFrame').contents().find('.levelTutorial').hide()
-        $('#tFrame').contents().find("#"+this._levelNumber).show();
+        $('#tFrame').contents().find("#"+this._stageNumber+"_"+this._levelNumber).show();
         document.getElementById("tFrame").contentWindow.g_done_count = 0;
+        document.getElementById("tFrame").contentWindow.selectedStage = DinoEggs.stageNumber;
     },
     
     muteMusic:function(){
