@@ -688,10 +688,7 @@ DinoEggs.Game.prototype = {
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
             hatchlingGroup.add(hatchling);
         }
-        hatchlingGroup.setAll('scale.x',1.25);
-        hatchlingGroup.setAll('scale.y',1.25);
-        hatchlingGroup.setAll('anchor.x',0.5);
-        hatchlingGroup.setAll('anchor.y',0.5);
+
         for (var i =0; i<hatchlingGroup.children.length;i++) {
             hatchling = hatchlingGroup.children[i];
             h_run_anim = hatchling.animations.add('run',['baby.png','baby_run2.png','baby_run3.png','baby_run4.png','baby_run3.png','baby_run2.png','baby.png','baby_run5.png'],10,true);
