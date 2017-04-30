@@ -78,7 +78,6 @@ DinoEggs.Preload.prototype = {
 //        this.load.atlasJSONHash('dino', 'assets/dinoMom/mom_talk.png','assets/dinoMom/mom_talk.json');
 //        this.load.spritesheet('m_eyes', 'assets/dinoMom/eyes.png', 63, 15);
 //        this.load.spritesheet('m_tail', 'assets/dinoMom/tail.png', 29, 41);
-        this.load.atlasJSONHash('dino_intro_anim', 'assets/dinoMom/dinoMomIntro.png','assets/dinoMom/dinoMomIntro.json');
 
         this.load.image('sky', 'assets/happysky.jpg');
         this.load.spritesheet('startButton', 'assets/buttons/play_button.png', 354, 85);

@@ -100,15 +100,41 @@ DinoEggs.MainMenu.prototype = {
         this.game.add.tween(this.scoreboardButton).to( { x:this.game.world.width*0.5,y:this.game.world.height*0.8 }, 1000, Phaser.Easing.Exponential.Out, true);
 
         //Animate baby dino and mom
-        this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino_intro_anim'); 
-        this.mom.animations.add('reachOutToBaby',['m_1.png','m_2.png','m_3.png','m_2.png','m_1.png'],1,false);
-        this.mom.animations.add('mom_blink',['m_1.png','m_4.png','m_5.png','m_4.png','m_1.png'],10,false);
-        this.mom.play('mom_blink');
+        this.mom = this.game.add.sprite(this.game.world.width*0.6, 300, 'dino'); 
+        m_lean_anim = this.mom.animations.add('reachOutToBaby',['mom.png','mom_lean2.png','mom_lean3.png','mom_lean3.png','mom_lean2.png','mom.png'],1,false);
+        m_idle_anim = this.mom.animations.add('idle',['mom.png','mom_idle2.png','mom_idle3.png','mom_idle4.png','mom_idle3.png','mom_idle2.png','mom.png'],1,false);
+        m_blink_anim = this.mom.animations.add('blink',['mom.png','mom_idle5.png','mom.png','mom.png','mom.png','mom.png','mom.png','mom.png','mom.png','mom.png'],6,false);
         
-        this.baby = this.game.add.sprite(300,this.game.world.height-100, 'hatchling_intro_anim');
+        m_anim_objs =[m_idle_anim,m_blink_anim,m_lean_anim];
+        //Add repeating random animations
+        m_anim_objs.forEach(function(anim_obj) {
+            anim_obj.onComplete.add(function(mom, animation){
+             anims=['idle','blink'];
+             mom.animations.play(anims[Math.floor(Math.random()*anims.length)]);
+            });
+        });
+        //-------------------------------------------------------------------------------------
+        //baby anim
+        this.baby = this.game.add.sprite(300,this.game.world.height-100, 'hatchling');
+        this.baby.scale.setTo(1.25,1.25);
         this.baby.anchor.setTo(0.5, 0.5);
-        this.baby.animations.add('run',['h1.png','h2.png']);
-        this.baby.animations.play('run', 10, true);
+            hatchling = this.baby;
+            h_run_anim = hatchling.animations.add('run',['baby.png','baby_run2.png','baby_run3.png','baby_run4.png','baby_run3.png','baby_run2.png','baby.png','baby_run5.png'],10,true);
+            h_idle_anim = hatchling.animations.add('idle',['baby.png','baby_idle2.png','baby_idle3.png','baby_idle2.png','baby.png'],3,false);
+            h_speak_anim = hatchling.animations.add('speak',['baby.png','baby_speak2.png','baby_speak3.png','baby_speak4.png','baby_speak3.png','baby_speak2.png','baby.png'],3,false);
+            h_jump_anim = hatchling.animations.add('jump',['baby.png','baby_jump2.png','baby_jump3.png','baby_jump4.png','baby_jump5.png','baby_jump6.png','baby_jump5.png','baby_jump4.png','baby_jump3.png','baby_jump2.png','baby.png'],5,false);
+            h_blink_anim = hatchling.animations.add('blink',['baby.png','baby_idle4.png','baby.png','baby.png','baby.png','baby.png','baby.png','baby.png','baby.png','baby.png',],6,false);
+
+            h_anim_objs =[h_idle_anim,h_speak_anim,h_jump_anim,h_blink_anim]
+            //Add repeating random animations
+            h_anim_objs.forEach(function(anim_obj) {
+                anim_obj.onComplete.add(function(hatchling, animation){
+                 anims=['idle','speak','jump','blink'];
+                 hatchling.animations.play(anims[Math.floor(Math.random()*anims.length)]);
+                });
+            });
+            hatchling.animations.play('run');
+        //------------------------------------------------------------------------
         // params are: properties to tween, time in ms, easing and auto-start tweenthis.
         var runningBabyTween = this.game.add.tween(this.baby).to({x: this.mom.x, y: this.game.world.height-50}, 6000, Phaser.Easing.Quadratic.InOut, true);
         runningBabyTween.onComplete.addOnce(this.stopBaby, this,this.baby);  
@@ -123,14 +149,9 @@ DinoEggs.MainMenu.prototype = {
     },
     stopBaby: function(baby){
         this.baby.animations.stop(null, true);
-        this.baby.animations.add('baby_blink',['h1.png','h3.png','h4.png','h5.png','h4.png','h3.png','h1.png'],10,false);  
-        this.blink_event = this.game.time.events.loop(Phaser.Timer.SECOND*4, this.spriteBlink, this);
+        this.baby.animations.play('idle');
         this.mom.animations.play('reachOutToBaby');
         
-    },
-    spriteBlink:function(){
-        this.baby.animations.play('baby_blink');
-        this.mom.animations.play('mom_blink');
     },
     update:function(){
         //	Do some nice funky main menu effect here

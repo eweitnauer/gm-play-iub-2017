@@ -64,6 +64,8 @@ DinoEggs.Game.prototype = {
         this.powerupID = -1;
         
         explosions=null;
+    
+        isGameOver = false;
     },
     
     create:function(){
@@ -106,7 +108,6 @@ DinoEggs.Game.prototype = {
         
         this.hatchlingYUpperLimit = 60;
         this.hatchlingYLowerLimit = 130;
-        this.hatchlingYLowerLimit = 130;
         this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
         this.hatchlingYRange = this.hatchlingYUpperLimit - this.hatchlingYLowerLimit;
         //this.hatchlingYSpacing = (this.hatchlingYUpperLimit + this.hatchlingYLowerLimit) / this.g_numEggs;
@@ -128,16 +129,6 @@ DinoEggs.Game.prototype = {
         
         this.dino = this.game.add.sprite(this.game.width-300, 275, 'dino');
         
-/*        m_eyes = this.game.add.sprite(93,59, 'm_eyes');
-        m_eyes.animations.add('blinking');
-        m_eyes.animations.play('blinking', 5, true);
-        this.dino.addChild(m_eyes);
-        m_tail = this.game.add.sprite(280,210, 'm_tail');
-        m_tail.anchor.setTo(0.5,1);
-        m_tail.animations.add('wag');
-        m_tail.animations.play('wag', 3, true);
-        this.dino.addChild(m_eyes);
-        this.dino.addChild(m_tail);*/
         m_speak_anim = this.dino.animations.add('speak',['mom.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],3,true);
         m_idle_anim = this.dino.animations.add('idle',['mom.png','mom_idle2.png','mom_idle3.png','mom_idle4.png','mom_idle3.png','mom_idle2.png','mom.png'],1,false);
         m_smile_anim = this.dino.animations.add('smile',['mom.png','mom_smile2.png','mom_smile3.png','mom_smile4.png','mom_smile3.png','mom_smile3.png','mom_smile2.png','mom.png' ],2,false);
@@ -696,19 +687,11 @@ DinoEggs.Game.prototype = {
 
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
             hatchlingGroup.add(hatchling);
-/*            h_eyes = this.game.add.sprite(81,18, 'h_eyes');
-            h_eyes.anchor.setTo(0.6,0.45);
-            h_eyes.animations.add('blinking');
-            h_eyes.animations.play('blinking', 5, true);
-            hatchling.addChild(h_eyes);
-            h_tail = this.game.add.sprite(23,68, 'h_tail');
-            h_tail.anchor.setTo(1,0);
-            h_tail.animations.add('h_wag');
-            h_tail.animations.play('h_wag', 3, true);
-            hatchling.addChild(h_eyes);
-            hatchling.addChild(h_tail);*/
         }
-        //hatchling.anchor.setTo(0.5, 0.5);
+        hatchlingGroup.setAll('scale.x',1.25);
+        hatchlingGroup.setAll('scale.y',1.25);
+        hatchlingGroup.setAll('anchor.x',0.5);
+        hatchlingGroup.setAll('anchor.y',0.5);
         for (var i =0; i<hatchlingGroup.children.length;i++) {
             hatchling = hatchlingGroup.children[i];
             h_run_anim = hatchling.animations.add('run',['baby.png','baby_run2.png','baby_run3.png','baby_run4.png','baby_run3.png','baby_run2.png','baby.png','baby_run5.png'],10,true);
@@ -748,10 +731,12 @@ DinoEggs.Game.prototype = {
         {
             if(this._levelNumber == 2){
                  if(this.g_countDinoForGameOver == this.g_numEggs)
-                     this.gameOver(); 
+                     if(!isGameOver)
+                        this.gameOver(); 
             }
             else{
-                this.gameOver();   
+                if(!isGameOver)
+                    this.gameOver();   
             }
         }
     },
@@ -1032,7 +1017,8 @@ DinoEggs.Game.prototype = {
         if(obj != undefined)
             obj.destroy();
     },
-    gameOver: function() {    
+    gameOver: function() {
+        isGameOver=true;
         this.destructGameObjectsBeforeGameOver();
         
         var stars = this.endStar();
