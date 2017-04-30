@@ -158,10 +158,35 @@ DinoEggs.Game.prototype = {
          
         
         //  The score[]
-        this.scoreText = this.game.add.text(700, 16, 'Score: 0', { font: '16px kalam', fill: '#000' });
+        //this.scoreText = this.game.add.text(700, 16, 'Score: 0', { font: '16px kalam', fill: '#000' });
+        this.scoreText = this.game.add.text(this.game.world.width * 0.88, 20, 'Score: 0', { font: '24px Revalia'});
+        this.scoreText.anchor.setTo(0.5,0.5);
+        
+        //  x0, y0 - x1, y1
+        var grd = this.scoreText.context.createLinearGradient(0, 0, 0, this.scoreText.canvas.height);
+        grd.addColorStop(0, '#f442c8');   
+        grd.addColorStop(1, '#cece4a');
+        this.scoreText.fill = grd;
+
+        this.scoreText.align = 'center';
+        this.scoreText.stroke = '#000000';
+        this.scoreText.strokeThickness = 2;
+        this.scoreText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
         
         //Current Level Number
-        this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { font: '16px kalam', fill: '#000' });
+        //this.currentLevelText = this.game.add.text(600, 16, 'Level: '+(this._levelNumber), { font: '16px kalam', fill: '#000' });
+        this.currentLevelText = this.game.add.text(this.game.world.width / 2, 20, 'Level: '+(this._levelNumber), { font: '24px Revalia'});
+        this.currentLevelText.anchor.setTo(0.5,0.5);
+        
+        grd = this.currentLevelText.context.createLinearGradient(0, 0, 0, this.currentLevelText.canvas.height);
+        grd.addColorStop(0, '#f442c8');   
+        grd.addColorStop(1, '#cece4a');
+        this.currentLevelText.fill = grd;
+
+        this.currentLevelText.align = 'center';
+        this.currentLevelText.stroke = '#000000';
+        this.currentLevelText.strokeThickness = 2;
+        this.currentLevelText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
         
         // Number of Remaining Rocks
         if(this._levelNumber != 1){
@@ -408,11 +433,11 @@ DinoEggs.Game.prototype = {
         
        $('#questionModal').modal('show');
          if (this._rocksGroup.countLiving() > 0) {
-            $('#modalTitle').html('Click the expression on rock!<button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>'); 
+            $('#modalTitle').html('Click the expression on rock!<button type="button" style="color:black" class="close" data-dismiss="modal">&times;</button>'); 
             $('#qFrame').contents().find('#rock').show();
             $('#qFrame').contents().find('#egg').hide();
          } else {
-            $('#modalTitle').html('Click an egg to hatch it!<button type="button" style="color:white" class="close" data-dismiss="modal">&times;</button>');
+            $('#modalTitle').html('Click an egg to hatch it!<button type="button" style="color:black" class="close" data-dismiss="modal">&times;</button>');
             $('#qFrame').contents().find('#egg').show();
             $('#qFrame').contents().find('#rock').hide();
          }
@@ -989,7 +1014,7 @@ DinoEggs.Game.prototype = {
                 this.hatchAllEggs();
             }
             else{
-                if(this._eggsGroup.countLiving()>0){
+                if(this._eggsGroup.countLiving() > 0){
                     this.showEggInstructions();
                     this._eggsGroup.callAll('animations.play', 'animations', 'wiggleContinous');
                 }
@@ -1169,7 +1194,7 @@ DinoEggs.Game.prototype = {
 		};
 
         if(DinoEggs.UserMode && isLoggedIn()){
-            console.log("common.js User Mode, sending new data to server...");
+            //console.log("common.js User Mode, sending new data to server...");
             var points = DinoEggs.HIGH_SCORE;
             var level_1_stars = JSON.stringify(DinoEggs.PLAYER_DATA);
             window.localStorage.setItem('LoggedInUserProgress', JSON.stringify({points,level_1_stars}));
@@ -1281,12 +1306,12 @@ DinoEggs.Game.prototype = {
     showBoard: function(line1,line2) {
         if(this.board)
             this.clearBoard();
-        this.board = this.game.add.sprite(490,220,'board');
+        this.board = this.game.add.sprite(490,185,'board');
         this.board.scale.setTo(0.8,0.7);
         var style = { font: "14px kalam", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
         
-        this.boardText1 = this.game.add.text(520,250, line1, style);
-        this.boardText2 = this.game.add.text(505,270, line2, style);
+        this.boardText1 = this.game.add.text(520,215, line1, style);
+        this.boardText2 = this.game.add.text(505,235, line2, style);
     },
     
     clearBoard: function() {
