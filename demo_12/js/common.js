@@ -64,6 +64,8 @@ DinoEggs.Game.prototype = {
         this.powerupID = -1;
         
         explosions=null;
+    
+        isGameOver = false;
     },
     
     create:function(){
@@ -104,13 +106,12 @@ DinoEggs.Game.prototype = {
         //this.hatchlingXRange = this.hatchlingXRightLimit - this.hatchlingXLeftLimit;
         this.hatchlingXSpacing = 50;
         
-        this.hatchlingYUpperLimit = 40;
-        this.hatchlingYLowerLimit = 130;
+        this.hatchlingYUpperLimit = 60;
         this.hatchlingYLowerLimit = 130;
         this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
         this.hatchlingYRange = this.hatchlingYUpperLimit - this.hatchlingYLowerLimit;
         //this.hatchlingYSpacing = (this.hatchlingYUpperLimit + this.hatchlingYLowerLimit) / this.g_numEggs;
-        this.hatchlingYSpacing = 10;
+        this.hatchlingYSpacing = 25;
         
         
         //background
@@ -127,8 +128,23 @@ DinoEggs.Game.prototype = {
         //dino mom
         
         this.dino = this.game.add.sprite(this.game.width-300, 275, 'dino');
-        var move = this.dino.animations.add('move',['mom_talk1.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],24,true);
         
+        m_speak_anim = this.dino.animations.add('speak',['mom.png','mom_talk2.png','mom_talk3.png','mom_talk4.png'],3,true);
+        m_idle_anim = this.dino.animations.add('idle',['mom.png','mom_idle2.png','mom_idle3.png','mom_idle4.png','mom_idle3.png','mom_idle2.png','mom.png'],1,false);
+        m_smile_anim = this.dino.animations.add('smile',['mom.png','mom_smile2.png','mom_smile3.png','mom_smile4.png','mom_smile3.png','mom_smile3.png','mom_smile2.png','mom.png' ],2,false);
+        m_blink_anim = this.dino.animations.add('blink',['mom.png','mom_idle5.png','mom.png','mom.png','mom.png','mom.png','mom.png','mom.png','mom.png','mom.png'],6,false);
+        
+        m_anim_objs =[m_idle_anim,m_blink_anim,m_smile_anim];
+        //Add repeating random animations
+        m_anim_objs.forEach(function(anim_obj) {
+            anim_obj.onComplete.add(function(mom, animation){
+             anims=['idle','blink'];
+             mom.animations.play(anims[Math.floor(Math.random()*anims.length)]);
+            });
+        });
+        
+        this.dino.animations.play('idle');
+        //---------------------------------------------------------
         //  Rocks group
         this._rocksGroup = this.game.add.group();
         this._rocksGroup.enableBody = true;
@@ -460,11 +476,11 @@ DinoEggs.Game.prototype = {
     },
     showRockInstructions:function(){
         this.showBoard('Match rock ','expression to burst');
-        this.dino.animations.play('move', 10, true);
+        this.dino.animations.play('speak', 10, true);
     },
     showEggInstructions:function(){
         this.showBoard('Click egg and','       solve');
-        this.dino.animations.play('move', 10, true);
+        this.dino.animations.play('speak', 10, true);
     },
     update:function(){
         this.game.physics.arcade.collide(this._eggsGroup, this._platforms);
@@ -571,10 +587,10 @@ DinoEggs.Game.prototype = {
                         eggSprite.newGMDiv.parentElement.removeChild(eggSprite.newGMDiv);
                     
                     //check if egg is golden
-                    var isGoldenEgg = eggSprite.hitCounter == 10000 ? true : false;
+                    //var isGoldenEgg = eggSprite.hitCounter == 10000 ? true : false;
                     this._eggsGroup.remove(eggSprite); 
                     
-                    this.runToMom(egg_x, isSad, isGoldenEgg);
+                    this.runToMom(egg_x, isSad, eggSprite.isGoldenEgg);
 
                     if(this._eggsGroup.countLiving() > 0 && this.powerupID != "4" ){
                         this.clearGMCanvas(this.solveEqCanvas);
@@ -653,46 +669,58 @@ DinoEggs.Game.prototype = {
         if(this._levelNumber == 1){
             this._eggsGroup.setAll('inputEnabled',true);
         }
+        ////  hatchling group
+        var hatchlingGroup = this.game.add.group();
         var hatchling = null;
         if(isSad){
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling_sad');
+            hatchlingGroup.add(hatchling);
         }
         else if(isGoldenEgg){
-            hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'triplets');
+            //triplets
+            hatchling1 = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
+            hatchling2 = this.game.add.sprite(egg_x-5,this.game.world.height-200+5, 'hatchling');
+            hatchling3 = this.game.add.sprite(egg_x-10,this.game.world.height-200+10, 'hatchling');
+            hatchlingGroup.add(hatchling1);
+            hatchlingGroup.add(hatchling2);
+            hatchlingGroup.add(hatchling3);
         }else{
 
             hatchling = this.game.add.sprite(egg_x,this.game.world.height-200, 'hatchling');
-            eyes = this.game.add.sprite(81,18, 'eyes');
-            eyes.anchor.setTo(0.6,0.45);
-            eyes.animations.add('blinking');
-            eyes.animations.play('blinking', 5, true);
-            hatchling.addChild(eyes);
-            tail = this.game.add.sprite(23,68, 'tail');
-            tail.anchor.setTo(1,0);
-            tail.animations.add('wag');
-            tail.animations.play('wag', 3, true);
-            hatchling.addChild(eyes);
-            hatchling.addChild(tail);
+            hatchlingGroup.add(hatchling);
         }
-        //hatchling.anchor.setTo(0.5, 0.5);
-        hatchling.animations.add('run');
-        hatchling.animations.play('run', 10, true);
 
-        // params are: properties to tween, time in ms, easing and auto-start tweenthis.
-        var runningDinoTween = this.game.add.tween(hatchling).to({x: this.game.world.width - this.hatchlingXFinalPos, y: this.game.world.height-this.hatchlingYFinalPos}, 3000, Phaser.Easing.Quadratic.InOut, true);
-        
-        this.hatchlingYFinalPos -= this.hatchlingYSpacing;
-        if(this.hatchlingYFinalPos <= this.hatchlingYUpperLimit){
-            this.hatchlingXFinalPos += this.hatchlingXSpacing;
-            this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
+        for (var i =0; i<hatchlingGroup.children.length;i++) {
+            hatchling = hatchlingGroup.children[i];
+            h_run_anim = hatchling.animations.add('run',['baby.png','baby_run2.png','baby_run3.png','baby_run4.png','baby_run3.png','baby_run2.png','baby.png','baby_run5.png'],10,true);
+            h_idle_anim = hatchling.animations.add('idle',['baby.png','baby_idle2.png','baby_idle3.png','baby_idle2.png','baby.png'],3,false);
+            h_speak_anim = hatchling.animations.add('speak',['baby.png','baby_speak2.png','baby_speak3.png','baby_speak4.png','baby_speak3.png','baby_speak2.png','baby.png'],3,false);
+            h_jump_anim = hatchling.animations.add('jump',['baby.png','baby_jump2.png','baby_jump3.png','baby_jump4.png','baby_jump5.png','baby_jump6.png','baby_jump5.png','baby_jump4.png','baby_jump3.png','baby_jump2.png','baby.png'],5,false);
+            h_blink_anim = hatchling.animations.add('blink',['baby.png','baby_idle4.png','baby.png','baby.png','baby.png','baby.png','baby.png','baby.png','baby.png','baby.png',],6,false);
+
+            h_anim_objs =[h_idle_anim,h_speak_anim,h_jump_anim,h_blink_anim]
+            //Add repeating random animations
+            h_anim_objs.forEach(function(anim_obj) {
+                anim_obj.onComplete.add(function(hatchling, animation){
+                 anims=['idle','speak','jump','blink'];
+                 hatchling.animations.play(anims[Math.floor(Math.random()*anims.length)]);
+                });
+            });
+            hatchling.animations.play('run');
+            // params are: properties to tween, time in ms, easing and auto-start tweenthis.
+            var runningDinoTween = this.game.add.tween(hatchling).to({x: this.game.world.width - this.hatchlingXFinalPos, y: this.game.world.height-this.hatchlingYFinalPos}, 3000, Phaser.Easing.Quadratic.InOut, true);
+            this.hatchlingYFinalPos -= this.hatchlingYSpacing;
+            if(this.hatchlingYFinalPos <= this.hatchlingYUpperLimit){
+                this.hatchlingXFinalPos += this.hatchlingXSpacing;
+                this.hatchlingYFinalPos = this.hatchlingYLowerLimit;
+            }
+            runningDinoTween.onComplete.addOnce(this.stopDino, this,hatchling);
         }
-        runningDinoTween.onComplete.addOnce(this.stopDino, this,hatchling);  
-
-
     },
     stopDino: function(hatchling){
         //  This method will reset the frame to frame 1 after stopping
         hatchling.animations.stop(null, true);
+        hatchling.animations.play('idle');
         if(this._levelNumber == 2){//if(this.isSingleRockWave)
             this.g_countDinoForGameOver++;
         }
@@ -701,10 +729,12 @@ DinoEggs.Game.prototype = {
         {
             if(this._levelNumber == 2){
                  if(this.g_countDinoForGameOver == this.g_numEggs)
-                     this.gameOver(); 
+                     if(!isGameOver)
+                        this.gameOver(); 
             }
             else{
-                this.gameOver();   
+                if(!isGameOver)
+                    this.gameOver();   
             }
         }
     },
@@ -737,6 +767,7 @@ DinoEggs.Game.prototype = {
         if(this.board){
             this.clearBoard();
             this.dino.animations.stop(null, true);
+            this.dino.animations.play('idle');
             this._eggsGroup.callAll('animations.stop', 'animations');
             
             for(var i = 0; i < this._eggsGroup.children.length ; i++){
@@ -879,14 +910,14 @@ DinoEggs.Game.prototype = {
         
         //if this egg is not golden egg, only then change the egg color
         
-        if(egg.tint != 0xccac00){
+        if(!egg.isGoldenEgg){
             var hits = ++egg.hitCounter;
             switch(hits){
                 case 1 : 
-                        egg.tint = 0x00ff00; 
+                        egg.loadTexture('egg2');
                         egg.animations.play('wiggleOnce');
                          break;
-                case 2 : egg.tint = 0xff0000;
+                case 2 : egg.loadTexture('egg3');
                         var style = {font: "20px Arial", fill: "#111111", wordWrap: true, wordWrapWidth: egg.width, align: "center"};
 //                        egg.setEquStyle(style);
                         egg.animations.play('wiggleOnce');
@@ -903,11 +934,11 @@ DinoEggs.Game.prototype = {
                             });
                         }
                         break;
-                case 3 :  egg.tint = 0x2412ff;
+                case 3 :  egg.loadTexture('egg4');
                         blackdino_popup = true;
                         this.showBoard('Sad dino','Please hatch eggs!')
                         egg.animations.play('wiggleContinous');
-                        this.dino.animations.play('move', 10, true);
+                        this.dino.animations.play('speak', 10, true);
                          break;
 
             }
@@ -986,7 +1017,8 @@ DinoEggs.Game.prototype = {
         if(obj != undefined)
             obj.destroy();
     },
-    gameOver: function() {    
+    gameOver: function() {
+        isGameOver=true;
         this.destructGameObjectsBeforeGameOver();
         
         var stars = this.endStar();
@@ -1281,6 +1313,7 @@ DinoEggs.Game.prototype = {
         if(this.board)
             this.clearBoard();
             this.dino.animations.stop(null, true);
+            this.dino.animations.play('idle');
             
        // this.undoBtn.disabled = false;
         var lastEq = evt.last_eq;
@@ -1368,6 +1401,7 @@ DinoEggs.Game.prototype = {
                     this.removeHalo();
                     this.selectedEgg.animations.play('hatch', 6, false);
                     this.selectedEgg = null;
+                    this.dino.animations.play('smile');
                     break;
                 }
 
@@ -1551,7 +1585,7 @@ DinoEggs.Game.prototype = {
         var hatchEggPowerup = {id: "4", name : "Hatch any egg", handler : "hatchRandomEgg", "spriteName": "hatchEgg"};
         powerupsArray.push(hatchEggPowerup);
         
-        //var indexToChoose = 0;
+        //var indexToChoose = 2;
         var indexToChoose = this.getRandomRange(0, powerupsArray.length - 1);
         
         //check if rocks freeze is acquired,
@@ -1634,7 +1668,8 @@ DinoEggs.Game.prototype = {
         var eggIndex = this.getRandomRange(0, this._eggsGroup.countLiving() - 1);
         //Can we get a dead egg here ?
         var eggToReplace = this._eggsGroup.children[eggIndex];  
-        eggToReplace.tint = 0xccac00;
+        eggToReplace.loadTexture('egg5');
+        eggToReplace.isGoldenEgg = true;
         eggToReplace.hitCounter = 10000; // provide a better logic to recognize the golden egg
         this.powerupID = -1;
     },
