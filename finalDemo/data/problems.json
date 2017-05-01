@@ -1,0 +1,2320 @@
+{
+    "1": {
+        "1": {
+            "egg": [
+                        {
+                            "problem": "8+15",
+                            "solutions": ["23"]
+                        }, {
+                            "problem": "5+3",
+                            "solutions": ["8"]
+                        }, {
+                            "problem": "15+6",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "4+11",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "10+7",
+                            "solutions": ["17"]
+                        }, {
+                            "problem": "6+5",
+                            "solutions": ["11"]
+                        }, {
+                            "problem": "14+15",
+                            "solutions": ["29"]
+                        }, {
+                            "problem": "10+6",
+                            "solutions": ["16"]
+                        }, {
+                            "problem": "6+3",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "6+16",
+                            "solutions": ["22"]
+                        }, {
+                            "problem": "13+14",
+                            "solutions": ["27"]
+                        }, {
+                            "problem": "7+8",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "10+17",
+                            "solutions": ["27"]
+                        }, {
+                            "problem": "15+4",
+                            "solutions": ["19"]
+                        }, {
+                            "problem": "16+1",
+                            "solutions": ["17"]
+                        }, {
+                            "problem": "6+14",
+                            "solutions": ["20"]
+                        }, {
+                            "problem": "18+1",
+                            "solutions": ["19"]
+                        }, {
+                            "problem": "7+4",
+                            "solutions": ["11"]
+                        }, {
+                            "problem": "7+14",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "8+14",
+                            "solutions": ["22"]
+                        }, {
+                            "problem": "13+11",
+                            "solutions": ["24"]
+                        }, {
+                            "problem": "7+7",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "14+5",
+                            "solutions": ["19"]
+                        }, {
+                            "problem": "9+12",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "2+19",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "16-9",
+                            "solutions": ["7"]
+                        }, {
+                            "problem": "17-14",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "8-7",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "18-17",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "19-15",
+                            "solutions": ["4"]
+                        }, {
+                            "problem": "10-4",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "12-7",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "14-3",
+                            "solutions": ["11"]
+                        }, {
+                            "problem": "9-6",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "19-16",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "4*5",
+                            "solutions": ["20"]
+                        }, {
+                            "problem": "2*6",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "4*9",
+                            "solutions": ["36"]
+                        }, {
+                            "problem": "3*5",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "1*6",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "2*9",
+                            "solutions": ["18"]
+                        }, {
+                            "problem": "1*9",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "2*8",
+                            "solutions": ["16"]
+                        }, {
+                            "problem": "4*8",
+                            "solutions": ["32"]
+                        }, {
+                            "problem": "3*7",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "4*7",
+                            "solutions": ["28"]
+                        }, {
+                            "problem": "2*7",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "8/1",
+                            "solutions": ["8"]
+                        }, {
+                            "problem": "12/6",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "9/1",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "10/2",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "18/6",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "6/1",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "7/1",
+                            "solutions": ["7"]
+                        }, {
+                            "problem": "16/8",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "6/6",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "14/7",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "6/3",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "8/2",
+                            "solutions": ["4"]
+                        }, {
+                            "problem": "8/4",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "6/2",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "18/9",
+                            "solutions": ["2"]
+                        }
+            ],
+            "rock": []
+        },
+
+        "2": {
+            "egg": [],
+            "rock": [
+                        {
+                            "problem": "A+B+C",
+                            "solutions": ["A+C+B", "B+A+C", "B+C+A", "C+A+B", "C+B+A"]
+                        }, {
+                            "problem": "D+E+F",
+                            "solutions": ["D+F+E", "E+D+F", "D+F+E", "F+D+E", "F+E+D"]
+                        }
+            ]
+        },
+        
+        "3": {
+            "egg": [
+                        {
+                            "problem": "2+2-3",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "4-4+1",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "6-3+2",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "4+4-4",
+                            "solutions": ["4"]
+                        }, {
+                            "problem": "5-2-1",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "2+6-1",
+                            "solutions": ["7"]
+                        }, {
+                            "problem": "5+5-2",
+                            "solutions": ["8"]
+                        }, {
+                            "problem": "1-2+4",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "6-3-1",
+                            "solutions": ["2"]
+                        }
+            ],
+            
+            "rock": [
+                        {
+                            "problem": "M-N+P",
+                            "solutions": ["M+P-N", "-N+M+P", "-N+P+M", "P+M-N", "P-N+M"]
+                        }
+            ]
+        },
+        
+        "4": {
+            "egg": [
+                        {
+                            "problem": "5*2-4",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "8-2*3",
+                            "solutions": ["2"]
+                        }, {
+                            "problem": "6+3*1",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "6*2-4",
+                            "solutions": ["8"]
+                        }, {
+                            "problem": "7*2+1",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "6*3+2",
+                            "solutions": ["20"]
+                        }, {
+                            "problem": "5*2+2",
+                            "solutions": ["12"]
+                        }
+            ],
+            "rock": [
+                        {
+                            "problem": "A*B+C",
+                            "solutions": ["B*A+C", "C+A*B", "C+B*A"]
+                        }, {
+                            "problem": "A*B-C",
+                            "solutions": ["B*A-C", "-C+A*B", "-C+B*A"]
+                        }, {
+                            "problem": "B*A+C",
+                            "solutions": ["A*B+C", "C+A*B", "C+B*A"]
+                        }, {
+                            "problem": "B*A-C",
+                            "solutions": ["A*B-C", "-C+A*B", "-C+B*A"]
+                        }, {
+                            "problem": "C+A*B",
+                            "solutions": ["A*B+C", "B*A+C", "C+B*A"]
+                        }, {
+                            "problem": "-C+A*B",
+                            "solutions": ["A*B-C", "B*A-C", "-C+B*A"]
+                        }, {
+                            "problem": "C+B*A",
+                            "solutions": ["A*B+C", "B*A+C", "C+A*B"]
+                        }, {
+                            "problem": "-C+B*A",
+                            "solutions": ["A*B-C", "B*A-C", "-C+A*B"]
+                        }
+            ]
+	   },
+        
+       "5": {
+            "egg": [
+                        {
+                            "problem": "6*4+9*7",
+                            "solutions": ["87"]
+                        }, {
+                            "problem": "7*3+2*3",
+                            "solutions": ["27"]
+                        }, {
+                            "problem": "9*2+9*1",
+                            "solutions": ["27"]
+                        }, {
+                            "problem": "6*2+5*1",
+                            "solutions": ["17"]
+                        }, {
+                            "problem": "2*8+7*2",
+                            "solutions": ["30"]
+                        }, {
+                            "problem": "5*1+1*9",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "2*6+7*4",
+                            "solutions": ["40"]
+                        }, {
+                            "problem": "9*5+6*1",
+                            "solutions": ["51"]
+                        }, {
+                            "problem": "1*9+6*8",
+                            "solutions": ["57"]
+                        }, {
+                            "problem": "6*6+9*5",
+                            "solutions": ["81"]
+                        }, {
+                            "problem": "2*3+10*8",
+                            "solutions": ["86"]
+                        }, {
+                            "problem": "1*9+8*6",
+                            "solutions": ["57"]
+                        }, {
+                            "problem": "4*5+17*2",
+                            "solutions": ["54"]
+                        }, {
+                            "problem": "5*12+3*8",
+                            "solutions": ["84"]
+                        }, {
+                            "problem": "1*5+8*8",
+                            "solutions": ["69"]
+                        }, {
+                            "problem": "5*9+5*7",
+                            "solutions": ["80"]
+                        }, {
+                            "problem": "4*9+11*5",
+                            "solutions": ["91"]
+                        }, {
+                            "problem": "9*2+15*5",
+                            "solutions": ["93"]
+                        }
+            ],
+            
+           "rock": [
+                       {
+                            "problem": "A+B/2+C",
+                            "solutions": ["C+B/2+A", "B/2+A+C", "B/2+C+A", "B/2+C+A", "A+C+B/2", "C+A+B/2"]
+                        }, {
+                            "problem": "A+B/4+C",
+                            "solutions": ["C+B/4+A", "B/4+A+C", "B/4+C+A", "B/4+C+A", "A+C+B/4", "C+A+B/4"]
+                        }
+           ]
+	   },
+        
+       "6": {
+            "egg": [
+                        {
+                            "problem": "20/1-5*2+5",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "19/1-1*6+14",
+                            "solutions": ["27"]
+                        }, {
+                            "problem": "224/8-7*2+11",
+                            "solutions": ["25"]
+                        }, {
+                            "problem": "24/3-1*4+19",
+                            "solutions": ["23"]
+                        }, {
+                            "problem": "81/3-4*2+17",
+                            "solutions": ["36"]
+                        }, {
+                            "problem": "36/2-0*1+16",
+                            "solutions": ["34"]
+                        }, {
+                            "problem": "182/7-5*3+10",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "171/9-4*1+0",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "39/3-4*2+0",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "189/7-2*3+9",
+                            "solutions": ["30"]
+                        }, {
+                            "problem": "24/4-0*7+6",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "234/9-1*4+5",
+                            "solutions": ["27"]
+                        }, {
+                            "problem": "189/9-1*4+18",
+                            "solutions": ["35"]
+                        }
+            ],
+		    
+            "rock": [
+                        {
+                            "problem": "A*B-C*D",
+                            "solutions": ["B*A-C*D","A*B-C*D","A*B-D*C","-C*D+A*B","-D*C+A*B","-C*D+B*A","B*A-D*C","-D*C+B*A"]
+                        }
+            ]
+	  },
+        
+      "7": {
+            "egg": [
+                        {
+                            "problem": "8*(6+13)",
+                            "solutions": ["152"]
+                        }, {
+                            "problem": "6*(5+15)",
+                            "solutions": ["120"]
+                        }, {
+                            "problem": "7*(9+8)",
+                            "solutions": ["119"]
+                        }, {
+                            "problem": "3*(2+16)",
+                            "solutions": ["54"]
+                        }, {
+                            "problem": "9*(5+11)",
+                            "solutions": ["144"]
+                        }, {
+                            "problem": "7*(6+17)",
+                            "solutions": ["161"]
+                        }, {
+                            "problem": "4*(4+8)",
+                            "solutions": ["48"]
+                        }, {
+                            "problem": "6*(9+11)",
+                            "solutions": ["120"]
+                        }, {
+                            "problem": "8*(2+6)",
+                            "solutions": ["64"]
+                        }, {
+                            "problem": "1*(7+7)",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "4*(4+0)",
+                            "solutions": ["16"]
+                        }, {
+                            "problem": "4*(8+0)",
+                            "solutions": ["32"]
+                        }, {
+                            "problem": "9*(3+4)",
+                            "solutions": ["63"]
+                        }, {
+                            "problem": "1*(5+16)",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "8*(6+15)",
+                            "solutions": ["168"]
+                        }, {
+                            "problem": "3*(1+10)",
+                            "solutions": ["33"]
+                        }, {
+                            "problem": "2*(0+14)",
+                            "solutions": ["28"]
+                        }, {
+                            "problem": "5*(5+0)",
+                            "solutions": ["25"]
+                        }, {
+                            "problem": "1*(4+17)",
+                            "solutions": ["21"]
+                        }, {
+                            "problem": "(2*18)-2",
+                            "solutions": ["34"]
+                        }, {
+                            "problem": "(4*8)-18",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "(1*16)-7",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "(5*12)-8",
+                            "solutions": ["52"]
+                        }, {
+                            "problem": "(6*9)-4",
+                            "solutions": ["50"]
+                        }, {
+                            "problem": "(2*0)-6",
+                            "solutions": ["-6"]
+                        }, {
+                            "problem": "(2*9)-3",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "(8*8)-13",
+                            "solutions": ["51"]
+                        }, {
+                            "problem": "(4*2)-0",
+                            "solutions": ["8"]
+                        }, {
+                            "problem": "(1*11)-6",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "(1*16)-15",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "(7*17)-5",
+                            "solutions": ["114"]
+                        }, {
+                            "problem": "(9*9)-10",
+                            "solutions": ["71"]
+                        }, {
+                            "problem": "(6*11)-14",
+                            "solutions": ["52"]
+                        }, {
+                            "problem": "(2*19)-7",
+                            "solutions": ["31"]
+                        }, {
+                            "problem": "(2*19)-19",
+                            "solutions": ["19"]
+                        }, {
+                            "problem": "(3*18)-19",
+                            "solutions": ["35"]
+                        }, {
+                            "problem": "(7*0)-0",
+                            "solutions": ["0"]
+                        }, {
+                            "problem": "(9*5)-7",
+                            "solutions": ["38"]
+                        }, {
+                            "problem": "(3*17)-9",
+                            "solutions": ["42"]
+                        }],
+            "rock": [
+                        {
+                            "problem": "P*W+T*W ",
+                            "solutions": ["P*W+T*W", "T*W+P*W", "(P+T)*W", "W*(P+T)", "(T+P)*W"]
+                        }
+            ]
+	   },
+       
+       "8": {
+            "egg": [
+                {
+                    "problem": "0*(6+5)+8",
+                    "solutions": ["8"]
+                }, {
+                    "problem": "0*(4+15)+3",
+                    "solutions": ["3"]
+                }, {
+                    "problem": "7*(7+3)+3",
+                    "solutions": ["73"]
+                }, {
+                    "problem": "2*(2+12)+9",
+                    "solutions": ["37"]
+                }, {
+                    "problem": "8*(6+10)+1",
+                    "solutions": ["129"]
+                }, {
+                    "problem": "7*(1+6)+9",
+                    "solutions": ["58"]
+                }, {
+                    "problem": "7*(3+17)+4",
+                    "solutions": ["144"]
+                }, {
+                    "problem": "9*(5+10)+4",
+                    "solutions": ["139"]
+                }, {
+                    "problem": "6*(2+4)+2",
+                    "solutions": ["38"]
+                }, {
+                    "problem": "7*(5+2)+6",
+                    "solutions": ["55"]
+                }, {
+                    "problem": "4*(3+1)+9",
+                    "solutions": ["25"]
+                }
+            ],
+           
+            "rock": [
+                {
+                    "problem": "A*M-B*M+C",
+                    "solutions": ["M*A-B*M+C", "A*M-M*B+C", "C+A*M-B*M", "C+M*A-B*M", "C+M*A-M*B", "A*M-B*M+C", "C+A*M-B*M"]
+                }
+            ]
+	   },
+        
+       "9": {
+            "egg": [
+                        {
+                            "problem": "60/6+30/6",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "45/5+15/5",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "54/6+48/6",
+                            "solutions": ["17"]
+                        }, {
+                            "problem": "32/4+28/4",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "48/8+32/8",
+                            "solutions": ["10"]
+                        }, {
+                            "problem": "54/9+54/9",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "72/8+24/8",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "16/2+12/2",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "27/3+18/3",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "42/7+7/7",
+                            "solutions": ["7"]
+                        }, {
+                            "problem": "56/7+21/7",
+                            "solutions": ["11"]
+                        }, {
+                            "problem": "14/2+4/2",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "40/5+20/5",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "24/6+6/6",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "30/3+27/3",
+                            "solutions": ["19"]
+                        }, {
+                            "problem": "63/9+63/9",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "80/8+8/8",
+                            "solutions": ["11"]
+                        }, {
+                            "problem": "45/5+20/5",
+                            "solutions": ["13"]
+                        }, {
+                            "problem": "30/3+15/3",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "5/1+4/1",
+                            "solutions": ["9"]
+                        }, {
+                            "problem": "16/2+8/2",
+                            "solutions": ["12"]
+                        }, {
+                            "problem": "50/5+25/5",
+                            "solutions": ["15"]
+                        }, {
+                            "problem": "10/5+10/5",
+                            "solutions": ["4"]
+                        }, {
+                            "problem": "14/2+12/2",
+                            "solutions": ["13"]
+                        }, {
+                            "problem": "24/4+8/4",
+                            "solutions": ["8"]
+                        }, {
+                            "problem": "35/7+7/7",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "42/6+36/6",
+                            "solutions": ["13"]
+                        }, {
+                            "problem": "81/9+18/9",
+                            "solutions": ["11"]
+                        }, {
+                            "problem": "28/4+16/4",
+                            "solutions": ["11"]
+                        }
+            ],
+            "rock": [
+                        {
+                            "problem": "M/P+N/P",
+                            "solutions": ["N/P+M/P", "M/P+N/P", "1/P*(M+N)", "1/P*(N+M)", "(M+N)*1/P", "(N+M)*1/P", "(M+N)/P", "(N+M)/P"]
+                        }
+            ]
+	   },
+        
+       "10": {
+            "egg": [
+                        {
+                            "problem": "5*2/10",
+                            "solutions": ["1"]
+                        }, {
+                            "problem": "15*2/5",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "3*3/3",
+                            "solutions": ["3"]
+                        }, {
+                            "problem": "3*8/4",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "6*20/3",
+                            "solutions": ["40"]
+                        }, {
+                            "problem": "7*18/9",
+                            "solutions": ["14"]
+                        }, {
+                            "problem": "15*23/5",
+                            "solutions": ["69"]
+                        }, {
+                            "problem": "24*2/12",
+                            "solutions": ["4"]
+                        }, {
+                            "problem": "5*14/14",
+                            "solutions": ["5"]
+                        }, {
+                            "problem": "27*12/4",
+                            "solutions": ["81"]
+                        }, {
+                            "problem": "13*15/5",
+                            "solutions": ["39"]
+                        }, {
+                            "problem": "17*8/4",
+                            "solutions": ["34"]
+                        }, {
+                            "problem": "5*21/3",
+                            "solutions": ["35"]
+                        }, {
+                            "problem": "3*12/6",
+                            "solutions": ["6"]
+                        }, {
+                            "problem": "32*2/16",
+                            "solutions": ["4"]
+                        }, {
+                            "problem": "43*0/21",
+                            "solutions": ["0"]
+                        }, {
+                            "problem": "0*2/11",
+                            "solutions": ["0"]
+                        }, {
+                            "problem": "13*60/15",
+                            "solutions": ["52"]
+                        }, {
+                            "problem": "33*5/11",
+                            "solutions": ["15"]
+                        }
+            ],
+            "rock": [
+                        {
+                            "problem": "P/C*T",
+                            "solutions": ["T*P/C", "P/C*T", "(T*P)/C", "T*P/C", "P/C*T", "(P*T)/C", "T/C*P", "P*T/C", "1/C*T*P", "T*P*1/C", "P*T*1/C", "1/C*P*T", "T*1/C*P", "P*1/C*T"]
+                        }
+            ]
+        }              
+
+    },
+    "2":{
+        "1": {
+            "egg": [
+                        {
+                            "problem": "5*a=10",
+                            "solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+                        }, {
+                            "problem": "2*a=6",
+                            "solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+                        }, {
+                            "problem": "4*a=12",
+                            "solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+                        }, {
+                            "problem": "14*a=56",
+                            "solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+                        }, {
+                            "problem": "11*a=55",
+                            "solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+                        }, {
+                            "problem": "3+a=9",
+                            "solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+                        }, {
+                            "problem": "5+a=8",
+                            "solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+                        }, {
+                            "problem": "13+a=19",
+                            "solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+                        }, {
+                            "problem": "31+a=39",
+                            "solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+                        }, {
+                            "problem": "42+a=11",
+                            "solutions": ["a=31", "-a=-31", "31=a", "-31=-a"]
+                        }, {
+                            "problem": "7-a=0",
+                            "solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+                        }, {
+                            "problem": "4-a=2",
+                            "solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+                        }, {
+                            "problem": "9-a=1",
+                            "solutions": ["a=8", "-a=-8", "8=a", "-8=a"]
+                        }, {
+                            "problem": "88-a=3",
+                            "solutions": ["a=85", "-a=-85", "85=a", "-85=-a"]
+                        }, {
+                            "problem": "61-a=2",
+                            "solutions": ["a=59", "-a=-59", "59=a", "-59=-a"]
+                        }, {
+                            "problem": "a/3=4",
+                            "solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+                        }, {
+                            "problem": "a/7=4",
+                            "solutions": ["a=28", "-a=-28", "28=a", "-28=-a"]
+                        }, {
+                            "problem": "a/13=2",
+                            "solutions": ["a=26", "-a=-26", "26=a", "-26=-a"]
+                        }, {
+                            "problem": "a/5=4",
+                            "solutions": ["a=20", "-a=-20", "20=a", "-20=-a"]
+                        }, {
+                            "problem": "a/3=7",
+                            "solutions": ["a=21", "-a=-21", "21=a", "-21=-a"]
+                        }
+            ],
+            "rock": []
+        },
+    
+    "2": {
+		"egg": [],
+		"rock": [{
+			"problem": "p+q=r",
+			"solutions": ["q+p=r", "r=q+p", "r=p+q", "p=r-q", "p=-q+r", "p-r=-q", "q=r-p", "-p=-r+q", "-p=q-r", "q=-p+r", "-q=p-r", "-q=-r+p", "r=p+q", "r=q+p", "-r=-p-q", "-r=-q-p", "-q-p=-r", "-p-q=-r"]
+		}, {
+			"problem": "a+b=c",
+			"solutions": ["b+a=c", "c=b+a", "c=a+b", "a=c-b", "a=-b+c", "a-c=b", "b=c-a", "-a=-c+b", "-a=b-c", "b=-a+c", "-b=a-c", "-b=-c+a", "c=a+b", "c=b+a", "-c=-a-b", "-c=-b-a", "-b-a=-c", "-a-b=-c"]
+		}, {
+			"problem": "r+s=t",
+			"solutions": ["s+r=t", "t=s+r", "t=r+s", "r=t-s", "r=-s+t", "r-t=s", "s=t-r", "-r=-t+s", "-r=s-t", "s=-r+t", "-s=r-t", "-s=-t+r", "t=r+s", "t=s+r", "-t=-r-s", "-t=-s-r", "-s-r=-t", "-r-s=-t"]
+		}, {
+			"problem": "d+e=f",
+			"solutions": ["e+d=f", "f=e+d", "f=d+e", "d=f-e", "d=-e+f", "d-f=e", "e=f-d", "-d=-f+e", "-d=e-f", "e=-d+f", "-e=d-f", "-e=-f+d", "f=d+e", "f=e+d", "-f=-d-e", "-f=-e-d", "-e-d=-f", "-d-e=-f"]
+		}]
+	},
+    
+    "3": {
+		"egg": [{
+			"problem": "5*a+2=12",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "3*a+9=18",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "5*a+15=20",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "4*a+8=12",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "8*a+32=80",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "7*a+21=63",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "5*a+5=10",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "2*a+6=8",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "9*a+9=54",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "2*a+4=12",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "2*a+2=12",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "5*a+40=80",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "8*a+32=144",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "5*a+5=25",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "4*a+4=24",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "6*a+6=12",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "4*a+4=12",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "4*a+24=72",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "3*a+6=27",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "7*a+14=70",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "3*a=18-9",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "5*a=20-15",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "4*a=12-8",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "8*a=80-32",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "7*a=63-21",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "5*a=10-5",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "2*a=8-6",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "9*a=54-9",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "2*a=12-4",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "2*a=12-2",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "5*a=80-40",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "8*a=144-32",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "5*a=25-5",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "4*a=24-4",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "6*a=12-6",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "4*a=12-4",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "4*a=72-24",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "3*a=27-6",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "7*a=70-14",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "18-9=3*a",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "20-15=5*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "12-8=4*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "80-32=8*a",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "63-21=7*a",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "10-5=5*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "8-6=2*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "54-9=9*a",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "12-4=2*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "12-2=2*a",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "80-40=5*a",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "144-32=8*a",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "25-5=5*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "24-4=4*a",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "12-6=6*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "12-4=4*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "72-24=4*a",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "27-6=3*a",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "70-14=7*a",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "9-18=-3*a",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "15-20=-5*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "8-12=-4*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "32-80=-8*a",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "21-63=-7*a",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "5-10=-5*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "6-8=-2*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "9-54=-9*a",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "4-12=-2*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "2-12=-2*a",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "40-80=-5*a",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "32-144=-8*a",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "5-25=-5*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "4-24=-4*a",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "6-12=-6*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "4-12=-4*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "24-72=-4*a",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "6-27=-3*a",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "14-70=-7*a",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}],
+		"rock": [{
+			"problem": "a*d-b=c",
+			"solutions": ["a*d=c+b", "a*d=b+c", "a*d-b=c", "d*a-b=c", "c=d*a-b", "c=a*d-b", "c+b=a*d", "b=a*d-c", "-a*d+b=-c", "-a*d=-c-b", "d*-a=-c-b", "b-a*d=-c", "b-d*a=-c"]
+		}, {
+			"problem": "s=p*q-r",
+			"solutions": ["p*q=s+r", "p*q=r+s", "p*q-r=s", "q*p-r=s", "s=q*p-r", "s=p*q-r", "s+r=p*q", "r=p*q-s", "-p*q+r=-s", "-p*q=-s-r", "q*-p=-s-r", "r-p*q=-s", "r-q*p=-s"]
+		}]
+	},
+    
+    "4": {
+		"egg": [{
+			"problem": "7*(a+8)=70",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "6*(a+8)=66",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "1*(a+5)=7",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "4*(a+3)=20",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "8*(a+9)=136",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "4*(a+5)=24",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "7*(a+4)=42",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "2*(a+2)=8",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "8*(a+7)=104",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "1*(a+8)=9",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "6*(a+7)=60",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "8*(a+7)=88",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "3*(a+6)=24",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "5*(a+1)=35",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "4*(a+2)=20",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "2*(a+6)=20",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "1*(a+3)=6",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "9*(a+3)=45",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "7*(a+7)=63",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+8=70/7",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+8=66/6",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "a+5=7/1",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+3=20/4",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+9=136/8",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "a+5=24/4",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "a+4=42/7",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+2=8/2",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+7=104/8",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "a+8=9/1",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "a+7=60/6",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "a+7=88/8",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "a+6=24/3",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+1=35/5",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "a+2=20/4",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "a+6=20/2",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "a+3=6/1",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "a+3=45/9",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "a+7=63/7",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "8*7=-a*7+70",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "8*6=-a*6+66",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "5*1=-a*1+7",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "3*4=-a*4+20",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "9*8=-a*8+136",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "5*4=-a*4+24",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "4*7=-a*7+42",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "2*2=-a*2+8",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "7*8=-a*8+104",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "8*1=-a*1+9",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "7*6=-a*6+60",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "7*8=-a*8+88",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "6*3=-a*3+24",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "1*5=-a*5+35",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "2*4=-a*4+20",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "6*2=-a*2+20",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "3*1=-a*1+6",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "3*9=-a*9+45",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "7*7=-a*7+63",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "7*8=70-7*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "6*8=66-6*a",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "1*5=7-1*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "4*3=20-4*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "8*9=136-8*a",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "4*5=24-4*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "7*4=42-7*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "2*2=8-2*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "8*7=104-8*a",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "1*8=9-1*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "6*7=60-6*a",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "8*7=88-8*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "3*6=24-3*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "5*1=35-5*a",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "4*2=20-4*a",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "2*6=20-2*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "1*3=6-1*a",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "9*3=45-9*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "7*7=63-7*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}],
+		"rock": [{
+			"problem": "5*(a+b)=c",
+			"solutions": ["a+b=c/5", "b=c/5-a", "b*5=c-a*5", "b*5=c-5*a", "5*b=c-5*a", "5*b=-5*a+c", "b*5=-5*a+c", "5*(a+b)=c", "b*5=-a*5+c", "b*5+a*5=c", "(b+a)*5=c", "b+a=c/5"]
+		}, {
+			"problem": "n=k/10-m",
+			"solutions": ["m+n=k/10", "n=k/10-m", "n*10=k-m*10", "n*10=k-10*m", "10*n=k-10*m", "10*n=-10*m+k", "n*10=-10*m+k", "10*(m+n)=k", "n*10=-m*10+k", "n*10+m*10=k", "(n+m)*10=k", "n+m=k/10"]
+		}]
+	},
+    
+    "5": {
+		"egg": [{
+			"problem": "14+a/7=15",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "a/7+14=15",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "a/7=15-14",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "15=a/7+14",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "15=14+a/7",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "15-a/7=14",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "15-14=a/7",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "-14+15=a/7",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "14=15-a/7",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "15+a/8=20",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "a/8+15=20",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "a/8=20-15",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "20=a/8+15",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "20=15+a/8",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "20-a/8=15",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "20-15=a/8",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "-15+20=a/8",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "15=20-a/8",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "11+a/2=16",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "a/2+11=16",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "a/2=16-11",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "16=a/2+11",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "16=11+a/2",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "16-a/2=11",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "16-11=a/2",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "-11+16=a/2",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "11=16-a/2",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "14+a/8=18",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "a/8+14=18",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "a/8=18-14",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "18=a/8+14",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "18=14+a/8",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "18-a/8=14",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "18-14=a/8",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "-14+18=a/8",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "14=18-a/8",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "5+a/5=14",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "a/5+5=14",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "a/5=14-5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "14=a/5+5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "14=5+a/5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "14-a/5=5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "14-5=a/5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "-5+14=a/5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "5=14-a/5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "9+a/9=20",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "a/9+9=20",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "a/9=20-9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "20=a/9+9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "20=9+a/9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "20-a/9=9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "20-9=a/9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "-9+20=a/9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}, {
+			"problem": "9=20-a/9",
+			"solutions": ["a=99", "-a=-99", "99=a", "-99=-a"]
+		}],
+		"rock": [{
+			"problem": "(a+b)/m=n",
+			"solutions": ["a+b=n*m", "a+b=m*n", "(a+b)/n=m", "(a+b)/m=n", "(b+a)/m=n", "b+a=n*m", "b+a=m*n", "(b+a)/n=m", "n*m=b+a", "m*n=b+a", "m=(b+a)/n", "n=(b+a)/m", "n*m=a+b", "n=(a+b)/m", "m*n=a+b", "m=(a+b)/n", "(a+b)*1/m=n", "(b+a)*1/m=n", "1/m*(a+b)=n", "1/m*(b+a)=n", "n=(a+b)*1/m", "n=1/m*(a+b)", "n=1/m*(b+a)", "n=(b+a)*1/m", "(a+b)*1=n*m", "(a+b)*1/n=m", "(b+a)*1/n=m", "1/n*(a+b)=m", "1/n*(b+a)=m", "m=1/n*(a+b)", "m=1/n*(b+a)", "m=(a+b)*1/n", "m=(b+a)*1/n"]
+		}, {
+			"problem": "r=(q+p)/s",
+			"solutions": ["p+q=s*r", "p+q=r*s", "(p+q)/s=r", "(p+q)/r=s", "(q+p)/r=s", "q+p=s*r", "q+p=r*s", "(q+p)/s=r", "s*r=q+p", "r*s=q+p", "r=(q+p)/s", "s=(q+p)/r", "s*r=p+q", "s=(p+q)/r", "r*s=p+q", "r=(p+q)/s", "(p+q)*1/r=s", "(q+p)*1/r=s", "1/r*(p+q)=s", "1/r*(q+p)=s", "s=(p+q)*1/r", "s=1/r*(p+q)", "s=1/r*(q+p)", "s=(q+p)*1/r", "(p+q)*1=s*r", "(p+q)*1/s=r", "(q+p)*1/s=r", "1/s*(p+q)=r", "1/s*(q+p)=r", "r=1/s*(p+q)", "r=1/s*(q+p)", "r=(p+q)*1/s", "r=(q+p)*1/s"]
+		}]
+	},
+    
+    "6": {
+		"egg": [{
+			"problem": "(a+8)/4=13",
+			"solutions": ["a=44", "-a=-44", "44=a", "-44=-a"]
+		}, {
+			"problem": "(8+a)/2=12",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a+6)*1/1=14",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(7+a)*1/1=14",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "1/8*(a+8)=8",
+			"solutions": ["a=56", "-a=-56", "56=a", "-56=-a"]
+		}, {
+			"problem": "1/8*(5+a)=16",
+			"solutions": ["a=123", "-a=-123", "123=a", "-123=-a"]
+		}, {
+			"problem": "(a+1)/4=9",
+			"solutions": ["a=35", "-a=-35", "35=a", "-35=-a"]
+		}, {
+			"problem": "(9+a)/16=5",
+			"solutions": ["a=71", "-a=-71", "71=a", "-71=-a"]
+		}, {
+			"problem": "(a+8)*1/9=4",
+			"solutions": ["a=28", "-a=-28", "28=a", "-28=-a"]
+		}, {
+			"problem": "(5+a)*1/20=9",
+			"solutions": ["a=175", "-a=-175", "175=a", "-175=-a"]
+		}, {
+			"problem": "((a+2)*1)/19=2",
+			"solutions": ["a=36", "-a=-36", "36=a", "-36=-a"]
+		}, {
+			"problem": "1/9*(a+3)=6",
+			"solutions": ["a=51", "-a=-51", "51=a", "-51=-a"]
+		}, {
+			"problem": "1/14*(9+a)=5",
+			"solutions": ["a=61", "-a=-61", "61=a", "-61=-a"]
+		}, {
+			"problem": "12=(a+5)/1",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "19=(5+a)/3",
+			"solutions": ["a=52", "-a=-52", "52=a", "-52=-a"]
+		}, {
+			"problem": "4=(a+9)/17",
+			"solutions": ["a=59", "-a=-59", "59=a", "-59=-a"]
+		}, {
+			"problem": "6=(4+a)/12",
+			"solutions": ["a=68", "-a=-68", "68=a", "-68=-a"]
+		}, {
+			"problem": "8=1/4*(a+4)",
+			"solutions": ["a=28", "-a=-28", "28=a", "-28=-a"]
+		}, {
+			"problem": "9=1/5*(8+a)",
+			"solutions": ["a=37", "-a=-37", "37=a", "-37=-a"]
+		}, {
+			"problem": "4=(a+4)*1/7",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "17=(2+a)*1/1",
+			"solutions": ["a=15", "-a=-15", "15=a", "-15=-a"]
+		}, {
+			"problem": "2=1/9*(a+1)",
+			"solutions": ["a=17", "-a=-17", "17=a", "-17=-a"]
+		}, {
+			"problem": "4=1/16*(3+a)",
+			"solutions": ["a=61", "-a=-61", "61=a", "-61=-a"]
+		}, {
+			"problem": "1=(a+7)*1/12",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "3=(2+a)*1/3",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "(a+1)/8=14",
+			"solutions": ["a=111", "-a=-111", "111=a", "-111=-a"]
+		}, {
+			"problem": "(4+a)/5=11",
+			"solutions": ["a=51", "-a=-51", "51=a", "-51=-a"]
+		}, {
+			"problem": "(a+7)*1/8=10",
+			"solutions": ["a=73", "-a=-73", "73=a", "-73=-a"]
+		}, {
+			"problem": "(2+a)*1/6=18",
+			"solutions": ["a=106", "-a=-106", "106=a", "-106=-a"]
+		}, {
+			"problem": "1/6*(a+8)=16",
+			"solutions": ["a=88", "-a=-88", "88=a", "-88=-a"]
+		}, {
+			"problem": "1/8*(1+a)=8",
+			"solutions": ["a=63", "-a=-63", "63=a", "-63=-a"]
+		}, {
+			"problem": "(a+10)/15=5",
+			"solutions": ["a=65", "-a=-65", "65=a", "-65=-a"]
+		}, {
+			"problem": "(1+a)/5=3",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "(a+9)*1/16=1",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "(3+a)*1/17=3",
+			"solutions": ["a=48", "-a=-48", "48=a", "-48=-a"]
+		}, {
+			"problem": "((a+8)*1)/8=8",
+			"solutions": ["a=56", "-a=-56", "56=a", "-56=-a"]
+		}, {
+			"problem": "1/17*(a+10)=8",
+			"solutions": ["a=126", "-a=-126", "126=a", "-126=-a"]
+		}, {
+			"problem": "1/20*(1+a)=6",
+			"solutions": ["a=119", "-a=-119", "119=a", "-119=-a"]
+		}, {
+			"problem": "10=(a+7)/4",
+			"solutions": ["a=33", "-a=-33", "33=a", "-33=-a"]
+		}, {
+			"problem": "12=(7+a)/7",
+			"solutions": ["a=77", "-a=-77", "77=a", "-77=-a"]
+		}, {
+			"problem": "8=(a+5)/5",
+			"solutions": ["a=35", "-a=-35", "35=a", "-35=-a"]
+		}, {
+			"problem": "3=(3+a)/15",
+			"solutions": ["a=42", "-a=-42", "42=a", "-42=-a"]
+		}, {
+			"problem": "13=1/3*(a+10)",
+			"solutions": ["a=29", "-a=-29", "29=a", "-29=-a"]
+		}, {
+			"problem": "13=1/4*(2+a)",
+			"solutions": ["a=50", "-a=-50", "50=a", "-50=-a"]
+		}, {
+			"problem": "3=(a+1)*1/5",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "13=(3+a)*1/3",
+			"solutions": ["a=36", "-a=-36", "36=a", "-36=-a"]
+		}, {
+			"problem": "9=1/10*(a+5)",
+			"solutions": ["a=85", "-a=-85", "85=a", "-85=-a"]
+		}, {
+			"problem": "5=1/8*(6+a)",
+			"solutions": ["a=34", "-a=-34", "34=a", "-34=-a"]
+		}, {
+			"problem": "9=(a+6)*1/20",
+			"solutions": ["a=174", "-a=-174", "174=a", "-174=-a"]
+		}, {
+			"problem": "6=(7+a)*1/16",
+			"solutions": ["a=89", "-a=-89", "89=a", "-89=-a"]
+		}, {
+			"problem": "(a+7)/7=18",
+			"solutions": ["a=119", "-a=-119", "119=a", "-119=-a"]
+		}, {
+			"problem": "(6+a)/4=14",
+			"solutions": ["a=50", "-a=-50", "50=a", "-50=-a"]
+		}, {
+			"problem": "(a+7)*1/7=16",
+			"solutions": ["a=105", "-a=-105", "105=a", "-105=-a"]
+		}, {
+			"problem": "(2+a)*1/3=10",
+			"solutions": ["a=28", "-a=-28", "28=a", "-28=-a"]
+		}, {
+			"problem": "1/7*(a+2)=13",
+			"solutions": ["a=89", "-a=-89", "89=a", "-89=-a"]
+		}, {
+			"problem": "1/3*(9+a)=11",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "(a+8)/19=2",
+			"solutions": ["a=30", "-a=-30", "30=a", "-30=-a"]
+		}, {
+			"problem": "(2+a)/13=9",
+			"solutions": ["a=115", "-a=-115", "115=a", "-115=-a"]
+		}, {
+			"problem": "(a+5)*1/9=7",
+			"solutions": ["a=58", "-a=-58", "58=a", "-58=-a"]
+		}, {
+			"problem": "(1+a)*1/3=7",
+			"solutions": ["a=20", "-a=-20", "20=a", "-20=-a"]
+		}],
+		"rock": [{
+			"problem": "(r+5)/p=q",
+			"solutions": ["r+5=p*q", "(r+5)/p=q", "r+5=q*p", "5+r=q*p", "5+r=p*q", "(5+r)/p=q", "(r+5)*1/p=q", "(5+r)*1/p=q", "1/p*(r+5)=q", "1/p*(5+r)=q", "(r+5)/q=p", "(5+r)/q=p", "(r+5)*1/q=p", "(5+r)*1/q=p", "1/q*(r+5)=p", "1/q*(5+r)=p", "q=(r+5)/p", "q=(5+r)/p", "q*p=r+5", "q*p=5+r", "p*q=r+5", "p*q=5+r", "p=(r+5)/q", "p=(5+r)/q", "q=1/p*(r+5)", "q=1/p*(5+r)", "q=(r+5)*1/p", "q=(5+r)*1/p", "p=1/q*(r+5)", "p=1/q*(5+r)", "p=(r+5)*1/q", "p=(5+r)*1/q"]
+		}, {
+			"problem": "(r+p)/3=q",
+			"solutions": ["r+p=3*q", "(r+p)/3=q", "r+p=q*3", "p+r=q*3", "p+r=3*q", "(p+r)/3=q", "(r+p)*1/3=q", "(p+r)*1/3=q", "1/3*(r+p)=q", "1/3*(p+r)=q", "(r+p)/q=3", "(p+r)/q=3", "(r+p)*1/q=3", "(p+r)*1/q=3", "1/q*(r+p)=3", "1/q*(p+r)=3", "q=(r+p)/3", "q=(p+r)/3", "q*3=r+p", "q*3=p+r", "3*q=r+p", "3*q=p+r", "3=(r+p)/q", "3=(p+r)/q", "q=1/3*(r+p)", "q=1/3*(p+r)", "q=(r+p)*1/3", "q=(p+r)*1/3", "3=1/q*(r+p)", "3=1/q*(p+r)", "3=(r+p)*1/q", "3=(p+r)*1/q"]
+		}, {
+			"problem": "(r+p)/q=9",
+			"solutions": ["r+p=q*9", "(r+p)/q=9", "r+p=9*q", "p+r=9*q", "p+r=q*9", "(p+r)/q=9", "(r+p)*1/q=9", "(p+r)*1/q=9", "1/q*(r+p)=9", "1/q*(p+r)=9", "(r+p)/9=q", "(p+r)/9=q", "(r+p)*1/9=q", "(p+r)*1/9=q", "1/9*(r+p)=q", "1/9*(p+r)=q", "9=(r+p)/q", "9=(p+r)/q", "9*q=r+p", "9*q=p+r", "q*9=r+p", "q*9=p+r", "q=(r+p)/9", "q=(p+r)/9", "9=1/q*(r+p)", "9=1/q*(p+r)", "9=(r+p)*1/q", "9=(p+r)*1/q", "q=1/9*(r+p)", "q=1/9*(p+r)", "q=(r+p)*1/9", "q=(p+r)*1/9"]
+		}]
+	},
+    
+    "7": {
+		"egg": [{
+			"problem": "(a/4+8)*3=42",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "(a/6+3)*6=30",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a/2+3)*8=88",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a/4+5)*7=49",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a/5+1)*6=24",
+			"solutions": ["a=15", "-a=-15", "15=a", "-15=-a"]
+		}, {
+			"problem": "(a/5+6)*3=27",
+			"solutions": ["a=15", "-a=-15", "15=a", "-15=-a"]
+		}, {
+			"problem": "(a/3+12)*5=60",
+			"solutions": ["a=0", "-a=0", "0=-a"]
+		}, {
+			"problem": "(a/2+6)*4=40",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a/4+6)*3=24",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a/4+2)*9=72",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "(a/2-12)*6=30",
+			"solutions": ["a=34", "-a=-34", "34=a", "-34=-a"]
+		}, {
+			"problem": "(a/2-6)*5=25",
+			"solutions": ["a=22", "-a=-22", "22=a", "-22=-a"]
+		}, {
+			"problem": "(a/3-6)*8=24",
+			"solutions": ["a=27", "-a=-27", "27=a", "-27=-a"]
+		}, {
+			"problem": "(a/3-5)*7=21",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "(a/3-8)*4=12",
+			"solutions": ["a=33", "-a=-33", "33=a", "-33=-a"]
+		}, {
+			"problem": "(a/4-3)*5=25",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "(a/4-4)*4=4",
+			"solutions": ["a=20", "-a=-20", "20=a", "-20=-a"]
+		}, {
+			"problem": "(a/5-6)*3=30",
+			"solutions": ["a=80", "-a=-80", "80=a", "-80=-a"]
+		}, {
+			"problem": "(a/8-3)*6=12",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "(a/7-1)*8=16",
+			"solutions": ["a=21", "-a=-21", "21=a", "-21=-a"]
+		}, {
+			"problem": "(a/5-4)*7=35",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "(a/4-7)*9=9",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "(a/6-4)*5=10",
+			"solutions": ["a=36", "-a=-36", "36=a", "-36=-a"]
+		}, {
+			"problem": "(a/4-1)*6=18",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a/9-1)*4=8",
+			"solutions": ["a=27", "-a=-27", "27=a", "-27=-a"]
+		}, {
+			"problem": "(a*2-7)*6=42",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "(a*2-5)*2=26",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "(a*3-5)*3=57",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a*4-2)*2=44",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*4-9)*2=38",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "(a*5-8)*5=60",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*7-30)*6=30",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "(a*5-2)*3=39",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*8-30)*3=54",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*3-16)*2=40",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a*9-7)*8=16",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*2-12)*3=48",
+			"solutions": ["a=14", "-a=-14", "14=a", "-14=-a"]
+		}, {
+			"problem": "(a*2+6)*8=64",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*2+2)*3=60",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "(a*2+3)*4=60",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*2+8)*2=36",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "(a*2+3)*9=45",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*3+2)*3=33",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*3+4)*5=50",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*3+5)*2=52",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "(a*4+7)*5=55",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*4+1)*3=99",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a*4+7)*3=45",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*4+6)*2=36",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*5+1)*2=32",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*5+2)*7=84",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*6+3)*3=45",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*6+1)*4=100",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "(a*6+1)*3=63",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "(a*6+3)*3=27",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*6+4)*2=80",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*7+2)*4=92",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*8+3)*2=22",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*8+4)*3=60",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*8+7)*2=62",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*9+2)*4=80",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*9+8)*2=70",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "(a*3-3)/2=12",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "(a*2-2)/2=11",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a*2-4)/2=26",
+			"solutions": ["a=15", "-a=-15", "15=a", "-15=-a"]
+		}, {
+			"problem": "(a*2-2)/2=1",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a*3-4)/5=4",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a*3-5)/2=5",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "(a*3-12)/3=2",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*4-6)/2=7",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "(a*4-3)/5=9",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a*4-20)/11=4",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a*4-25)/3=25",
+			"solutions": ["a=25", "-a=-25", "25=a", "-25=-a"]
+		}, {
+			"problem": "(a*5-20)/10=3",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "(a*5-75)/5=1",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a*5-12)/4=2",
+			"solutions": ["a=4", "-a=-20", "20=a", "-20=-a"]
+		}, {
+			"problem": "(a*7-3)/15=4",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "(a*7-11)/12=2",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "(a*7-1)/3=2",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "(a*7-20)/9=4",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a*7-9)/5=8",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "(a*7-60)/8=3",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a*2+2)/2=10",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "(a*2+6)/2=7",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "(a*2+4)/10=3",
+			"solutions": ["a=13", "-a=-13", "13=a", "-13=-a"]
+		}, {
+			"problem": "(a*2+22)/5=6",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "(a*2+22)/2=22",
+			"solutions": ["a=11", "-a=-11", "11=a", "-11=-a"]
+		}, {
+			"problem": "(a*3+32)/5=10",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*3+9)/3=23",
+			"solutions": ["a=20", "-a=-20", "20=a", "-20=-a"]
+		}, {
+			"problem": "(a*3+22)/5=8",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "(a*3+20)/5=7",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}],
+		"rock": [{
+			"problem": "3*a^2+6*b^2+8",
+			"solutions": ["3*a^2+8+6*b^2", "8+6*b^2+3*a^2", "6*b^2+8+3*a^2", "6*b^2+3*a^2+8", "8+6*b^2+3*a^2", "8+3*a^2+6*b^2", "8+3*(a^2+2*b^2)", "8+(a^2+2*b^2)*3", "3*(a^2+2*b^2)+8", "(a^2+2*b^2)*3+8", "3*(2*b^2+a^2)+8", "(2*b^2+a^2)*3+8", "8+3*(2*b^2+a^2)", "8+(2*b^2+a^2)*3", "3*a^2+2*(3*b^2+4)", "3*a^2+(3*b^2+4)*2", "3*a^2+2*(3*b^2+4)", "2*(3*b^2+4)+3*a^2", "(3*b^2+4)*2+3*a^2", "2*(4+3*b^2)+3*a^2", "(4+3*b^2)*2+3*a^2", "(3*b^2+4)*2+3*a^2", "2*(3*b^2+4)+3*a^2", "3*a^2+2*(4+3*b^2)", "3*a^2+(4+3*b^2)*2"]
+		}]
+	},
+    
+    "8": {
+		"egg": [{
+			"problem": "a+30=2*a+24",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "6*a+15=3*a+45",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "3*a+60=8*a+15",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "2*a+112=12*a+12",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "5*a+135=20*a+90",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "7*a+16=80+3*a",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "50+6*a=20+9*a",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "11*a+10=8*a+37",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "76+5*a=14*a+4",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "45+2*a=19+15*a",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "100+3*a=86+17*a",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "23+3*a=40-2*a",
+			"solutions": ["a=17", "-a=-17", "17=a", "-17=-a"]
+		}, {
+			"problem": "10+5*a=87-6*a",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "12*a+6=70-4*a",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "8*a+2=101-3*a",
+			"solutions": ["a=9", "-a=-9", "9=a", "-9=-a"]
+		}, {
+			"problem": "4*a+14=26-2*a",
+			"solutions": ["a=2", "-2=-a", "2=a", "-2=-a"]
+		}, {
+			"problem": "19+8*a=89-2*a",
+			"solutions": ["a=7", "-7=-a", "7=a", "-7=-a"]
+		}, {
+			"problem": "45+6*a=66-a",
+			"solutions": ["a=3", "-3=-a", "3=a", "-3=-a"]
+		}, {
+			"problem": "3*a-32=32-a",
+			"solutions": ["a=16", "-16=-a", "16=a", "-16=-a"]
+		}, {
+			"problem": "8*a-18=12-5*a",
+			"solutions": ["a=10", "-10=-a", "10=a", "-10=-a"]
+		}],
+		"rock": [{
+			"problem": "3*p+q=t*p+r",
+			"solutions": ["3*p=t*p+r-q", "3*p=t*p-q+r", "3*p=r-q+t*p", "3*p=-q+r*t*p", "3*p=-q+t*p+r", "3*p=r+t*p-q", "t*p+r-q=3*p", "t*p-q+r=3*p", "-q+r+t*p=3*p", "p*(3-t)+q=r", "r=q+p*(3-t)", "q=p*(t-3)+r", "q=r+p*(t-3)", "p*(t-3)=q-r", "q-r=p*(t-3)"]
+		}, {
+			"problem": "5*a+b=d*a+c",
+			"solutions": ["5*a=d*a+c-b", "5*a=d*a-b+c", "5*a=c-b+d*a", "5*a=-b+c*d*a", "5*a=-b+a*d+c", "5*a=r+a*d-c", "d*a+c-b=5*a", "d*a-b+c=5*a", "-b+c+a*d=5*a", "a*(5-d)+b=c", "c=b+a*(5-d)", "b=a*(d-5)+c", "b=c+a*(d-5)", "a*(d-5)=b-c", "b-c=a*(d-5)"]
+		}]
+	},
+    
+    "9": {
+		"egg": [{
+			"problem": "2*(a+3)=3*a+2",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "2*(a+8)=4*a+4",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "2*(a+6)=7*a+2",
+			"solutions": ["a=2", "-a=-2", "4=2", "-2=-a"]
+		}, {
+			"problem": "3*(a+7)=a+23",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "3*(a+3)=2*a+19",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "3*(a+8)=5*a+16",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "3*(a+6)=4*a+11",
+			"solutions": ["a=7", "-a=-7", "7=a", "-7=-a"]
+		}, {
+			"problem": "4*(a+16)=12*a+24",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "4*(a+2)=7*a+2",
+			"solutions": ["a=2", "-2=-5", "2=a", "-2=-a"]
+		}, {
+			"problem": "4*(a+9)=12*a+20",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "5*(a+3)=7*a+3",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "5*(a+1)=3*a+21",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "5*(a+3)=7*a+7",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "5*(a+2)=4*a+16",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}, {
+			"problem": "6*(a+4)=12*a+18",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "6*(a+7)=13*a+7",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "6*(a+8)=10*a+32",
+			"solutions": ["a=4", "-a=-4", "4=a", "-4=-a"]
+		}, {
+			"problem": "6*(a+2)=3*a+15",
+			"solutions": ["a=1", "-a=-1", "1=a", "-1=-a"]
+		}, {
+			"problem": "7*(a+1)=5*a+27",
+			"solutions": ["a=10", "-a=-10", "10=a", "-10=-a"]
+		}, {
+			"problem": "7*(a+4)=16*a+1",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "7*(a+3)=6*a+26",
+			"solutions": ["a=5", "-a=-5", "5=a", "-5=-a"]
+		}, {
+			"problem": "7*(a+2)=5*a+30",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "7*(a+6)=16*a+15",
+			"solutions": ["a=3", "-a=-3", "3=a", "-3=-a"]
+		}, {
+			"problem": "8*(a+3)=5*a+42",
+			"solutions": ["a=6", "-a=-6", "6=a", "-6=-a"]
+		}],
+		"rock": [{
+			"problem": "a^2*b^2/c^2",
+			"solutions": ["(a*b)^2/c^2", "(b*a)^2/c^2", "a^2*1/c^2*b^2", "a^2*b^2*1/c^2", "b^2*a^2*1/c^2", "1/c^2*(a*b)^2", "1/c^2*(b*a)^2", "b^2*1/c^2*a^2", "1/c^2*b^2*a^2", "1/c^2*a^2*b^2", "a^2/c^2*b^2", "b^2*a^2/c^2"]
+		}, {
+			"problem": "p^2*q^2/r^2",
+			"solutions": ["(p*q)^2/r^2", "(q*p)^2/r^2", "p^2*1/r^2*q^2", "p^2*q^2*1/r^2", "q^2*p^2*1/r^2", "1/r^2*(p*q)^2", "1/r^2*(q*p)^2", "q^2*1/r^2*p^2", "1/r^2*q^2*p^2", "1/r^2*p^2*q^2", "p^2/r^2*q^2", "q^2*p^2/r^2"]
+		}]
+	},
+    
+    "10": {
+        "egg": [{
+			"problem": "(a+1080)/8=(16*a+720)/8",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "(a+7938)/7=(28*a+3969)/7",
+			"solutions": ["a=147", "-a=-147", "147=a", "-147=-a"]
+		}, {
+			"problem": "(a+420)/3=(15*a+252)/3",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a+1392)/6=(30*a+1044)/6",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a+4536)/4=(28*a+2592)/4",
+			"solutions": ["a=72", "-a=-72", "72=a", "-72=-a"]
+		}, {
+			"problem": "(a+2400)/3=(21*a+1200)/3",
+			"solutions": ["a=60", "-a=-60", "60=a", "-60=-a"]
+		}, {
+			"problem": "(a+3840)/5=(25*a+1440)/5",
+			"solutions": ["a=100", "-a=-100", "100=a", "-100=-a"]
+		}, {
+			"problem": "(a+1932)/6=(24*a+828)/6",
+			"solutions": ["a=48", "-a=-48", "48=a", "-48=-a"]
+		}, {
+			"problem": "(a+2754)/9=(18*a+918)/9",
+			"solutions": ["a=108", "-a=-108", "108=a", "-108=-a"]
+		}, {
+			"problem": "(a+294)/7=(7*a+168)/7",
+			"solutions": ["a=21", "-a=-21", "21=a", "-21=-a"]
+		}, {
+			"problem": "(a+600)/8=(16*a+480)/8",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a+4200)/7=(21*a+1400)/7",
+			"solutions": ["a=140", "-a=-140", "140=a", "-140=-a"]
+		}, {
+			"problem": "(a+4914)/7=(14*a+4368)/7",
+			"solutions": ["a=42", "-a=-42", "42=a", "-42=-a"]
+		}, {
+			"problem": "(a+840)/5=(15*a+210)/5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "(a+6090)/6=(30*a+3654)/6",
+			"solutions": ["a=84", "-a=-84", "84=a", "-84=-a"]
+		}, {
+			"problem": "(a+80)/2=(6*a+70)/2",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a+3990)/5=(20*a+1710)/5",
+			"solutions": ["a=120", "-a=-120", "120=a", "-120=-a"]
+		}, {
+			"problem": "(a+6800)/5=(35*a+2550)/5",
+			"solutions": ["a=125", "-a=-125", "125=a", "-125=-a"]
+		}, {
+			"problem": "(a+528)/4=(12*a+440)/4",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a+2160)/4=(28*a+1080)/4",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "(a+5040)/5=(25*a+840)/5",
+			"solutions": ["a=175", "-a=-175", "175=a", "-175=-a"]
+		}, {
+			"problem": "(a+700)/5=(5*a+420)/5",
+			"solutions": ["a=70", "-a=-70", "70=a", "-70=-a"]
+		}, {
+			"problem": "(a+84)/1=(4*a+21)/1",
+			"solutions": ["a=21", "-a=-21", "21=a", "-21=-a"]
+		}, {
+			"problem": "(a+1440)/9=(9*a+720)/9",
+			"solutions": ["a=90", "-a=-90", "90=a", "-90=-a"]
+		}, {
+			"problem": "(a+4464)/8=(32*a+3472)/8",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "(a+896)/4=(8*a+336)/4",
+			"solutions": ["a=80", "-a=-80", "80=a", "-80=-a"]
+		}, {
+			"problem": "(a+6615)/9=(36*a+4410)/9",
+			"solutions": ["a=63", "-a=-63", "63=a", "-63=-a"]
+		}, {
+			"problem": "(a+448)/4=(8*a+336)/4",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a+1800)/9=(9*a+1080)/9",
+			"solutions": ["a=90", "-a=-90", "90=a", "-90=-a"]
+		}, {
+			"problem": "(a-720)/8=(16*a-1080)/8",
+			"solutions": ["a=24", "-a=-24", "24=a", "-24=-a"]
+		}, {
+			"problem": "(a-3969)/7=(28*a-7938)/7",
+			"solutions": ["a=147", "-a=-147", "147=a", "-147=-a"]
+		}, {
+			"problem": "(a-252)/3=(15*a-420)/3",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a-1044)/6=(30*a-1392)/6",
+			"solutions": ["a=12", "-a=-12", "12=a", "-12=-a"]
+		}, {
+			"problem": "(a-2592)/4=(28*a-4536)/4",
+			"solutions": ["a=72", "-a=-72", "72=a", "-72=-a"]
+		}, {
+			"problem": "(a-1200)/3=(21*a-2400)/3",
+			"solutions": ["a=60", "-a=-60", "60=a", "-60=-a"]
+		}, {
+			"problem": "(a-1440)/5=(25*a-3840)/5",
+			"solutions": ["a=100", "-a=-100", "100=a", "-100=-a"]
+		}, {
+			"problem": "(a-828)/6=(24*a-1932)/6",
+			"solutions": ["a=48", "-a=-48", "48=a", "-48=-a"]
+		}, {
+			"problem": "(a-918)/9=(18*a-2754)/9",
+			"solutions": ["a=108", "-a=-108", "108=a", "-108=-a"]
+		}, {
+			"problem": "(a-168)/7=(7*a-294)/7",
+			"solutions": ["a=21", "-a=-21", "21=a", "-21=-a"]
+		}, {
+			"problem": "(a-480)/8=(16*a-600)/8",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a-1400)/7=(21*a-4200)/7",
+			"solutions": ["a=140", "-a=-140", "140=a", "-140=-a"]
+		}, {
+			"problem": "(a-4368)/7=(14*a-4914)/7",
+			"solutions": ["a=42", "-a=-42", "42=a", "-42=-a"]
+		}, {
+			"problem": "(a-210)/5=(15*a-840)/5",
+			"solutions": ["a=45", "-a=-45", "45=a", "-45=-a"]
+		}, {
+			"problem": "(a-3654)/6=(30*a-6090)/6",
+			"solutions": ["a=84", "-a=-84", "84=a", "-84=-a"]
+		}, {
+			"problem": "(a-70)/2=(6*a-80)/2",
+			"solutions": ["a=2", "-a=-2", "2=a", "-2=-a"]
+		}, {
+			"problem": "(a-1710)/5=(20*a-3990)/5",
+			"solutions": ["a=120", "-a=-120", "120=a", "-120=-a"]
+		}, {
+			"problem": "(a-2550)/5=(35*a-6800)/5",
+			"solutions": ["a=125", "-a=-125", "125=a", "-125=-a"]
+		}, {
+			"problem": "(a-440)/4=(12*a-528)/4",
+			"solutions": ["a=8", "-a=-8", "8=a", "-8=-a"]
+		}, {
+			"problem": "(a-1080)/4=(28*a-2160)/4",
+			"solutions": ["a=40", "-a=-40", "40=a", "-40=-a"]
+		}, {
+			"problem": "(a-840)/5=(25*a-5040)/5",
+			"solutions": ["a=175", "-a=-175", "175=a", "-175=-a"]
+		}, {
+			"problem": "(a-420)/5=(5*a-700)/5",
+			"solutions": ["a=70", "-a=-70", "70=a", "-70=-a"]
+		}, {
+			"problem": "(a-21)/1=(4*a-84)/1",
+			"solutions": ["a=21", "-a=-21", "21=a", "-21=-a"]
+		}, {
+			"problem": "(a-720)/9=(9*a-1440)/9",
+			"solutions": ["a=90", "-a=-90", "90=a", "-90=-a"]
+		}, {
+			"problem": "(a-3472)/8=(32*a-4464)/8",
+			"solutions": ["a=32", "-a=-32", "32=a", "-32=-a"]
+		}, {
+			"problem": "(a-336)/4=(8*a-896)/4",
+			"solutions": ["a=80", "-a=-80", "80=a", "-80=-a"]
+		}, {
+			"problem": "(a-4410)/9=(36*a-6615)/9",
+			"solutions": ["a=63", "-a=-63", "63=a", "-63=-a"]
+		}, {
+			"problem": "(a-336)/4=(8*a-448)/4",
+			"solutions": ["a=16", "-a=-16", "16=a", "-16=-a"]
+		}, {
+			"problem": "(a-1080)/9=(9*a-1800)/9",
+			"solutions": ["a=90", "-a=-90", "90=a", "-90=-a"]
+		}],
+        
+        "rock": [{
+			"problem": "a*b^2+c^2=c*b^2",
+			"solutions": ["a*b^2=c*(b^2-c)","a*b^2-c*b^2=-c^2","c^2=c*b^2-a*b^2","c^2=b^2*(c-a)","(a-c)*b^2=-c^2","a*b^2=c*b^2-c^2","c*b^2=a*b^2+c^2","(c-a)*b^2=c^2","(b^2-c)*c=a*b^2","b^2*a-b^2*c=-c^2","c^2=b^2*c-b^2*a"]
+		}]
+    }
+    }
+    
+}

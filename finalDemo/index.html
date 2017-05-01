@@ -1,0 +1,332 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+
+	<title>Save The Baby Dinos</title>
+
+    <script src="js/phaser.js"></script>
+    <script src="https://graspablemath.com/shared/libs/gmath/gm-inject.js"></script>
+    <script src="js/problemSet.js"></script>
+    <script src="js/tutorialData.js"></script>
+    <script src = "js/gamePieces.js"></script>
+    <script src = "js/Boot.js"></script>
+    <script src = "js/Preload.js"></script>
+    <script src = "js/MainMenu.js"></script>
+    <script src = "js/Scoreboard.js"></script>
+    <script src = "js/StageSelect.js"></script>
+    <script src = "js/LevelSelect.js"></script>
+    <script src = "js/NextLevel.js"></script>
+    <script src = "js/common.js"></script>
+    <script src = "js/main.js"></script>
+    <script src = "js/HealthBar.js"></script>
+    <script src = "js/profileMgmt.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/tutorial.css"/>
+    <link rel="stylesheet" href="css/tutorialModal.css"/>
+    <style type="text/css">
+        @font-face {
+            font-family: Kalam;
+            src: url('assets/fonts/kalam-regular.ttf');
+        }
+        
+        body{
+            background-color:lightgreen;
+            background-image: url('assets/bodybkgd.jpg');
+            background-size: cover;
+            max-height: 450px;
+        }
+        
+        canvas {
+            margin: auto;
+        }
+        
+        div.gm-canvas{
+            border:none !important;
+            /*background-image:url('assets/canvas-bkgd.png');*/
+            z-index: 1;
+            margin-left:25%;
+            width:380px;
+            height:90px;
+            overflow: visible !important;
+        }
+        
+        div.row{
+            background:none !important;
+            z-index: 2 !important;
+            /*background-image: url('assets/canvas-bkgd.jpg');
+            background-size:800px 600px;
+            background-repeat:no-repeat;
+            background-position: left bottom;*/
+        }
+        
+        div#canvas-container {
+            background-color: rgba(0, 255, 0, 0.2);
+        }
+        
+        div.canvas-element{
+            -webkit-transform: none !important;
+            -ms-transform: none !important;
+            transform: none !important;
+            width:400px !important;
+            margin-left: -90px;
+        }
+        
+        div.canvas-element{
+        /*div.canvas-element:hover,div.canvas-element:active,div.canvas-element:focus{*/
+            background-color:transparent !important;
+        }
+        
+        div.canvas-element .handle{
+            display:none;
+        }
+        div.row{
+            background-color: rgb(33,87,47);
+            width: 800px;
+            margin: auto;
+        }
+        
+        .modal{
+            overflow-y: auto;
+        }
+        .modal-title{
+            padding:9px 15px;
+           
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            text-align: center
+        }
+        #tutorialDiv, #tutorialModal, #tutorial_modal, .modal-content{
+            background-color:transparent !important;
+        }
+        
+        .modal-body{
+            background-color: transparent;
+            border: none;
+            background-image:url('assets/tut_bkgd.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-origin: content-box;
+            background-position: center;
+        }
+        
+        .modal-dialog{
+            position: relative;
+            display: table;
+            overflow-y: auto;    
+            overflow-x: auto;
+            width: auto;
+            min-width: 400px;   
+        }
+        
+        iframe{
+            border:none;
+        }
+        
+        /*div#tutorial_modal{
+           background-color: transparent;
+            width:80%;
+            border:none;
+        }*/
+        body.modal-open{
+            background-color: transparent !important;
+        }
+        
+        .modal-backdrop.in{
+            opacity:0.0001;
+        }
+        
+        div#game-div{
+            position:relative !important;
+            width:800px;
+            height:600px;
+            margin: 0 auto;
+            text-align:center;
+            z-index:1;
+        }
+        canvas
+        { 
+            position: absolute; 
+            z-index: 1 
+        }
+        
+        div.gm-game-rock, div.gm-game-egg, div.gm-game-powerup{
+            pointer-events: none !important;
+            /*text-align:center !important;*/
+            width:83px !important;
+            height:55px !important;
+            z-index: 2 !important;
+        }
+        
+        div.gm-game-rock div.text{
+            color: white !important;
+            margin 0 auto !important;
+            position: absolute !important;
+        }
+        
+        div.gm-game-rock div.line{
+            background-color: white !important;
+            margin 0 auto !important;
+            position: absolute !important;
+        }
+        
+
+        /*div.gm-game-rock, div.gm-game-rock *{
+            display:inline-block;
+        }*/
+        
+        div.gm-game-powerup div.text{
+            color: black !important;
+            margin 0 auto !important;
+            position: absolute !important;
+        }
+        
+        div.gm-game-powerup div.line{
+            background-color: black !important;
+            margin 0 auto !important;
+            position: absolute !important;
+        }
+        
+        
+        div.modal-backdrop{
+            /*display:none !important;*/
+            background-color:rgb(80,120,120);
+        }
+        
+        div.modal button.close{
+            background: url('assets/buttons/tutorial_sprite.png') -4px 54px !important;
+            width:52px;
+            height:52px;
+            opacity:0.65;
+            margin-right:15%;
+        }
+        
+        button.close:hover{
+            opacity:0.95 !important;
+        }
+        
+        #undo_button{
+            position:absolute !important;
+            z-index:2 !important;
+            bottom:20%;
+            left:5%;
+            background-color:transparent;
+            background-image: url(assets/buttons/undo.png);
+            width:80px;
+            height:46px;
+            border: none;
+            padding: none;
+            outline:none;
+            cursor: pointer;
+            opacity: 0.85;
+            visibility: hidden;
+        }
+        
+        #undo_button:hover{
+            opacity: 1;
+        }
+        
+        .noShow{
+            visibility:hidden !important;
+        }
+        
+        div.gm-game-rock, div.gm-game-rock *, div.main, div.main *{
+            pointer-events: none !important;
+        }
+        
+        div.eq-solve-div, div.eq-solve-div *, div.eq-match-div, div.eq-match-div *, div.gm-canvas, div.gm-canvas *{
+            pointer-events: all !important;
+        }
+        
+        div#gm-holder-div{
+            position:absolute;
+            visibility:hidden;
+            z-index:2;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-div"class="row">
+        <div id="gm-holder-div" class="row">
+            <div id="eq-solve-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
+                <div id='gmath1-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
+            </div>
+            <div id="eq-match-div" class="col-lg-5 col-md-5 col-sm-5 gm-canvas">
+                <div id='gmath2-div' style="min-height:100px !important;max-width: 100px !important;margin-left:25%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id ="tutorialDiv" class="container">
+            <!-- Modal -->
+            <div class="modal fade" data-modal-color="" id="tutorialModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div id="tutorial_modal" class="modal-content" style="box-shadow:none;">
+                        <div class="modal-header">
+                            <!--<h2 class="modal-title">Tutorial</h2>-->
+                        </div>
+                        <div class="modal-body">
+                            <button type="button" style="color:white" class="close" data-dismiss="modal"></button>
+                            <div id='outer'>
+                                <div id='inner'>
+                                    <div style="width:100%;min-height:250px;">
+                                        <iframe id="tFrame" src="gm_tutorial/tutorial.html" style="width:100%;min-height:450px"></iframe>
+            
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="container">          
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div> 
+    
+    <div id ="questionDiv" class="container">
+            <!-- Modal -->
+            <div class="modal fade" data-modal-color="" id="questionModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div id="question_modal" class="modal-content" style="box-shadow:none;">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id = "modalTitle">
+                       
+                           </h1>
+                                <!--<h2 class="modal-title">Tutorial</h2>-->
+                        </div>
+                        <div class="modal-body">
+                            <div id='outer'>
+                                <div id='inner'>
+                                    <div style="width:100%;min-height:250px;">
+                                        <iframe id="qFrame" src="gm_tutorial/question.html" style="width:100%;min-height:450px"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div> 
+  
+</body>
+<script>
+window.onload = function () {
+    loadGM(console.log("index.html loaded gmath"), { version: '2.0.3'});
+}
+
+
+</script>
+</html>
